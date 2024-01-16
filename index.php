@@ -11,11 +11,11 @@
       let datos = {
         fullName: "Roberto Reyes",
         email: "aux2.sistemas@empacados.com",
-        levelId: 0,
-        empNum: "450001",
+        levelId: 4,
+        empNum: "411203",
         positionId: 1,
         paymentVar: 1000,
-        recDate: "20220901"                                                                                                                
+        recDate: "20220901"
       }
 
       let fd = new FormData();
@@ -29,8 +29,7 @@
         body: fd
       })
       .then(response => {
-        //return response.ok ? response.text() : Promise.reject(response);
-        return response.json();
+        return response.ok ? response.json() : Promise.reject(response);
       })
       .then(data => {
         console.log(data);
