@@ -3,9 +3,6 @@ require_once('../lib/phpmailer/PHPMailer.php');
 require_once('../lib/phpmailer/SMTP.php');
 require_once('../conexion/conexion.php');
 
-// Establecer la zona horaria
-//date_default_timezone_set('America/Mexico_City');
-
 function enviarPassword($password, $empnum, $email)
 {
 	if($email!=""){
