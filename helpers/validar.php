@@ -18,4 +18,24 @@ class Validar{
       return false;
     }
   }
+
+  public static function validarNum($valor){
+    if(is_numeric($valor)){
+      return true;
+    }else{
+      return false;
+    }
+  }
+
+  public static function validarFecha($fecha){
+    $recDateDay=substr($fecha, 6, 2);
+    $recDateMonth=substr($fecha, 4, 2);
+    $recDateYear=substr($fecha, 0, 4);
+
+    if(is_numeric($recDateDay) && is_numeric($recDateMonth) && is_numeric($recDateYear)){
+      return true;
+    }else{
+      return false;
+    }
+  }
 }

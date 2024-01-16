@@ -30,7 +30,7 @@
       })
       .then(response => {
         //return response.ok ? response.text() : Promise.reject(response);
-        return response.text();
+        return response.json();
       })
       .then(data => {
         console.log(data);

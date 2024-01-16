@@ -15,23 +15,31 @@ if(count($_POST)>0){
   $emailVal = Validar::validarEmail($email);
 
   $levelId = isset($_POST['levelId']) ? $_POST['levelId'] : "";
-  //$levelIdVal
+  $levelIdVal = Validar::validarNum($levelId);
 
   $empNum = isset($_POST['empNum']) ? $_POST['empNum'] : "";
-  //$empNumVal
+  $empNumVal = Validar::validarNum($empNum);
 
   $positionId = isset($_POST['positionId']) ? $_POST['positionId'] : "";
-  //$positionIdVal
+  $positionIdVal = Validar::validarNum($positionId);
 
   $paymentVar = isset($_POST['paymentVar']) ? $_POST['paymentVar'] : "";
-  //$paymentVarVal
+  $paymentVarVal = Validar::validarNum($paymentVar);
 
   $recDate = isset($_POST['recDate']) ? $_POST['recDate'] : "";
-  //$recDateVal
+  $recDateVal = Validar::validarFecha($recDate);
 
-  echo $emailVal;
+  $resultado="";
+
+  if($fullNameVal && $emailVal && $levelIdVal && $empNumVal && $positionIdVal && $paymentVarVal && $recDateVal){
+    $resultado = ["ok"=>"true"];
+
+  }else{
+    $resultado = ["ok"=>"false", "fullName"=>$fullName, "fullName"=>$email, "fullName"=>$levelId, "fullName"=>$empNum, "fullName"=>$positionId, "fullName"=>$paymentVar, "fullName"=>$recDate];
+  }
 
 
+  echo json_encode($resultado);
 
 
   
