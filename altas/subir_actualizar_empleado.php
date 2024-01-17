@@ -9,6 +9,8 @@ require_once('../helpers/enviar_pass.php');
 //condicion para verificar si hay parametros enviados por post
 if(count($_POST)>0){
 
+  $userId = isset($_POST['userId']) ? $_POST['userId'] : "";
+
   //se genera una contraseña automaticamente con 8 caracteres
   $password = generarPassword(8);
 
@@ -41,20 +43,35 @@ if(count($_POST)>0){
   $recDateVal = Validar::validarFecha($recDate);
 
   $resultado="";
+  $sqlSP="";
 
   //condicion para verificar que todos los campos cumplan con su validacion
   if($fullNameVal && $emailVal && $levelIdVal && $empNumVal && $positionIdVal && $paymentVarVal && $recDateVal){    
-    //se hace un insert a la bd por medio de un stored procedure, pasando campos como parametros
-    $sql="CALL insert_user('$fullName', '$email', '$password', $levelId, '$empNum', $positionId, $paymentVar, '$recDate')";
-		$insert=$conn->query($sql);
+    //encriptar contraseña
+    $encryptedPassword=password_hash($password, PASSWORD_BCRYPT, ['cost'=> 4]);		
+
+    //se hace un insert o update a la bd por medio de un stored procedure, pasando campos como parametros
+    $sqlSP="CALL insert_user('$fullName', '$email', '$encryptedPassword', $levelId, '$empNum', $positionId, $paymentVar, '$recDate')";
+    if($userId!=""){
+      $sqlSP="CALL update_user($userId, '$fullName', '$email', $levelId, '$empNum', $positionId, $paymentVar, '$recDate')";
+    }
+		$resultSP=$conn->query($sqlSP);
     
     //condicion para verificar si se hizo la insercion en la bd
-    if($insert){
-      //variable que almacena el resultado de haber enviado por correo la contraseña
-      $isSent=enviarPassword($password, $empNum, $email);
+    if($resultSP){
+      $message="";
+      if($userId==""){
+        //variable que almacena el resultado de haber enviado por correo la contraseña
+        $isSent=enviarPassword($password, $empNum, $email);
+        $message="Usuario agregado exitosamente";
+      }else{
+        $isSent="No aplica";
+        $message="Usuario actualizado exitosamente";        
+      }
 
-      //se guarda en una variable el resultado de haber agregado exitosamente el empleado
-      $resultado = ["ok"=>true,"message"=>"Usuario agregado exitosamente", "emailSent"=>$isSent];
+
+      //se guarda en una variable el resultado de haber agregado o atcualizado exitosamente el empleado
+      $resultado = ["ok"=>true,"message"=>$message, "emailSent"=>$isSent];
 
     }else{
       //se guarda en una variable el resultado de haber un error al agregar a la bd      

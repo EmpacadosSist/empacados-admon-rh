@@ -9,13 +9,13 @@
     Esto es una prueba
     <script>
       let datos = {
-        fullName: "Roberto Reyes",
+        fullName: "Connie Springer",
         email: "aux2.sistemas@empacados.com",
         levelId: 4,
-        empNum: "411203",
+        empNum: "411208",
         positionId: 1,
-        paymentVar: 1000,
-        recDate: "20220901"
+        paymentVar: 1035,
+        recDate: "20231105"
       }
 
       let fd = new FormData();
@@ -24,7 +24,7 @@
         fd.append(key, datos[key]);
       }
       
-      fetch('altas/subir_empleado.php', {
+      fetch('altas/subir_actualizar_empleado.php', {
         method: "POST",
         body: fd
       })
