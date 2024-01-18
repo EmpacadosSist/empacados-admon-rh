@@ -84,6 +84,8 @@ if(count($_POST)>0){
     $resultado = ["ok"=>false,"message"=>"Error en la validación de información", "fullName"=>$fullNameVal, "email"=>$emailVal, "levelId"=>$levelIdVal, "empNum"=>$empNumVal, "positionId"=>$positionIdVal, "paymentVar"=>$paymentVarVal, "recDate"=>$recDateVal];
   }
 
-  //se envia la variable del resultado
-  echo json_encode($resultado);
+}else{
+  $resultado = ["ok"=>false,"message"=>"Sin parametros"];
 }
+//se envia la variable del resultado
+echo json_encode($resultado);
