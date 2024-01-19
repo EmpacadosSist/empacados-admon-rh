@@ -51,7 +51,8 @@ if(count($_POST)>0){
     $encryptedPassword=password_hash($password, PASSWORD_BCRYPT, ['cost'=> 4]);		
 
     //se hace un insert o update a la bd por medio de un stored procedure, pasando campos como parametros
-    $sqlSP="CALL insert_user('$fullName', '$email', '$encryptedPassword', $levelId, '$empNum', $positionId, $paymentVar, '$recDate')";
+    //el ultimo parametro del sp de insert es un parametro de salida, que mostrara el ultimo id insertado
+    $sqlSP="CALL insert_user('$fullName', '$email', '$encryptedPassword', $levelId, '$empNum', $positionId, $paymentVar, '$recDate',@LID)";
     if($userId!=""){
       $sqlSP="CALL update_user($userId, '$fullName', '$email', $levelId, '$empNum', $positionId, $paymentVar, '$recDate')";
     }
@@ -61,6 +62,12 @@ if(count($_POST)>0){
     if($resultSP){
       $message="";
       if($userId==""){
+        //cargar el query haciendo un select con el parametro de salida del sp insert
+        $last_idq = $conn->query("SELECT @LID as id");
+        //se saca el objeto del last id
+        $last_id = $last_idq->fetch_object();
+        //se guarda el id sacandolo del objeto
+        $userId=$last_id->id;
         //variable que almacena el resultado de haber enviado por correo la contraseña
         $isSent=enviarPassword($password, $empNum, $email);
         $message="Usuario agregado exitosamente";
@@ -71,7 +78,7 @@ if(count($_POST)>0){
 
 
       //se guarda en una variable el resultado de haber agregado o atcualizado exitosamente el empleado
-      $resultado = ["ok"=>true,"message"=>$message, "emailSent"=>$isSent];
+      $resultado = ["ok"=>true,"message"=>$message, "userId"=>$userId, "emailSent"=>$isSent];
 
     }else{
       //se guarda en una variable el resultado de haber un error al agregar a la bd      

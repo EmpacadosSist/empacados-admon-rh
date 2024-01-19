@@ -1,3 +1,6 @@
+<?php 
+require_once('conexion/conexion.php');
+require_once('helpers/consultas.php'); ?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -7,19 +10,43 @@
   </head>
   <body>
     Esto es una prueba
-
-    <button onclick="actualizar_var()">Probar</button>
+    -----------------------
+    <br>
+    <?php 
+      
+      $res=Consultas::listUsers($conn);
+      foreach ($res as $valor){
+        echo $valor['numEmpleado'];
+        echo "<br>";
+        echo $valor['nombreCompleto'];
+        echo "<br>";
+        echo $valor['nivel'];
+        echo "<br>";
+        echo $valor['puesto'];
+        echo "<br>";
+        echo $valor['fechaIngreso'];
+        echo "<br>";
+        echo $valor['correo'];
+        echo "<br>";
+        echo $valor['variable'];
+        echo "<br>";
+        echo "------------------------------";
+        echo "<br>";
+      }
+    ?>
+    <button onclick="subir_actualizar()">Probar</button>
     <script>
 
       const subir_actualizar = () => {
         let datos = {
-          fullName: "Connie Springer",
+          userId: 4, 
+          fullName: "Armin Arlert",
           email: "aux2.sistemas@empacados.com",
           levelId: 4,
-          empNum: "411208",
+          empNum: "411206",
           positionId: 1,
-          paymentVar: 1035,
-          recDate: "20231105"
+          paymentVar: 993.50,
+          recDate: "20231106"
         }
   
         let fd = new FormData();
