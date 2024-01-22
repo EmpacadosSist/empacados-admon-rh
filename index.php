@@ -34,7 +34,7 @@ require_once('helpers/consultas.php'); ?>
         echo "<br>";
       }
     ?>
-    <button onclick="subir_actualizar()">Probar</button>
+    <button onclick="subir_autorizacion_usuario()">Probar</button>
     <script>
 
       const subir_actualizar = () => {
@@ -71,20 +71,13 @@ require_once('helpers/consultas.php'); ?>
         })
       }
 
-      const reenviar_pass = () => {
-        let datos = {
-          userId: 1,
-          email: "aux2.sistemas@empacados.com",
-          empNum: "411203"
-        }
-
+      const subir_autorizacion = () => {
+        let authorizationName = "Prueba";
+  
         let fd = new FormData();
+        fd.append('authorizationName', authorizationName);
         
-        for(var key in datos){
-          fd.append(key, datos[key]);
-        }        
-
-        fetch('cambios/reenviar_pass.php', {
+        fetch('altas/subir_autorizacion.php', {
           method: "POST",
           body: fd
         })
@@ -97,22 +90,21 @@ require_once('helpers/consultas.php'); ?>
         .catch(err => {
           let message = err.statusText || "Ocurrió un error";
           console.log(err);
-        })        
+        })
       }
 
-      const actualizar_var = () => {
+      const subir_autorizacion_usuario = () => {
         let datos = {
-          userId: 1,
-          paymentVar: 995.50
+          authorizationId: "4",
+          userId: "6"
         }
-
+  
         let fd = new FormData();
-        
         for(var key in datos){
           fd.append(key, datos[key]);
-        }        
-
-        fetch('cambios/actualizar_variable.php', {
+        }
+        
+        fetch('altas/subir_autorizacion_usuario.php', {
           method: "POST",
           body: fd
         })
@@ -125,8 +117,9 @@ require_once('helpers/consultas.php'); ?>
         .catch(err => {
           let message = err.statusText || "Ocurrió un error";
           console.log(err);
-        })          
-      }
+        })
+      }      
+
 
     </script>
   </body>
