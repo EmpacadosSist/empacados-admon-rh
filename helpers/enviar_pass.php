@@ -10,12 +10,12 @@ function enviarPassword($password, $empnum, $email)
 		$mail=new PHPMailer();
 	  $mail->isSMTP();
 		$mail->CharSet = 'UTF-8';
-	  $mail->Host = 'smtp.gmail.com';
-	  $mail->SMTPAuth = true;
-	  $mail->Username = 'tickets@empacados.com'; // Coloca aquí tu dirección de correo de Gmail
-	  $mail->Password = 'T1Ck#ts1@0403'; // Coloca aquí tu contraseña de Gmail
-	  $mail->SMTPSecure = 'ssl';
-	  $mail->Port = 465;
+	   //$mail->Host = '';
+		  /////$mail->SMTPAuth = true;
+		  //$mail->Username = ''; // Coloca aquí tu dirección de correo de Gmail
+		  //$mail->Password = ''; // Coloca aquí tu contraseña de Gmail
+		  //$mail->SMTPSecure = 'ssl';
+		  //$mail->Port = ;
 		
 		$message = '<html><body>';
 	  $message .= '<p style=font-size:14px;">Buen d&iacute;a</p>';
