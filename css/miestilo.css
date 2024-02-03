@@ -1,0 +1,151 @@
+
+
+.menu {
+  display: flex;
+  justify-content: center;
+    padding: 5px;
+
+}
+
+.menu li {
+ margin-right:26px;
+
+  font-size: 140% 
+
+}
+
+.menu a {
+  position: relative;
+  display: block;
+}
+
+.menu a::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(to right, #b47dcd, #e878a2, #eb85ab);
+  z-index: 1;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.15s ease-in-out;
+  font-size: 2em;
+}
+
+.menu a:hover::before {
+  transform: scaleX(1);
+}
+
+
+/* ANIMATIONS
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+.menu[data-animation="to-left"] a::before {
+  transform-origin: right;
+}
+
+.menu[data-animation="center"] a::before {
+  transform-origin: center;
+}
+
+.menu[data-animation="bonus"] a::before {
+  transform-origin: right;
+}
+
+.menu[data-animation="bonus"] a:hover::before {
+  transform-origin: left;
+  transform: scaleX(1);
+  transition-timing-function: cubic-bezier(0.2, 1, 0.82, 0.94);
+}
+
+
+@charset "utf-8";
+/* CSS Document */
+
+.brandhead {
+  padding-top:20px;
+  padding-bottom:20px;
+}
+
+.datostabla {
+  font-family: 'PT Sans', sans-serif;
+  font-size: 0.6rem;
+}
+
+.datostit {
+  font-family: 'PT Sans', sans-serif;
+  font-size: 0.8rem;
+}
+
+  footer {
+    left: 0;
+    bottom: 0;
+  background-color: #3b3b3b;
+  text-align:center;
+  color: #fff;
+  padding: 12px;
+  }
+  footer a {
+      color: #000;
+  }
+  footer a:hover {
+      color: #fff;
+      text-decoration: none;
+  }
+  
+.letranaranja {
+  color:#e7450e;
+}
+  
+.reglanaranja {
+  background-color: #c31919;
+}
+
+.colores {
+  background-color: #c31919;
+}
+
+
+
+.reglagrisclaro {
+  background-color:#bababa;
+}
+
+.estatusgris {
+  background-color:#c6c6c6;
+  color:#FFF;
+}
+.estatusverde {
+  background-color:#0e9800;
+  color:#FFF;
+}
+
+.contenedor{
+  width:50px;
+  height:50px;
+  position:absolute;
+  right:10px;
+  top:10px;
+}
+.loader {
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+    background: url('../imagenes/loading.gif') 50% 50% no-repeat rgb(249,249,249);
+    opacity: .8;
+}
+@media only screen and (max-width: 480px) {
+  .contenedor{
+  width:50px;
+  height:50px;
+  position:absolute;
+  right:2px;
+  top:20px;
+  }
+}
+
+

@@ -1,37 +1,26 @@
-<!DOCTYPE html>
-<html lang="en">
 
-<head>
-  <meta charset="utf-8">
-  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Iniciar Sesión</title>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+   
+    <!--Bootsrap 4 CDN-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    
+    <!--Fontawesome CDN-->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
 
-  <title>Login - Empacados</title>
-  <meta content="" name="description">
-  <meta content="" name="keywords">
+    <!--Custom styles-->
+    <link rel="stylesheet" type="text/css" href="css/styles_log.css">
+       
+  </head>
 
-  <!-- Favicons -->
-  <link href="assets/img/favicon.png" rel="icon">
-  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
-
-  <!-- Google Fonts -->
-  <link href="https://fonts.gstatic.com" rel="preconnect">
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
-
-  <!-- Vendor CSS Files -->
-  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-  <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
-  <link href="assets/vendor/quill/quill.snow.css" rel="stylesheet">
-  <link href="assets/vendor/quill/quill.bubble.css" rel="stylesheet">
-  <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
-  <link href="assets/vendor/simple-datatables/style.css" rel="stylesheet">
-
-  <!-- Template Main CSS File -->
-  <link href="assets/css/style.css" rel="stylesheet">
-
-  <!-- Custom CSS -->
   <style>
-    body {
+       body {
       background-color: #1a1a1a;
       color: #fff;
       font-family: 'Open Sans', sans-serif;
@@ -41,24 +30,12 @@
       background-size: cover;
       background-position: center;
     }
-
-    .register {
-      background-color: #fff;
-      border-radius: 10px;
-      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-      color: #333; /* Cambia el color del texto */
-    }
-
-    .card {
-      border: none;
-      border-radius: 10px;
-      box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
-    }
-
-    .logo img {
-      height: 40px;
-      margin-right: 10px;
-    }
+    .input-group-prepend span {
+    /* width: 50px; */
+    background-color: #f20909;
+    color: white;
+    /* border: 0 !important; */
+}
 
     .section {
       background-image: url('assets/img/pragna-organiks-fondo.jpg');
@@ -68,9 +45,20 @@
       border-radius: 10px;
       color: #fff;
       text-align: center;
+      opacity: 0.97;
     }
 
-    /* Estilos mejorados para el formulario de inicio de sesión */
+    .logo img {
+      height: 60px; /* Increase logo size */
+      margin-right: 10px;
+      opacity: 0.7;
+    }
+
+    .card {
+      border: none;
+      border-radius: 10px;
+      box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+    }
 
     .login-form {
       margin-top: 20px;
@@ -101,98 +89,73 @@
     }
 
     .logo span {
-    font-size: 25px;
-    font-weight: 666;
-    color: #000000;
-    font-family: "Nunito", sans-serif;
-    align-items: center;
-}
+      font-size: 25px;
+      font-weight: 666;
+      color: #000000;
+      font-family: "Nunito", sans-serif;
+      align-items: center;
+    }
   </style>
-</head>
-
-<body>
-
-  <main>
+  <body>
+  
+    <!-- Navigation -->
+    <div class="errorent">
+      <span></span>
+    </div>
+    
+    
+    
     <div class="container">
+      <div class="d-flex justify-content-center h-100">
+        <div class="card">
 
-      <section class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
-        <div class="container">
-          <div class="row justify-content-center">
-            <div class="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center">
-
-              <div class="card mb-3">
-
-                <div class="card-body">
-
-                  <div class="pt-4 pb-2 text-center">
-                    <a href="index.html" class="logo d-flex align-items-center w-auto">
-                      <img src="assets/img/logo.png" alt="">
-                      <span class="d-none d-lg-block fs-5">Empacados</span>
-                    </a>
-                  </div>
-
-                  <!-- Formulario de inicio de sesión mejorado -->
-                  <form class="row g-3 needs-validation login-form" novalidate>
-                    <div class="col-12">
-                      <label for="yourUsername" class="form-label">Username</label>
-                      <div class="input-group has-validation">
-                        <span class="input-group-text" id="inputGroupPrepend">@</span>
-                        <input type="text" name="username" class="form-control" id="yourUsername" required>
-                        <div class="invalid-feedback">Please enter your username.</div>
-                      </div>
-                    </div>
-
-                    <div class="col-12">
-                      <label for="yourPassword" class="form-label">Password</label>
-                      <input type="password" name="password" class="form-control" id="yourPassword" required>
-                      <div class="invalid-feedback">Please enter your password!</div>
-                    </div>
-
-                    <div class="col-12">
-                      <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="remember" value="true" id="rememberMe">
-                        <label class="form-check-label" for="rememberMe">Remember me</label>
-                      </div>
-                    </div>
-                    <div class="col-12">
-                      <button class="btn btn-primary w-100" type="submit">Login</button>
-                    </div>
-                    <div class="col-12">
-                      <p class="small mb-0">Don't have an account? <a href="pages-register.html">Create an account</a></p>
-                    </div>
-                  </form>
-                  <!-- Fin del formulario mejorado -->
-
+          <div class="card-header">
+            <h3 align="center">ACCESO</h3>
+               
+                 <!--<div class="d-flex justify-content-end social_icon">
+                  <span><img src="imagenes/logo.png" width="227" height="61"></span>
+                </div> -->
+          </div>
+          <div class="card-body" align="center">
+            <form action="login/login.php" method="POST">
+              
+            <!--campo nombre-->
+              <div class="input-group form-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="fas fa-user"></i></span>
                 </div>
+                <input type="text" class="form-control" placeholder="Usuario-Empacados" name="user" required>            
               </div>
 
-              <div class="credits mt-3 text-center">
-                Designed by <a href="https://.com/">Empacados Sistemas</a>
-              </div>
 
-            </div>
+              <div class="input-group form-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="fas fa-key"></i></span>
+                </div>
+                <input type="password" class="form-control" placeholder="Contraseña" name="password" required>
+              </div>
+              <div class="form-group">
+                <input class="btn float-right login_btn" data-toggle="tooltip" data-placement="top" title="Al ingresar usted acepta los Términos de Uso" type="submit" value="Ingresar">
+              </div>                       
+            </form>
+          </div>
+          <div class="card-footer">
+                <!--
+                <div class="d-flex justify-content-center links">
+                  Acceso al Inventario
+                </div>
+                <div class="d-flex justify-content-center">
+                  Existencias de nuestro stock<br>en tiempo real.
+                </div>
+                -->
+            <div class="d-flex justify-content-center">
+              <span><img src="assets/img/logo2024.png" width="227" height="48"></span>
+            </div>        
           </div>
         </div>
-      </section>
-
+      </div>
     </div>
-  </main><!-- End #main -->
 
-  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
-
-  <!-- Vendor JS Files -->
-  <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
-  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="assets/vendor/chart.js/chart.umd.js"></script>
-  <script src="assets/vendor/echarts/echarts.min.js"></script>
-  <script src="assets/vendor/quill/quill.min.js"></script>
-  <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
-  <script src="assets/vendor/tinymce/tinymce.min.js"></script>
-  <script src="assets/vendor/php-email-form/validate.js"></script>
-
-  <!-- Template Main JS File -->
-  <script src="assets/js/main.js"></script>
-
-</body>
-
+  
+  </body>
 </html>
