@@ -1,276 +1,185 @@
-<?php
-require 'nav.php';
-?>
-
-
-  <!-- ======= Sidebar ======= -->
-  <aside id="sidebar" class="sidebar">
-
-    <ul class="sidebar-nav" id="sidebar-nav">
-
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="index.php">
-          <i class="bx bxs-dashboard"></i>
-          <span>Dashboard</span>
-        </a>
-      </li><!-- End Dashboard Nav -->
-
-    <!-- aqui inicia sidebar -->
-
-
-
-
-         <li class="nav-item">
-        <a class="nav-link " data-bs-target="#tables-nav" data-bs-toggle="collapse" href="#">
-          <i class="ri-user-follow-fill"></i><span>Manager</span><i class="bi bi-chevron-down ms-auto"></i>
-        </a>
-        <ul id="tables-nav" class="nav-content collapse show" data-bs-parent="#sidebar-nav">      
-           <li>
-            <a class="bi bi-person-fill-add"  href="rhaltaempleadoadmon.php">
-              <i  ></i><span>Alta Empleados</span>
-            </a>
-          <li>
-          <li>
-              <a class="bi bi-people-fill"  href="tables-data.php">
-              <i  ></i><span>Empleados</span>
-            </a>
-          </li>
-           <li>
-            <a class="bi bi-person-vcard-fill"  href="rhposicionesadmon.php">
-              <i  ></i><span>Posiciones</span>
-            </a>
-          </li>
-            <li>
-            <a class="bi bi-diagram-3-fill active"  href="rhorganigramaadmon.php">
-              <i  ></i><span>Organigrama</span>
-            </a>
-          </li>
-        </ul>
-      </li><!-- End Tables Nav -->
-
-
-
-    
-      <li class="nav-heading">Pages</li>
-
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="users-profile.html">
-          <i class="bi bi-person"></i>
-          <span>Profile</span>
-        </a>
-      </li><!-- End Profile Page Nav -->
-
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="pages-faq.html">
-          <i class="bi bi-question-circle"></i>
-          <span>F.A.Q</span>
-        </a>
-      </li><!-- End F.A.Q Page Nav -->
-
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="pages-contact.html">
-          <i class="bi bi-envelope"></i>
-          <span>Contact</span>
-        </a>
-      </li><!-- End Contact Page Nav -->
-
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="pages-register.html">
-          <i class="bi bi-card-list"></i>
-          <span>Register</span>
-        </a>
-      </li><!-- End Register Page Nav -->
-
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="pages-login.html">
-          <i class="bi bi-box-arrow-in-right"></i>
-          <span>Login</span>
-        </a>
-      </li><!-- End Login Page Nav -->
-
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="pages-error-404.html">
-          <i class="bi bi-dash-circle"></i>
-          <span>Error 404</span>
-        </a>
-      </li><!-- End Error 404 Page Nav -->
-
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="pages-blank.html">
-          <i class="bi bi-file-earmark"></i>
-          <span>Blank</span>
-        </a>
-      </li><!-- End Blank Page Nav -->
-
-    </ul>
-
-  </aside><!-- End Sidebar-->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="https://unpkg.com/vis-network/standalone/umd/vis-network.min.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-  <script src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
-  <title>Organigrama Relacional</title>
+  <title>OrgChart JS Example</title>
+  <!-- Include OrgChart JS library -->
+  <script src="https://balkangraph.com/js/latest/OrgChart.js"></script>
+  <!-- Font Awesome -->
+<script src="https://balkan.app/js/OrgChart.js"></script>
+
   <style>
+<div id="tree"></div>
 
-       body {
-      margin: 0;
-      padding: 0;
-      overflow: hidden; /* Evitar scroll horizontal */
-      display: flex; /* Utilizar el modelo de caja flexible para el cuerpo */
-    }
-       #network-container {
-      flex: 1; /* El contenedor del organigrama se expandirá para llenar el espacio restante */
-      height: 100vh;
+   html, body {
+        margin: 0px;
+        padding: 0px;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
     }
 
-    #network {
-      height: 97vh;
-      width: 100%; /* Ancho del 100% del contenedor padre */
-      max-width: 2040px; /* Ajusta el valor según sea necesario */
+    #tree {
+        width: 100%;
+        height: 100%;        
+        background-color: #141E46;
+
     }
 
-    .modal-dialog {
-      max-width: 800px;
+    .filter-item:hover {
+        background-color: #B06161;
     }
 
-    .modal-body img {
-      max-width: 100%;
-      height: auto;
+    .filter-item-hovered rect {
+        fill: #B06161;
     }
+
+    .orgchart .node {
+        background-color: #B06161 !important; /* Cambia este color según tus preferencias */
+    }
+
+
   </style>
 </head>
 <body>
 
-      <h1 class="text-center mt-4">Organigrama Relacional</h1>
-      <div id="network"></div>
+  <!-- Container for the OrgChart -->
+<div id="tree"></div>
+             
+   <script>
+  
+//JavaScript
+var chart = new OrgChart(document.getElementById("tree"), {
+    layout: OrgChart.mixed,
+    filterBy: ['title', 'city'],
+    mouseScrool: OrgChart.action.ctrlZoom,
+    enableSearch: true,
+    scaleInitial: OrgChart.match.height,
+        mouseScrool: OrgChart.none,
 
+    nodeBinding: {
+        field_0: "name",
+        field_1: "title",
+        img_0: "img"
+    },
+    nodeMenu: {
+        add: {text: 'add'}
+    },
+      menu: {
+        pdf: { text: "Exportar PDF" },
+        png: { text: "Exportar PNG" }
+       
+    },
+    tags: {
+        filter: {
+            template: 'dot',
+                        template: 'filtered'
 
-<div class="modal fade" id="employeeModal" tabindex="-1" role="dialog" aria-labelledby="employeeModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="employeeModalLabel"></h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <img id="employeeModalImage" src="" alt="Employee Photo">
-        <p id="employeeModalDescription"></p>
-      </div>
-    </div>
-  </div>
-</div>
-
-<script>
-  document.addEventListener('DOMContentLoaded', function () {
-    const nodes = new vis.DataSet([
-      { id: 1, label: 'CEO\nJohn Doe', shape: 'image', image: 'https://placekitten.com/120/120' },
-      { id: 2, label: 'Manager\nAlice Johnson', shape: 'image', image: 'https://placekitten.com/120/120' },
-      { id: 3, label: 'Employee\nEva White', shape: 'image', image: 'https://placekitten.com/120/120' },
-      { id: 4, label: 'Employee\nBob Smith', shape: 'image', image: 'https://placekitten.com/120/120' },
-      { id: 5, label: 'Employee\nJane Doe', shape: 'image', image: 'https://placekitten.com/120/120' },
-      { id: 6, label: 'Employee\nMike Johnson', shape: 'image', image: 'https://placekitten.com/120/120' },
-      { id: 7, label: 'Employee\nEmily White', shape: 'image', image: 'https://placekitten.com/120/120' },
-      { id: 8, label: 'Employee\nCharlie Smith', shape: 'image', image: 'https://placekitten.com/120/120' },
-      { id: 9, label: 'Employee\nOlivia Doe', shape: 'image', image: 'https://placekitten.com/120/120' },
-      { id: 10, label: 'Employee\nDavid Johnson', shape: 'image', image: 'https://placekitten.com/120/120' },
-      { id: 11, label: 'Employee\nEva White', shape: 'image', image: 'https://placekitten.com/120/120' },
-      { id: 12, label: 'Employee\nBob Smith', shape: 'image', image: 'https://placekitten.com/120/120' },
-      { id: 13, label: 'Employee\nJane Doe', shape: 'image', image: 'https://placekitten.com/120/120' },
-      { id: 14, label: 'Employee\nMike Johnson', shape: 'image', image: 'https://placekitten.com/120/120' },
-      { id: 15, label: 'Employee\nEmily White', shape: 'image', image: 'https://placekitten.com/120/120' },
-      { id: 16, label: 'Employee\nCharlie Smith', shape: 'image', image: 'https://placekitten.com/120/120' },
-      { id: 17, label: 'Employee\nOlivia Doe', shape: 'image', image: 'https://placekitten.com/120/120' },
-      { id: 18, label: 'Employee\nDavid Johnson', shape: 'image', image: 'https://placekitten.com/120/120' },
-      { id: 19, label: 'Employee\nEva White', shape: 'image', image: 'https://placekitten.com/120/120' },
-      { id: 20, label: 'Employee\nBob Smith', shape: 'image', image: 'https://placekitten.com/120/120' },
-       ]);
-
-    const edges = new vis.DataSet([
-      { from: 1, to: 2 },
-      { from: 2, to: 3 },
-      { from: 2, to: 4 },
-      { from: 2, to: 5 },
-      { from: 2, to: 6 },
-      { from: 2, to: 7 },
-      { from: 1, to: 8 },
-      { from: 8, to: 9 },
-      { from: 8, to: 10 },
-      { from: 8, to: 11 },
-      { from: 8, to: 12 },
-      { from: 8, to: 13 },
-      { from: 8, to: 14 },
-      { from: 1, to: 15 },
-      { from: 15, to: 16 },
-      { from: 15, to: 17 },
-      { from: 15, to: 18 },
-      { from: 15, to: 19 },
-      { from: 15, to: 20 },
-    ]);
-
-
-    const container = document.getElementById('network');
-    const data = { nodes, edges };
-    const options = {
-      layout: {
-        hierarchical: {
-          direction: 'UD',
-          levelSeparation: 100, // Ajusta el valor según sea necesario
-          nodeSpacing: 100,     // Ajusta el valor según sea necesario
-        },
-      },
-    };
-
-    const network = new vis.Network(container, data, options);
-
-    network.on('click', function (event) {
-      const { nodes } = event;
-      if (nodes.length > 0) {
-        const node = nodes[0];
-        const selectedNode = nodes.get(node);
-        showModal(selectedNode);
-      }
-    });
-
-    function showModal(node) {
-      const modalTitle = document.getElementById('employeeModalLabel');
-      const modalImage = document.getElementById('employeeModalImage');
-      const modalDescription = document.getElementById('employeeModalDescription');
-
-      modalTitle.textContent = node.label.split('\n')[1];
-      modalImage.src = node.image;
-      modalDescription.textContent = node.label.split('\n')[0];
-
-      $('#employeeModal').modal('show');
+        }
     }
-  });
-</script>
+});
 
+chart.filterUI.on('add-filter', function(sender, args){
+    var names = Object.keys(sender.filterBy);
+    var index = names.indexOf(args.name);
+    if (index == names.length - 1) {
+        args.html += `<div data-btn-reset style="color: #039BE5;">reset</div>`;
+    }  
+});
+
+chart.filterUI.on('add-item', function(sender, args){
+    var count = 0;
+    var totalCount = 0;
+    for (var i = 0; i < sender.instance.config.nodes.length; i++){
+        var data = sender.instance.config.nodes[i];      
+        if (data[args.name] != undefined){
+            totalCount++;
+
+            if (data[args.name] == args.value){            
+                count++;    
+            }            
+        }
+    }
+
+    var dataAllAttr = '';
+    if (args.text == '[All]'){
+        count = totalCount;
+        dataAllAttr = 'data-all';
+    }
+    args.html = `<div class="filter-item">
+                    <input ${dataAllAttr} type="checkbox" id="${args.value}" name="${args.value}" ${args.checked ? 'checked' : ''}>
+                    <label for="${args.value}">${args.text} (${count})</label>
+                </div>`;
+});
+chart.filterUI.on('update', function(sender, args){
+    var btnResetElement = sender.element.querySelector('[data-btn-reset]');
+    btnResetElement.addEventListener('click', function(e){
+        sender.filterBy = null;
+        sender.update();
+        sender.instance.draw();
+    });
+});
+
+chart.filterUI.on('show-items', function(sender, args){
+    var filterItemElements = sender.element.querySelectorAll('.filter-item');
+    for(var i = 0; i < filterItemElements.length; i++){        
+        filterItemElements[i].addEventListener('mouseenter', function(e){
+            var val = e.target.querySelector('input').id;           
+            if (val != args.name){//[All]
+                for(var j = 0; j < sender.instance.config.nodes.length; j++){
+                    var data = sender.instance.config.nodes[j];
+                    if (data[args.name] == val){
+                        var nodeElement = sender.instance.getNodeElement(data.id);
+                        nodeElement.classList.add('filter-item-hovered');
+                    }
+                }
+            }
+        });
+        
+        filterItemElements[i].addEventListener('mouseleave', function(e){
+            var val = e.target.querySelector('input').id;           
+            if (val != args.name){//[All]
+                for(var j = 0; j < sender.instance.config.nodes.length; j++){
+                    var data = sender.instance.config.nodes[j];
+                    if (data[args.name] == val){
+                        var nodeElement = sender.instance.getNodeElement(data.id);
+                        nodeElement.classList.remove('filter-item-hovered');
+                    }
+                }
+            }
+        });
+    }
+});
+
+
+chart.onInit(function(args){
+    this.filterUI.show('title');
+});
+
+
+chart.load([
+
+    { id: "1", name: "Jack Hill", title: "Director General", email: "amber@domain.com", img: "https://cdn.balkan.app/shared/1.jpg" },
+    { id: "2", pid: "1", name: "Kimberly Michel", title: "Consultor SAP", email: "sistemas@empacados.com", img: "https://cdn.balkan.app/shared/2.jpg" },
+    { id: "3", pid: "2", tags: ['partner'], name: "Janae Barrett", title: "Technical Director", img: "https://cdn.balkan.app/shared/3.jpg" },
+    { id: "4", pid: "1", name: "Aaliyah Webb", title: "Manager", email: "jay@domain.com", img: "https://cdn.balkan.app/shared/4.jpg" },
+    { id: "5", pid: "1", name: "Aaliyah Webb", title: "Manager", email: "jay@domain.com", img: "https://cdn.balkan.app/shared/4.jpg" },
+    { id: "6", pid: "2", name: "Elliot Ross", title: "QA", img: "https://cdn.balkan.app/shared/5.jpg" },
+    { id: "7", pid: "2", name: "Anahi Gordon", title: "QA", img: "https://cdn.balkan.app/shared/6.jpg" },
+    { id: "8", pid: "2", name: "Knox Macias", title: "QA", img: "https://cdn.balkan.app/shared/7.jpg" },
+    { id: "9", pid: "3", name: "Nash", title: ".NET Team Lead", email: "kohen@domain.com", img: "https://cdn.balkan.app/shared/8.jpg" },
+    { id: "10", pid: "8", name: "Alice Gray", title: "Programmer", img: "https://cdn.balkan.app/shared/10.jpg" },
+    { id: "11", pid: "8", name: "Anne Ewing", title: "Programmer", img: "https://cdn.balkan.app/shared/11.jpg" },
+    { id: "12", pid: "9", name: "Reuben Mcleod", title: "Programmer", img: "https://cdn.balkan.app/shared/12.jpg" },
+    { id: "13", pid: "9", name: "Ariel Wiley", title: "Programmer", img: "https://cdn.balkan.app/shared/13.jpg" },
+    { id: "14", pid: "4", name: "Lucas West", title: "Marketer", img: "https://cdn.balkan.app/shared/14.jpg" },
+    { id: "15", pid: "4", name: "Adan Travis", title: "Designer", img: "https://cdn.balkan.app/shared/15.jpg" },
+    { id: "16", pid: "4", name: "Alex Snider", title: "Sales Manager", img: "https://cdn.balkan.app/shared/16.jpg" }
+]);
+
+
+</script> 
+ 
 </body>
 </html>
-
-
-
-
- <!-- Vendor JS Files -->
-  <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
-  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="assets/vendor/chart.js/chart.umd.js"></script>
-  <script src="assets/vendor/echarts/echarts.min.js"></script>
-  <script src="assets/vendor/quill/quill.min.js"></script>
-  <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
-  <script src="assets/vendor/tinymce/tinymce.min.js"></script>
-  <script src="assets/vendor/php-email-form/validate.js"></script>
-
-  <!-- Template Main JS File -->
-  <script src="assets/js/main.js"></script>
-
-
-
-

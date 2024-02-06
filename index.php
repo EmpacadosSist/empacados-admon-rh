@@ -1,5 +1,4 @@
 
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
 
 <?php
 require 'nav.php';
@@ -32,6 +31,11 @@ require 'nav.php';
               <i  ></i><span>Alta Empleados</span>
             </a>
           <li>
+            <li>
+            <a class="bi bi-person-fill-down"  href="rhbajaempleadoadmon.php">
+              <i  ></i><span>Baja Empleados</span>
+            </a>
+          <li>
           <li >
             <a  class="bi bi-people-fill"  href="tables-data.php">
               <i ></i><span>Empleados</span>
@@ -49,6 +53,7 @@ require 'nav.php';
               <i  ></i><span>Organigrama</span>
             </a>
           </li>
+
         </ul>  
 
       </li><!-- End Components Nav -->
@@ -61,6 +66,12 @@ require 'nav.php';
         
 
         <ul id="components-nav1" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+         <li >
+            <a  class="bi bi-file-earmark-bar-graph-fill"  href="Managergraphicsadmon.php">
+              <i  ></i><span>Mis Graficas</span>
+            </a>
+          </li>
+
          <li>
             <a class="bi bi-graph-up-arrow"  href="ManagerScoreadmon.php">
               <i  ></i><span>Indicadores</span>
@@ -138,7 +149,8 @@ require 'nav.php';
               <i  ></i><span>Promedios
               </span>
             </a>
-          </li>
+          </li>   
+         
 
         </ul>  
 
@@ -399,13 +411,6 @@ require 'nav.php';
               </div>
 
             </div><!-- End Customers Card -->
-
-
-
-
-
-
-
 
 
             <!-- Reports -->

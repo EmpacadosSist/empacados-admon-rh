@@ -5,182 +5,150 @@
     <ul class="sidebar-nav" id="sidebar-nav">
 
       <li class="nav-item">
-        <a class="nav-link " href="index.html">
-          <i class="bi bi-grid"></i>
+        <a class="nav-link collapsed" href="index.php">
+          <i class="bx bxs-dashboard"></i>
           <span>Dashboard</span>
         </a>
       </li><!-- End Dashboard Nav -->
 
-      <li class="nav-item">
-        <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
-          <i class="bi bi-menu-button-wide"></i><span>Components</span><i class="bi bi-chevron-down ms-auto"></i>
-        </a>
-        <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-          <li>
-            <a href="components-alerts.html">
-              <i class="bi bi-circle"></i><span>Alerts</span>
-            </a>
-          </li>
-          <li>
-            <a href="components-accordion.html">
-              <i class="bi bi-circle"></i><span>Accordion</span>
-            </a>
-          </li>
-          <li>
-            <a href="components-badges.html">
-              <i class="bi bi-circle"></i><span>Badges</span>
-            </a>
-          </li>
-          <li>
-            <a href="components-breadcrumbs.html">
-              <i class="bi bi-circle"></i><span>Breadcrumbs</span>
-            </a>
-          </li>
-          <li>
-            <a href="components-buttons.html">
-              <i class="bi bi-circle"></i><span>Buttons</span>
-            </a>
-          </li>
-          <li>
-            <a href="components-cards.html">
-              <i class="bi bi-circle"></i><span>Cards</span>
-            </a>
-          </li>
-          <li>
-            <a href="components-carousel.html">
-              <i class="bi bi-circle"></i><span>Carousel</span>
-            </a>
-          </li>
-          <li>
-            <a href="components-list-group.html">
-              <i class="bi bi-circle"></i><span>List group</span>
-            </a>
-          </li>
-          <li>
-            <a href="components-modal.html">
-              <i class="bi bi-circle"></i><span>Modal</span>
-            </a>
-          </li>
-          <li>
-            <a href="components-tabs.html">
-              <i class="bi bi-circle"></i><span>Tabs</span>
-            </a>
-          </li>
-          <li>
-            <a href="components-pagination.html">
-              <i class="bi bi-circle"></i><span>Pagination</span>
-            </a>
-          </li>
-          <li>
-            <a href="components-progress.html">
-              <i class="bi bi-circle"></i><span>Progress</span>
-            </a>
-          </li>
-          <li>
-            <a href="components-spinners.html">
-              <i class="bi bi-circle"></i><span>Spinners</span>
-            </a>
-          </li>
-          <li>
-            <a href="components-tooltips.html">
-              <i class="bi bi-circle"></i><span>Tooltips</span>
-            </a>
-          </li>
-        </ul>
-      </li><!-- End Components Nav -->
+    <!-- aqui inicia sidebar -->
 
-      <li class="nav-item">
-        <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
-          <i class="bi bi-journal-text"></i><span>Forms</span><i class="bi bi-chevron-down ms-auto"></i>
-        </a>
-        <ul id="forms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-          <li>
-            <a href="forms-elements.html">
-              <i class="bi bi-circle"></i><span>Form Elements</span>
-            </a>
-          </li>
-          <li>
-            <a href="forms-layouts.html">
-              <i class="bi bi-circle"></i><span>Form Layouts</span>
-            </a>
-          </li>
-          <li>
-            <a href="forms-editors.html">
-              <i class="bi bi-circle"></i><span>Form Editors</span>
-            </a>
-          </li>
-          <li>
-            <a href="forms-validation.html">
-              <i class="bi bi-circle"></i><span>Form Validation</span>
-            </a>
-          </li>
-        </ul>
-      </li><!-- End Forms Nav -->
 
-      <li class="nav-item" id="contabilidad">
-        <a class="nav-link collapsed" data-bs-target="#tables-nav" data-bs-toggle="collapse" href="#">
-          <i class="bi bi-layout-text-window-reverse"></i><span>Tables</span><i class="bi bi-chevron-down ms-auto"></i>
+
+     <li class="nav-item">
+        <a class="nav-link " data-bs-target="#tables-nav" data-bs-toggle="collapse" href="#">
+          <i class="ri-user-follow-fill"></i><span>Manager</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
-        <ul id="tables-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-        
-        <li id="contabilidad">
-            <a href="rhemployeesadmon.php">
-              <i class="bi bi-circle" id="contabilidad"></i><span>General Tables</span>
+        <ul id="tables-nav" class="nav-content collapse show" data-bs-parent="#sidebar-nav">      
+          <li>
+            <a class="bi bi-person-fill-add "  href="rhaltaempleadoadmon.php">
+              <i  ></i><span>Alta Empleados</span>
+            </a>
+          <li>
+          <li>
+            <a class="bi bi-person-fill-down"  href="rhbajaempleadoadmon.php">
+              <i  ></i><span>Baja Empleados</span>
+            </a> 
+          </li>
+              <a class="bi bi-people-fill"  href="tables-data.php">
+              <i  ></i><span>Empleados</span>
             </a>
           </li>
-          <li>
-            <a href="tables-data.html">
-              <i class="bi bi-circle"></i><span>Data Tables</span>
+           <li>
+            <a class="bi bi-person-vcard-fill"  href="rhposicionesadmon.php">
+              <i  ></i><span>Posiciones</span>
+            </a>
+          </li>
+            <li>
+            <a class="bi bi-diagram-3-fill"  href="rhorganigramaadmon.php">
+              <i  ></i><span>Organigrama</span>
             </a>
           </li>
         </ul>
       </li><!-- End Tables Nav -->
 
-      <li class="nav-item">
-        <a class="nav-link collapsed" data-bs-target="#charts-nav" data-bs-toggle="collapse" href="#">
-          <i class="bi bi-bar-chart"></i><span>Charts</span><i class="bi bi-chevron-down ms-auto"></i>
-        </a>
-        <ul id="charts-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-          <li>
-            <a href="charts-chartjs.html">
-              <i class="bi bi-circle"></i><span>Chart.js</span>
-            </a>
-          </li>
-          <li>
-            <a href="charts-apexcharts.html">
-              <i class="bi bi-circle"></i><span>ApexCharts</span>
-            </a>
-          </li>
-          <li>
-            <a href="charts-echarts.html">
-              <i class="bi bi-circle"></i><span>ECharts</span>
-            </a>
-          </li>
-        </ul>
-      </li><!-- End Charts Nav -->
 
-      <li class="nav-item">
-        <a class="nav-link collapsed" data-bs-target="#icons-nav" data-bs-toggle="collapse" href="#">
-          <i class="bi bi-gem"></i><span>Icons</span><i class="bi bi-chevron-down ms-auto"></i>
+
+  <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#components-nav1" data-bs-toggle="collapse" href="#">
+          <i class=" ri-bar-chart-grouped-line"></i><span>Mi Scorecard</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
-        <ul id="icons-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-          <li>
-            <a href="icons-bootstrap.html">
-              <i class="bi bi-circle"></i><span>Bootstrap Icons</span>
+        
+
+        <ul id="components-nav1" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+         <li >
+            <a  class="bi bi-file-earmark-bar-graph-fill"  href="Managergraphicsadmon.php">
+              <i  ></i><span>Mis Graficas</span>
             </a>
           </li>
+
+         <li>
+            <a class="bi bi-graph-up-arrow"  href="ManagerScoreadmon.php">
+              <i  ></i><span>Indicadores</span>
+            </a>
           <li>
-            <a href="icons-remix.html">
-              <i class="bi bi-circle"></i><span>Remix Icons</span>
+          <li >
+            <a  class="bi bi-bar-chart-line-fill"  href="Managerindicadoresadmon.php">
+              <i  ></i><span>Indicadores</span>
             </a>
           </li>
-          <li>
-            <a href="icons-boxicons.html">
-              <i class="bi bi-circle"></i><span>Boxicons</span>
+           <li >
+            <a  class="bi bi-person-bounding-box"  href="Managerempleadosadmon.php">
+              <i  ></i><span>Empleados</span>
+            </a>
+          </li>
+          <li >
+            <a  class="bi bi-file-bar-graph"  href="Manageraddindicatoradmon.php">
+              <i  ></i><span>Añadir Indicador</span>
             </a>
           </li>
         </ul>
-      </li><!-- End Icons Nav -->
+        <ul id="components-nav1" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+          <li >
+            <a  class="bi bi-table"  href="Managerrulesadmon.php">
+              <i  ></i><span>Tablas-Bonos</span>
+            </a>
+          </li>
+          <li > 
+            <a  class="bi bi-rulers"  href="Managerrulestableadmon.php">
+              <i  ></i><span>Reglas del Bono</span>
+            </a>
+          </li>
+           <li >
+            <a  class="bi bi-calendar-minus-fill"  href="Managerscoremensualadmon.php">
+              <i  ></i><span>Scorecard Mensual</span>
+            </a>
+          </li>
+           <li >
+            <a  class="bi bi-currency-exchange"  href="Managerpayadmon.php">
+              <i  ></i><span>Pagos</span>
+            </a>
+          </li>
+           <li >
+            <a  class="bi bi-person-arms-up"  href="Managertargetadmon.php">
+              <i  ></i><span>Agregar Objetivo
+              </span>
+            </a>
+          </li>
+            <li >
+            <a  class="bi bi-clipboard2-check-fill "  href="Managercheckaladmon.php">
+              <i  ></i><span>Revisión General
+              </span>
+            </a>
+          </li>
+            <li >
+            <a  class="bi bi-geo-alt-fill"  href="Manageraddtargetadmon.php">
+              <i  ></i><span>Asignar Objetivos
+              </span>
+            </a>
+          </li>
+           <li >
+            <a  class="bi bi-speedometer"  href="Managerresultadmon.php">
+              <i  ></i><span>Resultados
+              </span>
+            </a>
+          </li>
+           <li >
+            <a  class="bi bi-file-earmark-post"  href="Managerresultpercentadmon.php">
+              <i  ></i><span>Promedios de Resultados
+              </span>
+            </a>
+          </li>
+           <li >
+            <a  class="bi bi-file-earmark-bar-graph-fill"  href="Manageraverageadmon.php">
+              <i  ></i><span>Promedios
+              </span>
+            </a>
+          </li>   
+         
+
+        </ul>  
+
+      </li><!-- End Components Nav -->
+
+
+    <!-- End Tables Nav -->
+
 
       <li class="nav-heading">Pages</li>
 
@@ -236,15 +204,23 @@
     </ul>
 
   </aside><!-- End Sidebar-->
-  <!-- Vendor JS Files -->
-  <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
-  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="assets/vendor/chart.js/chart.umd.js"></script>
-  <script src="assets/vendor/echarts/echarts.min.js"></script>
-  <script src="assets/vendor/quill/quill.min.js"></script>
-  <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
-  <script src="assets/vendor/tinymce/tinymce.min.js"></script>
-  <script src="assets/vendor/php-email-form/validate.js"></script>
 
-  <!-- Template Main JS File -->
-  <script src="assets/js/main.js"></script>
+
+  <!-- PRUEBA JAVASCRIPT-->
+<script>
+  // Definir una variable
+var texto = window.location.pathname;
+// Recortar los primeros 5 caracteres
+var resultado = texto.substring(20);
+//console.log(resultado); // Salida: "Hola,"
+  // Obtener la ruta de la página actual
+  // Obtener todos los elementos de la lista
+  var sidebarLinks = document.querySelectorAll('#sidebar-nav a');
+
+  // Iterar sobre los elementos y agregar la clase 'active' si coincide con la página actual
+  sidebarLinks.forEach(function (link) {
+    if (link.getAttribute('href') === resultado) {
+      link.classList.add('active');
+    }
+  });
+</script>
