@@ -34,19 +34,17 @@ require_once('helpers/consultas.php'); ?>
         echo "<br>";
       }
     ?>
-    <button onclick="subir_autorizacion_usuario()">Probar</button>
+    <button onclick="subir_actualizar()">Probar</button>
     <script>
 
       const subir_actualizar = () => {
-        let datos = {
-          userId: 4, 
-          fullName: "Armin Arlert",
+        let datos = { 
+          fullName: "Roberto Reyes",
           email: "aux2.sistemas@empacados.com",
-          levelId: 4,
-          empNum: "411206",
-          positionId: 1,
-          paymentVar: 993.50,
-          recDate: "20231106"
+          empNum: "411203",
+          positionId: 3,
+          paymentVar: 1000.00,
+          recDate: "20220901"
         }
   
         let fd = new FormData();

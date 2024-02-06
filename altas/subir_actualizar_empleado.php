@@ -69,7 +69,8 @@ if(count($_POST)>0){
         //se guarda el id sacandolo del objeto
         $userId=$last_id->id;
         //variable que almacena el resultado de haber enviado por correo la contraseña
-        $isSent=enviarPassword($password, $empNum, $email);
+        //$isSent=enviarPassword($password, $empNum, $email);
+        $isSent="Prueba sin envio";
         $message="Usuario agregado exitosamente";
       }else{
         $isSent="No aplica";
