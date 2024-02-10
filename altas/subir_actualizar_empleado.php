@@ -225,7 +225,9 @@ if(count($_POST)>0){
 
   }else{
     //se guarda en una variable el resultado de error de validacion de los campos
-    $resultado = ["ok"=>false,"message"=>"Error en la validación de información", "fullName"=>$fullNameVal, "email"=>$emailVal, "levelId"=>$levelIdVal, "empNum"=>$empNumVal, "positionId"=>$positionIdVal, "paymentVar"=>$paymentVarVal, "recDate"=>$recDateVal];
+    $valoresValidacion=["superUserId"=>$superUserIdVal, "name"=>$nameVal, "lastName1"=>$lastName1Val, "lastName2"=>$lastName2Val, "email"=>$emailVal, "empNum"=>$empNumVal, "positionId"=>$positionIdVal, "paymentVar"=>$paymentVarVal, "recDate"=>$recDateVal, "contract"=>$contractVal, "cecoId"=>$cecoIdVal, "age"=>$ageVal, "dateOfBirth"=>$dateOfBirthVal, "placeOfBirth"=>$placeOfBirthVal, "gender"=>$genderVal, "maritalStatus"=>$maritalStatusVal, "spouseName"=>$spouseNameVal, "spouseDob"=>$spouseDobVal, "nss"=>$nssVal, "curp"=>$curpVal, "rfc"=>$rfcVal, "rfcZipCode"=>$rfcZipCodeVal, "address"=>$addressVal, "coloniaId"=>$coloniaIdVal, "education"=>$educationVal, "phone"=>$phoneVal, "shirtSize"=>$shirtSizeVal, "pantsSize"=>$pantsSizeVal, "pantsSize"=>$pantsSizeVal, "shoeSize"=>$shoeSizeVal, "paymentTypeId"=>$paymentTypeIdVal, "phone"=>$phoneVal, "emerPhone1"=>$emerPhone1Val, "emerPhone2"=>$emerPhone2Val, "allergies"=>$allergiesVal, "illnesses"=>$illnessesVal, "medication"=>$medicationVal, "baseSalary"=>$baseSalaryVal, "foodBonus"=>$foodBonusVal, "savingFund"=>$savingFundVal, "bankAcc"=>$bankAccVal, "bank"=>$bankVal];
+
+    $resultado = ["ok"=>false,"message"=>"Error en la validación de información", "validations"=>$valoresValidacion];
   }
 
 }else{
