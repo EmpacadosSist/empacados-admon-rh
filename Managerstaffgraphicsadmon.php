@@ -1,5 +1,5 @@
 <?php require 'nav.php'; ?>
-<?php require 'sidebarfinal.php';?>
+<?php require 'layout/sidebarfinal.php';?>
 
 
   <main id="main" class="main">

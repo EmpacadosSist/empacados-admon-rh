@@ -1,123 +1,7 @@
 
-<?php
-require 'nav.php';
-?>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+<?php require 'nav.php'; ?>
+<?php require 'layout/sidebar.php';?>
 
-  <!-- ======= Sidebar ======= -->
-  <aside id="sidebar" class="sidebar">
-
-    <ul class="sidebar-nav" id="sidebar-nav">
-
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="index.php">
-          <i class="bx bxs-dashboard"></i>
-          <span>Dashboard</span>
-        </a>
-      </li><!-- End Dashboard Nav -->
-
-    <!-- aqui inicia sidebar -->
-
-
-
-
-         <li class="nav-item">
-        <a class="nav-link " data-bs-target="#tables-nav" data-bs-toggle="collapse" href="#">
-          <i class="ri-user-follow-fill"></i><span>Manager</span><i class="bi bi-chevron-down ms-auto"></i>
-        </a>
-        <ul id="tables-nav" class="nav-content collapse show" data-bs-parent="#sidebar-nav">      
-           <li>
-            <a class="bi bi-person-fill-add"  href="rhaltaempleadoadmon.php">
-              <i  ></i><span>Alta Empleados</span>
-            </a>
-          <li>
-          <li>
-              <a class="bi bi-people-fill active"  href="tables-data.php">
-              <i  ></i><span>Empleados</span>
-            </a>
-
-          </li>
-           <li>
-            <a class="bi bi-person-vcard-fill"  href="rhposicionesadmon.php">
-              <i  ></i><span>Posiciones</span>
-            </a>
-          </li>
-           <li>
-            <a class="bi bi-diagram-3-fill"  href="rhorganigramaadmon.php">
-              <i  ></i><span>Organigrama</span>
-            </a>
-          </li>
-        </ul>
-      </li><!-- End Tables Nav -->
-
-
-
-    
-      <li class="nav-heading">Pages</li>
-
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="users-profile.html">
-          <i class="bi bi-person"></i>
-          <span>Profile</span>
-        </a>
-      </li><!-- End Profile Page Nav -->
-
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="pages-faq.html">
-          <i class="bi bi-question-circle"></i>
-          <span>F.A.Q</span>
-        </a>
-      </li><!-- End F.A.Q Page Nav -->
-
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="pages-contact.html">
-          <i class="bi bi-envelope"></i>
-          <span>Contact</span>
-        </a>
-      </li><!-- End Contact Page Nav -->
-
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="pages-register.html">
-          <i class="bi bi-card-list"></i>
-          <span>Register</span>
-        </a>
-      </li><!-- End Register Page Nav -->
-
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="pages-login.html">
-          <i class="bi bi-box-arrow-in-right"></i>
-          <span>Login</span>
-        </a>
-      </li><!-- End Login Page Nav -->
-
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="pages-error-404.html">
-          <i class="bi bi-dash-circle"></i>
-          <span>Error 404</span>
-        </a>
-      </li><!-- End Error 404 Page Nav -->
-
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="pages-blank.html">
-          <i class="bi bi-file-earmark"></i>
-          <span>Blank</span>
-        </a>
-      </li><!-- End Blank Page Nav -->
-
-    </ul>
-
-  </aside><!-- End Sidebar-->
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Formulario de Trabajador</title>
-  <!-- Incluir Bootstrap CSS -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-  <script src="https://rawgit.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.js"></script>
-
-</head>
 <style type="text/css">
   .container {
     width: 98%;
@@ -131,6 +15,37 @@ require 'nav.php';
 }
 </style>
 <body> 
+
+
+
+<?php require 'nav.php'; ?>
+<?php require 'layout/sidebar.php';?>
+
+<!-- Modal -->
+<div id="modalEmpleado" class="modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Empleado Semanal o Quincenal</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <!-- Contenido del modal -->
+        <div class="mb-3">
+          <label for="tipoEmpleado" class="form-label">Tipo de Empleado:</label>
+          <select class="form-select" id="tipoEmpleado">
+            <option value="semanal">Empleado Semanal</option>
+            <option value="quincenal">Empleado Quincenal</option>
+          </select>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-primary">Guardar</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 
   <main id="main" class="main">
@@ -424,7 +339,7 @@ require 'nav.php';
 
           <div class="form-group col-md-3">
           <label for="socialSecurityNumber"><i class="fas fa-venus-mars"></i> Número de seguridad social</label>
-          <input type="text" class="form-control" id="socialSecurityNumber" name="socialSecurityNumber" pattern="[A-Za-z]+" title="Solo se permiten caracteres">
+          <input type="text" class="form-control" id="socialSecurityNumber" name="socialSecurityNumber" pattern="[0-9]+" title="Solo se permiten caracteres">
         </div>
 
         <div class="form-group col-md-3">
@@ -438,8 +353,8 @@ require 'nav.php';
         </div>
 
         <div class="form-group col-md-3">
-          <label for="rfcPostalCode"><i class="fa-solid fa-passport"></i> Código postal del RFC</label>
-          <input type="text" class="form-control" id="rfcPostalCode" name="rfcPostalCode" pattern="[A-Za-z]+" title="Solo se permiten caracteres">
+          <label for="rfcPostalCode"><i class="fa-solid fa-passport"></i> Código postal </label>
+          <input type="text" class="form-control" id="rfcPostalCode" name="rfcPostalCode" pattern="[0-9]+" title="Solo se permiten caracteres">
         </div>
 
         <div class="form-group col-md-3">
@@ -477,7 +392,7 @@ require 'nav.php';
       </div>
       <div class="form-group col-md-3">
         <label for="placebirth"><i class="fas fa-shoe-prints"></i> Talla de Calzado</label>
-        <input type="text" class="form-control" id="placebirth" name="placebirth" pattern="[A-Za-z]+" title="Solo se permiten caracteres">
+        <input type="text" class="form-control" id="placebirth" name="placebirth" pattern="[0-9]+" title="Solo se permiten caracteres">
       </div>
       <div class="form-group col-md-3">
         <label for=""><i class="fas fa-heartbeat"></i> Enfermedades Crónicas</label>
@@ -493,23 +408,23 @@ require 'nav.php';
       </div>
       <div class="form-group col-md-3">
           <label for="emergencyContact"><i class="fas fa-phone-alt"></i> Contacto de emergencia</label>
-          <input type="text" class="form-control" id="sex" name="sex" pattern="[A-Za-z]+" title="Solo se permiten caracteres">
+          <input type="text" class="form-control" id="sex" name="sex" pattern="[0-9]+" title="Solo se permiten caracteres">
       </div>
       <div class="form-group col-md-3">
         <label for="emergencyContact2"><i class="fas fa-phone-alt"></i> Contacto de emergencia 2</label>
-        <input type="text" class="form-control" id="sex" name="sex" pattern="[A-Za-z]+" title="Solo se permiten caracteres">
+        <input type="text" class="form-control" id="sex" name="sex" pattern="[0-9]+" title="Solo se permiten caracteres">
       </div>     
       <div class="form-group col-md-2">
         <label for=""><i class="fas fa-money-bill-wave"></i> Sueldo base</label>
-        <input type="text" class="form-control" id="sex" name="sex" pattern="[A-Za-z]+" title="Solo se permiten caracteres">
+        <input type="text" class="form-control" id="sex" name="sex" pattern="[0-9]+" title="Solo se permiten caracteres">
       </div>
       <div class="form-group col-md-3">
         <label for="paymentType"><i class="fa-solid fa-coins"></i> Tipo de Pago</label>
-        <input type="text" class="form-control" id="sex" name="sex" pattern="[A-Za-z]+" title="Solo se permiten caracteres">
+        <input type="text" class="form-control" id="sex" name="sex" pattern="[0-9]+" title="Solo se permiten caracteres">
        </div>
       <div class="form-group col-md-3">
         <label for="foodAllowance"><i class="fa-solid fa-utensils"></i> Bonos de despensa</label>
-        <input type="text" class="form-control" id="sex" name="sex" pattern="[A-Za-z]+" title="Solo se permiten caracteres">
+        <input type="text" class="form-control" id="sex" name="sex" pattern="[0-9]+" title="Solo se permiten caracteres">
       </div>
       <div class="form-group col-md-4">
         <label for=""><i class="fa-solid fa-piggy-bank"></i> Fondo de ahorro (Quincenales)</label>
@@ -654,3 +569,27 @@ require 'nav.php';
 
 </body>
 </html>
+
+<script>
+  $(document).ready(function() {
+    // Muestra el modal al cargar la página
+    $('#modalEmpleado').modal('show');
+  });
+</script>
+
+
+<script>
+  // Obtener el elemento select y el botón de guardar
+  var tipoEmpleadoSelect = document.getElementById("tipoEmpleado");
+  var guardarButton = document.getElementById("guardarButton");
+
+  // Agregar un evento de cambio al select
+  tipoEmpleadoSelect.addEventListener("change", function() {
+    // Habilitar el botón de guardar si se ha seleccionado una opción
+    if (this.value !== "") {
+      guardarButton.disabled = false;
+    } else {
+      guardarButton.disabled = true;
+    }
+  });
+</script>

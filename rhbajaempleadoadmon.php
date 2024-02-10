@@ -1,5 +1,5 @@
 <?php require 'nav.php'; ?>
-<?php require 'sidebar.php';?>
+<?php require 'layout/sidebar.php';?>
 
 <!DOCTYPE html>
 <html lang="en">

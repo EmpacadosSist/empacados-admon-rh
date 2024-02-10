@@ -1,5 +1,5 @@
 <?php require 'nav.php'; ?>
-<?php require 'sidebarfinal.php';?>
+<?php require 'layout/sidebarfinal.php';?>
 
  <style>
     .table th, .table td {
