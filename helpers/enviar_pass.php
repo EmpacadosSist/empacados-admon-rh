@@ -16,6 +16,7 @@ function enviarPassword($password, $empnum, $email)
 		  //$mail->Password = ''; // Coloca aquí tu contraseña de Gmail
 		  //$mail->SMTPSecure = 'ssl';
 		  //$mail->Port = ;
+
 		
 		$message = '<html><body>';
 	  $message .= '<p style=font-size:14px;">Buen d&iacute;a</p>';
