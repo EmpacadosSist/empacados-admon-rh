@@ -34,8 +34,38 @@ require_once('helpers/consultas.php'); ?>
         echo "<br>";
       }
     ?>
-    <button onclick="subir_actualizar()">Probar</button>
+    <button onclick="subir_objetivo()">Probar</button>
     <script>
+
+      const subir_objetivo = () => {
+        let datos = {
+          activityName: "Soporte a SAP",
+          positionId: 2,
+          defaultPer: "20"
+        }
+        
+        let fd = new FormData();
+
+        for(var key in datos){
+          fd.append(key, datos[key]);
+        }
+
+        fetch('altas/subir_objetivo.php', {
+          method: "POST",
+          body: fd
+        })
+        .then(response => {
+          return response.ok ? response.json() : Promise.reject(response);
+        })
+        .then(data => {
+          console.log(data);
+        })
+        .catch(err => {
+          let message = err.statusText || "Ocurrió un error";
+          console.log(err);
+        })
+
+      }
 
       const subir_actualizar = () => {
         let datos = { 

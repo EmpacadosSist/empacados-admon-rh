@@ -7,8 +7,6 @@ require_once('../helpers/validar.php');
 //condicion para verificar si hay parametros enviados por post
 if(count($_POST)>0){
 
-  $userId = isset($_POST['userId']) ? $_POST['userId'] : "";
-
   $activityName = isset($_POST['activityName']) ? $_POST['activityName'] : "";  
   $activityNameVal = Validar::validarLongitud($activityName,3,100);
 
@@ -18,8 +16,9 @@ if(count($_POST)>0){
   $positionIdVal = Validar::validarNum($positionId);
 
   $defaultPer = isset($_POST['defaultPer']) ? $_POST['defaultPer'] : "";
-  $defaultPerVal = Validar::validarLongitud($defaultPer,3,100);     
+  $defaultPerVal = Validar::validarLongitud($defaultPer,1,5);     
 
+  $activityId="";
   $resultado="";
   $sqlSP="";
 
@@ -28,32 +27,23 @@ if(count($_POST)>0){
 
     //se hace un insert o update a la bd por medio de un stored procedure, pasando campos como parametros
     //el ultimo parametro del sp de insert es un parametro de salida, que mostrara el ultimo id insertado
-    $sqlSP="CALL insert_activity('$activityName', $positionId, '$defaultPer')";
+    $sqlSP="CALL insert_activity('$activityName', $positionId, '$defaultPer', @LID)";
 
 		$resultSP=$conn->query($sqlSP);
     
     //condicion para verificar si se hizo la insercion en la bd
     if($resultSP){
-      $message="";
-      if($userId==""){
-        //cargar el query haciendo un select con el parametro de salida del sp insert
-        $last_idq = $conn->query("SELECT @LID as id");
-        //se saca el objeto del last id
-        $last_id = $last_idq->fetch_object();
-        //se guarda el id sacandolo del objeto
-        $userId=$last_id->id;
-        //variable que almacena el resultado de haber enviado por correo la contraseña
-        //$isSent=enviarPassword($password, $empNum, $email);
-        $isSent="Prueba sin envio";
-        $message="Usuario agregado exitosamente";
-      }else{
-        $isSent="No aplica";
-        $message="Usuario actualizado exitosamente";        
-      }
 
-
+      //cargar el query haciendo un select con el parametro de salida del sp insert
+      $last_idq = $conn->query("SELECT @LID as id");
+      //se saca el objeto del last id
+      $last_id = $last_idq->fetch_object();
+      //se guarda el id sacandolo del objeto
+      $activityId=$last_id->id;
+      
+      
       //se guarda en una variable el resultado de haber agregado o atcualizado exitosamente el empleado
-      $resultado = ["ok"=>true,"message"=>$message, "userId"=>$userId, "emailSent"=>$isSent];
+      $resultado = ["ok"=>true,"message"=>"Objetivo agregado exitosamente", "activityId"=>$activityId];
 
     }else{
       //se guarda en una variable el resultado de haber un error al agregar a la bd      
