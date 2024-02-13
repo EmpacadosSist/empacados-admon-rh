@@ -34,10 +34,39 @@ require_once('helpers/consultas.php'); ?>
         echo "<br>";
       }
     ?>
-    <button onclick="subir_objetivo()">Probar</button>
+    <button onclick="subir_autorizacion()">Probar</button>
     <script>
 
-      const subir_objetivo = () => {
+      const subir_autorizacion = () => {
+        let datos = {
+          authorizationName: "Autorizacion de prueba"
+        }
+        
+        let fd = new FormData();
+
+        for(var key in datos){
+          fd.append(key, datos[key]);
+        }
+
+        fetch('altas/subir_autorizacion.php', {
+          method: "POST",
+          body: fd
+        })
+        .then(response => {
+          return response.ok ? response.json() : Promise.reject(response);
+        })
+        .then(data => {
+          console.log(data);
+        })
+        .catch(err => {
+          let message = err.statusText || "Ocurrió un error";
+          console.log(err);
+        })
+
+      }
+
+
+const subir_objetivo = () => {
         let datos = {
           activityName: "Soporte a SAP",
           positionId: 2,
@@ -99,27 +128,6 @@ require_once('helpers/consultas.php'); ?>
         })
       }
 
-      const subir_autorizacion = () => {
-        let authorizationName = "Prueba";
-  
-        let fd = new FormData();
-        fd.append('authorizationName', authorizationName);
-        
-        fetch('altas/subir_autorizacion.php', {
-          method: "POST",
-          body: fd
-        })
-        .then(response => {
-          return response.ok ? response.json() : Promise.reject(response);
-        })
-        .then(data => {
-          console.log(data);
-        })
-        .catch(err => {
-          let message = err.statusText || "Ocurrió un error";
-          console.log(err);
-        })
-      }
 
       const subir_autorizacion_usuario = () => {
         let datos = {

@@ -43,7 +43,7 @@ if(count($_POST)>0){
       
       
       //se guarda en una variable el resultado de haber agregado o atcualizado exitosamente el empleado
-      $resultado = ["ok"=>true,"message"=>"Objetivo agregado exitosamente", "activityId"=>$activityId];
+      $resultado = ["ok"=>true,"message"=>"Objetivo agregado exitosamente", "Id"=>$activityId];
 
     }else{
       //se guarda en una variable el resultado de haber un error al agregar a la bd      
@@ -53,7 +53,7 @@ if(count($_POST)>0){
 
   }else{
     //se guarda en una variable el resultado de error de validacion de los campos
-    $resultado = ["ok"=>false,"message"=>"Error en la validación de información", "activityName"=>$activityNameVal, "positionId"=>$positionIdVal, "defaultPer"=>$defaultPerVal];
+    $resultado = ["ok"=>false,"message"=>"Error en la validación de información", "Nombre"=>$activityNameVal, "Puesto"=>$positionIdVal, "Porcentaje"=>$defaultPerVal];
   }
 
 }else{

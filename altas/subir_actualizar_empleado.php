@@ -123,20 +123,12 @@ if(count($_POST)>0){
   $pantsSizeVal = Validar::validarLongitud($pantsSize,3,10);
   
   //se valida campo que no venga vacio y que cumpla la validacion de longitud
-  $pantsSize = isset($_POST['pantsSize']) ? $_POST['pantsSize'] : "";
-  $pantsSizeVal = Validar::validarLongitud($pantsSize,3,10);
-  
-  //se valida campo que no venga vacio y que cumpla la validacion de longitud
   $shoeSize = isset($_POST['shoeSize']) ? $_POST['shoeSize'] : "";
   $shoeSizeVal = Validar::validarLongitud($shoeSize,3,10);
 
   //se valida campo que no venga vacio y que cumpla la validacion de tipo numerico  
   $paymentTypeId = isset($_POST['paymentTypeId']) ? $_POST['paymentTypeId'] : "";
   $paymentTypeIdVal = Validar::validarNum($paymentTypeId);
-  
-  //se valida campo que no venga vacio y que cumpla la validacion de longitud
-  $phone = isset($_POST['phone']) ? $_POST['phone'] : "";
-  $phoneVal = Validar::validarLongitud($phone,3,20);
   
   //se valida campo que no venga vacio y que cumpla la validacion de longitud
   $emerPhone1 = isset($_POST['emerPhone1']) ? $_POST['emerPhone1'] : "";
@@ -182,7 +174,7 @@ if(count($_POST)>0){
   $sqlSP="";
 
   //condicion para verificar que todos los campos cumplan con su validacion
-  if($superUserIdVal && $nameVal && $lastName1Val && $lastName2Val && $emailVal && $empNumVal && $positionIdVal && $paymentVarVal && $recDateVal && $contractVal && $cecoIdVal && $ageVal && $dateOfBirthVal && $placeOfBirthVal && $genderVal && $maritalStatusVal && $spouseNameVal && $spouseDobVal && $nssVal && $curpVal && $rfcVal && $rfcZipCodeVal && $addressVal && $coloniaIdVal && $educationVal && $phoneVal && $shirtSizeVal && $pantsSizeVal && $pantsSizeVal && $shoeSizeVal && $paymentTypeIdVal && $phoneVal && $emerPhone1Val && $emerPhone2Val && $allergiesVal && $illnessesVal && $medicationVal && $baseSalaryVal && $foodBonusVal && $savingFundVal && $bankAccVal && $bankVal){    
+  if($superUserIdVal && $nameVal && $lastName1Val && $lastName2Val && $emailVal && $empNumVal && $positionIdVal && $paymentVarVal && $recDateVal && $contractVal && $cecoIdVal && $ageVal && $dateOfBirthVal && $placeOfBirthVal && $genderVal && $maritalStatusVal && $spouseNameVal && $spouseDobVal && $nssVal && $curpVal && $rfcVal && $rfcZipCodeVal && $addressVal && $coloniaIdVal && $educationVal && $phoneVal && $shirtSizeVal && $pantsSizeVal && $shoeSizeVal && $paymentTypeIdVal && $emerPhone1Val && $emerPhone2Val && $allergiesVal && $illnessesVal && $medicationVal && $baseSalaryVal && $foodBonusVal && $savingFundVal && $bankAccVal && $bankVal){    
     //encriptar contraseña
     $encryptedPassword=password_hash($password, PASSWORD_BCRYPT, ['cost'=> 4]);		
 
@@ -215,7 +207,7 @@ if(count($_POST)>0){
 
 
       //se guarda en una variable el resultado de haber agregado o atcualizado exitosamente el empleado
-      $resultado = ["ok"=>true,"message"=>$message, "userId"=>$userId, "emailSent"=>$isSent];
+      $resultado = ["ok"=>true,"message"=>$message, "Id"=>$userId, "emailSent"=>$isSent];
 
     }else{
       //se guarda en una variable el resultado de haber un error al agregar a la bd      
@@ -225,7 +217,7 @@ if(count($_POST)>0){
 
   }else{
     //se guarda en una variable el resultado de error de validacion de los campos
-    $valoresValidacion=["superUserId"=>$superUserIdVal, "name"=>$nameVal, "lastName1"=>$lastName1Val, "lastName2"=>$lastName2Val, "email"=>$emailVal, "empNum"=>$empNumVal, "positionId"=>$positionIdVal, "paymentVar"=>$paymentVarVal, "recDate"=>$recDateVal, "contract"=>$contractVal, "cecoId"=>$cecoIdVal, "age"=>$ageVal, "dateOfBirth"=>$dateOfBirthVal, "placeOfBirth"=>$placeOfBirthVal, "gender"=>$genderVal, "maritalStatus"=>$maritalStatusVal, "spouseName"=>$spouseNameVal, "spouseDob"=>$spouseDobVal, "nss"=>$nssVal, "curp"=>$curpVal, "rfc"=>$rfcVal, "rfcZipCode"=>$rfcZipCodeVal, "address"=>$addressVal, "coloniaId"=>$coloniaIdVal, "education"=>$educationVal, "phone"=>$phoneVal, "shirtSize"=>$shirtSizeVal, "pantsSize"=>$pantsSizeVal, "pantsSize"=>$pantsSizeVal, "shoeSize"=>$shoeSizeVal, "paymentTypeId"=>$paymentTypeIdVal, "phone"=>$phoneVal, "emerPhone1"=>$emerPhone1Val, "emerPhone2"=>$emerPhone2Val, "allergies"=>$allergiesVal, "illnesses"=>$illnessesVal, "medication"=>$medicationVal, "baseSalary"=>$baseSalaryVal, "foodBonus"=>$foodBonusVal, "savingFund"=>$savingFundVal, "bankAcc"=>$bankAccVal, "bank"=>$bankVal];
+    $valoresValidacion=["JefeDirecto"=>$superUserIdVal, "Nombre"=>$nameVal, "Apellido1"=>$lastName1Val, "Apellido2"=>$lastName2Val, "correo"=>$emailVal, "NumeroEmp"=>$empNumVal, "Puesto"=>$positionIdVal, "Variable"=>$paymentVarVal, "FechaRec"=>$recDateVal, "Contrato"=>$contractVal, "CentroCostos"=>$cecoIdVal, "Edad"=>$ageVal, "FechaNac"=>$dateOfBirthVal, "LugarNac"=>$placeOfBirthVal, "Genero"=>$genderVal, "EstadoCivil"=>$maritalStatusVal, "ConyugeNom"=>$spouseNameVal, "ConyugeFechaNac"=>$spouseDobVal, "NSS"=>$nssVal, "CURP"=>$curpVal, "RFC"=>$rfcVal, "RFCCP"=>$rfcZipCodeVal, "Direccion"=>$addressVal, "Colonia"=>$coloniaIdVal, "Escolaridad"=>$educationVal, "Telefono"=>$phoneVal, "TallaCamisa"=>$shirtSizeVal, "TallaPantalon"=>$pantsSizeVal, "TallaZapato"=>$shoeSizeVal, "TipoPago"=>$paymentTypeIdVal, "TelEmergencia1"=>$emerPhone1Val, "TelEmergencia2"=>$emerPhone2Val, "Alergias"=>$allergiesVal, "Padecimientos"=>$illnessesVal, "Medicamentos"=>$medicationVal, "Salario"=>$baseSalaryVal, "BonoDespensa"=>$foodBonusVal, "FondoAhorro"=>$savingFundVal, "CuentaBanco"=>$bankAccVal, "Banco"=>$bankVal];
 
     $resultado = ["ok"=>false,"message"=>"Error en la validación de información", "validations"=>$valoresValidacion];
   }
