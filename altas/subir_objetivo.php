@@ -53,7 +53,7 @@ if(count($_POST)>0){
 
   }else{
     //se guarda en una variable el resultado de error de validacion de los campos
-    $resultado = ["ok"=>false,"message"=>"Error en la validación de información", "Nombre"=>$activityNameVal, "Puesto"=>$positionIdVal, "Porcentaje"=>$defaultPerVal];
+    $resultado = ["ok"=>false,"message"=>"Error en la validación de información", "Nombre objetivo"=>$activityNameVal, "Id de puesto"=>$positionIdVal, "Ponderacion"=>$defaultPerVal];
   }
 
 }else{

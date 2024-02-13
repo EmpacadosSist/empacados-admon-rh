@@ -19,7 +19,7 @@ if(count($_POST)>0){
   $dateOfBirthVal = Validar::validarFecha($dateOfBirth);  
 
     if($userIdVal && $nameVal && $ageVal && $dateOfBirthVal){
-      $sqlSP="CALL insert_child($userId, '$name', $age, $dateOfBirth, @LID)";
+      $sqlSP="CALL insert_child($userId, '$name', $age, '$dateOfBirth', @LID)";
       $resultSP=$conn->query($sqlSP);
 
       if($resultSP){
@@ -39,6 +39,9 @@ if(count($_POST)>0){
         $resultado = ["ok"=>false,"message"=>"Error al agregar a la base de datos"];
   
       }      
+    }else{
+      //se guarda en una variable el resultado de error de validacion de los campos
+      $resultado = ["ok"=>false,"message"=>"Error en la validación de información", "Id empleado"=>$userIdVal, "Nombre hijo"=>$nameVal, "Edad hijo"=>$ageVal, "Fecha nacimiento hijo"=>$dateOfBirthVal];
     }
 }else{
   $resultado = ["ok"=>false,"message"=>"Sin parametros"];

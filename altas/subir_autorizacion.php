@@ -30,6 +30,9 @@ if(count($_POST)>0){
         $resultado = ["ok"=>false,"message"=>"Error al agregar a la base de datos"];
   
       }      
+    }else{
+      //se guarda en una variable el resultado de error de validacion de los campos
+      $resultado = ["ok"=>false,"message"=>"Error en la validación de información", "Nombre de Autorizacion"=>$authorizationNameVal];
     }
 }else{
   $resultado = ["ok"=>false,"message"=>"Sin parametros"];
