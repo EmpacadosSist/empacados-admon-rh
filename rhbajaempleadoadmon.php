@@ -1,5 +1,6 @@
+<?php require 'layout/libreriasdatatable.php';?>
 <?php require 'nav.php'; ?>
-<?php require 'sidebar.php';?>
+<?php require 'layout/sidebar.php';?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -8,22 +9,48 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Baja de Trabajador</title>
   <!-- Incluir Bootstrap CSS -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-  <script src="https://rawgit.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.js"></script>
 
 </head>
 <style type="text/css">
-  .container {
-    width: 102%;
-    padding-right: -26px;
-    padding-left: 22px;
-    margin-right: auto;
-    margin-left: auto;
+  .h4, h4 {
+    font-size: 2rem;
+}
+ .container {
+    width: 100%;
+    padding-right: 13px;
+    padding-left: 25px;
+    margin-right: 28px;
+    margin-left: -2px;
 }
 .mt-5, .my-5 {
-    margin-top: 2rem!important;
+    margin-top: 0rem!important;
 }
+body {
+        font-family: "Open Sans", sans-serif;
+        background: #052668;
+        color: 'black;';
+    }
+.card-title {
+    padding: -3px 0 19px 0;
+    font-size: 34px;
+    font-weight: 500;
+    color: #012970;
+    font-family: "Poppins", sans-serif;
+        padding: -4px 0 15px 0;
+}
+   .title-container img {
+            margin: 0 10px; /* Margen entre las imágenes y el texto */
+            vertical-align: middle; /* Alineación vertical con el texto */
+        }
+  .medium-button {
+        font-size: 10px;
+        padding: 11px 21px;
+        /* background-color: #e61d1dbf; /* Replace with your desired color code */
+        font-weight: bold;
+
+      }
 </style>
+
 <body> 
 
 
@@ -35,11 +62,15 @@
             <div class="card-body">
 
 <div class="container mt-5" align="left">
-  <h2 class="mb-4">Baja de Trabajador</h2>
+  
+ 
 <form method="post" action="pdfpuesto.php"  target="_blank">
       <!-- Sección 1: Información Personal -->
-      <h4>Información Laboral</h4>
-      <div class="form-row  ">
+   <h2  align="text-center" id="title" class="animate__animated animate__bounceInDown card-title">
+          <img src="assets/img/Capturalog.ico" alt="" width="60">
+           Baja de Trabajador
+           <img src="assets/img/termination.png" alt="" width="60">
+          </h2>      <div class="form-row  ">
         <div class="form-group col-md-3">
            <label for="employeeNumber"><i class="fas fa-id-card"></i> No. de empleado</label>
             <input type="text" class="form-control" id="employeeNumber" name="employeeNumber" inputmode="numeric" pattern="[0-9]+" >
@@ -273,7 +304,12 @@
       </div>
       <div> <br></div>
       <!-- Sección 2: Información de personal -->
-      <h4>Información de Baja Personal</h4>
+
+       <h2  align="text-center" id="title" class="animate__animated animate__bounceInDown card-title">
+          <img src="assets/img/Capturalog.ico" alt="" width="60">
+          Información de Baja Personal
+           <img src="assets/img/layoff.png" alt="" width="60">
+          </h2> 
         <div class="form-row">
            <div class="form-group col-md-3">
           <label for="datedownpersonal"><i class="fas fa-calendar-alt"></i> Fecha de Baja</label>
@@ -451,22 +487,11 @@
 
 
 
-  <!-- Incluir Bootstrap JS y dependencias de Popper.js y jQuery -->
-  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 
-  <!-- Vendor JS Files -->
-  <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
-  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="assets/vendor/chart.js/chart.umd.js"></script>
-  <script src="assets/vendor/echarts/echarts.min.js"></script>
-  <script src="assets/vendor/quill/quill.min.js"></script>
-  <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
-  <script src="assets/vendor/tinymce/tinymce.min.js"></script>
-  <script src="assets/vendor/php-email-form/validate.js"></script>
+  <!-- Template Main JS File -->
+  <script src="assets/js/main.js"></script>
 
-
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 </body>
 </html>
