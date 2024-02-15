@@ -1,5 +1,5 @@
 <?php require 'nav.php'; ?>
-<?php require 'sidebarfinal.php';?>
+<?php require 'layout/sidebarfinal.php';?>
 
   <!-- Bootstrap Slider CSS -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/11.0.2/css/bootstrap-slider.min.css">
