@@ -1,20 +1,127 @@
+<?php require 'layout/libreriasdatatable.php';?>
 <?php require 'nav.php'; ?>
 <?php require 'layout/sidebar.php';?>
+ <!-- Bootstrap CSS -->
+ <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdn.datatables.net/1.10.24/js/dataTables.bootstrap4.min.js"></script>
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous">
+
+  <!-- DataTables CSS -->
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
+  <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.3.2/css/buttons.dataTables.min.css">
+  <link rel="stylesheet" href="https://cdn.datatables.net/searchpanes/1.2.1/css/searchPanes.dataTables.min.css">
+  <link rel="stylesheet" href="https://cdn.datatables.net/select/1.3.1/css/select.dataTables.min.css">
+  <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.6.5/css/buttons.dataTables.min.css">
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="assets/css/style.css">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+  <!-- Favicon -->
+  <link rel="shortcut icon" href="./imagenes/iconos/Capturalog.ico">
+  <link rel="apple-touch-icon" href="./imagenes/iconos/Capturalog.ico">
+
+  <!-- Bootstrap JS -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+  <!-- DataTables JS -->
+  <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/2.3.2/js/dataTables.buttons.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+  <script src="https://cdn.datatables.net/buttons/2.3.2/js/buttons.html5.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/2.3.2/js/buttons.print.min.js"></script>
+  <script src="https://cdn.datatables.net/searchpanes/1.2.1/js/dataTables.searchPanes.min.js"></script>
+  <script src="https://cdn.datatables.net/select/1.3.1/js/dataTables.select.min.js"></script>
+
+  <!-- Font Awesome JS -->
+  <script src="https://kit.fontawesome.com/d252494076.js" crossorigin="anonymous"></script>
+
+  <!-- Custom JS -->
+  <script src="js/sb-admin-2.min.js"></script>
+  <script src="assets/js/main.js"></script>
+  <!-- Vendor CSS Files -->
+    <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  
+<style type="text/css">
+  /* Estilos para las pestañas */
+.nav-tabs .nav-link {
+  color: #000; /* Cambiar el color del texto de las pestañas */
+  background-color: #f8f9fa; /* Cambiar el color de fondo de las pestañas */
+  border: 1px solid #dee2e6; /* Cambiar el borde de las pestañas */
+}
+
+.nav-tabs .nav-link.active {
+  color: #fff; /* Cambiar el color del texto de la pestaña activa */
+  background-color: #007bff; /* Cambiar el color de fondo de la pestaña activa */
+  border-color: #007bff; /* Cambiar el color del borde de la pestaña activa */
+}
+
+/* Estilos para las tablas */
+.table {
+  width: 100%; /* Hacer que la tabla ocupe todo el ancho disponible */
+}
+
+.table th,
+.table td {
+  border: 1px solid #dee2e6; /* Añadir bordes a las celdas de la tabla */
+  padding: .75rem; /* Añadir espaciado interno a las celdas de la tabla */
+  vertical-align: top; /* Alinear verticalmente el contenido de las celdas */
+}
+
+.table th {
+  background-color: #f8f9fa; /* Cambiar el color de fondo de las celdas de encabezado */
+}
+</style>
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+      <title>Lista Empleados Empacados</title>
+</head>
+
 
   <main id="main" class="main">
 
-    <div class="pagetitle">
-      <h1>EMPACADOS EMPLEADOS</h1>
-      <nav>
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="index.php">Home</a></li>
-          <li class="breadcrumb-item">Tables</li>
-          <li class="breadcrumb-item active">Data</li>
-        </ol>
-      </nav>
-    </div><!-- End Page Title -->
-<body>
+<!-- Modal -->
+<div id="modalEmpleado" class="modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Empleado Semanal o Quincenal</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <!-- Contenido del modal -->
+        <div class="mb-3">
+          <label for="tipoEmpleado" class="form-label">Tipo de Empleado:</label>
+          <select class="form-select" id="tipoEmpleado">
+            <option value="semanal">Empleado Semanal</option>
+            <option value="quincenal">Empleado Quincenal</option>
+          </select>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-primary">Guardar</button>
+      </div>
+    </div>
+  </div>
+</div>
 
+
+<body>
+  
 <div class="container mt-4">
   <!-- Pestañas -->
   <ul class="nav nav-tabs" id="pestanas" role="tablist">
@@ -288,11 +395,15 @@
 </div>
 
 </div>
-          
+  <!-- JavaScript -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+  <!-- Script para inicializar DataTables -->
 <script>
-  $(document).ready(function() {
-    // Configuración común para todas las tablas
-    var commonConfig = {
+  $(document).ready(function () {
+      var commonConfig = {
       dom: 'Bfrtip',
       buttons: [
         'copy', 'excel', 'pdf', 'print'
@@ -340,28 +451,33 @@
 
     // Tabla Pestaña 2
     $('#tablaPestana9').DataTable(commonConfig);
+    // Datos de ejemplo de empleados
+    var datosEmpleados = [
+      { nombre: 'Juan', posicion: 'Gerente', salario: '$5000', estado: 'Alta' },
+      { nombre: 'María', posicion: 'Asistente', salario: '$3000', estado: 'Alta' },
+      { nombre: 'Pedro', posicion: 'Técnico', salario: '$4000', estado: 'Baja' },
+      { nombre: 'Ana', posicion: 'Contador', salario: '$4500', estado: 'No contratado' },
+      { nombre: 'Luis', posicion: 'Desarrollador', salario: '$4500', estado: 'Alta' },
+      { nombre: 'Laura', posicion: 'Recursos Humanos', salario: '$3800', estado: 'Baja' }
+    ];
 
-   
-    // Inicializar más tablas según sea necesario
+    // Iterar sobre los datos de los empleados y agregar filas a la tabla
+    $.each(datosEmpleados, function (i, empleado) {
+      $('#tablaEmpleados tbody').append('<tr>' +
+        '<td>' + empleado.nombre + '</td>' +
+        '<td>' + empleado.posicion + '</td>' +
+        '<td>' + empleado.salario + '</td>' +
+        '<td>' + empleado.estado + '</td>' +
+        '</tr>');
+    });
+
+    // Inicializar DataTables
+    $('#tablaEmpleados').DataTable();
   });
 </script>
 
 
-
-
-</body>
-</html>
-
-
- <!-- Vendor JS Files -->
-  <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
-  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="assets/vendor/chart.js/chart.umd.js"></script>
-  <script src="assets/vendor/echarts/echarts.min.js"></script>
-  <script src="assets/vendor/quill/quill.min.js"></script>
-  <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
-  <script src="assets/vendor/tinymce/tinymce.min.js"></script>
-  <script src="assets/vendor/php-email-form/validate.js"></script>
-
   <!-- Template Main JS File -->
   <script src="assets/js/main.js"></script>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

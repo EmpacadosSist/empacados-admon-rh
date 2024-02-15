@@ -1,3 +1,5 @@
+<?php require 'layout/libreriasdatatable.php';?>
+
 <?php require 'nav.php'; ?>
 <?php require 'layout/sidebar.php';?>
 
@@ -63,15 +65,7 @@
 </style>
 
 <main id="main" class="main">
-    <div class="pagetitle">
-        <nav>
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="index.php">Home</a></li>
-                <li class="breadcrumb-item">Tables</li>
-                <li class="breadcrumb-item active">Data</li>
-            </ol>
-        </nav>
-    </div>
+  
 
     <div class="row">
         <div class="col-lg-12">    
@@ -81,10 +75,11 @@
                         <div class="profile-img-container">
                             <img src="assets/img/profile-img.jpg" class="profile-img" alt="Foto del Empleado">
                         </div>
-                    </div>
+                    </div>                        
+
                     <div class="col-lg-10">
-                        <p class="d-flex justify-content-end mb-6 card-title" style="font-size: 1.25rem;">Director del Área: Francisco Velarde</p>
-                        <p class="d-flex justify-content-end mb-6 card-title">Líder del Área: Edgar Ruelas</p>
+                        <p class="d-flex justify-content-end mb-6 card-title" style="font-size: 1.25rem;"><img src="assets/img/businessman.png" width="50" height="50" alt="Arroz" >Director del Área: Francisco Velarde</p>
+                        <p class="d-flex justify-content-end mb-6 card-title">  <img src="assets/img/businessman1.png" width="50" height="50" alt="Arroz" >Líder del Departamento: Edgar Ruelas</p>
                     </div>          
                 </div>
 
@@ -99,8 +94,12 @@
                     <div style="text-align: left;">
                         <img src="assets/img/arroz12.png" width="215" height="50" alt="Arroz" id="as">
                     </div>
-                      <h5 class="card-title" align="center">Datos Personales</h5>  
-                    <tr>
+    <h3 id="title" class="card-title" >
+            <!-- Imagen 1 -->
+            <img src="assets/img/Capturalog.ico" alt="" width="30">Información Personal
+            <!-- Imagen 2 -->
+            <img src="assets/img/cv.png" alt="" width="60">
+        </h3>                    <tr>
                         <td><i class="fas fa-id-card"></i> No. de empleado</td>
                         <td><label for="employeeNumber">4344</label></td>
                     </tr>

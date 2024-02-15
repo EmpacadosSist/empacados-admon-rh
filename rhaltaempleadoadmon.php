@@ -1,8 +1,56 @@
-
-
-
+<?php require 'layout/libreriasdatatable.php';?>
 <?php require 'nav.php'; ?>
 <?php require 'layout/sidebar.php';?>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/animate/4.0.0/animate.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+      <title>Alta Empleados Empacados</title>
+</head>
+
+<style type="text/css">
+  .h4, h4 {
+    font-size: 2rem;
+}
+ .container {
+    width: 100%;
+    padding-right: 13px;
+    padding-left: 25px;
+    margin-right: 28px;
+    margin-left: -2px;
+}
+.mt-5, .my-5 {
+    margin-top: 0rem!important;
+}
+body {
+        font-family: "Open Sans", sans-serif;
+        background: #052668;
+        color: 'black;';
+    }
+.card-title {
+    padding: -3px 0 19px 0;
+    font-size: 34px;
+    font-weight: 500;
+    color: #012970;
+    font-family: "Poppins", sans-serif;
+        padding: -4px 0 15px 0;
+}
+   .title-container img {
+            margin: 0 10px; /* Margen entre las imágenes y el texto */
+            vertical-align: middle; /* Alineación vertical con el texto */
+        }
+  .medium-button {
+        font-size: 10px;
+        padding: 11px 21px;
+        /* background-color: #e61d1dbf; /* Replace with your desired color code */
+        font-weight: bold;
+
+      }
+</style>
 
 <!-- Modal -->
 <div id="modalEmpleado" class="modal fade" tabindex="-1" role="dialog">
@@ -36,61 +84,59 @@
       <div class="col-lg-12">
         <div class="card">
           <div class="card-body">
-              <div class="container mt-5" align="left">
-              <h2 class="mb-4">Formulario de Trabajador</h2>
-              <form action="/guardar_datos" method="post">
-                          <!-- Esto son datos de empleado -->
-      <div class="form-row  ">
+           <div class="container mt-5" align="left">
+           <br>
+    <form id="form_id" method="post" action="pdfpuesto.php">
+        <h2  align="" id="title" class="animate__animated animate__bounceInDown card-title">
+          <img src="assets/img/Capturalog.ico" alt="" width="60">
+                Datos de Empleado
+           <img src="assets/img/empleadoempacados.png" alt="" width="60">
+          </h2>
+     <div class="form-row">
+        <div class="form-group col-md-3">
+        <label for="employeeNumber"><i class="fas fa-id-card"></i> No. de empleado</label>
+        <input type="number" class="form-control" id="employeeNumber" name="employeeNumber" inputmode="numeric" pattern="[0-9]+" placeholder="Número de empleado">
+    </div>
 
-                        <div class="form-group col-md-3">
-           <label for="employeeNumber"><i class="fas fa-id-card"></i> No. de empleado</label>
-            <input type="text" class="form-control" id="employeeNumber" name="employeeNumber" inputmode="numeric" pattern="[0-9]+" >
-        </div>
-        <div class="form-group col-md-3">
-           <label for="lastName"><i class="fas fa-user"></i> Apellido Paterno</label>
-              <input type="text" class="form-control" id="lastName" name="lastName" pattern="[A-Za-z]+" title="Solo se permiten caracteres">
-        </div>
-         <div class="form-group col-md-3">
-           <label for="secondName"><i class="fas fa-user"></i> Apellido Materno</label>
-              <input type="text" class="form-control" id="secondName" name="secondName" pattern="[A-Za-z]+" title="Solo se permiten caracteres">
-        </div>
-        <div class="form-group col-md-3">
-          <label for="name"><i class="fas fa-user"></i> Nombre(s)</label>
-          <input type="text" class="form-control" id="name" name="name" pattern="[A-Za-z]+" title="Solo se permiten caracteres">
-        </div>
-        <div class="form-group col-md-3">
-          <label for="age"><i class="fas fa-birthday-cake"></i> Edad</label>
-          <input type="text" class="form-control" id="age" name="age" pattern="[A-Za-z]+" title="Solo se permiten caracteres">
-        </div>
-         <div class="form-group col-md-3">
-          <label for="datebirthday"><i class="fas fa-calendar-alt"></i> Fecha de Nacimiento</label>
-          <input type="text" class="form-control" id="datebirthday" name="datebirthday" pattern="[A-Za-z]+" title="Solo se permiten caracteres">
-            </div>
-          <div class="form-group col-md-3">
-              <label for="placebirth"><i class="fas fa-map-marker-alt"></i> Lugar de nacimiento</label>
-              <input type="text" class="form-control" id="placebirth" name="placebirth" pattern="[A-Za-z]+" title="Solo se permiten caracteres">
-          </div>
-          <div class="form-group col-md-3">
-              <label for="sex"><i class="fas fa-venus-mars"></i> Sexo</label>
-              <input type="text" class="form-control" id="sex" name="sex" pattern="[A-Za-z]+" title="Solo se permiten caracteres">
-          </div>
+    <div class="form-group col-md-3">
+        <label for="lastName"><i class="fas fa-user"></i> Apellido Paterno</label>
+        <input type="text" class="form-control" id="lastName" name="lastName" pattern="[A-Za-z]+" title="Solo se permiten caracteres" placeholder="Apellido Paterno">
+    </div>
 
+    <div class="form-group col-md-3">
+        <label for="secondName"><i class="fas fa-user"></i> Apellido Materno</label>
+        <input type="text" class="form-control" id="secondName" name="secondName" pattern="[A-Za-z]+" title="Solo se permiten caracteres" placeholder="Apellido Materno">
+    </div>
+
+    <div class="form-group col-md-3">
+        <label for="name"><i class="fas fa-user"></i> Nombre(s)</label>
+        <input type="text" class="form-control" id="name" name="name" pattern="[A-Za-z]+" title="Solo se permiten caracteres" placeholder="Nombre(s)">
+    </div>
+
+
+       <div class="form-row">
+
+        <div class="form-group col-md-3">
+          <label for="sex"><i class="fas fa-venus-mars"></i> Sexo</label>
+            <select class="form-control" id="sex" name="sex">
+              <option value="Femenino">Femenino</option>
+              <option value="Masculino">Masculino</option>
+               <option value="Nodefinido">No Definido</option>
+          </select>
+        </div>
                           <!-- Esto son datos de empresa -->
 
-  <div class="form-row">
-      <div class="form-group col-md-3">
-          <label for="dateadmission"><i class="fas fa-calendar-alt"></i> Fecha de Ingreso</label>
-          <input type="date" class="form-control" id="dateadmission" name="dateadmission" pattern="[A-Za-z]+" title="Solo se permiten caracteres">
+         <div class="form-group col-md-3">
+            <label for="dateadmission"><i class="fas fa-calendar-alt"></i> Fecha de Ingreso</label>
+            <input type="date" class="form-control" id="dateadmission" name="dateadmission" pattern="\d{4}-\d{2}-\d{2}" title="Solo se permiten caracteres">
         </div>
-
-
 
         <div class="form-group col-md-6">
           <label for="work_area"><i class="fas fa-building"></i> Área</label>
-          <select class="form-control" id="work_area" name="work_area" onchange="updateDepartments()">
-            <option value="Operaciones" id="Operaciones">Operaciones</option>
-            <option value="Admón">Administración</option>
-            <option value="Comercial">Comercial</option>
+            <select class="form-control" id="work_area" name="work_area" onchange="updateDepartments()">
+              <option value="Operaciones" id="Operaciones">Operaciones</option>
+              <option value="Admón">Administración</option>
+              <option value="Comercial">Comercial</option>
           </select>
         </div>
 
@@ -209,7 +255,7 @@
           </div>
 
     
-        <div class="form-group col-md-3">
+        <div class="form-group col-md-4">
          <label for="Costs"><i class="fas fa-dollar-sign"></i> Centro de Costos</label>
           <select class="form-control" id="Costs" name="Costs" on>
                 <option value="ONLINE">ON LINE</option>
@@ -258,93 +304,226 @@
                 <option value="ALMPT">ALM PT</option>
                 <option value="ADDIR">ADDIR</option>
                 <option value="ADCOR">ADCOR</option>
-        </select>
- </div>
+        </select><br>
 
+     </div>
 
-
-
-
-       <div> <br></div>
-      <!-- Sección 2: Información de personal -->
-      <h4>Información de Personal</h4>
-        <div class="form-row">
-          <div class="form-group col-md-3">
-          <label for="age"><i class="fas fa-birthday-cake"></i> Edad</label>
-          <input type="text" class="form-control" id="age" name="age" pattern="[A-Za-z]+" title="Solo se permiten caracteres">
-        </div>
-        <div class="form-group col-md-3">
-          <label for="datebirthday"><i class="fas fa-calendar-alt"></i> Fecha de Nacimiento</label>
-          <input type="text" class="form-control" id="datebirthday" name="datebirthday" pattern="[A-Za-z]+" title="Solo se permiten caracteres">
-        </div>
-        <div class="form-group col-md-3">
-          <label for="placebirth"><i class="fas fa-globe"></i> Lugar de Nacimiento</label>
-          <input type="text" class="form-control" id="placebirth" name="placebirth" pattern="[A-Za-z]+" title="Solo se permiten caracteres">
-        </div>
-        <div class="form-group col-md-3">
-          <label for="sex"><i class="fas fa-venus-mars"></i> Sexo</label>
-          <input type="text" class="form-control" id="sex" name="sex" pattern="[A-Za-z]+" title="Solo se permiten caracteres">
-        </div>
-
-           <div class="form-group col-md-3">
-          <label for="">Estado civil</label>
-        <select class="form-control" id="" name="">
-              <option value="" id="">Union Libre</option>
-              <option value="">Casado(a)</option>
-          </select>
-          </div>
-        <!-- Agrega más campos según sea necesario -->
-        <div class="form-group col-md-3">
-          <label for="hasChildren">¿Tiene hijos?</label>
-          <input type="checkbox" class="form-check-input" id="hasChildren" name="hasChildren">
-        </div>
-
+            <!-- Sección 2: Información de personal -->
+  <div> <br><br><br></div>
+           <!-- Div contenedor del título con animación -->
+    <div class="title-container animate__animated animate__bounceInDown">
+        <!-- Elemento h2 con el título -->
+       
+    </div><br><br><br>
+    <h2  align="text-center" id="title" class="animate__animated animate__bounceInDown card-title">
+          <img src="assets/img/Capturalog.ico" alt="" width="60">
+            Información de personal
+           <img src="assets/img/empleadoempacados.png" alt="" width="60">
+          </h2>
+    <div class="form-row">
+    <div class="form-group col-md-3">
+        <label for="age"><i class="fas fa-birthday-cake"></i> Edad</label>
+        <input type="text" class="form-control" id="age" name="age" pattern="[0-9]+" title="Solo se permiten números" placeholder="Ingrese su edad">
+    </div>
+    <div class="form-group col-md-3">
+        <label for="datebirthday"><i class="fas fa-calendar-alt"></i> Fecha de Nacimiento</label>
+        <input type="date" class="form-control" id="datebirthday" name="datebirthday" placeholder="Fecha de Nacimiento">
+    </div>
+    <div class="form-group col-md-3">
+        <label for="placebirth"><i class="fas fa-globe"></i> Lugar de Nacimiento</label>
+        <input type="text" class="form-control" id="placebirth" name="placebirth" placeholder="Lugar de Nacimiento">
+    </div>
 
         <div class="form-group col-md-3">
-            <label for="children">Número de hijos</label>
-            <input type="text" class="form-control" id="children" name="children" pattern="[0-9]+" title="Solo se permiten números">
-        </div> 
-
-          <div class="form-group col-md-3">
-          <label for="socialSecurityNumber"><i class="fas fa-venus-mars"></i> Número de seguridad social</label>
-          <input type="text" class="form-control" id="socialSecurityNumber" name="socialSecurityNumber" pattern="[0-9]+" title="Solo se permiten caracteres">
+            <label for="sex"><i class="fas fa-venus-mars"></i> Sexo</label>
+            <select class="form-control" id="sex" name="sex">
+                <option value="Femenino">Femenino</option>
+                <option value="Masculino">Masculino</option>
+            </select>
         </div>
-
+         <div class="form-group col-md-3">
+           <label for="">Estado civil</label>
+               <select class="form-control" id="" name="">
+                  <option value="" id="">Union Libre</option>
+                  <option value="">Casado(a)</option>
+               </select>
+         </div>
         <div class="form-group col-md-3">
+            <label for="hasChildren">¿Tiene hijos?</label>
+            <input type="checkbox" class="form-check-input" id="hasChildren" name="hasChildren" >
+        </div>
+        <div class="form-group col-md-3">
+          <label for="children">Número de hijos</label>
+          <input type="number" class="form-control" id="children" name="children" placeholder="Número de hijos">
+        </div>
+       <div class="form-group col-md-3">
+          <label for="socialSecurityNumber"><i class="fas fa-venus-mars"></i> NSS</label>
+          <input type="text" class="form-control" id="socialSecurityNumber" name="socialSecurityNumber" pattern="[0-9]+" title="Solo se permiten números" placeholder="Número de seguro social">
+      </div>
+      <div class="form-group col-md-3">
           <label for="curp"><i class="fas fa-id-card"></i> CURP</label>
-          <input type="text" class="form-control" id="curp" name="curp" pattern="[A-Za-z]+" title="Solo se permiten caracteres">
-        </div>
-
-        <div class="form-group col-md-3">
-          <label for="rfc"><i class="fa-solid fa-id-card-clip"></i></i> RFC</label>
-          <input type="text" class="form-control" id="rfc" name="rfc" pattern="[A-Za-z]+" title="Solo se permiten caracteres">
-        </div>
-
-        <div class="form-group col-md-3">
-          <label for="rfcPostalCode"><i class="fa-solid fa-passport"></i> Código postal </label>
-          <input type="text" class="form-control" id="rfcPostalCode" name="rfcPostalCode" pattern="[0-9]+" title="Solo se permiten caracteres">
-        </div>
-
-        <div class="form-group col-md-3">
-          <label for="streetAndNumber"><i class="fas fa-map"></i> Domicilio calle y número</label>
-          <input type="text" class="form-control" id="streetAndNumber" name="streetAndNumber" pattern="[A-Za-z]+" title="Solo se permiten caracteres">
-        </div>
-
-        <div class="form-group col-md-3">
-          <label for="colony"><i class="fa-solid fa-map-location"></i></i> Colonia</label>
-          <input type="text" class="form-control" id="colony" name="colony" pattern="[A-Za-z]+" title="Solo se permiten caracteres">
-        </div>
-
-        <div class="form-group col-md-3">
+          <input type="text" class="form-control" id="curp" name="curp" pattern="[A-Za-z0-9]+" title="Solo se permiten caracteres" placeholder="Ingrese su CURP">
+      </div>
+      <div class="form-group col-md-3">
+          <label for="rfc"><i class="fa-solid fa-id-card-clip"></i> RFC</label>
+          <input type="text" class="form-control" id="rfc" name="rfc" pattern="[A-Za-z0-9]+" title="Solo se permiten caracteres" placeholder="Ingrese su RFC">
+      </div>
+      <div class="form-group col-md-3">
+          <label for="rfcPostalCode"><i class="fa-solid fa-passport"></i> Código postal</label>
+          <input type="text" class="form-control" id="rfcPostalCode" name="rfcPostalCode" pattern="[0-9]+" title="Solo se permiten números" placeholder="Ingrese su código postal">
+      </div>
+      <div class="form-group col-md-3">
+          <label for="streetAndNumber"><i class="fas fa-map"></i> Domicilio calle y Num.</label>
+          <input type="text" class="form-control" id="streetAndNumber" name="streetAndNumber" pattern="[A-Za-z0-9]+" title="Solo se permiten caracteres" placeholder="Ingrese su domicilio">
+      </div>
+      <div class="form-group col-md-3">
+          <label for="colony"><i class="fa-solid fa-map-location"></i> Colonia</label>
+          <input type="text" class="form-control" id="colony" name="colony" pattern="[A-Za-z0-9]+" title="Solo se permiten caracteres" placeholder="Ingrese su colonia">
+      </div>
+      <div class="form-group col-md-3">
           <label for="municipality"><i class="fa-solid fa-magnifying-glass-location"></i> Municipio</label>
-          <input type="text" class="form-control" id="municipality" name="municipality" pattern="[A-Za-z]+" title="Solo se permiten caracteres">
-        </div>
-
-        <div class="form-group col-md-3">
+          <input type="text" class="form-control" id="municipality" name="municipality" pattern="[A-Za-z0-9]+" title="Solo se permiten caracteres" placeholder="Ingrese su municipio">
+      </div>
+      <div class="form-group col-md-3">
           <label for="state"><i class="fas fa-map-marker-alt"></i> Estado</label>
-          <input type="text" class="form-control" id="state" name="state" pattern="[A-Za-z]+" title="Solo se permiten caracteres">
-        </div>
-        </div>
+          <input type="text" class="form-control" id="state" name="state" pattern="[A-Za-z0-9]+" title="Solo se permiten caracteres" placeholder="Ingrese su estado">
+      </div>
+      <div class="form-group col-md-3">
+          <label for="currentPostalCode"><i class="fa-solid fa-map-location"></i> C.P. (actual)</label>
+          <input type="text" class="form-control" id="currentPostalCode" name="currentPostalCode" pattern="[A-Za-z0-9]+" title="Solo se permiten caracteres" placeholder="Ingrese su código postal actual">
+      </div>
+      <div class="form-group col-md-3">
+          <label for="education"><i class="fa-solid fa-magnifying-glass-location"></i> Escolaridad</label>
+          <input type="text" class="form-control" id="education" name="education" pattern="[A-Za-z]+" title="Solo se permiten caracteres" placeholder="Ingrese su nivel de escolaridad">
+      </div>
+      <div class="form-group col-md-3">
+          <label for="email"><i class="fas fa-envelope"></i> Correo electrónico</label>
+          <input type="email" class="form-control" id="email" name="email" placeholder="Ingrese su correo electrónico">
+      </div>
+      <div class="form-group col-md-3">
+          <label for="phoneNumber"><i class="fas fa-phone"></i> Teléfono actual</label>
+          <input type="tel" class="form-control" id="phoneNumber" name="phoneNumber" pattern="[0-9]+" title="Solo se permiten números" placeholder="Ingrese su número de teléfono actual">
+      </div>
+
+
+  <div> <br><br><br></div>
+<div class="title-container animate__animated animate__bounceInDown">
+        <!-- Elemento h2 con el título -->
+        <h2 id="title" class="card-title">
+            <!-- Imagen 1 -->
+            <img src="assets/img/Capturalog.ico" alt="" width="60">
+            <!-- Texto -->
+            Información de Empresa
+            <!-- Imagen 2 -->
+            <img src="assets/img/reclutamiento.png" alt="" width="60">
+        </h2>
+    </div><br><br><br><!-- Sección 3: datos de empresa -->
+<div class="form-row">
+   <div class="form-group col-md-3">
+    <label for="shirtSize"><i class="fas fa-tshirt"></i> Talla de Camisa</label>
+    <select class="form-control" id="shirtSize" name="shirtSize">
+        <option value="" selected disabled>Selecciona una talla</option>
+        <option value="S">S</option>
+        <option value="M">M</option>
+        <option value="L">L</option>
+        <!-- Agrega más opciones según sea necesario -->
+    </select>
+</div>
+<div class="form-group col-md-3">
+    <label for="pantsSize"><img src="assets/img/pantalones.png" width="20px"> Talla de Pantalón</label>
+    <select class="form-control" id="pantsSize" name="pantsSize">
+        <option value="" selected disabled>Selecciona una talla</option>
+        <option value="28">28</option>
+        <option value="30">30</option>
+        <option value="32">32</option>
+        <!-- Agrega más opciones según sea necesario -->
+    </select>
+</div>
+<div class="form-group col-md-3">
+    <label for="shoeSize"><i class="fas fa-shoe-prints"></i> Talla de Calzado</label>
+    <select class="form-control" id="shoeSize" name="shoeSize">
+        <option value="" selected disabled>Selecciona una talla</option>
+        <option value="7">7</option>
+        <option value="8">8</option>
+        <option value="9">9</option>
+        <!-- Agrega más opciones según sea necesario -->
+    </select>
+</div>
+
+    <div class="form-group col-md-3">
+        <label for=""><i class="fas fa-heartbeat"></i> Enfermedades Crónicas</label>
+        <input type="text" class="form-control" id="sex" name="sex" pattern="[A-Za-z]+" title="Solo se permiten caracteres" placeholder="Enfermedades Crónicas">
+    </div>
+    <div class="form-group col-md-3">
+        <label for=""><i class="fas fa-allergies"></i> Alergias</label>
+        <input type="text" class="form-control" id="sex" name="sex" pattern="[A-Za-z]+" title="Solo se permiten caracteres" placeholder="Alergias">
+    </div>
+    <div class="form-group col-md-3">
+        <label for=""><i class="fas fa-pills"></i> Medicamentos</label>
+        <input type="text" class="form-control" id="sex" name="sex" pattern="[A-Za-z]+" title="Solo se permiten caracteres" placeholder="Toma algún medicamento">
+    </div>
+    <div class="form-group col-md-3">
+        <label for="emergencyContact"><i class="fas fa-phone-alt"></i> Num emergencia</label>
+        <input type="text" class="form-control" id="sex" name="sex" pattern="[0-9]+" title="Solo se permiten caracteres" placeholder="Contacto de emergencia">
+    </div>
+    <div class="form-group col-md-3">
+        <label for="emergencyContact2"><i class="fas fa-phone-alt"></i> Num emergencia 2</label>
+        <input type="text" class="form-control" id="sex" name="sex" pattern="[0-9]+" title="Solo se permiten caracteres" placeholder="Contacto de emergencia 2">
+    </div>
+    <div class="form-group col-md-2">
+        <label for=""><i class="fas fa-money-bill-wave"></i> Sueldo base</label>
+        <input type="text" class="form-control" id="sex" name="sex" pattern="[0-9]+" title="Solo se permiten caracteres" placeholder="Sueldo base">
+    </div>
+     <div class="form-group col-md-3">
+      <label for="paymentType"><i class="fa-solid fa-coins"></i> Tipo de Pago</label>
+      <select class="form-control" id="paymentType" name="paymentType">
+          <option value="efectivo">Efectivo</option>
+          <option value="transferencia">Transferencia bancaria</option>
+          <option value="cheque">Cheque</option>
+          <option value="tarjeta">Tarjeta de crédito/débito</option>
+          <option value="paypal">PayPal</option>
+      </select>
+  </div>
+    <div class="form-group col-md-3">
+        <label for="foodAllowance"><i class="fa-solid fa-utensils"></i> Bonos de despensa</label>
+        <input type="text" class="form-control" id="sex" name="sex" pattern="[0-9]+" title="Solo se permiten caracteres" placeholder="Bonos de despensa">
+    </div>
+    <div class="form-group col-md-4">
+        <label for=""><i class="fa-solid fa-piggy-bank"></i> Fondo de ahorro (Quincenales)</label>
+        <input type="text" class="form-control" id="sex" name="sex" pattern="[A-Za-z]+" title="Solo se permiten caracteres" placeholder="Fondo de ahorro (Quincenales)">
+    </div>
+        <div class="form-group col-md-6">
+      <label for="bank"><i class="fas fa-money-check"></i> Banco</label>
+      <select class="form-control" id="bank" name="bank">
+          <option value="Bancomer">Bancomer</option>
+          <option value="Santander">Santander</option>
+          <option value="HSBC">HSBC</option>
+          <option value="Banorte">Banorte</option>
+          <option value="BBVA">BBVA</option>
+          <option value="Scotiabank">Scotiabank</option>
+          <option value="Inbursa">Inbursa</option>
+          <!-- Agrega más opciones según sea necesario -->
+      </select>
+      </div>
+    <div class="form-group col-md-6">
+        <label for=""><i class="fa-solid fa-money-check-dollar"></i> Cuenta bancaria</label>
+        <input type="text" class="form-control" id="sex" name="sex" pattern="[A-Za-z]+" title="Solo se permiten caracteres" placeholder="Cuenta bancaria">
+    </div>
+
+        <!-- Contrato -->
+
+     <div class="form-group col-md-3">
+           <button type="submit" id="work_contract" name="generate_contract" class="medium-button">
+            <i class="fa-solid fa-file-pdf"></i>  Generar Contrato PDF
+        </button>   
+      </div>
+    <!-- Agrega más campos según sea necesario -->
+</div>
+</div>
+
+
+
+
 
                 <button type="submit" class="btn btn-primary">Guardar</button>
               </form>
@@ -357,12 +536,33 @@
 </main>
 
 
-     
+
+</html>
 
 
 
 
-  <script>
+<style type="text/css">
+  
+       <style>
+       .medium-button {
+        font-size: 10px;
+        padding: 11px 21px;
+        background-color: #e61d1dbf; /* Replace with your desired color code */
+        font-weight: bold;
+
+      }
+    </style>
+</style>
+
+<script type="text/javascript">
+  
+
+  $(document).ready(function() {
+    // Muestra el modal al cargar la página
+    $('#modalEmpleado').modal('show');
+  });
+
     // JavaScript para habilitar o deshabilitar el campo de texto según el estado del checkbox
     document.getElementById('hasChildren').addEventListener('change', function() {
         var childrenInput = document.getElementById('children');
@@ -371,8 +571,7 @@
             childrenInput.value = '';  // Limpiar el campo si el checkbox no está marcado
         }
     });
-</script>
-  <script>
+
     // Datos de ejemplo para departamentos y puestos
     var departmentsByArea = {
       'Operaciones': ['Almacen','Calidad', 'Distribución', 'Producción','Desarrollo','Mantenimiento'],
@@ -462,22 +661,9 @@
 
     // Llamar a la función de actualización de departamentos al cargar la página
     updateDepartments();
-  </script>
 
 
 
-
-</html>
-
-<script>
-  $(document).ready(function() {
-    // Muestra el modal al cargar la página
-    $('#modalEmpleado').modal('show');
-  });
-</script>
-
-
-<script>
   // Obtener el elemento select y el botón de guardar
   var tipoEmpleadoSelect = document.getElementById("tipoEmpleado");
   var guardarButton = document.getElementById("guardarButton");
@@ -491,17 +677,18 @@
       guardarButton.disabled = true;
     }
   });
+
 </script>
 
-<style type="text/css">
-  
-       <style>
-       .medium-button {
-        font-size: 10px;
-        padding: 11px 21px;
-        background-color: #e61d1dbf; /* Replace with your desired color code */
-        font-weight: bold;
 
-      }
-    </style>
-</style>
+  <!-- Template Main JS File -->
+  <script src="assets/js/main.js"></script>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#work_contract').click(function() {
+            $('#form_id').attr('action', 'pdfpuesto.php');
+        });
+    });
+</script>

@@ -378,69 +378,7 @@
         </div>
 
 
-        <div><br><br><br><br><br></div>
-          <h4>Información de Empresa</h4>
-                                        <!-- Sección 3: datos de empresa -->
-     <div class="form-row">
-        <div class="form-group col-md-3">
-         <label for="age"><i class="fas fa-tshirt"></i> Talla de Camisa</label>
-          <input type="text" class="form-control" id="age" name="age" pattern="[A-Za-z]+" title="Solo se permiten caracteres">
-          </div>
-      <div class="form-group col-md-3">
-        <label for="datebirthday"><img src="assets/img/pantalones.png" width="20px"> Talla de Pantalón</label>
-        <input type="text" class="form-control" id="datebirthday" name="datebirthday" pattern="[A-Za-z]+" title="Solo se permiten caracteres">
-      </div>
-      <div class="form-group col-md-3">
-        <label for="placebirth"><i class="fas fa-shoe-prints"></i> Talla de Calzado</label>
-        <input type="text" class="form-control" id="placebirth" name="placebirth" pattern="[0-9]+" title="Solo se permiten caracteres">
-      </div>
-      <div class="form-group col-md-3">
-        <label for=""><i class="fas fa-heartbeat"></i> Enfermedades Crónicas</label>
-        <input type="text" class="form-control" id="sex" name="sex" pattern="[A-Za-z]+" title="Solo se permiten caracteres">
-      </div>
-      <div class="form-group col-md-3">
-        <label for=""><i class="fas fa-allergies"></i> Alergias</label>
-        <input type="text" class="form-control" id="sex" name="sex" pattern="[A-Za-z]+" title="Solo se permiten caracteres">
-      </div>
-      <div class="form-group col-md-3">
-        <label for=""><i class="fas fa-pills"></i> Toma algún medicamento</label>
-          <input type="text" class="form-control" id="sex" name="sex" pattern="[A-Za-z]+" title="Solo se permiten caracteres">
-      </div>
-      <div class="form-group col-md-3">
-          <label for="emergencyContact"><i class="fas fa-phone-alt"></i> Contacto de emergencia</label>
-          <input type="text" class="form-control" id="sex" name="sex" pattern="[0-9]+" title="Solo se permiten caracteres">
-      </div>
-      <div class="form-group col-md-3">
-        <label for="emergencyContact2"><i class="fas fa-phone-alt"></i> Contacto de emergencia 2</label>
-        <input type="text" class="form-control" id="sex" name="sex" pattern="[0-9]+" title="Solo se permiten caracteres">
-      </div>     
-      <div class="form-group col-md-2">
-        <label for=""><i class="fas fa-money-bill-wave"></i> Sueldo base</label>
-        <input type="text" class="form-control" id="sex" name="sex" pattern="[0-9]+" title="Solo se permiten caracteres">
-      </div>
-      <div class="form-group col-md-3">
-        <label for="paymentType"><i class="fa-solid fa-coins"></i> Tipo de Pago</label>
-        <input type="text" class="form-control" id="sex" name="sex" pattern="[0-9]+" title="Solo se permiten caracteres">
-       </div>
-      <div class="form-group col-md-3">
-        <label for="foodAllowance"><i class="fa-solid fa-utensils"></i> Bonos de despensa</label>
-        <input type="text" class="form-control" id="sex" name="sex" pattern="[0-9]+" title="Solo se permiten caracteres">
-      </div>
-      <div class="form-group col-md-4">
-        <label for=""><i class="fa-solid fa-piggy-bank"></i> Fondo de ahorro (Quincenales)</label>
-        <input type="text" class="form-control" id="sex" name="sex" pattern="[A-Za-z]+" title="Solo se permiten caracteres">
-      </div>
-      <div class="form-group col-md-6">
-        <label for=""><i class="fas fa-money-check"></i> Banco</label>
-        <input type="text" class="form-control" id="sex" name="sex" pattern="[A-Za-z]+" title="Solo se permiten caracteres">
-      </div>
-    <div class="form-group col-md-6">
-        <label for=""><i class="fa-solid fa-money-check-dollar"></i> Cuenta bancaria</label>
-         <input type="text" class="form-control" id="sex" name="sex" pattern="[A-Za-z]+" title="Solo se permiten caracteres">
-     </div>
-        <!-- Agrega más campos según sea necesario -->
-          </div>
-          </div>
+  
 
         </div>
       </div>
@@ -593,3 +531,5 @@
     }
   });
 </script>
+
+
