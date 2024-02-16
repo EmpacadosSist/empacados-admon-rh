@@ -42,7 +42,7 @@ if(count($_POST)>0){
       $indId=$last_id_ind->id;    
             
       //se guarda en una variable el resultado de haber agregado o atcualizado exitosamente el empleado
-      $resultado = ["ok"=>true,"message"=>"Indicador por mes agregado exitosamente", "indId"=>$indId];
+      $resultado = ["ok"=>true,"message"=>"Indicador por mes agregado exitosamente a todo el año", "indId"=>$indId];
 
     }else{
       //se guarda en una variable el resultado de haber un error al agregar a la bd      

@@ -73,6 +73,8 @@
     outline: none;
   }
 </style>
+<?php $formatos = Consultas::listValueTypes($conn); ?>
+
 
 <main id="main" class="main">
 
@@ -104,42 +106,86 @@
       <div class="tab-content" id="contenidoPestanas">
         <!-- Contenido de la Pestaña 1 -->
 
+        
 
         <div class="tab-pane fade show active" id="contenido1" role="tabpanel" aria-labelledby="pestaña1">
           <div class="row mt-3">
             <div class="col">
-              <label for="campo1">Nombre de indicador:</label>
-              <input class="form-control" type="text">
+              <label for="indicatorName">Nombre de indicador:</label>
+              <input class="form-control" type="text" id="indicatorName" name="indicatorName" maxlength="100">
+              <span id="error_indicatorName" class="text-danger"></span>
             </div>
             <div class="col">
-              <label for="selectCampo">Formato:</label>
-              <select id="selectCampo" name="selectCampo" class="form-select" required>
-                <option value="opcion1">Moneda</option>
-                <option value="opcion2">Fraccion</option>
-                <option value="opcion3">Contabilidad</option>
+              <label for="valueTypeId">Formato:</label>
+              <select id="valueTypeId" name="valueTypeId" class="form-select" required>
+                <?php 
+                for ($i=0; $i < count($formatos); $i++) { ?>
+                  <option value="<?=$formatos[$i]['id']?>"><?=$formatos[$i]['nombreFormato']?></option>
+                <?php 
+                }
+                ?>
               </select>
             </div>
           </div>
           <div class="row mt-3">
             <div class="col">
-              <label for="campo1">Real:</label>
-              <input class="form-control" type="text">
+              <label for="realValue">Real:</label>
+              <input class="form-control" type="number" id="realValue" name="realValue">
+              <span id="error_realValue" class="text-danger"></span>
             </div>
             <div class="col">
-              <label for="campo1">Objetivo:</label>
-              <input class="form-control" type="text">
+              <label for="targetValue">Objetivo:</label>
+              <input class="form-control" type="number" id="targetValue" name="targetValue">
+              <span id="error_targetValue" class="text-danger"></span>
             </div>
           </div>
+          
+          <div class="row mt-3">
+            <div class="col-6">              
+
+            </div>
+            <div class="col">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="checkAllYear">
+                <label class="form-check-label" for="checkAllYear">
+                  Establecer objetivo para todo el año
+                </label>
+              </div>
+            </div>
+          </div>
+          
           <div class="row mt-3">
             <div class="col">
-              <label for="comentarios">Comentarios:</label>
-              <textarea id="comentarios" name="comentarios" class="form-control" required></textarea>
+              <label for="comments">Comentarios:</label>
+              <textarea id="comments" name="comments" class="form-control" required></textarea>
             </div>
           </div>
+
+          <div class="row mt-3">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Regla bono</th>
+                  <th>Agregar</th>
+                  <th>GyD</th>
+                  <th>SyL</th>                                    
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>95% - 99% = 50%</td>
+                  <td><input type="checkbox"></td>
+                  <td><input type="checkbox"></td>
+                  <td><input type="checkbox"></td>                                    
+                </tr>                
+              </tbody>
+            </table>
+          </div>
+
           <div class="row mt-3">
             <div class="col-3"></div>
             <div class="col-6">
-              <button class="btn btn-primary form-control">Guardar</button>
+              <button class="btn btn-primary form-control" id="btnGuardarIndicador">Guardar</button>
             </div>
             <div class="col-3"></div>
           </div>
@@ -150,59 +196,7 @@
       </div>
     </div>
 
-    </div>
-    <div class="modal fade" id="modalEliminar1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <!-- Contenido del modal para eliminar -->
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Eliminar Empleado</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            <p>¿Estás seguro de que deseas eliminar al empleado "Unity Pugh"?</p>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-            <button type="button" class="btn btn-danger">Eliminar</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-
-
-    <script>
-      $(document).ready(function () {
-        // Configuración común para todas las tablas
-        var commonConfig = {
-          dom: 'Bfrtip',
-          buttons: [
-            'copy', 'excel', 'pdf', 'print'
-          ],
-          language: {
-            search: '<i class="fas fa-search"></i>',
-            searchPlaceholder: 'Buscar...',
-            lengthMenu: 'Mostrar _MENU_ registros por página',
-            zeroRecords: 'No se encontraron registros',
-            info: 'Mostrando página _PAGE_ de _PAGES_',
-            infoEmpty: 'No hay registros disponibles',
-            infoFiltered: '(filtrados de un total de _MAX_ registros)',
-            paginate: {
-              first: 'Primera',
-              previous: 'Anterior',
-              next: 'Siguiente',
-              last: 'Última'
-            }
-          }
-        };
-
-      });
-    </script>
-
-
-
-
+  </div>
   </body>
 
   </html>
@@ -217,74 +211,107 @@
   <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
   <script src="assets/vendor/tinymce/tinymce.min.js"></script>
   <script src="assets/vendor/php-email-form/validate.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
   <!-- Template Main JS File -->
   <script src="assets/js/main.js"></script>
 
-  <!-- Modal para alta empleado -->
-  <div class="modal fade" id="modalAltaEmpleado" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Alta Empleado</h5>
-          <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <!-- Formulario para ingresar los datos del nuevo empleado -->
-          <form id="formAltaEmpleado">
-            <!-- Agrega aquí los campos del formulario según tus necesidades -->
-            <div class="form-group">
-              <label for="nombre">Nombre:</label>
-              <input type="text" class="form-control" id="nombre" name="nombre" required>
-            </div>
-            <!-- Agrega más campos según tus necesidades -->
-
-            <!-- Botón para guardar el nuevo empleado -->
-            <button type="button" class="btn btn-primary" id="btnGuardarAltaEmpleado">Guardar</button>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
-
   <script>
-    $(document).ready(function () {
-      // Manejar el click en el botón de guardar alta empleado
-      $("#btnGuardarAltaEmpleado").click(function () {
-        // Obtener los valores del formulario
-        var nombre = $("#nombre").val();
+    $("#btnGuardarIndicador").click(function(){
+      mostrarError($("#indicatorName"),'Nombre de indicador obligatorio','error_indicatorName');
+      mostrarError($("#realValue"),'Valor real obligatorio','error_realValue');
+      mostrarError($("#targetValue"),'Valor objetivo obligatorio','error_targetValue');            
+      
+      let valueTypeId=$("#valueTypeId").val();
+      let indicatorName=$("#indicatorName").val();
+      let realValue=$("#realValue").val();
+      let targetValue=$("#targetValue").val();
+      let comments = $("#comments").val();
+      let allYear=$("#checkAllYear").is(':checked');
+      
+      if(indicatorName != "" && realValue != "" && targetValue != ""){
+        //aqui va el codigo para agregar a la bd la informacion despues de validar
+        subir_indicador({
+          valueTypeId,
+          indicatorName,
+          realValue,
+          targetValue,
+          comments
+        }, allYear);
+      }
+    });
 
-        // Validar que el nombre no esté vacío
-        if (nombre.trim() === "") {
-          alert("Por favor, ingresa el nombre del empleado.");
-          return;
+    $("#valueTypeId").on('change', function(){
+      let op=$("#valueTypeId").val();
+      switch(op){
+        case "1":
+          resetFormat("",true);                    
+        break;
+        case "2":
+          resetFormat("%");        
+        break;
+        case "3":
+          resetFormat("$");
+        break;
+      }
+    });
+
+    const resetFormat = (simb, el=false) => {
+      $('#realValue').val("");
+      $('#targetValue').val("");         
+      if(!el){
+        $("#realValue").attr("placeholder", simb);
+        $("#targetValue").attr("placeholder", simb);      
+      }else{
+        $('#realValue').removeAttr('placeholder');
+        $('#targetValue').removeAttr('placeholder');
+      } 
+    }
+
+    const mostrarError = (vali, msg, errorEl) => {
+      if(vali.val() == ''){
+        $('#'+errorEl).text(msg);
+        vali.css('border-color', '#cc0000');
+        //CuentaMayor = '';
+      }else{
+        msg = '';
+        $('#'+errorEl).text(msg);
+        vali.css('border-color', '');        
+      }   
+    }
+    
+    const subir_indicador = (datos, subirIndicador) => {
+      /*
+      let datos = {
+        authorizationName: "Autorizacion de prueba"
+      }
+      fetch('altas/subir_autorizacion.php', {
+      */  
+        
+        let fd = new FormData();
+
+        for(var key in datos){
+          fd.append(key, datos[key]);
+        }
+        let subirIndStr='subir_indicador_x_mes';
+        if(subirIndicador){
+          subirIndStr='subir_indicador_x_anio';
         }
 
-        // Agregar una nueva fila a la tabla con los datos ingresados
-        var nuevaFila = "<tr>" +
-          "<td>Nuevo ID</td>" +
-          "<td>" + nombre + "</td>" +
-          "<td>Nuevo Nivel</td>" +
-          "<td>Nuevo Puesto</td>" +
-          "<td>Nueva Fecha</td>" +
-          "<td>Nuevo Correo</td>" +
-          "<td><input type='number' id='numero' name='numero' min='1' max='100'></td>" +
-          "<td>" +
-          "<button type='button' class='btn btn-primary'>" +
-          "<i class='bi bi-pencil-square'></i>" +
-          "</button>" +
-          "<button type='button' class='btn btn-danger'>" +
-          "<i class='bi bi-trash-fill'></i>" +
-          "</button>" +
-          "</td>" +
-          "</tr>";
+        fetch('altas/'+subirIndStr+'.php', {
+          method: "POST",
+          body: fd
+        })
+        .then(response => {
+          return response.ok ? response.json() : Promise.reject(response);
+        })
+        .then(data => {
+          console.log(data);
+        })
+        .catch(err => {
+          let message = err.statusText || "Ocurrió un error";
+          console.log(err);
+        })
 
-        // Agregar la nueva fila al cuerpo de la tabla
-        $("#tablaPestana1 tbody").append(nuevaFila);
-
-        // Cerrar el modal
-        $("#modalAltaEmpleado").modal("hide");
-      });
-    });
+    }
   </script>
-  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
