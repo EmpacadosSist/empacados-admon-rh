@@ -17,10 +17,10 @@ if(count($_POST)>0){
   $valueTypeIdVal = Validar::validarNum($valueTypeId);
 
   $realValue = isset($_POST['realValue']) ? $_POST['realValue'] : "";  
-  $realValueVal = Validar::validarLongitud($realValue,3,100);
+  $realValueVal = Validar::validarLongitud($realValue,1,100);
   
   $targetValue = isset($_POST['targetValue']) ? $_POST['targetValue'] : "";  
-  $targetValueVal = Validar::validarLongitud($targetValue,3,100);  
+  $targetValueVal = Validar::validarLongitud($targetValue,1,100);  
 
   $resultado="";
   $sqlSP="";

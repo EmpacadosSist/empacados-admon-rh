@@ -17,10 +17,16 @@ if(count($_POST)>0){
   //se valida campo que no venga vacio y que cumpla la validacion de tipo numerico  
   //el type indica si la union del indicador y la regla es para directores y gerentes (valor 0) o lideres y staff (valor 1)
   $type = isset($_POST['type']) ? $_POST['type'] : "";
-  $typeVal = Validar::validarBool($type);  
+  $typeVal = Validar::validarLongitudMax($type,3);  
 
     if($indicatorIdVal && $bonusRuleIdVal && $typeVal){
-      $sqlSP="CALL insert_indicator_bonus_rule($indicatorId, $bonusRuleId, $type)";
+      if($type=="gyd"){
+        $typeBool='0';
+      }else{
+        $typeBool='1';
+      }
+
+      $sqlSP="CALL insert_indicator_bonus_rule($indicatorId, $bonusRuleId, $typeBool)";
       $resultSP=$conn->query($sqlSP);
 
       if($resultSP){

@@ -8,13 +8,13 @@ if(count($_POST)>0){
 
   //se valida campo que no venga vacio y que cumpla la validacion de tipo numerico  
   $minPer = isset($_POST['minPer']) ? $_POST['minPer'] : "";
-  $minPerVal = Validar::validarLongitud($minPer,3,100);
+  $minPerVal = Validar::validarLongitud($minPer,1,100);
 
   $maxPer = isset($_POST['maxPer']) ? $_POST['maxPer'] : "";
-  $maxPerVal = Validar::validarLongitud($maxPer,3,100);
+  $maxPerVal = Validar::validarLongitud($maxPer,1,100);
   
   $bonusPer = isset($_POST['bonusPer']) ? $_POST['bonusPer'] : "";
-  $bonusPerVal = Validar::validarLongitud($bonusPer,3,100);  
+  $bonusPerVal = Validar::validarLongitud($bonusPer,1,100);  
 
     if($minPerVal && $maxPerVal && $bonusPerVal){
       $sqlSP="CALL insert_bonus_rule('$minPer', '$maxPer', '$bonusPer', @LID)";

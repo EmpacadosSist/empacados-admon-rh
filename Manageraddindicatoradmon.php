@@ -74,7 +74,7 @@
   }
 </style>
 <?php $formatos = Consultas::listValueTypes($conn); ?>
-
+<?php $reglas = Consultas::listBonusRules($conn); ?>
 
 <main id="main" class="main">
 
@@ -172,12 +172,41 @@
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>95% - 99% = 50%</td>
-                  <td><input type="checkbox"></td>
-                  <td><input type="checkbox"></td>
-                  <td><input type="checkbox"></td>                                    
-                </tr>                
+              <?php 
+                for ($i=0; $i < count($reglas); $i++) { ?>
+                  <tr data-id="<?=$reglas[$i]['id']?>">
+                    <td>
+                      <?php
+                        $mid="-";
+                        if($reglas[$i]['minimo']=='T'||$reglas[$i]['maximo']=='T'){
+                          $mid="";
+                        } 
+                        if($reglas[$i]['minimo']=='T'){
+                          echo "Menor o igual a";
+                        }else{
+                          echo $reglas[$i]['minimo']."% ";
+                        }
+                        echo $mid;
+                        if($reglas[$i]['maximo']=='T'){
+                          echo "o más";
+                        }else{
+                          echo " ".$reglas[$i]['maximo']."%";
+                        }
+                        echo " = ";
+                        if($reglas[$i]['bonus']=='T'){
+                          echo "Proporcional";
+                        }else{
+                          echo $reglas[$i]['bonus']."%";
+                        }
+                      ?>
+                    </td>
+                    <td><input type="checkbox" class="agregar"></td>
+                    <td><input type="checkbox" class="gyd" disabled></td>
+                    <td><input type="checkbox" class="syl" disabled></td>                    
+                  </tr>
+                <?php 
+                }
+                ?>                              
               </tbody>
             </table>
           </div>
@@ -217,7 +246,9 @@
   <script src="assets/js/main.js"></script>
 
   <script>
+    let arrRules=[];
     $("#btnGuardarIndicador").click(function(){
+      
       mostrarError($("#indicatorName"),'Nombre de indicador obligatorio','error_indicatorName');
       mostrarError($("#realValue"),'Valor real obligatorio','error_realValue');
       mostrarError($("#targetValue"),'Valor objetivo obligatorio','error_targetValue');            
@@ -256,6 +287,43 @@
       }
     });
 
+    $(".agregar").on('change', function(){
+      let ruleId = $(this).parent().parent().attr('data-id');
+      let agregado=$(this).is(':checked');
+      let gyd=$(this).parent().parent().find('.gyd');
+      let syl=$(this).parent().parent().find('.syl');      
+      if(agregado){
+        gyd.prop('disabled', false);
+        syl.prop('disabled', false);        
+      }else{
+        gyd.prop('disabled', true);
+        syl.prop('disabled', true);      
+        gyd.prop('checked', false);
+        syl.prop('checked', false);  
+        arrRules = arrRules.filter(function (el) { return (el.rule != ruleId); });
+      }
+    });
+
+    $(".gyd").on('change', function(){
+      arrayRules($(this), 'gyd');
+    });
+
+    $(".syl").on('change', function(){
+      arrayRules($(this), 'syl');
+    });
+
+    const arrayRules = (_this, type) => {
+      let ruleId = _this.parent().parent().attr('data-id');
+      let checked=_this.is(':checked');
+
+      if(checked){
+        arrRules.push({rule: ruleId, type: type});      
+
+      }else{
+        arrRules = arrRules.filter(function (el) { return !(el.rule == ruleId && el.type == type); });
+      }        
+    }
+
     const resetFormat = (simb, el=false) => {
       $('#realValue').val("");
       $('#targetValue').val("");         
@@ -281,37 +349,65 @@
     }
     
     const subir_indicador = (datos, subirIndicador) => {
-      /*
-      let datos = {
-        authorizationName: "Autorizacion de prueba"
+       
+      let fd = new FormData();
+
+      for(var key in datos){
+        fd.append(key, datos[key]);
       }
-      fetch('altas/subir_autorizacion.php', {
-      */  
+      let subirIndStr='subir_indicador_x_mes';
+      if(subirIndicador){
+        subirIndStr='subir_indicador_x_anio';
+      }
+
+      fetch('altas/'+subirIndStr+'.php', {
+        method: "POST",
+        body: fd
+      })
+      .then(response => {
+        return response.ok ? response.json() : Promise.reject(response);
+      })
+      .then(data => {
+        console.log(data.indId);
+        //asignar_regla(data.indId, );
+        if(arrRules.length>0){
+          for(let key in arrRules){
+            //console.log(arrRules[key].rule);
+            asignar_regla(data.indId, arrRules[key].rule, arrRules[key].type);
+          }
+        }
         
-        let fd = new FormData();
+      })
+      .then(data => {
+        location.reload();
+      })
+      .catch(err => {
+        let message = err.statusText || "Ocurrió un error";
+        console.log(err);
+      })
 
-        for(var key in datos){
-          fd.append(key, datos[key]);
-        }
-        let subirIndStr='subir_indicador_x_mes';
-        if(subirIndicador){
-          subirIndStr='subir_indicador_x_anio';
-        }
+    }
 
-        fetch('altas/'+subirIndStr+'.php', {
-          method: "POST",
-          body: fd
-        })
-        .then(response => {
-          return response.ok ? response.json() : Promise.reject(response);
-        })
-        .then(data => {
-          console.log(data);
-        })
-        .catch(err => {
-          let message = err.statusText || "Ocurrió un error";
-          console.log(err);
-        })
+    const asignar_regla = (indicadorId, bonusRuleId, type) => {
+      let fd = new FormData();
 
+      fd.append('indicatorId', indicadorId);
+      fd.append('bonusRuleId', bonusRuleId);
+      fd.append('type', type);            
+
+      fetch('altas/subir_regla_bono_indicador.php', {
+        method: "POST",
+        body: fd
+      })
+      .then(response => {
+        return response.ok ? response.json() : Promise.reject(response);
+      })
+      .then(data => {
+        console.log(data);
+      })
+      .catch(err => {
+        let message = err.statusText || "Ocurrió un error";
+        console.log(err);
+      })
     }
   </script>
