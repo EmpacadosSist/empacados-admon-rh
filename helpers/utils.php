@@ -29,4 +29,56 @@
       $resultado = rtrim($resultado, '; ');
       return $resultado;
     }
+
+    public static function porcCumplimiento($real, $objetivo){
+      
+      if($objetivo=='0'||$objetivo==0){
+        $resultado='0.00';
+      }else{
+        $resultado=($real/$objetivo)*100;
+        $resultado=number_format($resultado, 2);
+      }
+
+      return $resultado;
+    }
+
+    public static function calcularPorc($indregla, $porcentaje){
+      $resultado="0.00";
+      for($i=0; $i < count($indregla); $i++){ 
+        $rango1="";
+        $rango2="";
+        
+        $rango1=$indregla[$i]['minimo'];
+        $rango2=$indregla[$i]['maximo'];
+        $bonus=$indregla[$i]['bonus'];
+        if($rango1!='T'&&$rango2!='T'){
+          if($porcentaje>=$rango1&&$porcentaje<=$rango2){
+            if($bonus!='T')
+              $resultado=$bonus;
+            else
+              $resultado=$porcentaje;
+          }          
+        }
+
+        if($rango1!='T'&&$rango2=='T'){
+          if($porcentaje>=$rango1){
+            if($bonus!='T')
+              $resultado=$bonus;
+            else
+              $resultado=$porcentaje;            
+          }
+        }
+
+        if($rango1=='T'&&$rango2!='T'){
+          if($porcentaje<=rango2){
+            if($bonus!='T')
+              $resultado=$bonus;
+            else
+              $resultado=$porcentaje;
+          }
+        }        
+        
+      }
+      return $resultado;
+    }
   }

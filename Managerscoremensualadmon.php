@@ -59,7 +59,8 @@
           <?php 
             for ($i=0; $i < count($indicadores); $i++) { 
               $indicadoresReglaGyD=Consultas::listBonusRuleByIndicatorId($conn,$indicadores[$i]['id'],0);
-              $indicadoresReglaSyL=Consultas::listBonusRuleByIndicatorId($conn,$indicadores[$i]['id'],1);              
+              $indicadoresReglaSyL=Consultas::listBonusRuleByIndicatorId($conn,$indicadores[$i]['id'],1);
+              $porcCumplimiento= Utils::porcCumplimiento($indicadores[$i]['real'],$indicadores[$i]['objetivo']);             
               ?>
                   <tr data-id="<?=$indicadores[$i]['id']?>">
                     <td><?=$indicadores[$i]['nombreIndicador']?></td>
@@ -72,19 +73,21 @@
                       <?=Utils::mostrarReglas($indicadoresReglaSyL)?>
                     </td>
                     <td><?=$indicadores[$i]['comentarios']?></td>
-                    <td></td>
-                    <td></td>
-                    <td><input type="number" value="<?=$indicadores[$i]['real']?>"></td>
-                    <td><input type="number" value="<?=$indicadores[$i]['objetivo']?>"></td>                
+                    <td><?=Utils::calcularPorc($indicadoresReglaGyD,$porcCumplimiento)?></td>
+                    <td><?=Utils::calcularPorc($indicadoresReglaSyL,$porcCumplimiento)?></td>
+                    <td><input type="number" class="val-real" value="<?=$indicadores[$i]['real']?>"></td>
+                    <td><input type="number" class="val-obj" value="<?=$indicadores[$i]['objetivo']?>"></td>                
+                    <!--campo de formato-->
                     <td>
-                      <select name="formato">
+                      <select name="formato" class="value-type">
                       <?php for($j=0; $j < count($formatos); $j++){ ?>
                           <option value="<?=$formatos[$j]['id']?>" <?php $selected = $indicadores[$i]['formatoId']==$formatos[$j]['id'] ? "selected" : ""; echo $selected; ?>><?=$formatos[$j]['nombreFormato']?></option>
                         <?php } ?>
                       </select>
                     </td>
-                    <td></td>
-                    <td><button class="btn btn-success">Actualizar</button></td>                  
+                    <!--campo de formato-->
+                    <td><?=$porcCumplimiento." %"?></td>
+                    <td><button class="btn btn-success actualizar-ind">Actualizar</button></td>                  
                   </tr>
                 <?php 
                 }
@@ -193,6 +196,59 @@
   <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
   <script src="assets/vendor/tinymce/tinymce.min.js"></script>
   <script src="assets/vendor/php-email-form/validate.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
   <!-- Template Main JS File -->
   <script src="assets/js/main.js"></script>
+
+  <script>
+    $(".actualizar-ind").click(function(){
+      let indicadorId=$(this).parent().parent().attr('data-id');
+      let valorReal=$(this).parent().parent().find('.val-real').val();
+      let valorObjetivo=$(this).parent().parent().find('.val-obj').val();
+      let formatoId=$(this).parent().parent().find('.value-type').val();      
+      let fecha = new Date(),
+      mes = fecha.getMonth()+1,
+      anio = fecha.getFullYear();
+
+      //console.log(indicadorId, valorReal, valorObjetivo, formatoId, mes, anio);
+      if(indicadorId!="" && valorReal!="" && valorObjetivo!="" && formatoId!="" && mes!="" && anio!=""){
+        actualizar_ind(indicadorId, valorReal, valorObjetivo, formatoId, mes, anio);
+      }
+    })
+
+
+    const actualizar_ind = (indicadorId, valorReal, valorObjetivo, formatoId, mes, anio) => {
+      let datos = {
+        indicatorId: indicadorId,
+        realValue: valorReal,
+        targetValue: valorObjetivo,
+        valueTypeId: formatoId,
+        month: mes,
+        year: anio
+      }
+        
+      let fd = new FormData();
+
+      for(var key in datos){
+        fd.append(key, datos[key]);
+      }
+
+        fetch('cambios/actualizar_valor_x_mes.php', {
+          method: "POST",
+          body: fd
+        })
+        .then(response => {
+          return response.ok ? response.json() : Promise.reject(response);
+        })
+        .then(data => {
+          console.log(data);
+          location.reload();
+        })
+        .catch(err => {
+          let message = err.statusText || "Ocurrió un error";
+          console.log(err);
+        })
+
+      }
+  </script>
