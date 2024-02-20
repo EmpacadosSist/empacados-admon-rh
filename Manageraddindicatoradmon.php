@@ -156,8 +156,8 @@
           
           <div class="row mt-3">
             <div class="col">
-              <label for="comments">Comentarios:</label>
-              <textarea id="comments" name="comments" class="form-control" required></textarea>
+              <label for="comments">Comentarios (Opcional):</label>
+              <textarea id="comments" name="comments" class="form-control" maxlength="255" required></textarea>
             </div>
           </div>
 

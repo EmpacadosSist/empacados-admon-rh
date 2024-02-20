@@ -2,7 +2,10 @@
 <?php require 'nav.php'; ?>
 <?php require 'layout/sidebarfinal.php';?>
 
-
+<?php 
+  $indicadores=Consultas::listIndicatorVPM($conn); 
+  $formatos=Consultas::listValueTypes($conn);
+?>
 
   <main id="main" class="main">
 
@@ -38,47 +41,54 @@
           <thead>
             <tr>
               <th>Nombres</th>
-             <th>Reglas Bonos GyD</th>
-                    <th>Reglas Bonos SyL</th>
-                    <th>Comentarios</th>
-                     <th>Acciones</th>
+              <th>Reglas Bonos GyD</th>
+              <th>Reglas Bonos SyL</th>
+              <th>Comentarios</th>
+              <th>% GyD</th>
+              <th>% SyL</th>
+              <th>Real</th>
+              <th>Objetivo</th>
+              <th>Formato</th>
+              <th>% Cumplimiento</th>
+              <th></th>
+
               <!-- Agrega más columnas según tus necesidades -->
             </tr>
           </thead>
           <tbody>
-            <tr>
-             <td>Venta Total Grupo  $</td>
-                    <td>95% - 99% = 50%; 100% o mas = proporcional</td>
-                    <td>90- 94% = 50%; 95 - 99% = 67%; 100% o mas = proporcional</td>
-                <td>      </td>          
-      <td><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalEditar1">
-          <i class="bi bi-pencil-square"></i>
-        </button>
-        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalEliminar1">
-          <i class="bi bi-trash-fill"></i>
-        </button></td>    <!-- Agrega más filas según tus necesidades -->
-            </tr>
-            </tr>
-                  <tr>
-                    <td>Utilidad Bruta %</td>
-                    <td>100% o mas = proporcional</td>
-                    <td> 95% - 99% = 50%; 100% o mas = proporcional</td>
-                    <td></td><td></td>
+          <?php 
+            for ($i=0; $i < count($indicadores); $i++) { 
+              $indicadoresReglaGyD=Consultas::listBonusRuleByIndicatorId($conn,$indicadores[$i]['id'],0);
+              $indicadoresReglaSyL=Consultas::listBonusRuleByIndicatorId($conn,$indicadores[$i]['id'],1);              
+              ?>
+                  <tr data-id="<?=$indicadores[$i]['id']?>">
+                    <td><?=$indicadores[$i]['nombreIndicador']?></td>
+                    <td>
+                      <!---->
+                      <?=Utils::mostrarReglas($indicadoresReglaGyD)?>
+                    </td>
+                    <td>
+                      <!---->
+                      <?=Utils::mostrarReglas($indicadoresReglaSyL)?>
+                    </td>
+                    <td><?=$indicadores[$i]['comentarios']?></td>
+                    <td></td>
+                    <td></td>
+                    <td><input type="number" value="<?=$indicadores[$i]['real']?>"></td>
+                    <td><input type="number" value="<?=$indicadores[$i]['objetivo']?>"></td>                
+                    <td>
+                      <select name="formato">
+                      <?php for($j=0; $j < count($formatos); $j++){ ?>
+                          <option value="<?=$formatos[$j]['id']?>" <?php $selected = $indicadores[$i]['formatoId']==$formatos[$j]['id'] ? "selected" : ""; echo $selected; ?>><?=$formatos[$j]['nombreFormato']?></option>
+                        <?php } ?>
+                      </select>
+                    </td>
+                    <td></td>
+                    <td><button class="btn btn-success">Actualizar</button></td>                  
                   </tr>
-                  <tr>
-                    <td>Utilidad Neta %</td>
-                    <td>100% o mas = proporcional</td>
-                    <td> 95% - 99% = 50%; 100% o mas = proporcional</td>
-                    <td></td><td></td>
-                  </tr>
-                  <tr>
-                    <td>Fill Rate%</td>
-                    <td> 95% - 99% = 50%; 100% o mas = 100%</td>
-                    <td> 95% - 99% = 50%; 100% o mas = 100%</td>
-                    <td></td> 
-                     <td></td>
-
-                  </tr>
+                <?php 
+                }
+                ?>              
           </tbody>
         </table>
       </div>
@@ -108,7 +118,6 @@
   </div>
 </div>
 </div>
-
 
 
 <script>

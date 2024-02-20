@@ -46,17 +46,55 @@
       $conn->next_result();
       return $resultado;
 
+    }    
 
+    public static function listIndicatorVPM($conn){
+      $sqlSP="CALL select_indicator_vpm()";
       /*
-		//consulta de mysql
-		$sql="CALL procAnexoCount('$oferta', '$sociedad')";
-		
-		$query=$mysqli->query($sql, MYSQLI_STORE_RESULT);
-		$row=$query->fetch_object(); 
-		$resultado=$row->resultado;
-		$mysqli->next_result();
-		return $resultado;      
+      alias de los campos
+	    'id',
+	    'nombreIndicador',
+	    'comentarios',
+	    'real',
+	    'objetivo',
+	    'formatoId'
       */
+      $resultSP=$conn->query($sqlSP, MYSQLI_STORE_RESULT);
+      
+      $resultado=[];
+      //condicion para verificar si se hizo la insercion en la bd
+      if($resultSP){        
+        while($row = $resultSP->fetch_assoc()){
+          array_push($resultado, $row);
+        }
+      }
+      $conn->next_result();
+      return $resultado;
+
+    }
+    
+    public static function listBonusRuleByIndicatorId($conn, $indicatorId, $type){
+      $sqlSP="CALL select_bonusrule_by_indicator($indicatorId,$type)";
+      /*
+      alias de los campos
+	    'id',
+      'minimo',
+      'maximo',
+      'bonus', 
+      'tipo'
+      */
+      $resultSP=$conn->query($sqlSP, MYSQLI_STORE_RESULT);
+      
+      $resultado=[];
+      //condicion para verificar si se hizo la insercion en la bd
+      if($resultSP){        
+        while($row = $resultSP->fetch_assoc()){
+          array_push($resultado, $row);
+        }
+      }
+      $conn->next_result();
+      return $resultado;
+
     }    
 
     public static function listValueTypes($conn){
