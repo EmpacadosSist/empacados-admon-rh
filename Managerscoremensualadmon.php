@@ -234,21 +234,21 @@
         fd.append(key, datos[key]);
       }
 
-        fetch('cambios/actualizar_valor_x_mes.php', {
-          method: "POST",
-          body: fd
-        })
-        .then(response => {
-          return response.ok ? response.json() : Promise.reject(response);
-        })
-        .then(data => {
-          console.log(data);
-          location.reload();
-        })
-        .catch(err => {
-          let message = err.statusText || "Ocurrió un error";
-          console.log(err);
-        })
+      fetch('cambios/actualizar_valor_x_mes.php', {
+        method: "POST",
+        body: fd
+      })
+      .then(response => {
+        return response.ok ? response.json() : Promise.reject(response);
+      })
+      .then(data => {
+        console.log(data);
+        location.reload();
+      })
+      .catch(err => {
+        let message = err.statusText || "Ocurrió un error";
+        console.log(err);
+      })
 
-      }
+    }
   </script>
