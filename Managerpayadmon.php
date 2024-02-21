@@ -36,94 +36,46 @@
           <!-- Contenido de la tabla -->
           <thead>
             <tr>
-             <th>ID</th>
-             <th>Nombre</th>
-             <th>Puesto</th>
+              <th>Número de empleado</th>
+              <th>Nombre</th>
+              <th>Puesto</th>
               <th>$ Variable</th>
               <th>Area</th>
               <th>Nivel en estructura</th>
-              <th>Indicador 1</th>
-              <th>Indicador N</th>
+              <?php 
+                
+              ?>
+              <th>VENTA TOTAL GRUPO $</th>
+              <th>UTILIDAD BRUTA %</th>
+              
               <th>Total</th>
               <!-- Agrega más columnas según tus necesidades -->
             </tr>
           </thead>
           <tbody>
             <tr>
-                <td>1</td>
-                <td>John Doe</td>
-                <td>Gerente de Proyecto</td>
-                <td>$5000</td>
-                <td>Departamento de Ventas</td>
-                <td>Nivel 3</td>
-                <td>85%</td>
-                <td>92%</td>
-                <td>177</td>   <!-- Agrega más filas según tus necesidades -->
+              <td>4500</td>
+              <td>Empleado 1</td>
+              <td>Gerente de Proyecto</td>
+              <td><input type="number"></td>
+              <td>Departamento de Ventas</td>
+              <td>Nivel 3</td>
+              <td><input type="number"></td>
+              <td><input type="number"></td>
+              <td>177</td>   <!-- Agrega más filas según tus necesidades -->
             </tr>
-                  <tr>
-    <td>2</td>
-    <td>Jane Smith</td>
-    <td>Analista de Marketing</td>
-    <td>$3500</td>
-    <td>Departamento de Marketing</td>
-    <td>Nivel 2</td>
-    <td>78%</td>
-    <td>88%</td>
-    <td>166</td>
-    <!-- Agrega más celdas según tus necesidades -->
-</tr>
-
-<tr>
-    <td>3</td>
-    <td>Carlos Rodriguez</td>
-    <td>Ingeniero de Desarrollo</td>
-    <td>$6000</td>
-    <td>Departamento de Desarrollo</td>
-    <td>Nivel 4</td>
-    <td>95%</td>
-    <td>75%</td>
-    <td>170</td>
-    <!-- Agrega más celdas según tus necesidades -->
-</tr>
-
-<tr>
-    <td>4</td>
-    <td>Maria Garcia</td>
-    <td>Contadora</td>
-    <td>$4500</td>
-    <td>Departamento Financiero</td>
-    <td>Nivel 3</td>
-    <td>82%</td>
-    <td>90%</td>
-    <td>172</td>
-    <!-- Agrega más celdas según tus necesidades -->
-</tr>
-
-<tr>
-    <td>5</td>
-    <td>Luis Hernandez</td>
-    <td>Analista de Recursos Humanos</td>
-    <td>$3800</td>
-    <td>Recursos Humanos</td>
-    <td>Nivel 2</td>
-    <td>70%</td>
-    <td>85%</td>
-    <td>155</td>
-    <!-- Agrega más celdas según tus necesidades -->
-</tr>
-
-<tr>
-    <td>6</td>
-    <td>Ana Martinez</td>
-    <td>Gerente de Ventas</td>
-    <td>$5500</td>
-    <td>Departamento de Ventas</td>
-    <td>Nivel 4</td>
-    <td>90%</td>
-    <td>88%</td>
-    <td>178</td>
-    <!-- Agrega más celdas según tus necesidades -->
-</tr>
+            <tr>
+              <td>4501</td>
+              <td>Empleado 2</td>
+              <td>Analista de Marketing</td>
+              <td><input type="number"></td>
+              <td>Departamento de Marketing</td>
+              <td>Nivel 2</td>
+              <td><input type="number"></td>
+              <td><input type="number"></td>
+              <td>166</td>
+              <!-- Agrega más celdas según tus necesidades -->
+            </tr>
           </tbody>
         </table>
       </div>
