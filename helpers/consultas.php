@@ -4,8 +4,12 @@
       $sqlSP="CALL select_user_position()";
       /*
       alias de los campos
+	    'usuarioId',
+	    'puestoId',       
       'numEmpleado', 
-	    'nombreCompleto', 
+	    'nombre', 
+  	  'apellido1', 
+   	  'apellido2', 
       'nivel', 
       'puesto', 
       'fechaIngreso', 
@@ -116,4 +120,23 @@
       $conn->next_result();
       return $resultado;               
     }
+
+    public static function paymentVar($conn, $positionId, $indicatorId){
+      $sqlSP="CALL select_position_indicator($positionId, $indicatorId)";
+      /*
+      alias de los campos
+	    'porcentaje' 
+      */   
+      $resultSP=$conn->query($sqlSP, MYSQLI_STORE_RESULT);
+      
+      $resultado=[];
+      //condicion para verificar si se hizo la insercion en la bd
+      if($resultSP){        
+        while($row = $resultSP->fetch_assoc()){
+          array_push($resultado, $row);
+        }
+      }
+      $conn->next_result();
+      return $resultado;               
+    }    
   }
