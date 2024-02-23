@@ -25,54 +25,6 @@
   }
 </style>
 
-
-<style>
-  .formulario {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-  }
-
-  .campo-group {
-    margin-bottom: 15px;
-    width: 48%;
-  }
-
-  .formulario label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
-  }
-
-  .formulario input,
-  .formulario textarea {
-    width: 100%;
-    padding: 10px;
-    box-sizing: border-box;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    margin-top: 5px;
-  }
-
-  .campo-comentarios textarea {
-    resize: vertical;
-  }
-
-  .formulario select {
-    width: 100%;
-    padding: 10px;
-    box-sizing: border-box;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    margin-top: 5px;
-    font-size: 14px;
-  }
-
-  .formulario select:focus {
-    border-color: #4CAF50;
-    outline: none;
-  }
-</style>
 <?php $formatos = Consultas::listValueTypes($conn); ?>
 <?php $reglas = Consultas::listBonusRules($conn); ?>
 
@@ -206,7 +158,7 @@
                   </tr>
                 <?php 
                 }
-                ?>                              
+                ?>
               </tbody>
             </table>
           </div>

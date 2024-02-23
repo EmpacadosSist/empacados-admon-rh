@@ -76,7 +76,7 @@
 
        <li>
             <a class="bi bi-graph-up-arrow"  href="ManagerScoreadmon.php">
-              <i  ></i><span>Indicadores</span>
+              <i  ></i><span>Mi Scorecard</span>
             </a>
           <li>
           <li >

@@ -1,7 +1,24 @@
 <?php require 'layout/libreriasdatatable.php';?>
 <?php require 'nav.php'; ?>
 <?php require 'layout/sidebarfinal.php';?>
+<?php $indicadores=Consultas::listIndicatorVPM($conn); ?>
+<?php $formatos = Consultas::listValueTypes($conn); ?>
+<?php $reglas = Consultas::listBonusRules($conn); ?>
 
+<style>
+  /* Estilos para reducir el tamaño de la tabla */
+
+
+  /* Estilos adicionales para hacer la tabla más compacta */
+  .table-rule {
+    font-size: 12px;
+  }
+
+  .table-rule th,
+  .table-rule td {
+    text-align: center;
+  }
+</style>
 
   <main id="main" class="main">
 
@@ -16,6 +33,118 @@
       </nav>
     </div><!-- End Page Title -->
 <body>
+
+<div class="container mt-4 contenedor-form" style="display: none;">
+<div class="row mt-3">
+            <div class="col">
+              <label for="indicatorName">Nombre de indicador:</label>
+              <input class="form-control" type="text" id="indicatorName" name="indicatorName" maxlength="100">
+              <span id="error_indicatorName" class="text-danger"></span>
+            </div>
+            <div class="col">
+              <label for="valueTypeId">Formato:</label>
+              <select id="valueTypeId" name="valueTypeId" class="form-select" required>
+                <?php 
+                for ($i=0; $i < count($formatos); $i++) { ?>
+                  <option value="<?=$formatos[$i]['id']?>"><?=$formatos[$i]['nombreFormato']?></option>
+                <?php 
+                }
+                ?>
+              </select>
+            </div>
+          </div>
+          <div class="row mt-3">
+            <div class="col">
+              <label for="realValue">Real:</label>
+              <input class="form-control" type="number" id="realValue" name="realValue">
+              <span id="error_realValue" class="text-danger"></span>
+            </div>
+            <div class="col">
+              <label for="targetValue">Objetivo:</label>
+              <input class="form-control" type="number" id="targetValue" name="targetValue">
+              <span id="error_targetValue" class="text-danger"></span>
+            </div>
+          </div>
+          
+          <div class="row mt-3">
+            <div class="col-6">              
+
+            </div>
+            <div class="col">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="checkAllYear">
+                <label class="form-check-label" for="checkAllYear">
+                  Establecer objetivo para todo el año
+                </label>
+              </div>
+            </div>
+          </div>
+          
+          <div class="row mt-3">
+            <div class="col">
+              <label for="comments">Comentarios (Opcional):</label>
+              <textarea id="comments" name="comments" class="form-control" maxlength="255" required></textarea>
+            </div>
+          </div>
+
+          <div class="row mt-3">
+            <table class="table table-rule">
+              <thead>
+                <tr>
+                  <th>Regla bono</th>
+                  <th>Agregar</th>
+                  <th>GyD</th>
+                  <th>SyL</th>                                    
+                </tr>
+              </thead>
+              <tbody>
+              <?php 
+                for ($i=0; $i < count($reglas); $i++) { ?>
+                  <tr data-id="<?=$reglas[$i]['id']?>">
+                    <td>
+                      <?php
+                        $mid="-";
+                        if($reglas[$i]['minimo']=='T'||$reglas[$i]['maximo']=='T'){
+                          $mid="";
+                        } 
+                        if($reglas[$i]['minimo']=='T'){
+                          echo "Menor o igual a";
+                        }else{
+                          echo $reglas[$i]['minimo']."% ";
+                        }
+                        echo $mid;
+                        if($reglas[$i]['maximo']=='T'){
+                          echo "o más";
+                        }else{
+                          echo " ".$reglas[$i]['maximo']."%";
+                        }
+                        echo " = ";
+                        if($reglas[$i]['bonus']=='T'){
+                          echo "Proporcional";
+                        }else{
+                          echo $reglas[$i]['bonus']."%";
+                        }
+                      ?>
+                    </td>
+                    <td><input type="checkbox" class="agregar"></td>
+                    <td><input type="checkbox" class="gyd" disabled></td>
+                    <td><input type="checkbox" class="syl" disabled></td>                    
+                  </tr>
+                <?php 
+                }
+                ?>                              
+              </tbody>
+            </table>
+          </div>
+
+          <div class="row mt-3">
+            <div class="col-3"></div>
+            <div class="col-6">
+              <button class="btn btn-primary form-control" id="btnActualizarIndicador">Actualizar</button>
+            </div>
+            <div class="col-3"></div>
+          </div>
+</div>
 
 <div class="container mt-4">
   <!-- Pestañas -->
@@ -32,52 +161,51 @@
     <!-- Contenido de la Pestaña 1 -->
     <div class="tab-pane fade show active" id="contenido1" role="tabpanel" aria-labelledby="pestaña1">
       <div class="table-responsive">
-        <table class="table table-striped table-bordered" id="tablaPestana1">
+      <table class="table table-striped table-bordered" id="tablaPestana1">
           <!-- Contenido de la tabla -->
           <thead>
             <tr>
               <th>Nombres</th>
-             <th>Reglas Bonos GyD</th>
-                    <th>Reglas Bonos SyL</th>
-                    <th>Comentarios</th>
-                     <th>Acciones</th>
+              <th>Reglas Bonos GyD</th>
+              <th>Reglas Bonos SyL</th>
+              <th>Comentarios</th>
+              <th></th>
+              <th></th>
               <!-- Agrega más columnas según tus necesidades -->
             </tr>
           </thead>
           <tbody>
-            <tr>
-             <td>Venta Total Grupo  $</td>
-                    <td>95% - 99% = 50%; 100% o mas = proporcional</td>
-                    <td>90- 94% = 50%; 95 - 99% = 67%; 100% o mas = proporcional</td>
-                <td>      </td>          
-      <td><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalEditar1">
-          <i class="bi bi-pencil-square"></i>
-        </button>
-        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalEliminar1">
-          <i class="bi bi-trash-fill"></i>
-        </button></td>    <!-- Agrega más filas según tus necesidades -->
-            </tr>
-            </tr>
-                  <tr>
-                    <td>Utilidad Bruta %</td>
-                    <td>100% o mas = proporcional</td>
-                    <td> 95% - 99% = 50%; 100% o mas = proporcional</td>
-                    <td></td><td></td>
+          <?php 
+            for ($i=0; $i < count($indicadores); $i++) { 
+              $indicadoresReglaGyD=Consultas::listBonusRuleByIndicatorId($conn,$indicadores[$i]['id'],0);
+              $indicadoresReglaSyL=Consultas::listBonusRuleByIndicatorId($conn,$indicadores[$i]['id'],1);
+              $porcCumplimiento= Utils::porcCumplimiento($indicadores[$i]['real'],$indicadores[$i]['objetivo']);             
+              ?>
+                  <tr data-id="<?=$indicadores[$i]['id']?>">
+                    <td style="min-width: 150px;"><?=$indicadores[$i]['nombreIndicador']?></td>
+                    <td style="min-width: 300px;">
+                      <!---->
+                      <?=Utils::mostrarReglas($indicadoresReglaGyD)?>
+                    </td>
+                    <td style="min-width: 300px;">
+                      <!---->
+                      <?=Utils::mostrarReglas($indicadoresReglaSyL)?>
+                    </td>
+                    <td style="min-width: 300px;"><?=$indicadores[$i]['comentarios']?></td>
+                    <td>                    
+                      <button type="button" class="btn btn-primary editar-ind" data-bs-toggle="modal" >
+                        <i class="bi bi-pencil-square"></i>
+                      </button>
+                    </td>
+                    <td>
+                      <button type="button" class="btn btn-danger eliminar-ind" data-bs-toggle="modal" >
+                        <i class="bi bi-trash-fill"></i>
+                      </button>
+                    </td>                                    
                   </tr>
-                  <tr>
-                    <td>Utilidad Neta %</td>
-                    <td>100% o mas = proporcional</td>
-                    <td> 95% - 99% = 50%; 100% o mas = proporcional</td>
-                    <td></td><td></td>
-                  </tr>
-                  <tr>
-                    <td>Fill Rate%</td>
-                    <td> 95% - 99% = 50%; 100% o mas = 100%</td>
-                    <td> 95% - 99% = 50%; 100% o mas = 100%</td>
-                    <td></td> 
-                     <td></td>
-
-                  </tr>
+                <?php 
+                }
+                ?>              
           </tbody>
         </table>
       </div>
@@ -110,63 +238,6 @@
 
 
 
-<script>
-  $(document).ready(function() {
-    // Configuración común para todas las tablas
-    var commonConfig = {
-      dom: 'Bfrtip',
-      buttons: [
-        'copy', 'excel', 'pdf', 'print'
-      ],
-      language: {
-        search: '<i class="fas fa-search"></i>',
-        searchPlaceholder: 'Buscar...',
-        lengthMenu: 'Mostrar _MENU_ registros por página',
-        zeroRecords: 'No se encontraron registros',
-        info: 'Mostrando página _PAGE_ de _PAGES_',
-        infoEmpty: 'No hay registros disponibles',
-        infoFiltered: '(filtrados de un total de _MAX_ registros)',
-        paginate: {
-          first: 'Primera',
-          previous: 'Anterior',
-          next: 'Siguiente',
-          last: 'Última'
-        }
-      }
-    };
-
-    // Tabla Pestaña 1
-    $('#tablaPestana1').DataTable(commonConfig);
-
-    // Tabla Pestaña 2
-    $('#tablaPestana2').DataTable(commonConfig);
-
-    // Tabla Pestaña 2
-    $('#tablaPestana3').DataTable(commonConfig);
-
-    // Tabla Pestaña 2
-    $('#tablaPestana4').DataTable(commonConfig);
-
-    // Tabla Pestaña 2
-    $('#tablaPestana5').DataTable(commonConfig);
-
-    // Tabla Pestaña 2
-    $('#tablaPestana6').DataTable(commonConfig);
-
-    // Tabla Pestaña 2
-    $('#tablaPestana7').DataTable(commonConfig);
-
-    // Tabla Pestaña 2
-    $('#tablaPestana8').DataTable(commonConfig);
-
-    // Tabla Pestaña 2
-    $('#tablaPestana9').DataTable(commonConfig);
-
-   
-    // Inicializar más tablas según sea necesario
-  });
-</script>
-
 
 
 
@@ -183,6 +254,21 @@
   <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
   <script src="assets/vendor/tinymce/tinymce.min.js"></script>
   <script src="assets/vendor/php-email-form/validate.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
   <!-- Template Main JS File -->
   <script src="assets/js/main.js"></script>
+
+  <script>
+    $(document).ready(function(){
+      //alert("si");
+    });
+
+    $(".editar-ind").click(function(){
+      $(".contenedor-form").show();
+    })
+
+    $("#btnActualizarIndicador").click(function(){
+      $(".contenedor-form").hide();
+    })
+  </script>
