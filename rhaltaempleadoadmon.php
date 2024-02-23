@@ -1,16 +1,19 @@
-<?php require 'layout/libreriasdatatable.php';?>
-<?php require 'nav.php'; ?>
-<?php require 'layout/sidebar.php';?>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/animate/4.0.0/animate.min.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
-
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
       <title>Alta Empleados Empacados</title>
+      <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
 </head>
+
+<?php require 'layout/libreriasdatatable.php';?>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/animate/4.0.0/animate.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+<?php require 'layout/sidebar.php';?>
+<?php require 'nav.php'; ?>
+
 
 <style type="text/css">
   .h4, h4 {
@@ -88,7 +91,7 @@ body {
            <br>
     <form id="form_id" method="post" action="pdfpuesto.php">
         <h2  align="" id="title" class="animate__animated animate__bounceInDown card-title">
-          <img src="assets/img/Capturalog.ico" alt="" width="60">
+          
                 Datos de Empleado
            <img src="assets/img/empleadoempacados.png" alt="" width="60">
           </h2>
@@ -304,19 +307,19 @@ body {
                 <option value="ALMPT">ALM PT</option>
                 <option value="ADDIR">ADDIR</option>
                 <option value="ADCOR">ADCOR</option>
-        </select><br>
+        </select>
 
      </div>
 
             <!-- Sección 2: Información de personal -->
-  <div> <br><br><br></div>
+ <br>
            <!-- Div contenedor del título con animación -->
     <div class="title-container animate__animated animate__bounceInDown">
         <!-- Elemento h2 con el título -->
        
-    </div><br><br><br>
+    </div><br>
     <h2  align="text-center" id="title" class="animate__animated animate__bounceInDown card-title">
-          <img src="assets/img/Capturalog.ico" alt="" width="60">
+         
             Información de personal
            <img src="assets/img/empleadoempacados.png" alt="" width="60">
           </h2>
@@ -348,14 +351,14 @@ body {
                   <option value="">Casado(a)</option>
                </select>
          </div>
-        <div class="form-group col-md-3">
-            <label for="hasChildren">¿Tiene hijos?</label>
-            <input type="checkbox" class="form-check-input" id="hasChildren" name="hasChildren" >
-        </div>
-        <div class="form-group col-md-3">
-          <label for="children">Número de hijos</label>
-          <input type="number" class="form-control" id="children" name="children" placeholder="Número de hijos">
-        </div>
+           <div class="form-group col-md-3">
+          <label for="hasChildren">¿Tiene hijos?</label>
+          <input type="checkbox" class="form-check-input" id="hasChildren" name="hasChildren">
+      </div>
+     <div class="form-group col-md-3">
+       <label for="children">Número de hijos</label>
+       <input type="number" class="form-control" id="children" name="children" placeholder="Número de hijos" disabled>
+      </div>
        <div class="form-group col-md-3">
           <label for="socialSecurityNumber"><i class="fas fa-venus-mars"></i> NSS</label>
           <input type="text" class="form-control" id="socialSecurityNumber" name="socialSecurityNumber" pattern="[0-9]+" title="Solo se permiten números" placeholder="Número de seguro social">
@@ -365,31 +368,32 @@ body {
           <input type="text" class="form-control" id="curp" name="curp" pattern="[A-Za-z0-9]+" title="Solo se permiten caracteres" placeholder="Ingrese su CURP">
       </div>
       <div class="form-group col-md-3">
-          <label for="rfc"><i class="fa-solid fa-id-card-clip"></i> RFC</label>
+          <label for="rfc"><i class="fas fa-id-card"></i> RFC</label>
           <input type="text" class="form-control" id="rfc" name="rfc" pattern="[A-Za-z0-9]+" title="Solo se permiten caracteres" placeholder="Ingrese su RFC">
       </div>
-      <div class="form-group col-md-3">
-          <label for="rfcPostalCode"><i class="fa-solid fa-passport"></i> Código postal</label>
-          <input type="text" class="form-control" id="rfcPostalCode" name="rfcPostalCode" pattern="[0-9]+" title="Solo se permiten números" placeholder="Ingrese su código postal">
-      </div>
+     <div class="form-group col-md-3">
+        <label for="passportNumber"><i class="fas fa-passport"></i> Número de Pasaporte</label>
+        <input type="text" class="form-control" id="passportNumber" name="passportNumber" placeholder="Número de Pasaporte">
+    </div>
       <div class="form-group col-md-3">
           <label for="streetAndNumber"><i class="fas fa-map"></i> Domicilio calle y Num.</label>
           <input type="text" class="form-control" id="streetAndNumber" name="streetAndNumber" pattern="[A-Za-z0-9]+" title="Solo se permiten caracteres" placeholder="Ingrese su domicilio">
       </div>
       <div class="form-group col-md-3">
-          <label for="colony"><i class="fa-solid fa-map-location"></i> Colonia</label>
+          <label for="colony"><i class="fas fa-map-marker-alt"></i> Colonia</label>
           <input type="text" class="form-control" id="colony" name="colony" pattern="[A-Za-z0-9]+" title="Solo se permiten caracteres" placeholder="Ingrese su colonia">
       </div>
       <div class="form-group col-md-3">
-          <label for="municipality"><i class="fa-solid fa-magnifying-glass-location"></i> Municipio</label>
-          <input type="text" class="form-control" id="municipality" name="municipality" pattern="[A-Za-z0-9]+" title="Solo se permiten caracteres" placeholder="Ingrese su municipio">
-      </div>
+        <label for="municipality"><i class="fas fa-map-marker-alt"></i> Municipio</label>
+        <input type="text" class="form-control" id="municipality" name="municipality" pattern="[A-Za-z0-9]+" title="Solo se permiten caracteres" placeholder="Ingrese su municipio">
+    </div>
+    <div class="form-group col-md-3">
+        <label for="state"><i class="fas fa-map-marker-alt"></i> Estado</label>
+        <input type="text" class="form-control" id="state" name="state" pattern="[A-Za-z0-9]+" title="Solo se permiten caracteres" placeholder="Ingrese su estado">
+    </div>
+
       <div class="form-group col-md-3">
-          <label for="state"><i class="fas fa-map-marker-alt"></i> Estado</label>
-          <input type="text" class="form-control" id="state" name="state" pattern="[A-Za-z0-9]+" title="Solo se permiten caracteres" placeholder="Ingrese su estado">
-      </div>
-      <div class="form-group col-md-3">
-          <label for="currentPostalCode"><i class="fa-solid fa-map-location"></i> C.P. (actual)</label>
+          <label for="currentPostalCode"><i class="fas fa-map-marker-alt"></i> C.P. (actual)</label>
           <input type="text" class="form-control" id="currentPostalCode" name="currentPostalCode" pattern="[A-Za-z0-9]+" title="Solo se permiten caracteres" placeholder="Ingrese su código postal actual">
       </div>
       <div class="form-group col-md-3">
@@ -410,9 +414,7 @@ body {
 <div class="title-container animate__animated animate__bounceInDown">
         <!-- Elemento h2 con el título -->
         <h2 id="title" class="card-title">
-            <!-- Imagen 1 -->
-            <img src="assets/img/Capturalog.ico" alt="" width="60">
-            <!-- Texto -->
+          
             Información de Empresa
             <!-- Imagen 2 -->
             <img src="assets/img/reclutamiento.png" alt="" width="60">
@@ -452,30 +454,33 @@ body {
 
     <div class="form-group col-md-3">
         <label for=""><i class="fas fa-heartbeat"></i> Enfermedades Crónicas</label>
-        <input type="text" class="form-control" id="sex" name="sex" pattern="[A-Za-z]+" title="Solo se permiten caracteres" placeholder="Enfermedades Crónicas">
+        <input type="text" class="form-control" id="" name="" pattern="[A-Za-z]+" title="Solo se permiten caracteres" placeholder="Enfermedades Crónicas">
     </div>
     <div class="form-group col-md-3">
         <label for=""><i class="fas fa-allergies"></i> Alergias</label>
-        <input type="text" class="form-control" id="sex" name="sex" pattern="[A-Za-z]+" title="Solo se permiten caracteres" placeholder="Alergias">
+        <input type="text" class="form-control" id="" name="" pattern="[A-Za-z]+" title="Solo se permiten caracteres" placeholder="Alergias">
     </div>
     <div class="form-group col-md-3">
         <label for=""><i class="fas fa-pills"></i> Medicamentos</label>
-        <input type="text" class="form-control" id="sex" name="sex" pattern="[A-Za-z]+" title="Solo se permiten caracteres" placeholder="Toma algún medicamento">
+        <input type="text" class="form-control" id="" name="" pattern="[A-Za-z]+" title="Solo se permiten caracteres" placeholder="Toma algún medicamento">
     </div>
-    <div class="form-group col-md-3">
-        <label for="emergencyContact"><i class="fas fa-phone-alt"></i> Num emergencia</label>
-        <input type="text" class="form-control" id="sex" name="sex" pattern="[0-9]+" title="Solo se permiten caracteres" placeholder="Contacto de emergencia">
-    </div>
-    <div class="form-group col-md-3">
-        <label for="emergencyContact2"><i class="fas fa-phone-alt"></i> Num emergencia 2</label>
-        <input type="text" class="form-control" id="sex" name="sex" pattern="[0-9]+" title="Solo se permiten caracteres" placeholder="Contacto de emergencia 2">
-    </div>
+<div class="form-group col-md-3">
+    <label for="emergencyContact"><i class="fa-solid fa-phone"></i> Num emergencia</label>
+    <input type="text" class="form-control" id="emergencyContact" name="emergencyContact" pattern="[0-9]+" title="Solo se permiten caracteres numéricos" placeholder="Contacto de emergencia">
+</div>
+
+
+  <div class="form-group col-md-3">
+      <label for="emergencyContact2"><i class="fa-solid fa-phone-flip"></i> Num emergencia 2</label>
+      <input type="text" class="form-control" id="" name="" pattern="[0-9]+" title="Solo se permiten caracteres numéricos" placeholder="Contacto de emergencia 2">
+  </div>
+
     <div class="form-group col-md-2">
         <label for=""><i class="fas fa-money-bill-wave"></i> Sueldo base</label>
-        <input type="text" class="form-control" id="sex" name="sex" pattern="[0-9]+" title="Solo se permiten caracteres" placeholder="Sueldo base">
+        <input type="text" class="form-control" id="pay" name="pay" pattern="[0-9]+" title="Solo se permiten caracteres" placeholder="Sueldo base">
     </div>
      <div class="form-group col-md-3">
-      <label for="paymentType"><i class="fa-solid fa-coins"></i> Tipo de Pago</label>
+      <label for="paymentType"><i class="fa-solid fa-mobile-screen-button"></i>Tipo de Pago</label>
       <select class="form-control" id="paymentType" name="paymentType">
           <option value="efectivo">Efectivo</option>
           <option value="transferencia">Transferencia bancaria</option>
@@ -484,15 +489,15 @@ body {
           <option value="paypal">PayPal</option>
       </select>
   </div>
-    <div class="form-group col-md-3">
-        <label for="foodAllowance"><i class="fa-solid fa-utensils"></i> Bonos de despensa</label>
-        <input type="text" class="form-control" id="sex" name="sex" pattern="[0-9]+" title="Solo se permiten caracteres" placeholder="Bonos de despensa">
+     <div class="form-group col-md-3">
+        <label for="foodAllowance"><i class="fas fa-utensils"></i> Bonos de despensa</label>
+        <input type="text" class="form-control" id="foodAllowance" name="foodAllowance" pattern="[0-9]+" title="Solo se permiten números" placeholder="Bonos de despensa">
     </div>
     <div class="form-group col-md-4">
-        <label for=""><i class="fa-solid fa-piggy-bank"></i> Fondo de ahorro (Quincenales)</label>
-        <input type="text" class="form-control" id="sex" name="sex" pattern="[A-Za-z]+" title="Solo se permiten caracteres" placeholder="Fondo de ahorro (Quincenales)">
-    </div>
-        <div class="form-group col-md-6">
+      <label for="savings"><i class="fas fa-piggy-bank"></i> Fondo de ahorro (Quincenales)</label>
+      <input type="text" class="form-control" id="savings" name="savings" pattern="[A-Za-z]+" title="Solo se permiten caracteres" placeholder="Fondo de ahorro (Quincenales)">
+  </div>
+    <div class="form-group col-md-6">
       <label for="bank"><i class="fas fa-money-check"></i> Banco</label>
       <select class="form-control" id="bank" name="bank">
           <option value="Bancomer">Bancomer</option>
@@ -505,10 +510,12 @@ body {
           <!-- Agrega más opciones según sea necesario -->
       </select>
       </div>
-    <div class="form-group col-md-6">
-        <label for=""><i class="fa-solid fa-money-check-dollar"></i> Cuenta bancaria</label>
-        <input type="text" class="form-control" id="sex" name="sex" pattern="[A-Za-z]+" title="Solo se permiten caracteres" placeholder="Cuenta bancaria">
-    </div>
+      <div class="form-group col-md-6">
+        <label for="bankAccount"><i class="fa-solid fa-money-check-dollar"></i> Cuenta bancaria</label>
+        <input type="text" class="form-control" id="bankAccount" name="bankAccount" pattern="[A-Za-z]+" title="Solo se permiten caracteres" placeholder="Cuenta bancaria">
+  </div>
+
+
 
         <!-- Contrato -->
 
@@ -535,10 +542,20 @@ body {
   </section>
 </main>
 
-
-
 </html>
 
+<!-- Modal -->
+<div id="myModal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <!-- Aquí puedes agregar los campos para ingresar los datos del hijo -->
+    <p>Ingrese los datos del hijo:</p>
+    <!-- Por ejemplo -->
+    <input type="text" id="nombreHijo" placeholder="Nombre del hijo">
+    <input type="text" id="edadHijo" placeholder="Edad del hijo">
+    <button id="guardarHijo">Guardar</button>
+  </div>
+</div>
 
 
 
@@ -554,24 +571,7 @@ body {
       }
     </style>
 </style>
-
-<script type="text/javascript">
-  
-
-  $(document).ready(function() {
-    // Muestra el modal al cargar la página
-    $('#modalEmpleado').modal('show');
-  });
-
-    // JavaScript para habilitar o deshabilitar el campo de texto según el estado del checkbox
-    document.getElementById('hasChildren').addEventListener('change', function() {
-        var childrenInput = document.getElementById('children');
-        childrenInput.disabled = !this.checked;
-        if (!this.checked) {
-            childrenInput.value = '';  // Limpiar el campo si el checkbox no está marcado
-        }
-    });
-
+ <script>
     // Datos de ejemplo para departamentos y puestos
     var departmentsByArea = {
       'Operaciones': ['Almacen','Calidad', 'Distribución', 'Producción','Desarrollo','Mantenimiento'],
@@ -661,30 +661,11 @@ body {
 
     // Llamar a la función de actualización de departamentos al cargar la página
     updateDepartments();
+  </script>
 
 
 
-  // Obtener el elemento select y el botón de guardar
-  var tipoEmpleadoSelect = document.getElementById("tipoEmpleado");
-  var guardarButton = document.getElementById("guardarButton");
 
-  // Agregar un evento de cambio al select
-  tipoEmpleadoSelect.addEventListener("change", function() {
-    // Habilitar el botón de guardar si se ha seleccionado una opción
-    if (this.value !== "") {
-      guardarButton.disabled = false;
-    } else {
-      guardarButton.disabled = true;
-    }
-  });
-
-</script>
-
-
-  <!-- Template Main JS File -->
-  <script src="assets/js/main.js"></script>
-
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     $(document).ready(function() {
         $('#work_contract').click(function() {
@@ -692,3 +673,55 @@ body {
         });
     });
 </script>
+
+<script>
+    // JavaScript para habilitar o deshabilitar el campo de texto según el estado del checkbox
+    document.getElementById('hasChildren').addEventListener('change', function() {
+        var childrenInput = document.getElementById('children');
+        childrenInput.disabled = !this.checked;
+        if (!this.checked) {
+            childrenInput.value = '';  // Limpiar el campo si el checkbox no está marcado
+        }
+    });
+</script>
+
+<script>
+document.getElementById('children').addEventListener('change', function() {
+    var numHijos = parseInt(this.value);
+    if (numHijos >= 4 && numHijos <= 6) {
+        // Mostrar el modal
+        var modal = document.getElementById('myModal');
+        modal.style.display = "block";
+        
+        // Agregar un evento al botón de guardar en el modal
+        document.getElementById('guardarHijo').addEventListener('click', function() {
+            // Aquí puedes obtener los datos ingresados del hijo
+            var nombreHijo = document.getElementById('nombreHijo').value;
+            var edadHijo = document.getElementById('edadHijo').value;
+            
+            // Aquí puedes hacer lo que necesites con los datos del hijo, como enviarlos a un servidor
+            
+            // Cerrar el modal
+            modal.style.display = "none";
+        });
+        
+        // Agregar un evento para cerrar el modal si se hace clic en la "X"
+        var span = document.getElementsByClassName("close")[0];
+        span.onclick = function() {
+            modal.style.display = "none";
+        }
+    }
+});
+</script>
+
+</body>
+<?php require 'layout/footer.php';?>
+
+</html>
+
+
+  <!-- Template Main JS File -->
+  <script src="assets/js/main.js"></script>
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

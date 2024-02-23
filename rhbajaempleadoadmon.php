@@ -1,6 +1,3 @@
-<?php require 'layout/libreriasdatatable.php';?>
-<?php require 'nav.php'; ?>
-<?php require 'layout/sidebar.php';?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -8,9 +5,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Baja de Trabajador</title>
-  <!-- Incluir Bootstrap CSS -->
+</head>  <!-- Incluir Bootstrap CSS -->
+<?php require 'layout/libreriasdatatable.php';?>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/animate/4.0.0/animate.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+<?php require 'nav.php'; ?>
+<?php require 'layout/sidebar.php';?>
 
-</head>
 <style type="text/css">
   .h4, h4 {
     font-size: 2rem;
@@ -64,10 +65,10 @@ body {
 <div class="container mt-5" align="left">
   
  
-<form method="post" action="pdfpuesto.php"  target="_blank">
+<form method="post" action="pdfpuesto.php"  target="_blank"><br>
       <!-- Sección 1: Información Personal -->
    <h2  align="text-center" id="title" class="animate__animated animate__bounceInDown card-title">
-          <img src="assets/img/Capturalog.ico" alt="" width="60">
+         
            Baja de Trabajador
            <img src="assets/img/termination.png" alt="" width="60">
           </h2>      <div class="form-row  ">
@@ -302,14 +303,12 @@ body {
    
         <!-- Agrega más campos según sea necesario -->
       </div>
-      <div> <br></div>
-      <!-- Sección 2: Información de personal -->
-
+      
        <h2  align="text-center" id="title" class="animate__animated animate__bounceInDown card-title">
-          <img src="assets/img/Capturalog.ico" alt="" width="60">
+          
           Información de Baja Personal
            <img src="assets/img/layoff.png" alt="" width="60">
-          </h2> 
+       </h2> 
         <div class="form-row">
            <div class="form-group col-md-3">
           <label for="datedownpersonal"><i class="fas fa-calendar-alt"></i> Fecha de Baja</label>

@@ -379,11 +379,11 @@ h6 {
 
 .header {
     transition: all 0.5s;
-    z-index: 1012;
-    height: 64px;
+    z-index: 1014;
+    height: 59px;
     box-shadow: 0px 2px 20px rgba(1, 41, 112, 0.1);
     background: #000000;
-    padding-left: 32px;
+    padding-left: 22px;
 }
 
 .header .toggle-sidebar-btn {
@@ -599,18 +599,18 @@ h6 {
 --------------------------------------------------------------*/
 .sidebar {
     position: fixed;
-    top: 60px;
+    top: 58px;
     left: 15;
-    bottom: 0;
-    width: 300px;
-    z-index: 996;
+    bottom: 18px;
+    width: 296px;
+    z-index: 1022;
     transition: all 0.3s;
-    padding: 10px;
+    padding: 8px;
     overflow-y: auto;
     scrollbar-width: thin;
-    scrollbar-color: #aab7cf transparent;
+    scrollbar-color: #949dad #fffff7;
     box-shadow: 0px 0px 20px rgba(1, 41, 112, 0.1);
-  background-color: #fff;
+    background-color: #fff;
 }
 
 @media (max-width: 1199px) {
@@ -680,17 +680,16 @@ h6 {
 }
 
 .sidebar-nav .nav-link {
-  display: flex;
-  align-items: center;
-  font-size: 15px;
-  font-weight: 600;
-  color: #4154f1;
-  transition: 0.3;
-  background: #f6f9ff;
-  padding: 10px 15px;
-  border-radius: 4px;
+    display: flex;
+    align-items: center;
+    font-size: 15px;
+    font-weight: 600;
+    color: #0500ff;
+    transition: 0.3;
+    background: #4783f85e;
+    padding: 4px 26px;
+    border-radius: -5px;
 }
-
 .sidebar-nav .nav-link i {
   font-size: 16px;
   margin-right: 10px;
@@ -731,14 +730,14 @@ h6 {
 }
 
 .sidebar-nav .nav-content a {
-  display: flex;
-  align-items: center;
-  font-size: 14px;
-  font-weight: 600;
-  color: #012970;
-  transition: 0.3;
-  padding: 10px 0 10px 40px;
-  transition: 0.3s;
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    font-weight: 600;
+    color: #012970;
+    transition: -5.7;
+    padding: 7px 0 5px 44px;
+    transition: 0.3s;
 }
 
 .sidebar-nav .nav-content a i {
