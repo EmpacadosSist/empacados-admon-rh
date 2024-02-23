@@ -24,6 +24,7 @@
                 }
               ?>
                   <th>Total</th>
+                  <th></th>
                   <!-- Agrega más columnas según tus necesidades -->
                 </tr>
               </thead>
@@ -70,8 +71,9 @@
                   ?>
                   </td>
                   <?php } ?>
-
+                  
                   <td style="min-width: 100px;">$ <?=$sumaPagos?></td> <!-- Agrega más filas según tus necesidades -->
+                  <td style="min-width: 100px;"><?=round((($sumaPagos/$usuariosArr['variable'])*100), 0, PHP_ROUND_HALF_UP)?> %</td>
                 </tr>
                 <?php } ?>
               </tbody>

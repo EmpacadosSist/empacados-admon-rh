@@ -63,23 +63,23 @@
               $porcCumplimiento= Utils::porcCumplimiento($indicadores[$i]['real'],$indicadores[$i]['objetivo']);             
               ?>
                   <tr data-id="<?=$indicadores[$i]['id']?>">
-                    <td><?=$indicadores[$i]['nombreIndicador']?></td>
-                    <td>
+                    <td style="min-width: 150px;"><?=$indicadores[$i]['nombreIndicador']?></td>
+                    <td style="min-width: 300px;">
                       <!---->
                       <?=Utils::mostrarReglas($indicadoresReglaGyD)?>
                     </td>
-                    <td>
+                    <td style="min-width: 300px;">
                       <!---->
                       <?=Utils::mostrarReglas($indicadoresReglaSyL)?>
                     </td>
-                    <td><?=$indicadores[$i]['comentarios']?></td>
-                    <td><?=Utils::calcularPorc($indicadoresReglaGyD,$porcCumplimiento)?></td>
-                    <td><?=Utils::calcularPorc($indicadoresReglaSyL,$porcCumplimiento)?></td>
-                    <td><input type="number" class="val-real" value="<?=$indicadores[$i]['real']?>"></td>
-                    <td><input type="number" class="val-obj" value="<?=$indicadores[$i]['objetivo']?>"></td>                
+                    <td style="min-width: 300px;"><?=$indicadores[$i]['comentarios']?></td>
+                    <td style="min-width: 100px;"><?=Utils::calcularPorc($indicadoresReglaGyD,$porcCumplimiento)?></td>
+                    <td style="min-width: 100px;"><?=Utils::calcularPorc($indicadoresReglaSyL,$porcCumplimiento)?></td>
+                    <td style="min-width: 150px;"><input type="number" class="form-control val-real" value="<?=$indicadores[$i]['real']?>"></td>
+                    <td style="min-width: 150px;"><input type="number" class="form-control val-obj" value="<?=$indicadores[$i]['objetivo']?>"></td>                
                     <!--campo de formato-->
-                    <td>
-                      <select name="formato" class="value-type">
+                    <td style="min-width: 150px;">
+                      <select name="formato" class="custom-select value-type">
                       <?php for($j=0; $j < count($formatos); $j++){ ?>
                           <option value="<?=$formatos[$j]['id']?>" <?php $selected = $indicadores[$i]['formatoId']==$formatos[$j]['id'] ? "selected" : ""; echo $selected; ?>><?=$formatos[$j]['nombreFormato']?></option>
                         <?php } ?>
