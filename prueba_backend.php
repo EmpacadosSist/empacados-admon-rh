@@ -34,19 +34,76 @@ require_once('helpers/consultas.php'); ?>
         echo "<br>";
       }
     ?>
-    <button onclick="subir_autorizacion_usuario()">Probar</button>
+    <button onclick="subir_autorizacion()">Probar</button>
     <script>
 
-      const subir_actualizar = () => {
+      const subir_autorizacion = () => {
         let datos = {
-          userId: 4, 
-          fullName: "Armin Arlert",
+          authorizationName: "Autorizacion de prueba"
+        }
+        
+        let fd = new FormData();
+
+        for(var key in datos){
+          fd.append(key, datos[key]);
+        }
+
+        fetch('altas/subir_autorizacion.php', {
+          method: "POST",
+          body: fd
+        })
+        .then(response => {
+          return response.ok ? response.json() : Promise.reject(response);
+        })
+        .then(data => {
+          console.log(data);
+        })
+        .catch(err => {
+          let message = err.statusText || "Ocurrió un error";
+          console.log(err);
+        })
+
+      }
+
+
+const subir_objetivo = () => {
+        let datos = {
+          activityName: "Soporte a SAP",
+          positionId: 2,
+          defaultPer: "20"
+        }
+        
+        let fd = new FormData();
+
+        for(var key in datos){
+          fd.append(key, datos[key]);
+        }
+
+        fetch('altas/subir_objetivo.php', {
+          method: "POST",
+          body: fd
+        })
+        .then(response => {
+          return response.ok ? response.json() : Promise.reject(response);
+        })
+        .then(data => {
+          console.log(data);
+        })
+        .catch(err => {
+          let message = err.statusText || "Ocurrió un error";
+          console.log(err);
+        })
+
+      }
+
+      const subir_actualizar = () => {
+        let datos = { 
+          fullName: "Roberto Reyes",
           email: "aux2.sistemas@empacados.com",
-          levelId: 4,
-          empNum: "411206",
-          positionId: 1,
-          paymentVar: 993.50,
-          recDate: "20231106"
+          empNum: "411203",
+          positionId: 3,
+          paymentVar: 1000.00,
+          recDate: "20220901"
         }
   
         let fd = new FormData();
@@ -71,27 +128,6 @@ require_once('helpers/consultas.php'); ?>
         })
       }
 
-      const subir_autorizacion = () => {
-        let authorizationName = "Prueba";
-  
-        let fd = new FormData();
-        fd.append('authorizationName', authorizationName);
-        
-        fetch('altas/subir_autorizacion.php', {
-          method: "POST",
-          body: fd
-        })
-        .then(response => {
-          return response.ok ? response.json() : Promise.reject(response);
-        })
-        .then(data => {
-          console.log(data);
-        })
-        .catch(err => {
-          let message = err.statusText || "Ocurrió un error";
-          console.log(err);
-        })
-      }
 
       const subir_autorizacion_usuario = () => {
         let datos = {

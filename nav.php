@@ -1,3 +1,6 @@
+<?php require_once('helpers/consultas.php'); ?>
+<?php require_once('helpers/utils.php'); ?>
+<?php require_once('conexion/conexion.php'); ?>
 <!DOCTYPE html>
 <html lang="en">
 

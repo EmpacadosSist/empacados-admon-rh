@@ -6,21 +6,16 @@ require_once('../helpers/validar.php');
 
 if(count($_POST)>0){
 
-  //se valida campo que no venga vacio y que cumpla la validacion de tipo numerico  
-  $authorizationId = isset($_POST['authorizationId']) ? $_POST['authorizationId'] : "";
-  $authorizationIdVal = Validar::validarNum($authorizationId);
-
-  //se valida campo que no venga vacio y que cumpla la validacion de tipo numerico  
   $userId = isset($_POST['userId']) ? $_POST['userId'] : "";
   $userIdVal = Validar::validarNum($userId);
 
-    if($authorizationIdVal && $userIdVal){
-      $sqlSP="CALL insert_user_authorization($userId, $authorizationId)";
+    if($userIdVal){
+      $sqlSP="CALL restrict_user($userId)";
       $resultSP=$conn->query($sqlSP);
 
       if($resultSP){
         //se guarda en una variable el resultado de haber agregado o atcualizado exitosamente el empleado
-        $resultado = ["ok"=>true,"message"=>"Autorización enlazada agregada exitosamente"];
+        $resultado = ["ok"=>true,"message"=>"Usuario restringido de subir porcentaje de objetivo"];
   
       }else{
         //se guarda en una variable el resultado de haber un error al agregar a la bd      
@@ -29,7 +24,7 @@ if(count($_POST)>0){
       }      
     }else{
       //se guarda en una variable el resultado de error de validacion de los campos
-      $resultado = ["ok"=>false,"message"=>"Error en la validación de información", "Autorizacion"=>$authorizationIdVal, "Usuario"=>$userIdVal];
+      $resultado = ["ok"=>false,"message"=>"Error en la validación de información", "Usuario Id"=>$userIdVal];
     }
 }else{
   $resultado = ["ok"=>false,"message"=>"Sin parametros"];

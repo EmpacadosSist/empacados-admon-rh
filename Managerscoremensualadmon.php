@@ -1,7 +1,11 @@
+<?php require 'layout/libreriasdatatable.php';?>
 <?php require 'nav.php'; ?>
 <?php require 'layout/sidebarfinal.php';?>
 
-
+<?php 
+  $indicadores=Consultas::listIndicatorVPM($conn); 
+  $formatos=Consultas::listValueTypes($conn);
+?>
 
   <main id="main" class="main">
 
@@ -37,47 +41,57 @@
           <thead>
             <tr>
               <th>Nombres</th>
-             <th>Reglas Bonos GyD</th>
-                    <th>Reglas Bonos SyL</th>
-                    <th>Comentarios</th>
-                     <th>Acciones</th>
+              <th>Reglas Bonos GyD</th>
+              <th>Reglas Bonos SyL</th>
+              <th>Comentarios</th>
+              <th>% GyD</th>
+              <th>% SyL</th>
+              <th>Real</th>
+              <th>Objetivo</th>
+              <th>Formato</th>
+              <th>% Cumplimiento</th>
+              <th></th>
+
               <!-- Agrega más columnas según tus necesidades -->
             </tr>
           </thead>
           <tbody>
-            <tr>
-             <td>Venta Total Grupo  $</td>
-                    <td>95% - 99% = 50%; 100% o mas = proporcional</td>
-                    <td>90- 94% = 50%; 95 - 99% = 67%; 100% o mas = proporcional</td>
-                <td>      </td>          
-      <td><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalEditar1">
-          <i class="bi bi-pencil-square"></i>
-        </button>
-        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalEliminar1">
-          <i class="bi bi-trash-fill"></i>
-        </button></td>    <!-- Agrega más filas según tus necesidades -->
-            </tr>
-            </tr>
-                  <tr>
-                    <td>Utilidad Bruta %</td>
-                    <td>100% o mas = proporcional</td>
-                    <td> 95% - 99% = 50%; 100% o mas = proporcional</td>
-                    <td></td><td></td>
+          <?php 
+            for ($i=0; $i < count($indicadores); $i++) { 
+              $indicadoresReglaGyD=Consultas::listBonusRuleByIndicatorId($conn,$indicadores[$i]['id'],0);
+              $indicadoresReglaSyL=Consultas::listBonusRuleByIndicatorId($conn,$indicadores[$i]['id'],1);
+              $porcCumplimiento= Utils::porcCumplimiento($indicadores[$i]['real'],$indicadores[$i]['objetivo']);             
+              ?>
+                  <tr data-id="<?=$indicadores[$i]['id']?>">
+                    <td style="min-width: 150px;"><?=$indicadores[$i]['nombreIndicador']?></td>
+                    <td style="min-width: 300px;">
+                      <!---->
+                      <?=Utils::mostrarReglas($indicadoresReglaGyD)?>
+                    </td>
+                    <td style="min-width: 300px;">
+                      <!---->
+                      <?=Utils::mostrarReglas($indicadoresReglaSyL)?>
+                    </td>
+                    <td style="min-width: 300px;"><?=$indicadores[$i]['comentarios']?></td>
+                    <td style="min-width: 100px;"><?=Utils::calcularPorc($indicadoresReglaGyD,$porcCumplimiento)?></td>
+                    <td style="min-width: 100px;"><?=Utils::calcularPorc($indicadoresReglaSyL,$porcCumplimiento)?></td>
+                    <td style="min-width: 150px;"><input type="number" class="form-control val-real" value="<?=$indicadores[$i]['real']?>"></td>
+                    <td style="min-width: 150px;"><input type="number" class="form-control val-obj" value="<?=$indicadores[$i]['objetivo']?>"></td>                
+                    <!--campo de formato-->
+                    <td style="min-width: 150px;">
+                      <select name="formato" class="custom-select value-type">
+                      <?php for($j=0; $j < count($formatos); $j++){ ?>
+                          <option value="<?=$formatos[$j]['id']?>" <?php $selected = $indicadores[$i]['formatoId']==$formatos[$j]['id'] ? "selected" : ""; echo $selected; ?>><?=$formatos[$j]['nombreFormato']?></option>
+                        <?php } ?>
+                      </select>
+                    </td>
+                    <!--campo de formato-->
+                    <td><?=$porcCumplimiento." %"?></td>
+                    <td><button class="btn btn-success actualizar-ind">Actualizar</button></td>                  
                   </tr>
-                  <tr>
-                    <td>Utilidad Neta %</td>
-                    <td>100% o mas = proporcional</td>
-                    <td> 95% - 99% = 50%; 100% o mas = proporcional</td>
-                    <td></td><td></td>
-                  </tr>
-                  <tr>
-                    <td>Fill Rate%</td>
-                    <td> 95% - 99% = 50%; 100% o mas = 100%</td>
-                    <td> 95% - 99% = 50%; 100% o mas = 100%</td>
-                    <td></td> 
-                     <td></td>
-
-                  </tr>
+                <?php 
+                }
+                ?>              
           </tbody>
         </table>
       </div>
@@ -107,7 +121,6 @@
   </div>
 </div>
 </div>
-
 
 
 <script>
@@ -183,6 +196,59 @@
   <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
   <script src="assets/vendor/tinymce/tinymce.min.js"></script>
   <script src="assets/vendor/php-email-form/validate.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
   <!-- Template Main JS File -->
   <script src="assets/js/main.js"></script>
+
+  <script>
+    $(".actualizar-ind").click(function(){
+      let indicadorId=$(this).parent().parent().attr('data-id');
+      let valorReal=$(this).parent().parent().find('.val-real').val();
+      let valorObjetivo=$(this).parent().parent().find('.val-obj').val();
+      let formatoId=$(this).parent().parent().find('.value-type').val();      
+      let fecha = new Date(),
+      mes = fecha.getMonth()+1,
+      anio = fecha.getFullYear();
+
+      //console.log(indicadorId, valorReal, valorObjetivo, formatoId, mes, anio);
+      if(indicadorId!="" && valorReal!="" && valorObjetivo!="" && formatoId!="" && mes!="" && anio!=""){
+        actualizar_ind(indicadorId, valorReal, valorObjetivo, formatoId, mes, anio);
+      }
+    })
+
+
+    const actualizar_ind = (indicadorId, valorReal, valorObjetivo, formatoId, mes, anio) => {
+      let datos = {
+        indicatorId: indicadorId,
+        realValue: valorReal,
+        targetValue: valorObjetivo,
+        valueTypeId: formatoId,
+        month: mes,
+        year: anio
+      }
+        
+      let fd = new FormData();
+
+      for(var key in datos){
+        fd.append(key, datos[key]);
+      }
+
+      fetch('cambios/actualizar_valor_x_mes.php', {
+        method: "POST",
+        body: fd
+      })
+      .then(response => {
+        return response.ok ? response.json() : Promise.reject(response);
+      })
+      .then(data => {
+        console.log(data);
+        location.reload();
+      })
+      .catch(err => {
+        let message = err.statusText || "Ocurrió un error";
+        console.log(err);
+      })
+
+    }
+  </script>

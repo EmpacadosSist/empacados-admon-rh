@@ -5,25 +5,32 @@ require_once('../conexion/conexion.php');
 require_once('../helpers/validar.php');
 
 if(count($_POST)>0){
-    //se valida campo que no venga vacio y que cumpla la validacion de longitud
-    $authorizationName = isset($_POST['authorizationName']) ? $_POST['authorizationName'] : "";
-    $authorizationNameVal = Validar::validarLongitud($authorizationName,3,100);
 
-    if($authorizationNameVal){
-      $sqlSP="CALL insert_authorization('$authorizationName', @LID)";
+  //se valida campo que no venga vacio y que cumpla la validacion de tipo numerico  
+  $minPer = isset($_POST['minPer']) ? $_POST['minPer'] : "";
+  $minPerVal = Validar::validarLongitud($minPer,1,100);
+
+  $maxPer = isset($_POST['maxPer']) ? $_POST['maxPer'] : "";
+  $maxPerVal = Validar::validarLongitud($maxPer,1,100);
+  
+  $bonusPer = isset($_POST['bonusPer']) ? $_POST['bonusPer'] : "";
+  $bonusPerVal = Validar::validarLongitud($bonusPer,1,100);  
+
+    if($minPerVal && $maxPerVal && $bonusPerVal){
+      $sqlSP="CALL insert_bonus_rule('$minPer', '$maxPer', '$bonusPer', @LID)";
       $resultSP=$conn->query($sqlSP);
 
       if($resultSP){
-          
+
         //cargar el query haciendo un select con el parametro de salida del sp insert
         $last_idq = $conn->query("SELECT @LID as id");
         //se saca el objeto del last id
         $last_id = $last_idq->fetch_object();
         //se guarda el id sacandolo del objeto
-        $authorizationId=$last_id->id;
-        
+        $bonusRuleId=$last_id->id;
+
         //se guarda en una variable el resultado de haber agregado o atcualizado exitosamente el empleado
-        $resultado = ["ok"=>true,"message"=>"Autorización agregada exitosamente", "Id"=>$authorizationId];
+        $resultado = ["ok"=>true,"message"=>"Regla de bono agregada exitosamente","Id"=>$bonusRuleId];
   
       }else{
         //se guarda en una variable el resultado de haber un error al agregar a la bd      
@@ -32,7 +39,7 @@ if(count($_POST)>0){
       }      
     }else{
       //se guarda en una variable el resultado de error de validacion de los campos
-      $resultado = ["ok"=>false,"message"=>"Error en la validación de información", "Nombre de Autorizacion"=>$authorizationNameVal];
+      $resultado = ["ok"=>false,"message"=>"Error en la validación de información", "Porcentaje minimo"=>$minPerVal, "Porcentaje maximo"=>$maxPerVal, "Porcentaje bono"=>$bonusPerVal];
     }
 }else{
   $resultado = ["ok"=>false,"message"=>"Sin parametros"];

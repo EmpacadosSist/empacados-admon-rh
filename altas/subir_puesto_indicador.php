@@ -7,20 +7,23 @@ require_once('../helpers/validar.php');
 if(count($_POST)>0){
 
   //se valida campo que no venga vacio y que cumpla la validacion de tipo numerico  
-  $authorizationId = isset($_POST['authorizationId']) ? $_POST['authorizationId'] : "";
-  $authorizationIdVal = Validar::validarNum($authorizationId);
+  $positionId = isset($_POST['positionId']) ? $_POST['positionId'] : "";
+  $positionIdVal = Validar::validarNum($positionId);
 
   //se valida campo que no venga vacio y que cumpla la validacion de tipo numerico  
-  $userId = isset($_POST['userId']) ? $_POST['userId'] : "";
-  $userIdVal = Validar::validarNum($userId);
+  $indicatorId = isset($_POST['indicatorId']) ? $_POST['indicatorId'] : "";
+  $indicatorIdVal = Validar::validarNum($indicatorId);
 
-    if($authorizationIdVal && $userIdVal){
-      $sqlSP="CALL insert_user_authorization($userId, $authorizationId)";
+  $paymentPer = isset($_POST['paymentPer']) ? $_POST['paymentPer'] : "";
+  $paymentPerVal = Validar::validarLongitud($paymentPer,1,100);   
+
+    if($indicatorIdVal && $positionIdVal && $paymentPerVal){
+      $sqlSP="CALL insert_position_indicator($positionId, $indicatorId, '$paymentPer')";
       $resultSP=$conn->query($sqlSP);
 
       if($resultSP){
         //se guarda en una variable el resultado de haber agregado o atcualizado exitosamente el empleado
-        $resultado = ["ok"=>true,"message"=>"Autorización enlazada agregada exitosamente"];
+        $resultado = ["ok"=>true,"message"=>"Porcentaje de indicador enlazado exitosamente"];
   
       }else{
         //se guarda en una variable el resultado de haber un error al agregar a la bd      
@@ -29,7 +32,7 @@ if(count($_POST)>0){
       }      
     }else{
       //se guarda en una variable el resultado de error de validacion de los campos
-      $resultado = ["ok"=>false,"message"=>"Error en la validación de información", "Autorizacion"=>$authorizationIdVal, "Usuario"=>$userIdVal];
+      $resultado = ["ok"=>false,"message"=>"Error en la validación de información", "Id de indicador"=>$indicatorIdVal, "Id de puesto"=>$positionIdVal, "Porcentaje"=>$paymentPerVal];
     }
 }else{
   $resultado = ["ok"=>false,"message"=>"Sin parametros"];

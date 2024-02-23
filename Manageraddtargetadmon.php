@@ -1,3 +1,4 @@
+<?php require 'layout/libreriasdatatable.php';?>
 <?php require 'nav.php'; ?>
 <?php require 'layout/sidebarfinal.php';?>
 
