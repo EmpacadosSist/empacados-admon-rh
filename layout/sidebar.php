@@ -32,10 +32,19 @@
               <i  ></i><span>Baja Empleados</span>
             </a> 
           </li>
+           <li>
               <a class="bi bi-people-fill"  href="tables-data.php">
               <i  ></i><span>Empleados</span>
             </a>
           </li>
+            <li>
+               <a href="rhvacations.php">
+                <img src="assets/img/beach.png" alt="" width="18">
+                   <i></i>
+                   <span>Vacaciones</span>
+             </a>
+          </li>
+
            <li>
             <a class="bi bi-person-vcard-fill"  href="rhposicionesadmon.php">
               <i  ></i><span>Posiciones</span>
