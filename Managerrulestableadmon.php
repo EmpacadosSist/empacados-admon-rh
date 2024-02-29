@@ -176,6 +176,7 @@
           <div class="col"></div>
         </div>
         <div class="row mt-3">
+          <input type="hidden" value="0" id="bonusId">
           <div class="col form-group">
             <input type="number" id="minPer" name="minPer" class="form-control">
             Rango mínimo
@@ -193,6 +194,11 @@
           </div>
         </div>
 
+        <div class="row mt-3 mb-3" id="rowEdicion" style="display: none;">
+          <div class="col">
+            <b>Editando: <label id="lblR1"></label> <label id="lblR2"></label> <label id="lblR3"></label></b> <a class="btn btn-secondary btn-sm" href="#" id="limpiar">Limpiar</a>
+          </div>
+        </div>
       </div>
 
 
@@ -213,7 +219,7 @@
             <tbody>
             <?php 
                 for ($i=0; $i < count($reglas); $i++) { ?>
-                  <tr data-id="<?=$reglas[$i]['id']?>">
+                  <tr data-id="<?=$reglas[$i]['id']?>" data-min="<?=$reglas[$i]['minimo']?>" data-max="<?=$reglas[$i]['maximo']?>" data-bonus="<?=$reglas[$i]['bonus']?>">
                     <td>
                       <?php
                         $mid="-";
@@ -258,7 +264,25 @@
 
     </div>
 
-
+    <div class="modal fade" id="modalEliminar1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <input type="hidden" value="0" id="bonusEliminarId">
+      <!-- Contenido del modal para eliminar -->
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Eliminar Regla</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <p>¿Estás seguro de que deseas eliminar la regla seleccionada?</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+            <button type="button" class="btn btn-danger" id="btnModalEliminar">Eliminar</button>
+          </div>
+        </div>
+      </div>
+    </div>
 
 
   </body>
@@ -294,14 +318,17 @@
       //valor del rango maximo
       let maxPer=checkRule2 ? 'T' : $("#maxPer").val();
       //valor del porcentaje del bono      
-      let bonusPer=checkRule3 ? 'T' : $("#bonusPer").val();                 
+      let bonusPer=checkRule3 ? 'T' : $("#bonusPer").val();      
+      
+      let bonusId=$("#bonusId").val();
+      let url='altas/subir_regla_bono.php';
 
       let datos={
+        bonusId,
         minPer,
         maxPer,
         bonusPer
       }
-
       if(minPer!=""&&maxPer!=""&&bonusPer!=""){
 
         let fd = new FormData();
@@ -310,7 +337,11 @@
           fd.append(key, datos[key]);
         }
 
-        fetch('altas/subir_regla_bono.php', {
+        if(bonusId!='0'){
+          url='cambios/actualizar_regla_bono.php';
+        }
+        console.log(datos);
+        fetch(url, {
           method: "POST",
           body: fd
         })
@@ -354,11 +385,133 @@
     });
     
     $(".btn-editar").click(function(){
-      console.log($(this).parent().parent().attr('data-id'));
+      let id = $(this).parent().parent().attr('data-id');
+      let min = $(this).parent().parent().attr('data-min');
+      let max = $(this).parent().parent().attr('data-max');
+      let bonus = $(this).parent().parent().attr('data-bonus');
+
+      let minPer=$("#minPer");
+      let maxPer=$("#maxPer");
+      let bonusPer=$("#bonusPer");
+      let checkRule1=$("#checkRule1");
+      let checkRule2=$("#checkRule2");
+      let checkRule3=$("#checkRule3");
+      let lblR1=$("#lblR1");
+      let lblR2=$("#lblR2");
+      let lblR3=$("#lblR3");                                    
+      
+      minPer.val('');
+      maxPer.val('');
+      bonusPer.val('');
+      $("#bonusId").val(id);
+
+      $("#rowEdicion").show();
+      //checkRule1
+      //checkRule2
+      //checkRule3
+
+      if(min!="T"){
+        minPer.val(min);
+        minPer.prop('disabled', false);
+        checkRule1.prop('checked', false);
+        lblR1.text(min+' %');
+      }else{
+        minPer.prop('disabled', true); 
+        checkRule1.prop('checked', true);
+        lblR1.text('Menor o igual a ');   
+      }
+      if(max!="T"){
+        maxPer.val(max); 
+        maxPer.prop('disabled', false);
+        checkRule2.prop('checked', false);
+        lblR2.text('- '+max+' %');       
+      }else{
+        maxPer.prop('disabled', true);   
+        checkRule2.prop('checked', true);
+        lblR2.text(' o más');     
+      }
+      if(bonus!="T"){
+        bonusPer.val(bonus);  
+        bonusPer.prop('disabled', false);
+        checkRule3.prop('checked', false);
+        lblR3.text('= '+bonus+' %');      
+      }else{
+        bonusPer.prop('disabled', true); 
+        checkRule3.prop('checked', true);
+        lblR3.text('= Proporcional');       
+      }            
+
+      console.log({
+        id,
+        min,
+        max,
+        bonus
+      });
     });
 
     $(".btn-eliminar").click(function(){
-      console.log($(this).parent().parent().attr('data-id'));
+      let id = $(this).parent().parent().attr('data-id');
+      $("#bonusEliminarId").val(id);
+      $("#modalEliminar1").modal('show');
+      //alert(id);
+    });
+
+    $("#limpiar").click(function(){
+      let minPer=$("#minPer");
+      let maxPer=$("#maxPer");
+      let bonusPer=$("#bonusPer");
+      let checkRule1=$("#checkRule1");
+      let checkRule2=$("#checkRule2");
+      let checkRule3=$("#checkRule3");     
+      
+      $("#bonusId").val(0);
+      
+      minPer.val('');
+      minPer.prop('disabled', false);
+      checkRule1.prop('checked', false);
+      maxPer.val(''); 
+      maxPer.prop('disabled', false);
+      checkRule2.prop('checked', false);
+      bonusPer.val('');  
+      bonusPer.prop('disabled', false);
+      checkRule3.prop('checked', false);      
+      $("#rowEdicion").hide();
+    });
+
+    $("#btnModalEliminar").click(function(){
+      let bonusId=$("#bonusEliminarId").val();
+      if(bonusId!="0"){
+        let datos = {
+          bonusId
+        }
+        let fd = new FormData();
+
+        for(var key in datos){
+          fd.append(key, datos[key]);
+        }
+
+        fetch('bajas/eliminar_regla_bono.php', {
+          method: "POST",
+          body: fd
+        })
+        .then(response => {
+          return response.ok ? response.json() : Promise.reject(response);
+        })
+        .then(data => {
+          if(data.ok){
+            location.reload();
+          }else{
+            alert(data.message);
+          }
+        })
+        .catch(err => {
+          let message = err.statusText || "Ocurrió un error";
+          console.log(err);
+        }) 
+      }else{
+        //aqui va el codigo de lo que se mostrara en caso de que falten datos
+        alert("Falta un dato");
+      }  
     });
 
     //funcion de cambio de checks
