@@ -561,7 +561,7 @@ body {
 
 <style type="text/css">
   
-       <style>
+
        .medium-button {
         font-size: 10px;
         padding: 11px 21px;
@@ -569,7 +569,6 @@ body {
         font-weight: bold;
 
       }
-    </style>
 </style>
  <script>
     // Datos de ejemplo para departamentos y puestos

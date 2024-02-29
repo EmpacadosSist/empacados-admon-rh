@@ -1,6 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+      <title>Alta Empleados Empacados</title>
+      <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+</head>
+
 <?php require 'layout/libreriasdatatable.php';?>
-<?php require 'nav.php'; ?>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/animate/4.0.0/animate.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
 <?php require 'layout/sidebarfinal.php';?>
+<?php require 'nav.php'; ?>
+
 <?php $indicadores=Consultas::listIndicatorVPM($conn); ?>
 <?php $formatos = Consultas::listValueTypes($conn); ?>
 <?php $reglas = Consultas::listBonusRules($conn); ?>
@@ -35,6 +48,7 @@
 <body>
 
 <div class="container mt-4 contenedor-form" style="display: none;">
+
 <div class="row mt-3">
             <div class="col">
               <label for="indicatorName">Nombre de indicador:</label>
@@ -147,6 +161,15 @@
 </div>
 
 <div class="container mt-4">
+<div class="row mt-3">
+  <div class="col">
+  </div>
+  <div class="col text-center">
+    <a class="btn btn-success" href="Manageraddindicatoradmon.php">Agregar indicador</a>
+  </div>
+  <div class="col">
+  </div>
+</div>
   <!-- Pestañas -->
   <ul class="nav nav-tabs" id="pestanas" role="tablist">
     <li class="nav-item">
@@ -217,47 +240,30 @@
 </div>
 
 </div>
-   <div class="modal fade" id="modalEliminar1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-<!-- Contenido del modal para eliminar -->
-<div class="modal-dialog">
-  <div class="modal-content">
-    <div class="modal-header">
-      <h5 class="modal-title" id="exampleModalLabel">Eliminar Empleado</h5>
-      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-    </div>
-    <div class="modal-body">
-      <p>¿Estás seguro de que deseas eliminar al empleado "Unity Pugh"?</p>
-    </div>
-    <div class="modal-footer">
-      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-      <button type="button" class="btn btn-danger">Eliminar</button>
+  <div class="modal fade" id="modalEliminar1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <!-- Contenido del modal para eliminar -->
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Eliminar Empleado</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>¿Estás seguro de que deseas eliminar al empleado "Unity Pugh"?</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-danger">Eliminar</button>
+        </div>
+      </div>
     </div>
   </div>
-</div>
-</div>
 
 
-
-
-
-
-</body>
-</html>
-
-
- <!-- Vendor JS Files -->
-  <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
-  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="assets/vendor/chart.js/chart.umd.js"></script>
-  <script src="assets/vendor/echarts/echarts.min.js"></script>
-  <script src="assets/vendor/quill/quill.min.js"></script>
-  <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
-  <script src="assets/vendor/tinymce/tinymce.min.js"></script>
-  <script src="assets/vendor/php-email-form/validate.js"></script>
-  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <!-- Template Main JS File -->
   <script src="assets/js/main.js"></script>
+
 
   <script>
     $(document).ready(function(){
@@ -272,3 +278,10 @@
       $(".contenedor-form").hide();
     })
   </script>
+
+</body>
+</html>
+
+
+
+
