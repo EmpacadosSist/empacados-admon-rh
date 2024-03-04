@@ -14,7 +14,7 @@
 <?php require 'layout/sidebarfinal.php';?>
 <?php require 'nav.php'; ?>
 
-<?php $indicadores=Consultas::listIndicatorVPM($conn); ?>
+<?php $indicadores=Consultas::listIndicator($conn); ?>
 <?php $formatos = Consultas::listValueTypes($conn); ?>
 <?php $reglas = Consultas::listBonusRules($conn); ?>
 
@@ -202,7 +202,7 @@
             for ($i=0; $i < count($indicadores); $i++) { 
               $indicadoresReglaGyD=Consultas::listBonusRuleByIndicatorId($conn,$indicadores[$i]['id'],0);
               $indicadoresReglaSyL=Consultas::listBonusRuleByIndicatorId($conn,$indicadores[$i]['id'],1);
-              $porcCumplimiento= Utils::porcCumplimiento($indicadores[$i]['real'],$indicadores[$i]['objetivo']);             
+              //$porcCumplimiento= Utils::porcCumplimiento($indicadores[$i]['real'],$indicadores[$i]['objetivo']);             
               ?>
                   <tr data-id="<?=$indicadores[$i]['id']?>">
                     <td style="min-width: 150px;"><?=$indicadores[$i]['nombreIndicador']?></td>

@@ -76,6 +76,28 @@
       return $resultado;
 
     }
+
+    public static function listIndicator($conn){
+      $sqlSP="CALL select_indicator()";
+      /*
+      alias de los campos
+	    'id',
+	    'nombreIndicador',
+	    'comentarios'
+      */
+      $resultSP=$conn->query($sqlSP, MYSQLI_STORE_RESULT);
+      
+      $resultado=[];
+      //condicion para verificar si se hizo la insercion en la bd
+      if($resultSP){        
+        while($row = $resultSP->fetch_assoc()){
+          array_push($resultado, $row);
+        }
+      }
+      $conn->next_result();
+      return $resultado;
+
+    }    
     
     public static function listBonusRuleByIndicatorId($conn, $indicatorId, $type){
       $sqlSP="CALL select_bonusrule_by_indicator($indicatorId,$type)";
