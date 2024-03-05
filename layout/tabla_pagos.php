@@ -15,8 +15,9 @@
                   <th>Número de empleado</th>
                   <th>Nombre</th>
                   <th>Puesto</th>
-                  <th>$ Variable</th>
                   <th>Area</th>
+                  <th>Ceco</th>
+                  <th>$ Variable</th>
                   <!--
                     <th>Nivel en estructura</th>
                   -->
@@ -45,10 +46,11 @@
                   <td class="st" style="min-width: 300px;">
                     <?=$usuariosArr['nombre']." ".$usuariosArr['apellido1']." ".$usuariosArr['apellido2']?></td>
                   <td style="min-width: 300px;"><?=$usuariosArr['puesto']?></td>
+                  <td style="min-width: 100px;"><?=$usuariosArr['area']?></td>
+                  <td style="min-width: 100px;"><?=$usuariosArr['ceco']?></td>
                   <td style="min-width: 200px;">
                     $ <?=$usuariosArr['variable']?>
                   </td>
-                  <td style="min-width: 100px;"><?=$usuariosArr['area']?></td>
                   <!--
                     <td style="min-width: 100px;"><?php //$usuariosArr['nivel']?></td>
                   -->

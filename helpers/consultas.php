@@ -7,6 +7,7 @@
 	    'usuarioId',
 	    'puestoId',       
       'numEmpleado', 
+      'ceco',
 	    'nombre', 
   	  'apellido1', 
    	  'apellido2', 

@@ -7,14 +7,16 @@
   //$indicadoresMontos=Consultas::listIndicatorVPM($conn);   
   $formatos=Consultas::listValueTypes($conn);
   //$month = 4;
-  $month = date('m');
+  $month = date('n');
   $year = date('Y');
+  $meses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+  $mesSpanish=strtoupper($meses[$month-1]);
 ?>
 
   <main id="main" class="main">
 
     <div class="pagetitle">
-      <h1>EMPACADOS INDICADORES</h1>
+      <h1>SCORECARD <?=$mesSpanish?></h1>
       <nav>
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="index.php">Home</a></li>
@@ -35,6 +37,7 @@
    
     <!-- Agrega más pestañas según sea necesario -->
   </ul>
+
   <!-- Contenido de las pestañas -->
   <div class="tab-content" id="contenidoPestanas">
     <!-- Contenido de la Pestaña 1 -->
