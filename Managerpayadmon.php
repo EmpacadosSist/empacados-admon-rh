@@ -3,7 +3,7 @@
 <?php require 'layout/sidebarfinal.php';?>
 
 <?php 
-  $indicadores=Consultas::listIndicatorVPM($conn); 
+  $indicadores=Consultas::listIndicator($conn); 
   $usuarios=Consultas::listUsers($conn);
 ?>
 <style>
@@ -57,7 +57,10 @@
                   <th>Puesto</th>
                   <th>$ Variable</th>
                   <th>Area</th>
-                  <th>Nivel en estructura</th>
+                  <!--
+                    <th>Nivel en estructura</th>
+                  -->
+
                   <?php 
                 for($i=0; $i<count($indicadores); $i++){
 
@@ -92,7 +95,10 @@
                     </div>
                   </td>
                   <td style="min-width: 100px;"><?=$usuariosArr['area']?></td>
-                  <td style="min-width: 100px;"><?=$usuariosArr['nivel']?></td>
+                  <!--
+                    <td style="min-width: 100px;"><?php //$usuariosArr['nivel']?></td>
+                  -->
+
                   <?php for($j=0;$j<count($indicadores);$j++){ 
                     $indicadorId=$indicadores[$j]['id'];
                     $porcentaje=Consultas::paymentVar($conn, $usuariosArr['puestoId'], $indicadorId);

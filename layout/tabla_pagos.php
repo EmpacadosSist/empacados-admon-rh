@@ -1,8 +1,11 @@
 <?php require_once('../helpers/consultas.php'); ?>
 <?php require_once('../helpers/utils.php'); ?>
 <?php require_once('../conexion/conexion.php');
-  $indicadores=Consultas::listIndicatorVPM($conn); 
+  $indicadores=Consultas::listIndicator($conn); 
   $usuarios=Consultas::listUsers($conn);
+  //$month = 4;
+  $month = date('m');
+  $year = date('Y');
 ?>
 
 <table class="table table-striped table-bordered table-sm" id="tablaPestana2">
@@ -14,8 +17,11 @@
                   <th>Puesto</th>
                   <th>$ Variable</th>
                   <th>Area</th>
-                  <th>Nivel en estructura</th>
-                  <?php 
+                  <!--
+                    <th>Nivel en estructura</th>
+                  -->
+                    
+                <?php 
                 for($i=0; $i<count($indicadores); $i++){
 
               ?>
@@ -43,7 +49,10 @@
                     $ <?=$usuariosArr['variable']?>
                   </td>
                   <td style="min-width: 100px;"><?=$usuariosArr['area']?></td>
-                  <td style="min-width: 100px;"><?=$usuariosArr['nivel']?></td>
+                  <!--
+                    <td style="min-width: 100px;"><?php //$usuariosArr['nivel']?></td>
+                  -->
+                  
                   <?php for($j=0;$j<count($indicadores);$j++){ 
                           $indicadorId=$indicadores[$j]['id'];
                           $porcentaje=Consultas::paymentVar($conn, $usuariosArr['puestoId'], $indicadorId);
@@ -51,7 +60,12 @@
                           //var_dump($muestra); 
                           $indicadoresReglaGyD=Consultas::listBonusRuleByIndicatorId($conn,$indicadores[$j]['id'],0);
                           $indicadoresReglaSyL=Consultas::listBonusRuleByIndicatorId($conn,$indicadores[$j]['id'],1);
-                          $porcCumplimiento= Utils::porcCumplimiento($indicadores[$j]['real'],$indicadores[$j]['objetivo']); 
+                          
+                          $indicadorValores=Consultas::listIndicatorVPMIndiv($conn,$indicadores[$j]['id'],$month,$year);
+                          $real=isset($indicadorValores[0]['real']) ? $indicadorValores[0]['real'] : "";
+                          $objetivo=isset($indicadorValores[0]['objetivo']) ? $indicadorValores[0]['objetivo'] : "";
+                          $formatoId=isset($indicadorValores[0]['formatoId']) ? $indicadorValores[0]['formatoId'] : "0";
+                          $porcCumplimiento= Utils::porcCumplimiento($real,$objetivo); 
                   ?>
                   <td style="min-width: 150px;">
                     <?php
