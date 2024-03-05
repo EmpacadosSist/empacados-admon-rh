@@ -81,7 +81,7 @@
 
                   $totalpago=$totalpago*$usuariosArr['variable'];
                   $sumaPagos+=round($totalpago, 0, PHP_ROUND_HALF_UP);
-                  echo round($totalpago, 0, PHP_ROUND_HALF_UP);
+                  echo "$ ".round($totalpago, 0, PHP_ROUND_HALF_UP);
                   ?>
                   </td>
                   <?php } ?>

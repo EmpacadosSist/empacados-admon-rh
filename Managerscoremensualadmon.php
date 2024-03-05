@@ -84,8 +84,14 @@
                     <td style="min-width: 300px;"><?=$indicadores[$i]['comentarios']?></td>
                     <td style="min-width: 100px;"><?=Utils::calcularPorc($indicadoresReglaGyD,$porcCumplimiento)?></td>
                     <td style="min-width: 100px;"><?=Utils::calcularPorc($indicadoresReglaSyL,$porcCumplimiento)?></td>
-                    <td style="min-width: 150px;"><input type="number" class="form-control val-real" value="<?=$real?>"></td>
-                    <td style="min-width: 150px;"><input type="number" class="form-control val-obj" value="<?=$objetivo?>"></td>                
+                    <td style="min-width: 200px;">
+                      <label class="form-control lbl-real"><?=$real!="" ? number_format($real,2) : ""?></label>
+                      <input type="number" class="form-control val-real" value="<?=$real?>" style="display: none;">
+                    </td>
+                    <td style="min-width: 200px;">
+                      <label class="form-control lbl-obj"><?=$objetivo!="" ? number_format($objetivo,2) : ""?></label>
+                      <input type="number" class="form-control val-obj" value="<?=$objetivo?>" style="display: none;">
+                    </td>                
                     <!--campo de formato-->
                     <td style="min-width: 150px;">
                       <select name="formato" class="custom-select value-type">
@@ -217,8 +223,7 @@
       let valorObjetivo=$(this).parent().parent().find('.val-obj').val();
       let formatoId=$(this).parent().parent().find('.value-type').val();      
       let fecha = new Date(),
-      //mes = fecha.getMonth()+1,
-      //anio = fecha.getFullYear();
+
       mes = $("#inpMonth").val(),
       anio = $("#inpYear").val();      
 
@@ -228,6 +233,44 @@
       }
     })
 
+    $(".lbl-real").click(function(){
+      mostrar_input($(this),".val-real");
+    });
+
+    $(".lbl-obj").click(function(){
+      mostrar_input($(this),".val-obj");
+    });    
+
+    $(".val-real").on("blur", function(){
+      ocultar_input($(this), ".lbl-real");
+    });
+
+    $(".val-obj").on("blur", function(){
+      ocultar_input($(this), ".lbl-obj");
+    });    
+
+    const mostrar_input = (_this, elemento) => {
+      let lbl=_this;
+      let el=lbl.parent().find(elemento);
+      lbl.hide();
+      el.show();
+      let tmpStr = el.val();
+      el.focus();
+      el.val('');
+      el.val(tmpStr);
+    }
+
+    const ocultar_input = (_this, elemento) => {
+      let inp=_this;
+      let el=inp.parent().find(elemento);
+      let numero=inp.val();
+      let formattedNum=parseFloat(numero).toFixed(2);
+      let formatFinal=addCommas(formattedNum);
+      
+      el.text(formatFinal);
+      inp.hide();
+      el.show();
+    }    
 
     const actualizar_ind = (indicadorId, valorReal, valorObjetivo, formatoId, mes, anio) => {
       let datos = {
@@ -263,5 +306,19 @@
         console.log(err);
       })
 
+    }
+
+    //var valor = 10000.34
+    //console.log(addCommas(valor));
+    const addCommas = (nStr) => {
+      nStr += '';
+      x = nStr.split('.');
+      x1 = x[0];
+      x2 = x.length > 1 ? '.' + x[1] : '';
+      var rgx = /(\d+)(\d{3})/;
+      while (rgx.test(x1)) {
+        x1 = x1.replace(rgx, '$1' + ',' + '$2');
+      }
+      return x1 + x2;
     }
   </script>
