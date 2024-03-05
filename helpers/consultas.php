@@ -77,6 +77,29 @@
 
     }
 
+    public static function listIndicatorVPMIndiv($conn, $indicatorId, $month, $year){
+      $sqlSP="CALL select_indicator_vpm_indiv($indicatorId, $month, $year)";
+      /*
+      alias de los campos
+	    'id',
+	    'real',
+	    'objetivo',
+	    'formatoId'
+      */
+      $resultSP=$conn->query($sqlSP, MYSQLI_STORE_RESULT);
+      
+      $resultado=[];
+      //condicion para verificar si se hizo la insercion en la bd
+      if($resultSP){        
+        while($row = $resultSP->fetch_assoc()){
+          array_push($resultado, $row);
+        }
+      }
+      $conn->next_result();
+      return $resultado;
+
+    }    
+
     public static function listIndicator($conn){
       $sqlSP="CALL select_indicator()";
       /*

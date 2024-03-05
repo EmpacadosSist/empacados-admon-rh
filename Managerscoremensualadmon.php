@@ -3,8 +3,12 @@
 <?php require 'layout/sidebarfinal.php';?>
 
 <?php 
-  $indicadores=Consultas::listIndicatorVPM($conn); 
+  $indicadores=Consultas::listIndicator($conn);
+  //$indicadoresMontos=Consultas::listIndicatorVPM($conn);   
   $formatos=Consultas::listValueTypes($conn);
+  //$month = 4;
+  $month = date('m');
+  $year = date('Y');
 ?>
 
   <main id="main" class="main">
@@ -20,7 +24,8 @@
       </nav>
     </div><!-- End Page Title -->
 <body>
-
+<input type="hidden" id="inpMonth" value="<?=$month?>">
+<input type="hidden" id="inpYear" value="<?=$year?>">
 <div class="container mt-4">
   <!-- Pestañas -->
   <ul class="nav nav-tabs" id="pestanas" role="tablist">
@@ -30,7 +35,6 @@
    
     <!-- Agrega más pestañas según sea necesario -->
   </ul>
-
   <!-- Contenido de las pestañas -->
   <div class="tab-content" id="contenidoPestanas">
     <!-- Contenido de la Pestaña 1 -->
@@ -60,7 +64,12 @@
             for ($i=0; $i < count($indicadores); $i++) { 
               $indicadoresReglaGyD=Consultas::listBonusRuleByIndicatorId($conn,$indicadores[$i]['id'],0);
               $indicadoresReglaSyL=Consultas::listBonusRuleByIndicatorId($conn,$indicadores[$i]['id'],1);
-              $porcCumplimiento= Utils::porcCumplimiento($indicadores[$i]['real'],$indicadores[$i]['objetivo']);             
+              $indicadorValores=Consultas::listIndicatorVPMIndiv($conn,$indicadores[$i]['id'],$month,$year);
+              $real=isset($indicadorValores[0]['real']) ? $indicadorValores[0]['real'] : "";
+              $objetivo=isset($indicadorValores[0]['objetivo']) ? $indicadorValores[0]['objetivo'] : "";
+              $formatoId=isset($indicadorValores[0]['formatoId']) ? $indicadorValores[0]['formatoId'] : "0";
+              //$porcCumplimiento=0;
+              $porcCumplimiento= Utils::porcCumplimiento($real,$objetivo);             
               ?>
                   <tr data-id="<?=$indicadores[$i]['id']?>">
                     <td style="min-width: 150px;"><?=$indicadores[$i]['nombreIndicador']?></td>
@@ -75,13 +84,13 @@
                     <td style="min-width: 300px;"><?=$indicadores[$i]['comentarios']?></td>
                     <td style="min-width: 100px;"><?=Utils::calcularPorc($indicadoresReglaGyD,$porcCumplimiento)?></td>
                     <td style="min-width: 100px;"><?=Utils::calcularPorc($indicadoresReglaSyL,$porcCumplimiento)?></td>
-                    <td style="min-width: 150px;"><input type="number" class="form-control val-real" value="<?=$indicadores[$i]['real']?>"></td>
-                    <td style="min-width: 150px;"><input type="number" class="form-control val-obj" value="<?=$indicadores[$i]['objetivo']?>"></td>                
+                    <td style="min-width: 150px;"><input type="number" class="form-control val-real" value="<?=$real?>"></td>
+                    <td style="min-width: 150px;"><input type="number" class="form-control val-obj" value="<?=$objetivo?>"></td>                
                     <!--campo de formato-->
                     <td style="min-width: 150px;">
                       <select name="formato" class="custom-select value-type">
                       <?php for($j=0; $j < count($formatos); $j++){ ?>
-                          <option value="<?=$formatos[$j]['id']?>" <?php $selected = $indicadores[$i]['formatoId']==$formatos[$j]['id'] ? "selected" : ""; echo $selected; ?>><?=$formatos[$j]['nombreFormato']?></option>
+                          <option value="<?=$formatos[$j]['id']?>" <?php $selected = $formatoId==$formatos[$j]['id'] ? "selected" : ""; echo $selected; ?>><?=$formatos[$j]['nombreFormato']?></option>
                         <?php } ?>
                       </select>
                     </td>
@@ -208,8 +217,10 @@
       let valorObjetivo=$(this).parent().parent().find('.val-obj').val();
       let formatoId=$(this).parent().parent().find('.value-type').val();      
       let fecha = new Date(),
-      mes = fecha.getMonth()+1,
-      anio = fecha.getFullYear();
+      //mes = fecha.getMonth()+1,
+      //anio = fecha.getFullYear();
+      mes = $("#inpMonth").val(),
+      anio = $("#inpYear").val();      
 
       //console.log(indicadorId, valorReal, valorObjetivo, formatoId, mes, anio);
       if(indicadorId!="" && valorReal!="" && valorObjetivo!="" && formatoId!="" && mes!="" && anio!=""){
@@ -233,6 +244,8 @@
       for(var key in datos){
         fd.append(key, datos[key]);
       }
+      console.log(datos);
+
 
       fetch('cambios/actualizar_valor_x_mes.php', {
         method: "POST",
