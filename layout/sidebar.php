@@ -50,7 +50,7 @@
     </li><!-- End Components Nav -->
 
     <li class="nav-item">
-      <a class="nav-link collapsed" href="ManagerScoreadmon.php">
+      <a class="nav-link collapsed" href="Miscorecard.php">
         <i class="bi bi-graph-up-arrow"></i><span>Mi Scorecard</span>
       </a>
     </li>

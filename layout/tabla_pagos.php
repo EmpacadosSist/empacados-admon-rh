@@ -2,7 +2,9 @@
 <?php require_once('../helpers/utils.php'); ?>
 <?php require_once('../conexion/conexion.php');
   $indicadores=Consultas::listIndicator($conn); 
-  $usuarios=Consultas::listUsers($conn);
+
+  //consulta para ver un solo usuario con el id  
+  $usuarios=Consultas::listOneUser($conn, 2);
   //$month = 4;
   $month = date('m');
   $year = date('Y');
