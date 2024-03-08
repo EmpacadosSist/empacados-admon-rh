@@ -42,7 +42,8 @@
         </li>
         <!-- Agrega más pestañas según sea necesario -->
       </ul>
-
+      <input class="form-control" type="file" name="archivo" id="archivo" accept=".xls,.xlsx">
+      <button class="subir-archivo">Subir</button>
       <!-- Contenido de las pestañas -->
       <div class="tab-content" id="contenidoPestanas">
         <!-- Contenido de la Pestaña 1 -->
@@ -164,6 +165,33 @@
       recargar_tabla();
     });
   
+
+    $(".subir-archivo").click(function(){
+      var archivoppto=$('#archivo');
+
+      var archivo=archivoppto[0].files[0];
+      if((archivo===undefined)){                  
+        //$("#msg").text("Favor de no dejar espacios en blanco");   
+        //$("#errormensaje").show();
+        console.log("Archivo vacio")
+      }else{
+        var formData = new FormData();
+        formData.append('archivo',archivo);        
+
+        $.ajax({
+          url: "altas/subir_puesto_indicador_excel.php",
+          type: "POST",
+          data: formData,
+          contentType: false,
+          processData: false,
+          beforeSend: function(){
+            $('.loader').show();
+          } 
+        }).done(function(response){
+          console.log(response);
+        });
+      }
+    });
 
   $(".actualizar-porc").click(function() {
     let boton = $(this);
