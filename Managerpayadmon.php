@@ -137,6 +137,7 @@
 
       </div>
     </div>
+    <input type="hidden" id="num_indicadores" value="<?=$j?>">
   </body>
 
   </html>
@@ -167,16 +168,18 @@
   
 
     $(".subir-archivo").click(function(){
-      var archivoppto=$('#archivo');
+      let archivoppto=$('#archivo');
+      let numIndicadores=$("#num_indicadores").val();
 
-      var archivo=archivoppto[0].files[0];
+      let archivo=archivoppto[0].files[0];
       if((archivo===undefined)){                  
         //$("#msg").text("Favor de no dejar espacios en blanco");   
         //$("#errormensaje").show();
         console.log("Archivo vacio")
       }else{
-        var formData = new FormData();
+        let formData = new FormData();
         formData.append('archivo',archivo);        
+        formData.append('numIndicadores',numIndicadores);
 
         $.ajax({
           url: "altas/subir_puesto_indicador_excel.php",
