@@ -172,9 +172,7 @@
       let numIndicadores=$("#num_indicadores").val();
 
       let archivo=archivoppto[0].files[0];
-      if((archivo===undefined)){                  
-        //$("#msg").text("Favor de no dejar espacios en blanco");   
-        //$("#errormensaje").show();
+      if((archivo===undefined)){
         console.log("Archivo vacio")
       }else{
         let formData = new FormData();

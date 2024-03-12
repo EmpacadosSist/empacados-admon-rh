@@ -11,15 +11,18 @@ $tipo       = $_FILES['archivo']['type'];
 $tamanio    = $_FILES['archivo']['size'];
 $archivotmp = $_FILES['archivo']['tmp_name'];
 $sql="";
-//SE RECIBIRA EL NUMERO DE INDICADORES PARA CONTAR LAS COLUMNAS +2
-//$numind=3+2;
+//SE RECIBIRA EL NUMERO DE INDICADORES PARA CONTAR LAS COLUMNAS +3
+//$numind=3+3;
 
 $numInd= isset($_POST['numIndicadores']) ? $_POST['numIndicadores'] : "";
 $numIndVal = Validar::validarNum($numInd);  
 
+//$paymentVar = isset($_POST['paymentVar']) ? $_POST['paymentVar'] : "";    
+//$paymentVarVal = Validar::validarNum($paymentVar);
+
 if($numInd!=""&&($numIndVal&&$numInd>0)){
-  //aqui se suma 2 al total
-  $numInd=5;
+  //aqui se suma 3 al total
+  $numInd+=3;
 
   $arrInd=[];
   $indicadores=Consultas::listIndicator($conn);
@@ -58,22 +61,32 @@ if($numInd!=""&&($numIndVal&&$numInd>0)){
       $arr = $worksheet->toArray();
       
       //recorrer las filas
-      for ($i=1; $i < count($arr); $i++) { 
-        // code...
+      for ($i=1; $i < count($arr); $i++) {  
+
         if($arr[$i][0]!=""){
-          //$completo.=$arr[$i][0]."<->";
-          //$completo.=$arr[$i][1]." ->";        
           $numemp=$arr[$i][0];
-          $variable=$arr[$i][1];
+          $variable=$arr[$i][2];
+
+          //actualizar variable del empleado
+          $sql="call update_user_var_excel('$numemp', $variable);";
+          $resultSP=$conn->query($sql);
+
+          if($resultSP){
+            //se guarda en una variable el resultado de haber agregado o atcualizado exitosamente el empleado
+            $resultado .= "exito variable; ";              
+          }else{
+            //se guarda en una variable el resultado de haber un error al agregar a la bd      
+            $resultado .= "fallo variable; ";              
+          }  
           
-          for($j=2; $j<$numInd; $j++){
+          for($j=3; $j<$numInd; $j++){
             //dependiendo el numero de indicadores, sera el indice del array
-            $indicadorId=$indicadores[$j-2]["id"];
+            $indicadorId=$indicadores[$j-3]["id"];
 
             //primer campo - clave cliente
-            $valor=$arr[$i][$j];
+            $valor=isset($arr[$i][$j]) ? $arr[$i][$j] : "";
             //$numemp=
-            if(!($valor=="0"||$valor==""||$valor==0)){
+            if(!($valor=="")){
 
               $sql="call insert_position_indicator_excel('$numemp', '$indicadorId', '$valor', @position_id);";
               $resultSP=$conn->query($sql);
