@@ -85,11 +85,19 @@ if($numInd!=""&&($numIndVal&&$numInd>0)){
 
             //primer campo - clave cliente
             $valor=isset($arr[$i][$j]) ? $arr[$i][$j] : "";
-            //$numemp=
-            if(!($valor=="")){
 
-              $sql="call insert_position_indicator_excel('$numemp', '$indicadorId', '$valor', @position_id);";
-              $resultSP=$conn->query($sql);
+
+            //verificar que no tenga valor y que este vacio, luego hacer negativa la condicion
+            if(!(is_null($valor) || $valor === '')){
+
+              $valorVal = Validar::validarNum($valor);
+
+              if($valorVal){
+                $sql="call insert_position_indicator_excel('$numemp', '$indicadorId', '$valor', @position_id);";
+                $resultSP=$conn->query($sql);
+              }else{
+                $resultSP=false;
+              }
 
               if($resultSP){
                 //se guarda en una variable el resultado de haber agregado o atcualizado exitosamente el empleado
@@ -99,10 +107,8 @@ if($numInd!=""&&($numIndVal&&$numInd>0)){
                 $resultado .= "fallo; ";              
               }   
             }else{
-              $resultado .= "vacio; ";
+              $resultado .= "vacio; $valor";
             }
-
-            $completo.=$sql." ";
           }
 
         }			
