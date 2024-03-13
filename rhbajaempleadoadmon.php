@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Baja de Trabajador</title>
+  <title>Baja de Empleados Empacados</title>
 </head>  <!-- Incluir Bootstrap CSS -->
 <?php require 'layout/libreriasdatatable.php';?>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/animate/4.0.0/animate.min.js"></script>
@@ -51,27 +51,67 @@ body {
 
       }
 </style>
+<style type="text/css">
+  .h4, h4 {
+    font-size: 2rem;
+}
+ .container {
+    width: 100%;
+    padding-right: 13px;
+    padding-left: 25px;
+    margin-right: 28px;
+    margin-left: -2px;
+}
+.mt-5, .my-5 {
+    margin-top: 0rem!important;
+}
+body {
+        font-family: "Open Sans", sans-serif;
+        background: #052668;
+        color: 'black;';
+    }
+.card-title {
+    padding: -3px 0 19px 0;
+    font-size: 34px;
+    font-weight: 500;
+    color: #012970;
+    font-family: "Poppins", sans-serif;
+        padding: -4px 0 15px 0;
+}
+   .title-container img {
+            margin: 0 10px; /* Margen entre las imágenes y el texto */
+            vertical-align: middle; /* Alineación vertical con el texto */
+        }
+  .medium-button {
+        font-size: 10px;
+        padding: 11px 21px;
+        /* background-color: #e61d1dbf; /* Replace with your desired color code */
+        font-weight: bold;
 
+      }
+</style>
 <body> 
 
-
-  <main id="main" class="main">
-     <section class="section">
+   <main id="main" class="main">
+    <section class="section"> 
+      
       <div class="row">
         <div class="col-lg-12">
-          <div class="card">
-            <div class="card-body">
 
-<div class="container mt-5" align="left">
-  
- 
-<form method="post" action="pdfpuesto.php"  target="_blank"><br>
-      <!-- Sección 1: Información Personal -->
-   <h2  align="text-center" id="title" class="animate__animated animate__bounceInDown card-title">
-         
-           Baja de Trabajador
-           <img src="assets/img/termination.png" alt="" width="60">
-          </h2>      <div class="form-row  ">
+          <div class="card">   
+                      
+            <div class="card-body">
+                  <div style="float: right;">
+                    <p>
+                    <p>
+         <div class="corner-container">
+    <img src="assets/img/arroz12.png" width="200" height="50" alt="Arroz" id="as">
+  </div>
+    </div>
+              <h2 align="text-center" id="title" class="animate__animated animate__bounceInRight card-title">Vacaciones de mis Empleados
+                <img style="text-align: center;" src="assets/img/ecluir.gif" width="50" alt=""></h2>
+                  <div>
+                        <div class="form-row  ">
         <div class="form-group col-md-3">
            <label for="employeeNumber"><i class="fas fa-id-card"></i> No. de empleado</label>
             <input type="text" class="form-control" id="employeeNumber" name="employeeNumber" inputmode="numeric" pattern="[0-9]+" >
@@ -109,7 +149,7 @@ body {
       <div class="form-row">
       <div class="form-group col-md-3">
           <label for="dateadmission"><i class="fas fa-calendar-alt"></i> Fecha de Ingreso</label>
-          <input type="date" class="form-control" id="dateadmission" name="dateadmission" pattern="[A-Za-z]+" title="Solo se permiten caracteres">
+          <input type="text" class="form-control" id="dateadmission" name="dateadmission" pattern="[A-Za-z]+" title="Solo se permiten caracteres">
         </div>
 
 
@@ -304,10 +344,10 @@ body {
         <!-- Agrega más campos según sea necesario -->
       </div>
       
-       <h2  align="text-center" id="title" class="animate__animated animate__bounceInDown card-title">
+       <h2  align="text-center" id="title" class="animate__animated animate__bounceInRight card-title">
           
           Información de Baja Personal
-           <img src="assets/img/layoff.png" alt="" width="60">
+           <img src="assets/img/cancelar.gif" alt="" width="60">
        </h2> 
         <div class="form-row">
            <div class="form-group col-md-3">
@@ -369,7 +409,8 @@ body {
           </div>
 
         </div>
-      </div>
+      </div>      <button type="submit" class="btn btn-primary">Guardar</button>
+
     </section>
 
 
@@ -389,7 +430,6 @@ body {
      
 
       <!-- Botón de envío -->
-      <button type="submit" class="btn btn-primary">Guardar</button>
     </form>
   </div>
   <script>
@@ -486,11 +526,340 @@ body {
 
 
 
+   <!-- Modal -->
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Selecciona tu Area</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+          <div class="modal-body">
+            <!-- Area selection -->
+            <div class="form-group">
+              <label for="areaSelect">Selecciona tu Area:</label>
+              <select class="form-control" id="areaSelect">
+                <option value="office">Oficina</option>
+                <option value="plant">Planta</option>
+              </select>
+            </div>
+            <!-- DataTable to display area-specific information -->
+        <!-- DataTable to display area-specific information -->
+        <div class="table-responsive" id="officeTable" style="display: none;">
+          <table class="table table-bordered table-hover" id="officeDataTable" style="width:100%">
+            <thead>
+              <tr>
+                <th >No. de empleado</th>
+                <th >Apellido Paterno</th>
+                <th >Apellido Materno</th>
+                <th >Nombre</th>
+                 <th >Edad</th>
+                <th >Fecha Nacimiento</th>
+                <th >Lugar de Nacimiento</th>
+                <th >Sexo</th>
+                <th > Ingreso</th>
+                <th>Accion</th> <!-- New column for navigation -->
+                <!-- Add more columns as needed -->
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td id="office0">1222</td>
+                <td id="ofice1">Blanco</td>
+                <td id="ofice2">Blanco</td>
+                <td id="ofice3">Kimberly Michel</td>
+                <td id="ofice4">24</td>
+                <td id="ofice5">11/03/2024</td>
+                <td id="ofice6">Monterrey</td>
+                <td id="ofice7">F</td>
+               <td id="ofice8">11/03/2024</td>
+                <td><a href="rhbajaempleadoadmon.php">Selecciona</a></td>
+              </tr>
 
-  <!-- Template Main JS File -->
-  <script src="assets/js/main.js"></script>
+              <tr>
+                <td>1223</td>
+                <td>Rodríguez</td>
+                <td>López</td>
+                <td>Andrea</td>
+                <td>28</td>
+                <td>05/15/1996</td>
+                <td>Guadalajara</td>
+                <td>F</td>
+                <td>10/20/2023</td>
+                <td><a href="rhbajaempleadoadmon.php">Selecciona</a></td>
+            </tr>
+            <tr>
+                <td>1224</td>
+                <td>García</td>
+                <td>Martínez</td>
+                <td>Juan</td>
+                <td>35</td>
+                <td>08/20/1989</td>
+                <td>Monterrey</td>
+                <td>M</td>
+                <td>06/10/2022</td>
+                <td><a href="rhbajaempleadoadmon.php">Selecciona</a></td>
+            </tr>
 
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-</body>
+              <!-- Additional rows can be added here -->
+            </tbody>
+          </table>
+        </div>
+        <div class="table-responsive" id="plantTable" style="display: none;">
+          <table class="table table-bordered table-hover" id="plantDataTable" style="width:100%">
+            <thead>
+              <tr>
+                <th >No. de empleado</th>
+                <th >Apellido Paterno</th>
+                <th >Apellido Materno</th>
+                <th >Nombre</th>
+                <th >Edad</th>
+                <th >Fecha Nacimiento</th>
+                <th >Lugar de Nacimiento</th>
+                <th >Sexo</th>
+                <th > Ingreso</th>
+                <th>Ir</th> <!-- New column for navigation -->
+                <!-- Add more columns as needed -->
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td id="ofice40">23332</td>
+                <td id="ofice41">Diaz</td>
+                <td id="ofice42">Salas</td>
+                <td id="ofice43">Michel</td>
+                <td id="ofice44">45</td>
+                <td id="ofice45">11/03/2024</td>
+                <td id="ofice46">Monterrey</td>
+                <td id="ofice47">F</td>
+                <td id="ofice48">11/03/2024</td>
+                <td><a href="rhbajaempleadoadmon.php">Selecciona</a></td> <!-- Link for navigation -->
+              </tr>
+                      <tr>
+            <td>23333</td>
+            <td>Hernández</td>
+            <td>Gómez</td>
+            <td>Laura</td>
+            <td>40</td>
+            <td>12/05/1984</td>
+            <td>Ciudad de México</td>
+            <td>F</td>
+            <td>03/28/2023</td>
+                <td><a href="rhbajaempleadoadmon.php">Selecciona</a></td>
+        </tr>
+        <tr>
+            <td>23334</td>
+            <td>Martínez</td>
+            <td>Ruiz</td>
+            <td>Pedro</td>
+            <td>32</td>
+            <td>09/12/1992</td>
+            <td>Guadalajara</td>
+            <td>M</td>
+            <td>11/15/2022</td>
+                <td><a href="rhbajaempleadoadmon.php">Selecciona</a></td>
+        </tr>
+
+              <!-- Additional rows can be added here -->
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+<!-- Modal -->
+
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- Bootstrap JS -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<!-- DataTables JS -->
+<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap4.min.js"></script>
+
+<!-- Script para llenar el input con los datos de "Go to Plant" -->
+<script>
+  $(document).ready(function() {
+    // Function to handle click event on "Go to Office" link
+    $('#officeDataTable').on('click', 'a', function(event) {
+      // Prevent default behavior of anchor tag
+      event.preventDefault();
+
+      // Get the data from the corresponding row
+      var rowData = $(this).closest('tr').find('td').map(function() {
+        return $(this).text();
+      }).get();
+
+      // Populate the input fields with the retrieved data
+      $('#employeeNumber').val(rowData[0]); // Assuming Office Data 1 corresponds to motivo_separacion
+      $('#lastName').val(rowData[1]); // Assuming Office Data 2 corresponds to rfc
+       $('#secondName').val(rowData[2]);
+        $('#name').val(rowData[3]);
+         $('#age').val(rowData[4]);
+          $('#datebirthday').val(rowData[5]);
+           $('#placebirth').val(rowData[6]);
+            $('#sex').val(rowData[7]);
+             $('#dateadmission').val(rowData[8]);
+
+    });
+
+    // Function to handle click event on "Go to Plant" link
+    $('#plantDataTable').on('click', 'a', function(event) {
+      // Prevent default behavior of anchor tag
+      event.preventDefault();
+
+      // Get the data from the corresponding row
+      var rowData = $(this).closest('tr').find('td').map(function() {
+        return $(this).text();
+      }).get();
+
+          // Populate the input fields with the retrieved data
+      $('#employeeNumber').val(rowData[0]); // Assuming Office Data 1 corresponds to motivo_separacion
+      $('#lastName').val(rowData[1]); // Assuming Office Data 2 corresponds to rfc
+       $('#secondName').val(rowData[2]);
+        $('#name').val(rowData[3]);
+         $('#age').val(rowData[4]);
+          $('#datebirthday').val(rowData[5]);
+           $('#placebirth').val(rowData[6]);
+            $('#sex').val(rowData[7]);
+             $('#dateadmission').val(rowData[8]);
+
+    });
+  });
+</script>
+
+
+<!-- Main JS File -->
+<script src="assets/js/main.js"></script>
+
+<!-- Script para mostrar u ocultar tablas y manejar DataTables -->
+<script>
+  $(document).ready(function() {
+    // Trigger modal display
+    $('#exampleModal').modal('show');
+
+    // Initialize DataTables for both tables
+    $('#officeDataTable').DataTable();
+    $('#plantDataTable').DataTable();
+
+    // Show/hide tables based on area selection
+    $('#areaSelect').change(function() {
+      var selectedArea = $(this).val();
+      if (selectedArea === 'office') {
+        $('#officeTable').show();
+        $('#plantTable').hide();
+      } else if (selectedArea === 'plant') {
+        $('#plantTable').show();
+        $('#officeTable').hide();
+      }
+    });
+
+    // Trigger table show/hide on modal open
+    $('#exampleModal').on('shown.bs.modal', function() {
+      $('#areaSelect').trigger('change');
+    });
+  });
+</script>
+<!-- En la página de destino donde quieres mostrar los datos -->
+<script>
+  // Espera a que el documento esté completamente cargado
+  document.addEventListener("DOMContentLoaded", function() {
+    // Obtén los datos de las celdas del modal
+    var officeData1 = document.getElementById("office0").innerText;
+    var officeData2 = document.getElementById("ofice1").innerText;
+    var officeData3 = document.getElementById("ofice2").innerText;
+    var officeData4 = document.getElementById("ofice3").innerText;
+    var officeData5 = document.getElementById("ofice4").innerText;
+    var officeData6 = document.getElementById("ofice5").innerText;
+    var officeData7 = document.getElementById("ofice6").innerText;
+    var officeData8 = document.getElementById("ofice7").innerText;
+    var officeData9 = document.getElementById("ofice8").innerText;
+
+
+    var plantData40 = document.getElementById("office40").innerText;
+    var plantData41 = document.getElementById("ofice41").innerText;
+    var plantData42 = document.getElementById("ofice42").innerText;
+    var plantData43 = document.getElementById("ofice43").innerText;
+    var plantData44 = document.getElementById("ofice44").innerText;
+    var plantData45 = document.getElementById("ofice45").innerText;
+    var plantData46 = document.getElementById("ofice46").innerText;
+    var plantData47 = document.getElementById("ofice47").innerText;
+    var plantData48 = document.getElementById("ofice48").innerText;
+
+    // Asigna los datos a los campos de entrada en la página
+    document.getElementById("employeeNumber").value = officeData1;
+    document.getElementById("lastName").value = officeData2;
+    // Asigna los datos a los campos de entrada en la página
+    document.getElementById("secondName").value = officeData3;
+    document.getElementById("name").value = officeData4;
+    document.getElementById("age").value = officeData5;
+    document.getElementById("datebirthday").value = officeData6;
+    document.getElementById("placebirth").value = officeData7;
+    document.getElementById("sex").value = officeData8;
+    document.getElementById("dateadmission").value = officeData9;
+
+
+
+    // Asigna los datos a los campos de entrada en la página
+    document.getElementById("employeeNumber").value = plantData40;
+    document.getElementById("lastName").value = plantData41;
+    // Asigna los datos a los campos de entrada en la página
+    document.getElementById("secondName").value = plantData42;
+    document.getElementById("name").value = plantData43;
+    document.getElementById("age").value = plantData44;
+    document.getElementById("datebirthday").value = plantData45;
+    document.getElementById("placebirth").value = plantData46;
+    document.getElementById("sex").value = plantData47;
+    document.getElementById("dateadmission").value = plantData48;
+
+
+  });
+</script>
+  <!-- Script para la animación -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var cornerContainers = document.querySelectorAll('.corner-container');
+        var images = document.querySelectorAll('.image-container');
+
+        function animateImages() {
+            cornerContainers.forEach(function(container, index) {
+                var options = {
+                    targets: container,
+                    translateY: ['100%', 0],
+                    scale: [0, 1], // Efecto de escala
+                    rotate: [180, 0], // Efecto de rotación
+                    duration: 1000,
+                    easing: 'easeInOutQuad',
+                    delay: 300 * index,
+                    complete: function(anim) {
+                        anime({
+                            targets: '#as',
+                            opacity: [0, 1],
+                            duration: 500,
+                            easing: 'easeInOutQuad',
+                        });
+                    }
+                };
+
+                anime(options);
+            });
+        }
+
+        animateImages();
+    });
+  </script>
+
 </html>

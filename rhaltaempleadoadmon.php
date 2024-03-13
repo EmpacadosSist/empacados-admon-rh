@@ -55,31 +55,7 @@ body {
       }
 </style>
 
-<!-- Modal -->
-<div id="modalEmpleado" class="modal fade" tabindex="-1" role="dialog">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Empleado Semanal o Quincenal</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <!-- Contenido del modal -->
-        <div class="mb-3">
-          <label for="tipoEmpleado" class="form-label">Tipo de Empleado:</label>
-          <select class="form-select" id="tipoEmpleado">
-            <option value="semanal">Empleado Semanal</option>
-            <option value="quincenal">Empleado Quincenal</option>
-          </select>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-        <button type="button" class="btn btn-primary">Guardar</button>
-      </div>
-    </div>
-  </div>
-</div>
+
 
 <main id="main" class="main">
   <section class="section">
@@ -344,26 +320,23 @@ body {
                 <option value="Masculino">Masculino</option>
             </select>
         </div>
-         <div class="form-group col-md-3">
-           <label for="">Estado civil</label>
-               <select class="form-control" id="" name="">
-                  <option value="" id="">Union Libre</option>
-                  <option value="">Casado(a)</option>
-               </select>
-         </div>
-           <div class="form-group col-md-3">
-          <label for="hasChildren">¿Tiene hijos?</label>
-          <input type="checkbox" class="form-check-input" id="hasChildren" name="hasChildren">
+        
+       
+      <div class="form-group col-md-3"> 
+        <label for="estadoCivil"><i class="fas fa-heart"></i> Estado civil</label>
+          <select class="form-control" id="estadoCivil">
+            <option value="soltero" id="soltero">Soltero(a)</option>
+            <option value="unionLibre" id="unionLibre">Unión Libre</option>
+            <option value="casado">Casado(a)</option>
+          </select>
       </div>
-     <div class="form-group col-md-3">
-       <label for="children">Número de hijos</label>
-       <input type="number" class="form-control" id="children" name="children" placeholder="Número de hijos" disabled>
-      </div>
-       <div class="form-group col-md-3">
+
+        
+       <div class="form-group col-md-4">
           <label for="socialSecurityNumber"><i class="fas fa-venus-mars"></i> NSS</label>
           <input type="text" class="form-control" id="socialSecurityNumber" name="socialSecurityNumber" pattern="[0-9]+" title="Solo se permiten números" placeholder="Número de seguro social">
       </div>
-      <div class="form-group col-md-3">
+      <div class="form-group col-md-5">
           <label for="curp"><i class="fas fa-id-card"></i> CURP</label>
           <input type="text" class="form-control" id="curp" name="curp" pattern="[A-Za-z0-9]+" title="Solo se permiten caracteres" placeholder="Ingrese su CURP">
       </div>
@@ -375,7 +348,7 @@ body {
         <label for="passportNumber"><i class="fas fa-passport"></i> Número de Pasaporte</label>
         <input type="text" class="form-control" id="passportNumber" name="passportNumber" placeholder="Número de Pasaporte">
     </div>
-      <div class="form-group col-md-3">
+      <div class="form-group col-md-5">
           <label for="streetAndNumber"><i class="fas fa-map"></i> Domicilio calle y Num.</label>
           <input type="text" class="form-control" id="streetAndNumber" name="streetAndNumber" pattern="[A-Za-z0-9]+" title="Solo se permiten caracteres" placeholder="Ingrese su domicilio">
       </div>
@@ -464,16 +437,16 @@ body {
         <label for=""><i class="fas fa-pills"></i> Medicamentos</label>
         <input type="text" class="form-control" id="" name="" pattern="[A-Za-z]+" title="Solo se permiten caracteres" placeholder="Toma algún medicamento">
     </div>
-<div class="form-group col-md-3">
-    <label for="emergencyContact"><i class="fa-solid fa-phone"></i> Num emergencia</label>
-    <input type="text" class="form-control" id="emergencyContact" name="emergencyContact" pattern="[0-9]+" title="Solo se permiten caracteres numéricos" placeholder="Contacto de emergencia">
-</div>
-
+  <div class="form-group col-md-3">
+      <label for="emergencyContact"><i class="fas fa-phone"></i> Num emergencia</label>
+      <input type="text" class="form-control" id="emergencyContact" name="emergencyContact" pattern="[0-9]+" title="Solo se permiten caracteres numéricos" placeholder="Contacto de emergencia">
+  </div>
 
   <div class="form-group col-md-3">
-      <label for="emergencyContact2"><i class="fa-solid fa-phone-flip"></i> Num emergencia 2</label>
-      <input type="text" class="form-control" id="" name="" pattern="[0-9]+" title="Solo se permiten caracteres numéricos" placeholder="Contacto de emergencia 2">
+      <label for="emergencyContact2"><i class="fas fa-phone"></i> Num emergencia 2</label>
+      <input type="text" class="form-control" id="emergencyContact2" name="emergencyContact2" pattern="[0-9]+" title="Solo se permiten caracteres numéricos" placeholder="Contacto de emergencia 2">
   </div>
+
 
     <div class="form-group col-md-2">
         <label for=""><i class="fas fa-money-bill-wave"></i> Sueldo base</label>
@@ -544,24 +517,10 @@ body {
 
 </html>
 
-<!-- Modal -->
-<div id="myModal" class="modal">
-  <div class="modal-content">
-    <span class="close">&times;</span>
-    <!-- Aquí puedes agregar los campos para ingresar los datos del hijo -->
-    <p>Ingrese los datos del hijo:</p>
-    <!-- Por ejemplo -->
-    <input type="text" id="nombreHijo" placeholder="Nombre del hijo">
-    <input type="text" id="edadHijo" placeholder="Edad del hijo">
-    <button id="guardarHijo">Guardar</button>
-  </div>
-</div>
-
-
 
 <style type="text/css">
   
-
+       <style>
        .medium-button {
         font-size: 10px;
         padding: 11px 21px;
@@ -569,6 +528,7 @@ body {
         font-weight: bold;
 
       }
+    </style>
 </style>
  <script>
     // Datos de ejemplo para departamentos y puestos
@@ -673,45 +633,127 @@ body {
     });
 </script>
 
-<script>
-    // JavaScript para habilitar o deshabilitar el campo de texto según el estado del checkbox
-    document.getElementById('hasChildren').addEventListener('change', function() {
-        var childrenInput = document.getElementById('children');
-        childrenInput.disabled = !this.checked;
-        if (!this.checked) {
-            childrenInput.value = '';  // Limpiar el campo si el checkbox no está marcado
-        }
-    });
-</script>
 
-<script>
-document.getElementById('children').addEventListener('change', function() {
-    var numHijos = parseInt(this.value);
-    if (numHijos >= 4 && numHijos <= 6) {
-        // Mostrar el modal
-        var modal = document.getElementById('myModal');
-        modal.style.display = "block";
-        
-        // Agregar un evento al botón de guardar en el modal
-        document.getElementById('guardarHijo').addEventListener('click', function() {
-            // Aquí puedes obtener los datos ingresados del hijo
-            var nombreHijo = document.getElementById('nombreHijo').value;
-            var edadHijo = document.getElementById('edadHijo').value;
-            
-            // Aquí puedes hacer lo que necesites con los datos del hijo, como enviarlos a un servidor
-            
-            // Cerrar el modal
-            modal.style.display = "none";
-        });
-        
-        // Agregar un evento para cerrar el modal si se hace clic en la "X"
-        var span = document.getElementsByClassName("close")[0];
-        span.onclick = function() {
-            modal.style.display = "none";
-        }
-    }
-});
-</script>
+
+<!-- Modal para mostrar información -->
+<div class="modal fade" id="infoModal" tabindex="-1" role="dialog" aria-labelledby="infoModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="infoModalLabel">
+          <i class="fas fa-info-circle"></i> Información Adicional
+        </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <!-- Contenido del modal -->
+        <form id="personalForm">
+          <div class="form-group"> 
+            <div class="form-group">
+              <label for="apellido">Apellido Paterno:</label>
+              <input type="text" class="form-control" id="apellido" placeholder="Ingrese su apellido">
+            </div>
+            <div class="form-group">
+              <label for="apellidomaterno">Apellido Materno:</label>
+              <input type="text" class="form-control" id="apellidomaterno" placeholder="Ingrese su apellido materno">
+            </div>
+            <label for="nombre">Nombre:</label>
+            <input type="text" class="form-control" id="nombre" placeholder="Ingrese su nombre">
+          </div>
+          <div class="form-group">
+            <label for="fechaNacimientoconyuge">Fecha de nacimiento :</label>
+            <input type="date" class="form-control" id="fechaNacimientoconyuge">
+            <label for="edad">Edad</label>
+            <input type="text" class="form-control" id="edad" readonly>
+          </div>
+          <button type="button" class="btn btn-primary" id="guardarDatos">Guardar</button>
+          <div class="form-check"> <br>
+            <!-- Tabla para mostrar datos HIJOS -->
+            <input class="form-check-input" type="checkbox" id="tieneHijos">
+            <label class="form-check-label" for="tieneHijos">Tiene hijos</label>
+          </div>
+          <div class="form-group" id="datosHijo" style="display: none;">
+            <label for="nombreHijo">Nombre del hijo:</label>
+            <input type="text" class="form-control" id="nombreHijo" placeholder="Ingrese el nombre del hijo">
+            <label for="apellidohijo"></label>
+            <input type="text" class="form-control" id="apellidohijo" placeholder="Ingrese el nombre del hijo">
+            <label for="apellidomaternohijo"></label>
+            <input type="text" class="form-control" id="apellidomaternohijo" placeholder="Ingrese el nombre del hijo">
+            <label for="fechaNacimiento">Fecha de nacimiento del hijo:</label>
+            <input type="date" class="form-control" id="fechaNacimiento">
+            <label for="edadHijo">Edad del hijo:</label>
+            <input type="text" class="form-control" id="edadHijo" readonly>
+          </div>
+          <button type="button" class="btn btn-primary" id="guardarDatosHijo">Guardar</button>
+        </form>
+        <hr>
+        <!-- Tabla para mostrar datos -->
+        <h5>Datos Personales:</h5>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Nombre</th>
+              <th>Apellido</th>
+              <th>Edad</th>     
+              <th>Fecha de Nacimiento</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody id="tablaDatos">
+            <!-- Aquí se mostrarán los datos ingresados -->
+          </tbody>
+        </table>
+        <!-- Fin de la tabla -->
+        <div id="tabHijo" style="display: none;">
+          <h5>Datos del Hijo:</h5>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Edad</th>      
+                <th>Fecha de Nacimiento</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="tablaHijo">
+              <!-- Aquí se mostrarán los datos del hijo -->
+            </tbody>
+          </table>
+        </div>
+        <!-- Fin del Tab Content para los datos del hijo -->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Modal para advertir campos vacíos -->
+<div class="modal fade" id="advertenciaModal" tabindex="-1" role="dialog" aria-labelledby="advertenciaModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="advertenciaModalLabel">Advertencia</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Por favor complete todos los campos.
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 </body>
 <?php require 'layout/footer.php';?>
@@ -724,3 +766,226 @@ document.getElementById('children').addEventListener('change', function() {
 
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+<script>
+
+
+ $(document).ready(function() {
+  $('#estadoCivil').change(function() {
+    var estadoCivil = $(this).val();
+    if (estadoCivil === 'casado') {
+      $('#tab1').addClass('show active');
+      $('#tab2').removeClass('show active');
+      $('#infoModal').modal('show');
+    } else {
+      $('#tab2').addClass('show active');
+      $('#tab1').removeClass('show active');
+      $('#infoModal').modal('show');
+
+
+      }
+    });
+
+var usuarioRegistrado = false;
+
+$('#guardarDatos').click(function() {
+  var nombre = $('#nombre').val();
+  var apellido = $('#apellido').val();
+  var apellidomaterno = $('#apellidomaterno').val();
+  var edad = $('#edad').val();
+  var fechaNacimientoconyuge = $('#fechaNacimientoconyuge').val();
+
+  // Verificar si los campos no están vacíos
+  if (nombre.trim() !== '' && apellido.trim() !== '' && edad.trim() !== '' && fechaNacimientoconyuge.trim() !== '') {
+    if ($('#tablaDatos tr').length === 0) {
+      $('#tablaDatos').append('<tr><td>' + nombre + '</td><td>' + apellido + ' '+ apellidomaterno + '</td><td>' + edad + '</td><td>' + fechaNacimientoconyuge + '</td><td><button class="btn btn-danger eliminar">Eliminar</button> <button class="btn btn-primary editar">Editar</button></td></tr>');
+    } else {
+      alert('Solo se permite un registro. Para editar, haz clic en "Editar".');
+    }
+
+    $('#nombre').val('');
+    $('#apellido').val('');
+    $('#apellidomaterno').val('');
+    $('#edad').val('');
+    $('#fechaNacimientoconyuge').val('');
+
+    // Bloquear el modal después del primer registro
+    if (!usuarioRegistrado) {
+      usuarioRegistrado = true;
+    }
+  } else {
+    // Mostrar el modal de advertencia
+    $('#advertenciaModal').modal('show');
+  }
+});
+
+// Evento para eliminar una fila de la tabla de datos personales
+$('#tablaDatos').on('click', '.eliminar', function() {
+  $(this).closest('tr').remove();
+  
+  // Habilitar el campo de estado civil si se elimina el único registro
+  if ($('#tablaDatos tr').length === 0) {
+    usuarioRegistrado = false;
+    // Habilitar los campos si no hay registros
+    $('#nombre').prop('disabled', false);
+    $('#apellido').prop('disabled', false);
+    $('#apellidomaterno').prop('disabled', false);
+    $('#edad').prop('disabled', false);
+    $('#fechaNacimientoconyuge').prop('disabled', false);
+  }
+});
+
+// Evento para editar una fila de la tabla de datos personales
+$('#tablaDatos').on('click', '.editar', function() {
+  var nombre = $(this).closest('tr').find('td').eq(0).text();
+  var apellidos = $(this).closest('tr').find('td').eq(1).text().split(' ');
+  var apellido = apellidos[0];
+  var apellidomaterno = apellidos.length > 1 ? apellidos[1] : '';
+  var edad = $(this).closest('tr').find('td').eq(2).text();
+  var fechaNacimientoconyuge = $(this).closest('tr').find('td').eq(3).text();
+
+  $('#nombre').val(nombre);
+  $('#apellido').val(apellido);
+  $('#apellidomaterno').val(apellidomaterno);
+  $('#edad').val(edad);
+  $('#fechaNacimientoconyuge').val(fechaNacimientoconyuge);
+
+  // Habilitar los campos para edición
+  $('#nombre').prop('disabled', false);
+  $('#apellido').prop('disabled', false);
+  $('#apellidomaterno').prop('disabled', false);
+  $('#edad').prop('disabled', false);
+  $('#fechaNacimientoconyuge').prop('disabled', false);
+
+  // Eliminar la fila actual
+  $(this).closest('tr').remove();
+
+  // Habilitar los campos si no hay registros después de la eliminación
+  if ($('#tablaDatos tr').length === 0) {
+    usuarioRegistrado = false;
+  }
+});
+
+
+                                                            // DATOS PERSONALES HIJOS////////////////
+
+    // Mostrar campos del hijo cuando se marque el checkbox
+    $('#tieneHijos').change(function() {
+      if ($(this).is(':checked')) {
+        $('#datosHijo').show();
+        $('#tabHijo').show();
+      } else {
+        $('#datosHijo').hide();
+        $('#tabHijo').hide();
+      }
+    });
+
+ $('#guardarDatosHijo').click(function() {
+      var nombreHijo = $('#nombreHijo').val();
+      var apellidoHijo = $('#apellidohijo').val();
+      var apellidomaternoHijo = $('#apellidomaternohijo').val();
+      var fechaNacimiento = $('#fechaNacimiento').val();
+
+      // Verificar si el nombre del hijo y la fecha de nacimiento no están vacíos
+      if (nombreHijo.trim() !== '' && apellidoHijo.trim() !== '' && apellidomaternoHijo.trim() !== '' && fechaNacimiento.trim() !== '') {
+        var hoy = new Date();
+        var fechaNac = new Date(fechaNacimiento);
+        var edadHijo = hoy.getFullYear() - fechaNac.getFullYear();
+
+        $('#tablaHijo').append('<tr><td>' + nombreHijo + '</td><td>' + apellidoHijo + ' ' + apellidomaternoHijo + '</td><td>' + fechaNacimiento + '</td><td>' + edadHijo + '</td><td><button class="btn btn-danger eliminarHijo">Eliminar</button> <button class="btn btn-primary editarHijo">Editar</button></td></tr>');
+
+        // Limpiar los campos después de agregar la fila
+        $('#nombreHijo').val('');
+        $('#apellidohijo').val('');
+        $('#apellidomaternohijo').val('');
+        $('#fechaNacimiento').val('');
+        $('#edadHijo').val(edadHijo);
+      } else {
+        // Mostrar un mensaje de alerta si algún campo está vacío
+        $('#advertenciaModal').modal('show');
+      }
+
+
+    });
+
+    // Evento para eliminar un hijo de la tabla de datos de hijos
+    $('#tablaHijo').on('click', '.eliminarHijo', function() {
+      $(this).closest('tr').remove();
+    });
+
+    // Evento para editar un hijo de la tabla de datos de hijos
+    $('#tablaHijo').on('click', '.editarHijo', function() {
+      var row = $(this).closest('tr');
+      var nombreHijo = row.find('td:eq(0)').text();
+      var apellidosHijo = row.find('td:eq(1)').text().split(' ');
+      var apellidoHijo = apellidosHijo[0];
+      var apellidomaternoHijo = apellidosHijo[1];
+      var fechaNacimiento = row.find('td:eq(2)').text();
+      var edadHijo = row.find('td:eq(3)').text();
+
+
+
+
+      $('#nombreHijo').val(nombreHijo);
+      $('#apellidohijo').val(apellidoHijo);
+      $('#apellidomaternohijo').val(apellidomaternoHijo);
+      $('#fechaNacimiento').val(fechaNacimiento);
+      $('#edadHijo').val(edadHijo);
+      $('#tieneHijos').prop('checked', true);
+      $('#datosHijo').show();
+      $('#tabHijo').show();
+  console.log('Nombre del hijo:', nombreHijo);
+  console.log('Apellidos del hijo:', apellidosHijo);
+  console.log('Apellido del hijo:', apellidoHijo);
+  console.log('Apellido Materno del hijo:', apellidomaternoHijo);
+  console.log('Fecha de Nacimiento del hijo:', fechaNacimiento);
+  console.log('Edad del hijo:', edadHijo);
+
+      // Eliminar la fila actual
+      row.remove();
+    });
+
+    // Calcular automáticamente la edad del hijo
+    $('#fechaNacimiento').change(function() {
+      var fechaNac = new Date($(this).val());
+      var hoy = new Date();
+      var diff = hoy.getTime() - fechaNac.getTime();
+      var edadAnios = Math.floor(diff / (1000 * 60 * 60 * 24 * 365.25));
+      var mesesRestantes = diff % (1000 * 60 * 60 * 24 * 365.25);
+      var edadMeses = Math.floor(mesesRestantes / (1000 * 60 * 60 * 24 * 30.44));
+
+      $('#edadHijo').val(edadAnios + " años y " + edadMeses + " meses");
+
+     
+    });
+  });
+
+ 
+
+</script>
+<script>
+$(document).ready(function() {
+    $('#fechaNacimientoconyuge').change(function() {
+        var fechaNacimiento = new Date($(this).val());
+        var hoy = new Date();
+        var edad = hoy.getFullYear() - fechaNacimiento.getFullYear();
+        var mes = hoy.getMonth() - fechaNacimiento.getMonth();
+        var dia = hoy.getDate() - fechaNacimiento.getDate();
+
+        // Verificar si todavía no ha pasado el cumpleaños este año
+        if (mes < 0 || (mes === 0 && dia < 0)) {
+            edad--;
+        }
+
+        // Calcular la diferencia de meses
+        var meses = (hoy.getMonth() + 12) - fechaNacimiento.getMonth();
+        if (dia < 0) {
+            meses--;
+        }
+
+        $('#edad').val(edad + " años y " + meses + " meses");
+    });
+});
+
+</script>

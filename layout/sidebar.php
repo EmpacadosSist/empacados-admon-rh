@@ -15,10 +15,10 @@
 
 
     <li class="nav-item">
-      <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
+      <a class="nav-link " data-bs-target="#tables-nav" data-bs-toggle="collapse" href="#">
         <i class="ri-user-follow-fill"></i><span>Manager</span><i class="bi bi-chevron-down ms-auto"></i>
       </a>
-      <ul id="components-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+      <ul id="tables-nav" class="nav-content collapse show" data-bs-parent="#sidebar-nav">
         <li>
           <a class="bi bi-person-fill-add" href="rhaltaempleadoadmon.php">
             <i></i><span>Alta Empleados</span>
@@ -34,7 +34,13 @@
             <i></i><span>Empleados</span>
           </a>
         </li>
-
+          <li>
+               <a href="rhvacations.php">
+                <img src="assets/img/beach.png" alt="" width="18">
+                   <i></i>
+                   <span>Vacaciones</span>
+             </a>
+          </li>
         <li>
           <a class="bi bi-person-vcard-fill" href="rhposicionesadmon.php">
             <i></i><span>Posiciones</span>
