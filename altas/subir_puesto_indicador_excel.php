@@ -86,7 +86,6 @@ if($numInd!=""&&($numIndVal&&$numInd>0)){
             //primer campo - clave cliente
             $valor=isset($arr[$i][$j]) ? $arr[$i][$j] : "";
 
-
             //verificar que no tenga valor y que este vacio, luego hacer negativa la condicion
             if(!(is_null($valor) || $valor === '')){
 
@@ -110,14 +109,12 @@ if($numInd!=""&&($numIndVal&&$numInd>0)){
               $resultado .= "vacio; $valor";
             }
           }
-
         }			
       }
     }
   }
 
   if($existehoja){
-
     echo $resultado;
   }else{
     echo "wrongfile";

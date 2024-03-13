@@ -42,12 +42,24 @@
         </li>
         <!-- Agrega más pestañas según sea necesario -->
       </ul>
-      <input class="form-control" type="file" name="archivo" id="archivo" accept=".xls,.xlsx">
-      <button class="subir-archivo">Subir</button>
+
       <!-- Contenido de las pestañas -->
       <div class="tab-content" id="contenidoPestanas">
         <!-- Contenido de la Pestaña 1 -->
         <div class="tab-pane fade show active" id="contenido1" role="tabpanel" aria-labelledby="pestaña1">
+          <div class="row mb-3 mt-3">
+            <div class="col d-flex justify-content-end">
+              <label for="archivo">Seleccionar plantilla excel: </label>
+            </div>
+            <div class="col">
+              <input class="form-control" type="file" name="archivo" id="archivo" accept=".xls,.xlsx">
+            </div>
+            <div class="col-1 d-flex justify-content-end">
+              <button class="btn btn-success subir-archivo">Subir</button>
+
+            </div>
+
+          </div>
           <div class="table-responsive">
             <table class="table table-striped table-bordered table-sm" id="tablaPestana1">
               <!-- Contenido de la tabla -->
