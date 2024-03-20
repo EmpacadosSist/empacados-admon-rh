@@ -5,7 +5,7 @@ include '../conexion/conexion.php';
 
 		$numemp=$_POST['numemp'];
 		$password=$_POST['password'];
-
+		//contra fria generica#256
 		//comprobar si existe el usuario
 		$sql="CALL proc_login('$numemp')";
 		$login=$conn->query($sql);
@@ -30,7 +30,6 @@ include '../conexion/conexion.php';
           header('location: ../Transportista_Menu.php');
 				}else{
           header('location: ../menu_principal.php');
-          
 				}   			
         */
         var_dump($usuario);
@@ -54,7 +53,5 @@ include '../conexion/conexion.php';
       */
       echo "No se accedio";
 		}
-	
-
 	}
 
