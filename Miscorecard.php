@@ -259,7 +259,11 @@
   const recargar_tabla = () => {
     $.ajax({
       url: "layout/tabla_pagos.php",
-      type: "GET"
+      type: "POST",
+      data: { 
+        indiv: 1,
+        userId: 2 
+      }
     }).done(function(response){
       $(".tabla-pagos").empty();
       $(".tabla-pagos").append(response);

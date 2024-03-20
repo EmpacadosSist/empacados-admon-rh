@@ -4,7 +4,16 @@
   $indicadores=Consultas::listIndicator($conn); 
 
   //consulta para ver un solo usuario con el id  
-  $usuarios=Consultas::listOneUser($conn, 2);
+
+
+  $isInd=isset($_POST['indiv']) ? true : false;
+  $userId=isset($_POST['userId']) ? $_POST['userId'] : false;
+
+  if($isInd){
+    $usuarios=Consultas::listOneUser($conn, $userId);
+  }else{
+    $usuarios=Consultas::listUsers($conn);
+  }
   //$month = 4;
   $month = date('m');
   $year = date('Y');

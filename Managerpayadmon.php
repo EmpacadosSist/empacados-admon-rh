@@ -323,7 +323,7 @@
   const recargar_tabla = () => {
     $.ajax({
             url: "layout/tabla_pagos.php",
-            type: "GET"
+            type: "POST"
             
         }).done(function(response){
           $(".tabla-pagos").empty();
