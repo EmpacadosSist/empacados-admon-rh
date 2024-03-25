@@ -1,3 +1,6 @@
+<?php 
+  require_once('layout/session.php');
+?>
 <?php require 'layout/libreriasdatatable.php';?>
 <?php require 'nav.php'; ?>
 <?php require 'layout/sidebarfinal.php';?>

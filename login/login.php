@@ -6,52 +6,56 @@ include '../conexion/conexion.php';
 		$numemp=$_POST['numemp'];
 		$password=$_POST['password'];
 		//contra fria generica#256
+		//contra dir dirGen#21021020
 		//comprobar si existe el usuario
 		$sql="CALL proc_login('$numemp')";
 		$login=$conn->query($sql);
-
 		if($login&&$login->num_rows==1){
 			$usuario=$login->fetch_object();
+			$conn->next_result();
 
 			//verificar contra
 			$verify=password_verify($password, $usuario->password);
 			
 			if($verify){
 				//usuario correcto
-				//session_name('logisticapp');
-      	//session_start();
+				session_name('rh_admon');
+      	session_start();
+
       	unset($usuario->password);      			
-      	//$_SESSION['identity'] = $usuario;
-        /*
-				if($usuario->Level=='ADMIN'){
-          $_SESSION['admin']=true;
+      	$_SESSION['identity'] = $usuario;
+				$userId=$usuario->userId;
+				$sql="CALL select_user_authorization('$userId')";
+				$uauth=$conn->query($sql);
+				
+				$arrPermisos=[];
+
+				while($row = $uauth->fetch_assoc()){
+          array_push($arrPermisos, $row);
+        }
+
+				if($uauth&&$uauth->num_rows>0){
+					$_SESSION['permisos'] = $arrPermisos;
+
 				}
-				if($usuario->Level=='TRANSPORTISTA'){
-          header('location: ../Transportista_Menu.php');
-				}else{
-          header('location: ../menu_principal.php');
-				}   			
-        */
-        var_dump($usuario);
+
+				header('location: ../index.php');
+
 			}else{
-				//contraseña incorrecta
-        /*
-				session_name('logisticapp');
+				//contraseña incorrecta        
+				session_name('rh_admon');
         session_start();			
         $_SESSION['error_login']="Contraseña incorrecta";				
 				header('location: ../index.php');
-        */
-        echo "Contra incorrecta";
+
 			}
 		}else{
 			//usuario incorrecto
-			/*
-      session_name('logisticapp');
+      session_name('rh_admon');
       session_start();			
       $_SESSION['error_login']="Usuario no existe";	
 			header('location: ../index.php');
-      */
-      echo "No se accedio";
+      
 		}
 	}
 

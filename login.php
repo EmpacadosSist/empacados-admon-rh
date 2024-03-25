@@ -1,4 +1,13 @@
 
+<?php 
+session_name('rh_admon');
+session_start();
+
+if (isset($_SESSION['identity'])) {
+  header('Location: index.php');
+}
+require_once('helpers/utils.php');
+?>
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -97,13 +106,30 @@
       font-family: "Nunito", sans-serif;
       align-items: center;
     }
+    .errorent{
+			  background-color: #E74F4F;
+			  position: absolute;
+			  top: 0;
+			  padding: 10px 0 ;
+			  border-radius:  0 0 5px 5px;
+			  color: #fff;
+			  width: 100%;
+			  text-align: center;			    
+			}
   </style>
   <body>
   
     <!-- Navigation -->
-    <div class="errorent">
-      <span></span>
-    </div>
+  	<?php if(isset($_SESSION['error_login'])): ?>
+  	
+  	<!-- Navigation -->
+  	<div class="errorent">
+  		<span><?=$_SESSION['error_login']?></span>
+  	</div>
+  	
+  	<?php endif; ?>
+  	
+  	<?php Utils::deleteSession('error_login'); ?>
     
     
     

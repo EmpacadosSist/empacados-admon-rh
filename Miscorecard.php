@@ -1,3 +1,6 @@
+<?php 
+  require_once('layout/session.php');
+?>
 <?php require 'layout/libreriasdatatable.php';?>
 <?php require 'nav.php'; ?>
 <?php require 'layout/sidebarfinal.php';
@@ -256,6 +259,7 @@
     alert(value);
   });
 
+  //aqui vamos a especificar si es individual y cual es el id del usuario
   const recargar_tabla = () => {
     $.ajax({
       url: "layout/tabla_pagos.php",
