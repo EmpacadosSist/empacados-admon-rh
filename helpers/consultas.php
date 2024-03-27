@@ -197,6 +197,48 @@
       return $resultado;               
     }
 
+    public static function listAreas($conn){
+      $sqlSP="CALL select_area()";
+      /*
+      alias de los campos
+      'areaId', 
+	    'nombreArea' 
+      */   
+      $resultSP=$conn->query($sqlSP, MYSQLI_STORE_RESULT);
+      
+      $resultado=[];
+      //condicion para verificar si se hizo la insercion en la bd
+      if($resultSP){        
+        while($row = $resultSP->fetch_assoc()){
+          array_push($resultado, $row);
+        }
+      }
+      $conn->next_result();
+      return $resultado;               
+    }
+
+    public static function listSections($conn, $areaId){
+      $sqlSP="CALL select_section($areaId)";
+      /*
+      alias de los campos
+	    'departamentoId',
+      'areaId',
+      'nombreDepartamento'
+      */
+      $resultSP=$conn->query($sqlSP, MYSQLI_STORE_RESULT);
+      
+      $resultado=[];
+      //condicion para verificar si se hizo la insercion en la bd
+      if($resultSP){        
+        while($row = $resultSP->fetch_assoc()){
+          array_push($resultado, $row);
+        }
+      }
+      $conn->next_result();
+      return $resultado;
+
+    }    
+
     public static function paymentVar($conn, $positionId, $indicatorId){
       $sqlSP="CALL select_position_indicator($positionId, $indicatorId)";
       /*

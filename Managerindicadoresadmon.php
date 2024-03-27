@@ -14,7 +14,7 @@
 <?php require 'layout/libreriasdatatable.php';?>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/animate/4.0.0/animate.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
-<?php require 'layout/sidebarfinal.php';?>
+<?php require_once('layout/sidebar.php'); ?>
 <?php require 'nav.php'; ?>
 
 <?php $indicadores=Consultas::listIndicator($conn); ?>

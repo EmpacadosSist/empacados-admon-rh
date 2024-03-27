@@ -1,8 +1,8 @@
 <?php 
   require_once('layout/session.php');
   require_once('layout/libreriasdatatable.php');
-  require_once('nav.php'); 
   require_once('layout/sidebar.php'); 
+  require_once('nav.php'); 
 
 ?>
 

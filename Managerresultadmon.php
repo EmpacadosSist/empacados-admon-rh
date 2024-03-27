@@ -2,8 +2,8 @@
   require_once('layout/session.php');
 ?>
 <?php require 'layout/libreriasdatatable.php';?>
+<?php require_once('layout/sidebar.php'); ?>
 <?php require 'nav.php'; ?>
-<?php require 'layout/sidebarfinal.php';?>
 
  <style>
     .table th, .table td {

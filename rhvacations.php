@@ -13,8 +13,8 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/searchpanes/1.2.1/css/searchPanes.dataTables.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/select/1.3.1/css/select.dataTables.min.css">
 
+    <?php require_once('layout/sidebar.php'); ?>
     <?php require 'nav.php'; ?>
-    <?php require 'layout/sidebar.php';?>
     <title>Título de tu página</title>
 
  

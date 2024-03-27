@@ -14,9 +14,9 @@
 <?php require 'layout/libreriasdatatable.php';?>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/animate/4.0.0/animate.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
-<?php require 'layout/sidebar.php';?>
+<?php require_once('layout/sidebar.php'); ?>
 <?php require 'nav.php'; ?>
-
+<?php $areas = Consultas::listAreas($conn); ?>
 
 <style type="text/css">
   .h4, h4 {
@@ -66,81 +66,74 @@ body {
       <div class="col-lg-12">
         <div class="card">
           <div class="card-body">
-           <div class="container mt-5" align="left">
-           <br>
-    <form id="form_id" method="post" action="pdfpuesto.php">
-        <h2  align="" id="title" class="animate__animated animate__bounceInDown card-title">
-          
+            <div class="container mt-5" align="left">
+            <br>
+            <form id="form_id" method="post" action="pdfpuesto.php">
+              <h2 id="title" class="animate__animated animate__bounceInDown card-title">          
                 Datos de Empleado
-           <img src="assets/img/empleadoempacados.png" alt="" width="60">
-          </h2>
-     <div class="form-row">
+                <img src="assets/img/empleadoempacados.png" alt="" width="60">
+              </h2>
+              <div class="form-row">
+                <div class="form-group col-md-3">
+                  <label for="empNum">
+                    <i class="fas fa-id-card"></i> 
+                    No. de empleado
+                  </label>
+                  <input type="number" class="form-control" id="empNum" name="empNum" inputmode="numeric" pattern="[0-9]+" placeholder="Número de empleado">
+                </div>
+                <div class="form-group col-md-3">
+                  <label for="lastName1">
+                    <i class="fas fa-user"></i> Apellido Paterno
+                  </label>
+                  <input type="text" class="form-control" id="lastName1" name="lastName1" pattern="[A-Za-z]+" title="Solo se permiten caracteres" placeholder="Apellido Paterno">
+                </div>
+                <div class="form-group col-md-3">
+                  <label for="lastName2">
+                    <i class="fas fa-user"></i> Apellido Materno
+                  </label>
+                  <input type="text" class="form-control" id="lastName2" name="lastName2" pattern="[A-Za-z]+" title="Solo se permiten caracteres" placeholder="Apellido Materno">
+                </div>
+                <div class="form-group col-md-3">
+                  <label for="name">
+                    <i class="fas fa-user"></i> Nombre(s)
+                  </label>
+                  <input type="text" class="form-control" id="name" name="name" pattern="[A-Za-z]+" title="Solo se permiten caracteres" placeholder="Nombre(s)">
+                </div>
+                <div class="form-row">
+                  <div class="form-group col-md-3">
+                    <label for="gender">
+                      <i class="fas fa-venus-mars"></i> Sexo
+                    </label>
+                    <select class="form-control" id="gender" name="gender">
+                      <option value="F">Femenino</option>
+                      <option value="M">Masculino</option>
+                      <option value="X">No Definido</option>
+                    </select>
+                  </div>
+                  <!-- Esto son datos de empresa -->
+                  <div class="form-group col-md-3">
+                    <label for="recDate">
+                      <i class="fas fa-calendar-alt"></i> Fecha de Ingreso
+                    </label>
+                    <input type="date" class="form-control" id="recDate" name="recDate" pattern="\d{4}-\d{2}-\d{2}" title="Solo se permiten caracteres">
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="area">
+                      <i class="fas fa-building"></i> Área
+                    </label>
+                    <select class="form-control" id="area" name="area" onchange="updateDepartments()">
+                      <?php 
+                      for ($i=0; $i < count($areas); $i++) { ?>
+                        <option value="<?=$areas[$i]['areaId']?>"><?=$areas[$i]['nombreArea']?></option>
+                      <?php 
+                      }
+                      ?>
+                    </select>
+                  </div>
+
         <div class="form-group col-md-3">
-        <label for="employeeNumber"><i class="fas fa-id-card"></i> No. de empleado</label>
-        <input type="number" class="form-control" id="employeeNumber" name="employeeNumber" inputmode="numeric" pattern="[0-9]+" placeholder="Número de empleado">
-    </div>
-
-    <div class="form-group col-md-3">
-        <label for="lastName"><i class="fas fa-user"></i> Apellido Paterno</label>
-        <input type="text" class="form-control" id="lastName" name="lastName" pattern="[A-Za-z]+" title="Solo se permiten caracteres" placeholder="Apellido Paterno">
-    </div>
-
-    <div class="form-group col-md-3">
-        <label for="secondName"><i class="fas fa-user"></i> Apellido Materno</label>
-        <input type="text" class="form-control" id="secondName" name="secondName" pattern="[A-Za-z]+" title="Solo se permiten caracteres" placeholder="Apellido Materno">
-    </div>
-
-    <div class="form-group col-md-3">
-        <label for="name"><i class="fas fa-user"></i> Nombre(s)</label>
-        <input type="text" class="form-control" id="name" name="name" pattern="[A-Za-z]+" title="Solo se permiten caracteres" placeholder="Nombre(s)">
-    </div>
-
-
-       <div class="form-row">
-
-        <div class="form-group col-md-3">
-          <label for="sex"><i class="fas fa-venus-mars"></i> Sexo</label>
-            <select class="form-control" id="sex" name="sex">
-              <option value="Femenino">Femenino</option>
-              <option value="Masculino">Masculino</option>
-               <option value="Nodefinido">No Definido</option>
-          </select>
-        </div>
-                          <!-- Esto son datos de empresa -->
-
-         <div class="form-group col-md-3">
-            <label for="dateadmission"><i class="fas fa-calendar-alt"></i> Fecha de Ingreso</label>
-            <input type="date" class="form-control" id="dateadmission" name="dateadmission" pattern="\d{4}-\d{2}-\d{2}" title="Solo se permiten caracteres">
-        </div>
-
-        <div class="form-group col-md-6">
-          <label for="work_area"><i class="fas fa-building"></i> Área</label>
-            <select class="form-control" id="work_area" name="work_area" onchange="updateDepartments()">
-              <option value="Operaciones" id="Operaciones">Operaciones</option>
-              <option value="Admón">Administración</option>
-              <option value="Comercial">Comercial</option>
-          </select>
-        </div>
-
-        <div class="form-group col-md-3">
-         <label for="department"><i class="fas fa-building"></i> Departamento</label>
-            <select class="form-control" id="department" name="department" onchange="updatePositions()">
-              <option value="Admon">Administración</option>
-              <option value="Almacen">Almacén</option>
-              <option value="Autoservicios">Autoservicios</option>
-              <option  id="Operaciones" value="Calidad">Calidad</option>
-              <option value="Comercial">Comercial</option>
-              <option value="Compras">Compras</option>
-              <option value="Contabilidad">Contabilidad</option>
-              <option value="Desarrollo">Desarrollo</option>
-              <option  id="Operaciones" value="Distribuccion">Distribución</option>
-              <option value="Industrial">Industrial</option>
-              <option value="Institucional">Institucional</option>
-              <option value="Mercadotecnia">Mercadotecnia</option>
-              <option value="Produccion">Producción</option>
-              <option value="RH">Recursos Humanos</option>
-              <option value="Sistemas">Sistemas</option>
-              <option value="Ventas">Ventas</option>
+         <label for="section"><i class="fas fa-building"></i> Departamento</label>
+            <select class="form-control" id="section" name="section" onchange="updatePositions()">
             </select>        
         </div>
 
@@ -584,22 +577,22 @@ body {
 
 };
 
+const recargar_section = (areaId) => {
+      $.ajax({
+              url: "layout/select_options/section.php",
+              type: "POST",
+              data: {areaId}
+          }).done(function(response){
+            $("#section").empty();
+            $("#section").append(response);
+            console.log(response);
+          });
+    }  
+
     function updateDepartments() {
-      var area = document.getElementById('work_area').value;
-      var departmentSelect = document.getElementById('department');
-      var positionsSelect = document.getElementById('position');
 
-      // Limpiar opciones actuales
-      departmentSelect.innerHTML = '';
-      positionsSelect.innerHTML = '';
 
-      // Agregar nuevas opciones para el departamento
-      departmentsByArea[area].forEach(function (department) {
-        var option = document.createElement('option');
-        option.value = department;
-        option.text = department;
-        departmentSelect.add(option);
-      });
+      recargar_section(1);
 
       // Llamar a la función de actualización de puestos para inicializar los puestos
       updatePositions();
@@ -623,6 +616,9 @@ body {
 
     // Llamar a la función de actualización de departamentos al cargar la página
     updateDepartments();
+
+
+  
   </script>
 
 

@@ -3,7 +3,7 @@
 ?>
 <?php require 'layout/libreriasdatatable.php';?>
 <?php require 'nav.php'; ?>
-<?php require 'layout/sidebarfinal.php';
+<?php require_once('layout/sidebar.php'); 
 
   $indicadores=Consultas::listIndicator($conn);
 
