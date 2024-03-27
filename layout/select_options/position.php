@@ -3,13 +3,13 @@
 <?php require_once('../../conexion/conexion.php');
 
   //consulta para ver un solo usuario con el id  
-  $areaId=isset($_POST['areaId']) ? $_POST['areaId'] : false;
+  $sectionId=isset($_POST['sectionId']) ? $_POST['sectionId'] : false;
 
-  $sections=Consultas::listSections($conn, $areaId);
+  $positions=Consultas::listPositions($conn, $sectionId);
   
-  for ($i=0; $i < count($sections); $i++) { 
+  for ($i=0; $i < count($positions); $i++) { 
   ?>
-    <option value="<?=$sections[$i]['departamentoId']?>"><?=$sections[$i]['nombreDepartamento']?></option>
+    <option value="<?=$positions[$i]['puestoId']?>"><?=$positions[$i]['nombrePuesto']?></option>
                       <?php 
                       }
                       ?>

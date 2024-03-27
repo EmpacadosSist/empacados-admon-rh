@@ -17,6 +17,7 @@
 <?php require_once('layout/sidebar.php'); ?>
 <?php require 'nav.php'; ?>
 <?php $areas = Consultas::listAreas($conn); ?>
+<?php $cecos = Consultas::listCecos($conn); ?>
 
 <style type="text/css">
   .h4, h4 {
@@ -100,16 +101,6 @@ body {
                   <input type="text" class="form-control" id="name" name="name" pattern="[A-Za-z]+" title="Solo se permiten caracteres" placeholder="Nombre(s)">
                 </div>
                 <div class="form-row">
-                  <div class="form-group col-md-3">
-                    <label for="gender">
-                      <i class="fas fa-venus-mars"></i> Sexo
-                    </label>
-                    <select class="form-control" id="gender" name="gender">
-                      <option value="F">Femenino</option>
-                      <option value="M">Masculino</option>
-                      <option value="X">No Definido</option>
-                    </select>
-                  </div>
                   <!-- Esto son datos de empresa -->
                   <div class="form-group col-md-3">
                     <label for="recDate">
@@ -121,7 +112,8 @@ body {
                     <label for="area">
                       <i class="fas fa-building"></i> Área
                     </label>
-                    <select class="form-control" id="area" name="area" onchange="updateDepartments()">
+                    <select class="form-control" id="area" name="area">
+                      <option value="">- Seleccione -</option>
                       <?php 
                       for ($i=0; $i < count($areas); $i++) { ?>
                         <option value="<?=$areas[$i]['areaId']?>"><?=$areas[$i]['nombreArea']?></option>
@@ -134,12 +126,17 @@ body {
         <div class="form-group col-md-3">
          <label for="section"><i class="fas fa-building"></i> Departamento</label>
             <select class="form-control" id="section" name="section" onchange="updatePositions()">
+              <option value="">- Seleccione -</option>
             </select>        
         </div>
 
         <div class="form-group col-md-5">
         <label for="position"><i class="fas fa-user-tie"></i> Puesto</label>
         <select class="form-control" id="position" name="position">
+          <option value="">- Seleccione -</option>
+          <!--
+
+
           <option value="analista_capacitacion">Analista de Capacitación</option>
           <option value="analista_compras_internacionales">Analista de Compras Internacionales</option>
           <option value="analista_contable">Analista Contable</option>
@@ -226,59 +223,69 @@ body {
           <option value="analista_calidad">Analista de Calidad</option>
           <option value="lidercalidadinocuidad">Lider Calidad e Inocuidad</option>
           <option value="liderdedistribuccion">Lider de Distribución</option>
+                    -->
     </select>    
           </div>
 
     
         <div class="form-group col-md-4">
-         <label for="Costs"><i class="fas fa-dollar-sign"></i> Centro de Costos</label>
-          <select class="form-control" id="Costs" name="Costs" on>
-                <option value="ONLINE">ON LINE</option>
-                <option value="MTRY1">MTRY 1</option>
-                <option value="MAYORISTAS">MAYORISTAS</option>
-                <option value="KAEDF">KAE DF</option>
-                <option value="INDNTE">INDNTE</option>
-                <option value="INACTIVOS">INACTIVOS</option>
-                <option value="H2H">H2H</option>
-                <option value="FLETISTA">FLETISTA</option>
-                <option value="FILIALES">FILIALES</option>
-                <option value="EMPES">EMPES</option>
-                <option value="EMINSTIT">EMINSTIT</option>
-                <option value="COWEX">COWEX</option>
-                <option value="COVDM">COVDM</option>
-                <option value="COTAMP">COTAMP</option>
-                <option value="COSAN">COSAN</option>
-                <option value="COSAM">COSAM</option>
-                <option value="COSAL">COSAL</option>
-                <option value="CORIB">CORIB</option>
-                <option value="CORBI">CORBI</option>
-                <option value="CONPR">CONPR</option>
-                <option value="CONLA">CONLA</option>
-                <option value="COMMY">COMMY</option>
-                <option value="COMMT">COMMT</option>
-                <option value="COMABAST">COMABAST</option>
-                <option value="COLCO">COLCO</option>
-                <option value="COLAG">COLAG</option>
-                <option value="COKAM">COKAM</option>
-                <option value="COINDUST">COINDUST</option>
-                <option value="COGDL">COGDL</option>
-                <option value="CODUR">CODUR</option>
-                <option value="COCVI">COCVI</option>
-                <option value="COCONVE">COCONVE</option>
-                <option value="COCHI">COCHI</option>
-                <option value="COCCH">COCCH</option>
-                <option value="COCAS">COCAS</option>
-                <option value="COCAR">COCAR</option>
-                <option value="COASR">COASR</option>
-                <option value="COASN">COASN</option>
-                <option value="COASM">COASM</option>
-                <option value="CENTRALA">CENTRALA</option>
-                <option value="CARBONIFERA">CARBONIFERA</option>
-                <option value="CADENAS">CADENAS</option>
-                <option value="AMALI">AMALI</option>
-                <option value="ALMPT">ALM PT</option>
-                <option value="ADDIR">ADDIR</option>
-                <option value="ADCOR">ADCOR</option>
+         <label for="ceco"><i class="fas fa-dollar-sign"></i> Centro de Costos</label>
+          <select class="form-control" id="ceco" name="ceco" on>
+            <option value="">- Seleccione -</option>
+            <?php 
+            for ($i=0; $i < count($cecos); $i++) { ?>
+              <option value="<?=$cecos[$i]['cecoId']?>"><?=$cecos[$i]['nombreCeco']?></option>
+            <?php 
+            }
+            ?>            
+            <!--
+            <option value="ONLINE">ON LINE</option>
+            <option value="MTRY1">MTRY 1</option>
+            <option value="MAYORISTAS">MAYORISTAS</option>
+            <option value="KAEDF">KAE DF</option>
+            <option value="INDNTE">INDNTE</option>
+            <option value="INACTIVOS">INACTIVOS</option>
+            <option value="H2H">H2H</option>
+            <option value="FLETISTA">FLETISTA</option>
+            <option value="FILIALES">FILIALES</option>
+            <option value="EMPES">EMPES</option>
+            <option value="EMINSTIT">EMINSTIT</option>
+            <option value="COWEX">COWEX</option>
+            <option value="COVDM">COVDM</option>
+            <option value="COTAMP">COTAMP</option>
+            <option value="COSAN">COSAN</option>
+            <option value="COSAM">COSAM</option>
+            <option value="COSAL">COSAL</option>
+            <option value="CORIB">CORIB</option>
+            <option value="CORBI">CORBI</option>
+            <option value="CONPR">CONPR</option>
+            <option value="CONLA">CONLA</option>
+            <option value="COMMY">COMMY</option>
+            <option value="COMMT">COMMT</option>
+            <option value="COMABAST">COMABAST</option>
+            <option value="COLCO">COLCO</option>
+            <option value="COLAG">COLAG</option>
+            <option value="COKAM">COKAM</option>
+            <option value="COINDUST">COINDUST</option>
+            <option value="COGDL">COGDL</option>
+            <option value="CODUR">CODUR</option>
+            <option value="COCVI">COCVI</option>
+            <option value="COCONVE">COCONVE</option>
+            <option value="COCHI">COCHI</option>
+            <option value="COCCH">COCCH</option>
+            <option value="COCAS">COCAS</option>
+            <option value="COCAR">COCAR</option>
+            <option value="COASR">COASR</option>
+            <option value="COASN">COASN</option>
+            <option value="COASM">COASM</option>
+            <option value="CENTRALA">CENTRALA</option>
+            <option value="CARBONIFERA">CARBONIFERA</option>
+            <option value="CADENAS">CADENAS</option>
+            <option value="AMALI">AMALI</option>
+            <option value="ALMPT">ALM PT</option>
+            <option value="ADDIR">ADDIR</option>
+            <option value="ADCOR">ADCOR</option>
+            -->
         </select>
 
      </div>
@@ -290,47 +297,45 @@ body {
         <!-- Elemento h2 con el título -->
        
     </div><br>
-    <h2  align="text-center" id="title" class="animate__animated animate__bounceInDown card-title">
+    <h2 align="text-center" id="title" class="animate__animated animate__bounceInDown card-title">
          
             Información de personal
            <img src="assets/img/empleadoempacados.png" alt="" width="60">
           </h2>
     <div class="form-row">
     <div class="form-group col-md-3">
-        <label for="age"><i class="fas fa-birthday-cake"></i> Edad</label>
-        <input type="text" class="form-control" id="age" name="age" pattern="[0-9]+" title="Solo se permiten números" placeholder="Ingrese su edad">
+        <label for="dateOfBirth"><i class="fas fa-calendar-alt"></i> Fecha de Nacimiento</label>
+        <input type="date" class="form-control" id="dateOfBirth" name="dateOfBirth" placeholder="Fecha de Nacimiento">
     </div>
     <div class="form-group col-md-3">
-        <label for="datebirthday"><i class="fas fa-calendar-alt"></i> Fecha de Nacimiento</label>
-        <input type="date" class="form-control" id="datebirthday" name="datebirthday" placeholder="Fecha de Nacimiento">
-    </div>
-    <div class="form-group col-md-3">
-        <label for="placebirth"><i class="fas fa-globe"></i> Lugar de Nacimiento</label>
-        <input type="text" class="form-control" id="placebirth" name="placebirth" placeholder="Lugar de Nacimiento">
+        <label for="placeOfBirth"><i class="fas fa-globe"></i> Lugar de Nacimiento</label>
+        <input type="text" class="form-control" id="placeOfBirth" name="placeOfBirth" placeholder="Lugar de Nacimiento">
     </div>
 
         <div class="form-group col-md-3">
-            <label for="sex"><i class="fas fa-venus-mars"></i> Sexo</label>
-            <select class="form-control" id="sex" name="sex">
-                <option value="Femenino">Femenino</option>
-                <option value="Masculino">Masculino</option>
+            <label for="gender"><i class="fas fa-venus-mars"></i> Sexo</label>
+            <select class="form-control" id="gender" name="gender">
+              <option value="">- Seleccione -</option>
+              <option value="F">Femenino</option>
+              <option value="M">Masculino</option>
+              <option value="X">No Definido</option>
             </select>
         </div>
         
        
       <div class="form-group col-md-3"> 
-        <label for="estadoCivil"><i class="fas fa-heart"></i> Estado civil</label>
-          <select class="form-control" id="estadoCivil">
-            <option value="soltero" id="soltero">Soltero(a)</option>
-            <option value="unionLibre" id="unionLibre">Unión Libre</option>
-            <option value="casado">Casado(a)</option>
+        <label for="maritalStatus"><i class="fas fa-heart"></i> Estado civil</label>
+          <select class="form-control" id="maritalStatus" name="maritalStatus">
+            <option value="Soltero(a)">Soltero(a)</option>
+            <option value="Casado(a)">Casado(a)</option>
+            <option value="Unión Libre">Unión Libre</option>
           </select>
       </div>
 
         
        <div class="form-group col-md-4">
-          <label for="socialSecurityNumber"><i class="fas fa-venus-mars"></i> NSS</label>
-          <input type="text" class="form-control" id="socialSecurityNumber" name="socialSecurityNumber" pattern="[0-9]+" title="Solo se permiten números" placeholder="Número de seguro social">
+          <label for="nss"><i class="fas fa-venus-mars"></i> NSS</label>
+          <input type="text" class="form-control" id="nss" name="nss" pattern="[0-9]+" title="Solo se permiten números" placeholder="Número de seguro social">
       </div>
       <div class="form-group col-md-5">
           <label for="curp"><i class="fas fa-id-card"></i> CURP</label>
@@ -340,30 +345,26 @@ body {
           <label for="rfc"><i class="fas fa-id-card"></i> RFC</label>
           <input type="text" class="form-control" id="rfc" name="rfc" pattern="[A-Za-z0-9]+" title="Solo se permiten caracteres" placeholder="Ingrese su RFC">
       </div>
-     <div class="form-group col-md-3">
-        <label for="passportNumber"><i class="fas fa-passport"></i> Número de Pasaporte</label>
-        <input type="text" class="form-control" id="passportNumber" name="passportNumber" placeholder="Número de Pasaporte">
-    </div>
       <div class="form-group col-md-5">
-          <label for="streetAndNumber"><i class="fas fa-map"></i> Domicilio calle y Num.</label>
-          <input type="text" class="form-control" id="streetAndNumber" name="streetAndNumber" pattern="[A-Za-z0-9]+" title="Solo se permiten caracteres" placeholder="Ingrese su domicilio">
+          <label for="address"><i class="fas fa-map"></i> Domicilio calle y Num.</label>
+          <input type="text" class="form-control" id="address" name="address" pattern="[A-Za-z0-9]+" title="Solo se permiten caracteres" placeholder="Ingrese su domicilio">
       </div>
       <div class="form-group col-md-3">
-          <label for="colony"><i class="fas fa-map-marker-alt"></i> Colonia</label>
-          <input type="text" class="form-control" id="colony" name="colony" pattern="[A-Za-z0-9]+" title="Solo se permiten caracteres" placeholder="Ingrese su colonia">
+          <label for="colonia"><i class="fas fa-map-marker-alt"></i> Colonia</label>
+          <input type="text" class="form-control" id="colonia" name="colonia" pattern="[A-Za-z0-9]+" title="Solo se permiten caracteres" placeholder="Ingrese su colonia">
       </div>
       <div class="form-group col-md-3">
-        <label for="municipality"><i class="fas fa-map-marker-alt"></i> Municipio</label>
-        <input type="text" class="form-control" id="municipality" name="municipality" pattern="[A-Za-z0-9]+" title="Solo se permiten caracteres" placeholder="Ingrese su municipio">
+        <label for="municipio"><i class="fas fa-map-marker-alt"></i> Municipio</label>
+        <input type="text" class="form-control" id="municipio" name="municipio" pattern="[A-Za-z0-9]+" title="Solo se permiten caracteres" placeholder="Ingrese su municipio">
     </div>
     <div class="form-group col-md-3">
-        <label for="state"><i class="fas fa-map-marker-alt"></i> Estado</label>
-        <input type="text" class="form-control" id="state" name="state" pattern="[A-Za-z0-9]+" title="Solo se permiten caracteres" placeholder="Ingrese su estado">
+        <label for="estado"><i class="fas fa-map-marker-alt"></i> Estado</label>
+        <input type="text" class="form-control" id="estado" name="estado" pattern="[A-Za-z0-9]+" title="Solo se permiten caracteres" placeholder="Ingrese su estado">
     </div>
 
       <div class="form-group col-md-3">
-          <label for="currentPostalCode"><i class="fas fa-map-marker-alt"></i> C.P. (actual)</label>
-          <input type="text" class="form-control" id="currentPostalCode" name="currentPostalCode" pattern="[A-Za-z0-9]+" title="Solo se permiten caracteres" placeholder="Ingrese su código postal actual">
+          <label for="postalcode"><i class="fas fa-map-marker-alt"></i> C.P. (actual)</label>
+          <input type="text" class="form-control" id="postalcode" name="postalcode" pattern="[A-Za-z0-9]+" title="Solo se permiten caracteres" placeholder="Ingrese su código postal actual">
       </div>
       <div class="form-group col-md-3">
           <label for="education"><i class="fa-solid fa-magnifying-glass-location"></i> Escolaridad</label>
@@ -374,12 +375,12 @@ body {
           <input type="email" class="form-control" id="email" name="email" placeholder="Ingrese su correo electrónico">
       </div>
       <div class="form-group col-md-3">
-          <label for="phoneNumber"><i class="fas fa-phone"></i> Teléfono actual</label>
-          <input type="tel" class="form-control" id="phoneNumber" name="phoneNumber" pattern="[0-9]+" title="Solo se permiten números" placeholder="Ingrese su número de teléfono actual">
+          <label for="phone"><i class="fas fa-phone"></i> Teléfono actual</label>
+          <input type="tel" class="form-control" id="phone" name="phone" pattern="[0-9]+" title="Solo se permiten números" placeholder="Ingrese su número de teléfono actual">
       </div>
 
 
-  <div> <br><br><br></div>
+ <br><br><br>
 <div class="title-container animate__animated animate__bounceInDown">
         <!-- Elemento h2 con el título -->
         <h2 id="title" class="card-title">
@@ -422,31 +423,31 @@ body {
 </div>
 
     <div class="form-group col-md-3">
-        <label for=""><i class="fas fa-heartbeat"></i> Enfermedades Crónicas</label>
-        <input type="text" class="form-control" id="" name="" pattern="[A-Za-z]+" title="Solo se permiten caracteres" placeholder="Enfermedades Crónicas">
+        <label for="illnesses"><i class="fas fa-heartbeat"></i> Enfermedades Crónicas</label>
+        <input type="text" class="form-control" id="illnesses" name="illnesses" pattern="[A-Za-z]+" title="Solo se permiten caracteres" placeholder="Enfermedades Crónicas">
     </div>
     <div class="form-group col-md-3">
-        <label for=""><i class="fas fa-allergies"></i> Alergias</label>
-        <input type="text" class="form-control" id="" name="" pattern="[A-Za-z]+" title="Solo se permiten caracteres" placeholder="Alergias">
+        <label for="allergies"><i class="fas fa-allergies"></i> Alergias</label>
+        <input type="text" class="form-control" id="allergies" name="allergies" pattern="[A-Za-z]+" title="Solo se permiten caracteres" placeholder="Alergias">
     </div>
     <div class="form-group col-md-3">
-        <label for=""><i class="fas fa-pills"></i> Medicamentos</label>
-        <input type="text" class="form-control" id="" name="" pattern="[A-Za-z]+" title="Solo se permiten caracteres" placeholder="Toma algún medicamento">
+        <label for="medication"><i class="fas fa-pills"></i> Medicamentos</label>
+        <input type="text" class="form-control" id="medication" name="medication" pattern="[A-Za-z]+" title="Solo se permiten caracteres" placeholder="Toma algún medicamento">
     </div>
   <div class="form-group col-md-3">
-      <label for="emergencyContact"><i class="fas fa-phone"></i> Num emergencia</label>
-      <input type="text" class="form-control" id="emergencyContact" name="emergencyContact" pattern="[0-9]+" title="Solo se permiten caracteres numéricos" placeholder="Contacto de emergencia">
+      <label for="emerPhone1"><i class="fas fa-phone"></i> Num emergencia</label>
+      <input type="text" class="form-control" id="emerPhone1" name="emerPhone1" pattern="[0-9]+" title="Solo se permiten caracteres numéricos" placeholder="Contacto de emergencia">
   </div>
 
   <div class="form-group col-md-3">
-      <label for="emergencyContact2"><i class="fas fa-phone"></i> Num emergencia 2</label>
-      <input type="text" class="form-control" id="emergencyContact2" name="emergencyContact2" pattern="[0-9]+" title="Solo se permiten caracteres numéricos" placeholder="Contacto de emergencia 2">
+      <label for="emerPhone2"><i class="fas fa-phone"></i> Num emergencia 2</label>
+      <input type="text" class="form-control" id="emerPhone2" name="emerPhone2" pattern="[0-9]+" title="Solo se permiten caracteres numéricos" placeholder="Contacto de emergencia 2">
   </div>
 
 
     <div class="form-group col-md-2">
-        <label for=""><i class="fas fa-money-bill-wave"></i> Sueldo base</label>
-        <input type="text" class="form-control" id="pay" name="pay" pattern="[0-9]+" title="Solo se permiten caracteres" placeholder="Sueldo base">
+        <label for="baseSalary"><i class="fas fa-money-bill-wave"></i> Sueldo base</label>
+        <input type="text" class="form-control" id="baseSalary" name="baseSalary" pattern="[0-9]+" title="Solo se permiten caracteres" placeholder="Sueldo base">
     </div>
      <div class="form-group col-md-3">
       <label for="paymentType"><i class="fa-solid fa-mobile-screen-button"></i>Tipo de Pago</label>
@@ -459,12 +460,12 @@ body {
       </select>
   </div>
      <div class="form-group col-md-3">
-        <label for="foodAllowance"><i class="fas fa-utensils"></i> Bonos de despensa</label>
-        <input type="text" class="form-control" id="foodAllowance" name="foodAllowance" pattern="[0-9]+" title="Solo se permiten números" placeholder="Bonos de despensa">
+        <label for="foodBonus"><i class="fas fa-utensils"></i> Bonos de despensa</label>
+        <input type="text" class="form-control" id="foodBonus" name="foodBonus" pattern="[0-9]+" title="Solo se permiten números" placeholder="Bonos de despensa">
     </div>
     <div class="form-group col-md-4">
-      <label for="savings"><i class="fas fa-piggy-bank"></i> Fondo de ahorro (Quincenales)</label>
-      <input type="text" class="form-control" id="savings" name="savings" pattern="[A-Za-z]+" title="Solo se permiten caracteres" placeholder="Fondo de ahorro (Quincenales)">
+      <label for="savingFund"><i class="fas fa-piggy-bank"></i> Fondo de ahorro (Quincenales)</label>
+      <input type="text" class="form-control" id="savingFund" name="savingFund" pattern="[A-Za-z]+" title="Solo se permiten caracteres" placeholder="Fondo de ahorro (Quincenales)">
   </div>
     <div class="form-group col-md-6">
       <label for="bank"><i class="fas fa-money-check"></i> Banco</label>
@@ -480,8 +481,8 @@ body {
       </select>
       </div>
       <div class="form-group col-md-6">
-        <label for="bankAccount"><i class="fa-solid fa-money-check-dollar"></i> Cuenta bancaria</label>
-        <input type="text" class="form-control" id="bankAccount" name="bankAccount" pattern="[A-Za-z]+" title="Solo se permiten caracteres" placeholder="Cuenta bancaria">
+        <label for="bankAcc"><i class="fa-solid fa-money-check-dollar"></i> Cuenta bancaria</label>
+        <input type="text" class="form-control" id="bankAcc" name="bankAcc" pattern="[A-Za-z]+" title="Solo se permiten caracteres" placeholder="Cuenta bancaria">
   </div>
 
 
@@ -516,7 +517,6 @@ body {
 
 <style type="text/css">
   
-       <style>
        .medium-button {
         font-size: 10px;
         padding: 11px 21px;
@@ -524,7 +524,6 @@ body {
         font-weight: bold;
 
       }
-    </style>
 </style>
  <script>
     // Datos de ejemplo para departamentos y puestos
@@ -576,28 +575,6 @@ body {
      
 
 };
-
-const recargar_section = (areaId) => {
-      $.ajax({
-              url: "layout/select_options/section.php",
-              type: "POST",
-              data: {areaId}
-          }).done(function(response){
-            $("#section").empty();
-            $("#section").append(response);
-            console.log(response);
-          });
-    }  
-
-    function updateDepartments() {
-
-
-      recargar_section(1);
-
-      // Llamar a la función de actualización de puestos para inicializar los puestos
-      updatePositions();
-    }
-
     function updatePositions() {
       var department = document.getElementById('department').value;
       var positionsSelect = document.getElementById('position');
@@ -630,6 +607,8 @@ const recargar_section = (areaId) => {
             $('#form_id').attr('action', 'pdfpuesto.php');
         });
     });
+
+    
 </script>
 
 
@@ -960,7 +939,41 @@ $('#tablaDatos').on('click', '.editar', function() {
     });
   });
 
- 
+  $("#area").on('change', function(){
+    let area_id=$(this).val();
+    recargar_section(area_id);
+  });
+
+  $("#section").on('change', function(){
+    let section_id=$(this).val();
+    recargar_position(section_id);
+  });  
+
+  const recargar_section = (areaId) => {
+    $.ajax({
+      url: "layout/select_options/section.php",
+      type: "POST",
+      data: { areaId }
+    }).done(function(response){
+      $("#section").empty();
+      $("#section").append('<option value="">- Seleccione -</option>');
+      $("#section").append(response);
+      console.log(response);
+    });
+  }
+
+  const recargar_position = (sectionId) => {
+    $.ajax({
+      url: "layout/select_options/position.php",
+      type: "POST",
+      data: { sectionId }
+    }).done(function(response){
+      $("#position").empty();
+      $("#position").append('<option value="">- Seleccione -</option>');
+      $("#position").append(response);
+      console.log(response);
+    });
+  }  
 
 </script>
 <script>

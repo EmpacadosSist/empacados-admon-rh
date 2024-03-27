@@ -237,7 +237,50 @@
       $conn->next_result();
       return $resultado;
 
-    }    
+    }
+    
+    public static function listPositions($conn, $sectionId){
+      $sqlSP="CALL select_position($sectionId)";
+      /*
+      alias de los campos
+	    'puestoId',
+      'departamentoId',
+      'nombrePuesto'
+      */
+      $resultSP=$conn->query($sqlSP, MYSQLI_STORE_RESULT);
+      
+      $resultado=[];
+      //condicion para verificar si se hizo la insercion en la bd
+      if($resultSP){        
+        while($row = $resultSP->fetch_assoc()){
+          array_push($resultado, $row);
+        }
+      }
+      $conn->next_result();
+      return $resultado;
+
+    }  
+    
+    public static function listCecos($conn){
+      $sqlSP="CALL select_ceco()";
+      /*
+      alias de los campos
+	    'cecoId',
+      'nombreCeco'
+      */
+      $resultSP=$conn->query($sqlSP, MYSQLI_STORE_RESULT);
+      
+      $resultado=[];
+      //condicion para verificar si se hizo la insercion en la bd
+      if($resultSP){        
+        while($row = $resultSP->fetch_assoc()){
+          array_push($resultado, $row);
+        }
+      }
+      $conn->next_result();
+      return $resultado;
+
+    }      
 
     public static function paymentVar($conn, $positionId, $indicatorId){
       $sqlSP="CALL select_position_indicator($positionId, $indicatorId)";
