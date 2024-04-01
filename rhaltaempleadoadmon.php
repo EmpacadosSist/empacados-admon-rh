@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -65,7 +66,8 @@ body {
           <div class="card-body">
            <div class="container mt-5" align="left">
            <br>
-    <form id="form_id" method="post" action="pdfpuesto.php">
+      
+      <form id="form_id" method="post" action="./altas/subir_actualizar_empleado.php">
         <h2  align="" id="title" class="animate__animated animate__bounceInDown card-title">
           
                 Datos de Empleado
@@ -73,18 +75,18 @@ body {
           </h2>
      <div class="form-row">
         <div class="form-group col-md-3">
-        <label for="employeeNumber"><i class="fas fa-id-card"></i> No. de empleado</label>
-        <input type="number" class="form-control" id="employeeNumber" name="employeeNumber" inputmode="numeric" pattern="[0-9]+" placeholder="Número de empleado">
+        <label for="userId"><i class="fas fa-id-card"></i> No. de empleado</label>
+        <input type="number" class="form-control" id="userId" name="userId" inputmode="numeric" pattern="[0-9]+" placeholder="Número de empleado">
     </div>
 
     <div class="form-group col-md-3">
-        <label for="lastName"><i class="fas fa-user"></i> Apellido Paterno</label>
-        <input type="text" class="form-control" id="lastName" name="lastName" pattern="[A-Za-z]+" title="Solo se permiten caracteres" placeholder="Apellido Paterno">
+        <label for="lastName1"><i class="fas fa-user"></i> Apellido Paterno</label>
+        <input type="text" class="form-control" id="lastName1" name="lastName1" pattern="[A-Za-z]+" title="Solo se permiten caracteres" placeholder="Apellido Paterno">
     </div>
 
     <div class="form-group col-md-3">
-        <label for="secondName"><i class="fas fa-user"></i> Apellido Materno</label>
-        <input type="text" class="form-control" id="secondName" name="secondName" pattern="[A-Za-z]+" title="Solo se permiten caracteres" placeholder="Apellido Materno">
+        <label for="lastName2"><i class="fas fa-user"></i> Apellido Materno</label>
+        <input type="text" class="form-control" id="lastName2" name="lastName2" pattern="[A-Za-z]+" title="Solo se permiten caracteres" placeholder="Apellido Materno">
     </div>
 
     <div class="form-group col-md-3">
@@ -137,7 +139,9 @@ body {
               <option value="Produccion">Producción</option>
               <option value="RH">Recursos Humanos</option>
               <option value="Sistemas">Sistemas</option>
-              <option value="Ventas">Ventas</option>
+              <option value="Facturacion">Facturacion</option>
+              <option value="Mantemiento">Mantemiento</option>
+
             </select>        
         </div>
 
@@ -535,7 +539,7 @@ body {
     var departmentsByArea = {
       'Operaciones': ['Almacen','Calidad', 'Distribución', 'Producción','Desarrollo','Mantenimiento'],
       'Admón': ['Facturación','Inventarios', 'Compras', 'Contabilidad', 'RH','Sistemas'],
-      'Comercial': ['Industrial','Ventas', 'Marketing','Autoservicios','Comercial','Líder Trade Marketing','Industrial','Institucional','Mayoreo']
+      'Comercial': ['Industrial','Marketing','Autoservicios','Comercial','Líder Trade Marketing','Institucional','Mayoreo']
     };
 
    var positionsByDepartment = {
@@ -543,7 +547,7 @@ body {
       'Inventarios': ['Lider de Inventarios y Costos','Auditor de Inventarios','Analista de Inventarios'],
 
     
-      'Sistemas': ['Ingeniero Sistemas'],
+      'Sistemas': ['Staff Sistemas'],
 
       'Desarrollo': ['Líder Innovación y Desarrollo','Ingeniero de Innovación & Desarrollo','Ingeniero Jr de Innovación & Desarrollo'],
 
