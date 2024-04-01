@@ -3,13 +3,13 @@
 <?php require_once('../../conexion/conexion.php');
 
   //consulta para ver un solo usuario con el id  
-  $sectionId=isset($_POST['parentId']) ? $_POST['parentId'] : false;
+  $estadoId=isset($_POST['parentId']) ? $_POST['parentId'] : false;
 
-  $positions=Consultas::listPositions($conn, $sectionId);
+  $municipios=Consultas::listMunicipios($conn, $estadoId);
   
-  for ($i=0; $i < count($positions); $i++) { 
+  for ($i=0; $i < count($municipios); $i++) { 
   ?>
-    <option value="<?=$positions[$i]['puestoId']?>"><?=$positions[$i]['nombrePuesto']?></option>
+    <option value="<?=$municipios[$i]['municipioId']?>"><?=$municipios[$i]['nombreMunicipio']?></option>
                       <?php 
                       }
                       ?>

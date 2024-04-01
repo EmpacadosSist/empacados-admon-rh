@@ -20,6 +20,7 @@
 <?php require 'nav.php'; ?>
 <?php $areas = Consultas::listAreas($conn); ?>
 <?php $cecos = Consultas::listCecos($conn); ?>
+<?php $estados = Consultas::listEstados($conn); ?>
 
 <style type="text/css">
   .h4,
@@ -92,29 +93,32 @@
                   <i class="fas fa-id-card"></i>
                   No. de empleado
                 </label>
-                <input type="number" class="form-control" id="empNum" name="empNum" inputmode="numeric" pattern="[0-9]+"
-                  placeholder="Número de empleado">
+                <input type="number" class="form-control" id="empNum" name="empNum" inputmode="numeric" pattern="[0-9]+">
+                <span id="error_empNum" class="text-danger"></span>
               </div>
               <div class="form-group col-md-3">
                 <label for="lastName1">
                   <i class="fas fa-user"></i> Apellido Paterno
                 </label>
                 <input type="text" class="form-control" id="lastName1" name="lastName1" pattern="[A-Za-z]+"
-                  title="Solo se permiten caracteres" placeholder="Apellido Paterno">
+                  title="Solo se permiten caracteres">
+                <span id="error_lastName1" class="text-danger"></span>
               </div>
               <div class="form-group col-md-3">
                 <label for="lastName2">
                   <i class="fas fa-user"></i> Apellido Materno
                 </label>
                 <input type="text" class="form-control" id="lastName2" name="lastName2" pattern="[A-Za-z]+"
-                  title="Solo se permiten caracteres" placeholder="Apellido Materno">
+                  title="Solo se permiten caracteres">
+                  <span id="error_lastName2" class="text-danger"></span>
               </div>
               <div class="form-group col-md-3">
                 <label for="name">
                   <i class="fas fa-user"></i> Nombre(s)
                 </label>
                 <input type="text" class="form-control" id="name" name="name" pattern="[A-Za-z]+"
-                  title="Solo se permiten caracteres" placeholder="Nombre(s)">
+                  title="Solo se permiten caracteres">
+                  <span id="error_name" class="text-danger"></span>
               </div>
             </div>
 
@@ -125,6 +129,7 @@
                 </label>
                 <input type="date" class="form-control" id="recDate" name="recDate" pattern="\d{4}-\d{2}-\d{2}"
                   title="Solo se permiten caracteres">
+                <span id="error_recDate" class="text-danger"></span>
               </div>
               <div class="form-group col-md-3">
                 <label for="area">
@@ -141,6 +146,7 @@
                     }
                     ?>
                 </select>
+                <span id="error_area" class="text-danger"></span>
               </div>
 
               <div class="form-group col-md-3">
@@ -148,6 +154,7 @@
                 <select class="form-control" id="section" name="section" onchange="updatePositions()">
                   <option value="">- Seleccione -</option>
                 </select>
+                <span id="error_section" class="text-danger"></span>
               </div>
 
               <div class="form-group col-md-3">
@@ -155,6 +162,7 @@
                 <select class="form-control" id="position" name="position">
                   <option value="">- Seleccione -</option>
                 </select>
+                <span id="error_position" class="text-danger"></span>
               </div>
             </div>
 
@@ -172,6 +180,7 @@
                    }
                    ?>
                 </select>
+                <span id="error_ceco" class="text-danger"></span>
               </div>
             </div>
 
@@ -187,11 +196,13 @@
                 <label for="dateOfBirth"><i class="fas fa-calendar-alt"></i> Fecha de Nacimiento</label>
                 <input type="date" class="form-control" id="dateOfBirth" name="dateOfBirth"
                   placeholder="Fecha de Nacimiento">
+                <span id="error_dateOfBirth" class="text-danger"></span>
               </div>
               <div class="form-group col-md-3">
                 <label for="placeOfBirth"><i class="fas fa-globe"></i> Lugar de Nacimiento</label>
                 <input type="text" class="form-control" id="placeOfBirth" name="placeOfBirth"
                   placeholder="Lugar de Nacimiento">
+                <span id="error_placeOfBirth" class="text-danger"></span>
               </div>
 
               <div class="form-group col-md-3">
@@ -202,16 +213,19 @@
                   <option value="M">Masculino</option>
                   <option value="X">No Definido</option>
                 </select>
+                <span id="error_gender" class="text-danger"></span>
               </div>
 
 
               <div class="form-group col-md-3">
                 <label for="maritalStatus"><i class="fas fa-heart"></i> Estado civil</label>
                 <select class="form-control" id="maritalStatus" name="maritalStatus">
+                  <option value="">- Seleccione -</option>
                   <option value="Soltero(a)">Soltero(a)</option>
                   <option value="Casado(a)">Casado(a)</option>
                   <option value="Unión Libre">Unión Libre</option>
                 </select>
+                <span id="error_maritalStatus" class="text-danger"></span>                
               </div>
             </div>
 
@@ -220,62 +234,93 @@
                 <label for="nss"><i class="fas fa-venus-mars"></i> NSS</label>
                 <input type="text" class="form-control" id="nss" name="nss" pattern="[0-9]+"
                   title="Solo se permiten números" placeholder="Número de seguro social">
+                  <span id="error_nss" class="text-danger"></span>                  
               </div>
               <div class="form-group col-md-3">
                 <label for="curp"><i class="fas fa-id-card"></i> CURP</label>
                 <input type="text" class="form-control" id="curp" name="curp" pattern="[A-Za-z0-9]+"
                   title="Solo se permiten caracteres" placeholder="Ingrese su CURP">
+                  <span id="error_curp" class="text-danger"></span>                  
               </div>
               <div class="form-group col-md-3">
                 <label for="rfc"><i class="fas fa-id-card"></i> RFC</label>
                 <input type="text" class="form-control" id="rfc" name="rfc" pattern="[A-Za-z0-9]+"
                   title="Solo se permiten caracteres" placeholder="Ingrese su RFC">
+                  <span id="error_rfc" class="text-danger"></span>                  
               </div>
               <div class="form-group col-md-3">
-                <label for="address"><i class="fas fa-map"></i> Domicilio calle y Num.</label>
-                <input type="text" class="form-control" id="address" name="address" pattern="[A-Za-z0-9]+"
-                  title="Solo se permiten caracteres" placeholder="Ingrese su domicilio">
+                <label for="education"><i class="fa-solid fa-magnifying-glass-location"></i> Escolaridad</label>
+                <input type="text" class="form-control" id="education" name="education" pattern="[A-Za-z]+"
+                  title="Solo se permiten caracteres" placeholder="Ingrese su nivel de escolaridad">
+                <span id="error_education" class="text-danger"></span>  
               </div>
             </div>
 
             <div class="row">
               <div class="form-group col-md-3">
-                <label for="colonia"><i class="fas fa-map-marker-alt"></i> Colonia</label>
-                <input type="text" class="form-control" id="colonia" name="colonia" pattern="[A-Za-z0-9]+"
-                  title="Solo se permiten caracteres" placeholder="Ingrese su colonia">
+                <label for="estado"><i class="fas fa-map-marker-alt"></i> Estado</label>
+                <select class="form-control" id="estado" name="estado">
+                  <option value="">- Seleccione -</option>
+                  <?php 
+                    for ($i=0; $i < count($estados); $i++) { ?>
+                  <option value="<?=$estados[$i]['estadoId']?>">
+                    <?=$estados[$i]['nombreEstado']?>
+                  </option>
+                  <?php 
+                    }
+                    ?>
+                </select>
+                <span id="error_estado" class="text-danger"></span>                  
               </div>
               <div class="form-group col-md-3">
                 <label for="municipio"><i class="fas fa-map-marker-alt"></i> Municipio</label>
-                <input type="text" class="form-control" id="municipio" name="municipio" pattern="[A-Za-z0-9]+"
+                <select class="form-control" id="municipio" name="municipio">
+                  <option value="">- Seleccione -</option>
+                </select>
+                <!--
+                  <input type="text" class="form-control" id="municipio" name="municipio" pattern="[A-Za-z0-9]+"
                   title="Solo se permiten caracteres" placeholder="Ingrese su municipio">
+                -->
+                <span id="error_municipio" class="text-danger"></span>                
               </div>
               <div class="form-group col-md-3">
-                <label for="estado"><i class="fas fa-map-marker-alt"></i> Estado</label>
-                <input type="text" class="form-control" id="estado" name="estado" pattern="[A-Za-z0-9]+"
-                  title="Solo se permiten caracteres" placeholder="Ingrese su estado">
+                <label for="colonia"><i class="fas fa-map-marker-alt"></i> Colonia</label>
+                <select class="form-control" id="colonia" name="colonia">
+                  <option value="">- Seleccione -</option>
+                </select>
+                <!--
+                  <input type="text" class="form-control" id="colonia" name="colonia" pattern="[A-Za-z0-9]+"
+                  title="Solo se permiten caracteres" placeholder="Ingrese su colonia">
+                -->
+                  <span id="error_colonia" class="text-danger"></span>                  
               </div>
               <div class="form-group col-md-3">
                 <label for="postalcode"><i class="fas fa-map-marker-alt"></i> C.P. (actual)</label>
                 <input type="text" class="form-control" id="postalcode" name="postalcode" pattern="[A-Za-z0-9]+"
-                  title="Solo se permiten caracteres" placeholder="Ingrese su código postal actual">
+                  title="Solo se permiten caracteres" disabled>
+                  <span id="error_postalcode" class="text-danger"></span>                
               </div>
             </div>
 
             <div class="row">
               <div class="form-group col-md-4">
-                <label for="education"><i class="fa-solid fa-magnifying-glass-location"></i> Escolaridad</label>
-                <input type="text" class="form-control" id="education" name="education" pattern="[A-Za-z]+"
-                  title="Solo se permiten caracteres" placeholder="Ingrese su nivel de escolaridad">
+                <label for="address"><i class="fas fa-map"></i> Domicilio calle y Num.</label>
+                <input type="text" class="form-control" id="address" name="address" pattern="[A-Za-z0-9]+"
+                  title="Solo se permiten caracteres" placeholder="Ingrese su domicilio">
+                  <span id="error_address" class="text-danger"></span>                 
+                
               </div>
               <div class="form-group col-md-4">
                 <label for="email"><i class="fas fa-envelope"></i> Correo electrónico</label>
                 <input type="email" class="form-control" id="email" name="email"
                   placeholder="Ingrese su correo electrónico">
+                  <span id="error_email" class="text-danger"></span>                  
               </div>
               <div class="form-group col-md-4">
                 <label for="phone"><i class="fas fa-phone"></i> Teléfono actual</label>
                 <input type="tel" class="form-control" id="phone" name="phone" pattern="[0-9]+"
                   title="Solo se permiten números" placeholder="Ingrese su número de teléfono actual">
+                  <span id="error_phone" class="text-danger"></span>                  
               </div>
             </div>
 
@@ -289,38 +334,50 @@
             <div class="row">
               <div class="form-group col-md-3">
                 <label for="shirtSize"><i class="fas fa-tshirt"></i> Talla de Camisa</label>
-                <select class="form-control" id="shirtSize" name="shirtSize">
-                  <option value="" selected disabled>Selecciona una talla</option>
-                  <option value="S">S</option>
-                  <option value="M">M</option>
-                  <option value="L">L</option>
-                  <!-- Agrega más opciones según sea necesario -->
-                </select>
+                <input type="text" class="form-control" id="shirtSize" name="shirtSize" placeholder="Ingrese talla de camisa">
+                <!--
+
+                  <select class="form-control" id="shirtSize" name="shirtSize">
+                    <option value="">- Seleccione -</option>
+                    <option value="S">S</option>
+                    <option value="M">M</option>
+                    <option value="L">L</option>
+                  </select>                
+                -->
+              
               </div>
               <div class="form-group col-md-3">
                 <label for="pantsSize"><img src="assets/img/pantalones.png" width="20px"> Talla de Pantalón</label>
-                <select class="form-control" id="pantsSize" name="pantsSize">
-                  <option value="" selected disabled>Selecciona una talla</option>
-                  <option value="28">28</option>
-                  <option value="30">30</option>
-                  <option value="32">32</option>
-                  <!-- Agrega más opciones según sea necesario -->
-                </select>
+                <input type="text" class="form-control" id="pantsSize" name="pantsSize" placeholder="Ingrese talla de pantalón">
+                <!--
+
+                  <select class="form-control" id="pantsSize" name="pantsSize">
+                    <option value="">- Seleccione -</option>
+                    <option value="28">28</option>
+                    <option value="30">30</option>
+                    <option value="32">32</option>
+                  </select>              
+                -->
+              
               </div>
               <div class="form-group col-md-3">
                 <label for="shoeSize"><i class="fas fa-shoe-prints"></i> Talla de Calzado</label>
-                <select class="form-control" id="shoeSize" name="shoeSize">
-                  <option value="" selected disabled>Selecciona una talla</option>
-                  <option value="7">7</option>
-                  <option value="8">8</option>
-                  <option value="9">9</option>
-                  <!-- Agrega más opciones según sea necesario -->
-                </select>
+                <input type="text" class="form-control" id="shoeSize" name="shoeSize" placeholder="Ingrese talla de calzado">
+                <!--
+
+                  <select class="form-control" id="shoeSize" name="shoeSize">
+                    <option value="">- Seleccione -</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                  </select>
+                -->
+              
               </div>
               <div class="form-group col-md-3">
                 <label for="illnesses"><i class="fas fa-heartbeat"></i> Enfermedades Crónicas</label>
                 <input type="text" class="form-control" id="illnesses" name="illnesses" pattern="[A-Za-z]+"
-                  title="Solo se permiten caracteres" placeholder="Enfermedades Crónicas">
+                  title="Solo se permiten caracteres" placeholder="Enfermedades Crónicas">                  
               </div>
             </div>
 
@@ -352,26 +409,31 @@
                 <label for="baseSalary"><i class="fas fa-money-bill-wave"></i> Sueldo base</label>
                 <input type="text" class="form-control" id="baseSalary" name="baseSalary" pattern="[0-9]+"
                   title="Solo se permiten caracteres" placeholder="Sueldo base">
+                <span id="error_baseSalary" class="text-danger"></span>                  
               </div>
               <div class="form-group col-md-3">
                 <label for="paymentType"><i class="fa-solid fa-mobile-screen-button"></i>Tipo de Pago</label>
                 <select class="form-control" id="paymentType" name="paymentType">
+                  <option value="">- Seleccione -</option>
                   <option value="efectivo">Efectivo</option>
                   <option value="transferencia">Transferencia bancaria</option>
                   <option value="cheque">Cheque</option>
                   <option value="tarjeta">Tarjeta de crédito/débito</option>
                   <option value="paypal">PayPal</option>
                 </select>
+                <span id="error_paymentType" class="text-danger"></span>                
               </div>
               <div class="form-group col-md-3">
                 <label for="foodBonus"><i class="fas fa-utensils"></i> Bonos de despensa</label>
                 <input type="text" class="form-control" id="foodBonus" name="foodBonus" pattern="[0-9]+"
                   title="Solo se permiten números" placeholder="Bonos de despensa">
+                  <span id="error_foodBonus" class="text-danger"></span>
               </div>
               <div class="form-group col-md-3">
                 <label for="savingFund"><i class="fas fa-piggy-bank"></i> Fondo de ahorro</label>
                 <input type="text" class="form-control" id="savingFund" name="savingFund" pattern="[A-Za-z]+"
                   title="Solo se permiten caracteres" placeholder="Fondo de ahorro">
+                  <span id="error_savingFund" class="text-danger"></span>                  
               </div>
             </div>
 
@@ -379,6 +441,7 @@
               <div class="form-group col-md-6">
                 <label for="bank"><i class="fas fa-money-check"></i> Banco</label>
                 <select class="form-control" id="bank" name="bank">
+                  <option value="">- Seleccione -</option>
                   <option value="Bancomer">Bancomer</option>
                   <option value="Santander">Santander</option>
                   <option value="HSBC">HSBC</option>
@@ -388,26 +451,32 @@
                   <option value="Inbursa">Inbursa</option>
                   <!-- Agrega más opciones según sea necesario -->
                 </select>
+                <span id="error_bank" class="text-danger"></span>    
               </div>
               <div class="form-group col-md-6">
                 <label for="bankAcc"><i class="fa-solid fa-money-check-dollar"></i> Cuenta bancaria</label>
                 <input type="text" class="form-control" id="bankAcc" name="bankAcc" pattern="[A-Za-z]+"
                   title="Solo se permiten caracteres" placeholder="Cuenta bancaria">
+                <span id="error_bankAcc" class="text-danger"></span>                  
               </div>
             </div>
 
             <div class="row">
 
               <div class="form-group col-md-3">
-                <button type="submit" id="work_contract" name="generate_contract" class="medium-button">
-                  <i class="fa-solid fa-file-pdf"></i> Generar Contrato PDF
-                </button>
+                <!--
+
+                  <button type="submit" id="work_contract" name="generate_contract" class="medium-button">
+                    <i class="fa-solid fa-file-pdf"></i> Generar Contrato PDF
+                  </button>
+                -->
+              
               </div>
               <div class="form-group col-md-6">
 
               </div>
               <div class="form-group col-md-3">
-                <button type="submit" class="btn btn-primary">Guardar</button>
+                <button class="btn btn-primary" id="btnGuardarEmpleado">Guardar</button>
               </div>
             </div>
 
@@ -849,38 +918,91 @@
 
   $("#area").on('change', function () {
     let area_id = $(this).val();
-    recargar_section(area_id);
+    recargar_select(area_id,'section'); 
+    recargar_select(0,'position');   
+    //recargar_section(area_id);
   });
 
   $("#section").on('change', function () {
     let section_id = $(this).val();
-    recargar_position(section_id);
+    recargar_select(section_id,'position');    
+    //recargar_position(section_id);
   });
 
-  const recargar_section = (areaId) => {
+  $("#estado").on('change', function () {
+    let estado_id = $(this).val();
+    recargar_select(estado_id,'municipio');
+    recargar_select(0,'colonia');
+    $("#postalcode").val('');
+  });  
+
+  $("#municipio").on('change', function () {
+    let municipio_id = $(this).val();
+    recargar_select(municipio_id,'colonia');
+    $("#postalcode").val('');
+  });
+  
+  $("#colonia").on('change', function () {
+    let cp=$(this).find(':selected').data('cp')
+    $("#postalcode").val(cp);
+  });  
+
+  $("#btnGuardarEmpleado").click(function(){
+    mostrarError($("#empNum"),'Número de empleado obligatorio','error_empNum');
+    mostrarError($("#lastName1"),'Apellido paterno obligatorio','error_lastName1');
+    mostrarError($("#lastName2"),'Apellido materno obligatorio','error_lastName2');
+    mostrarError($("#name"),'Nombre(s) obligatorio','error_name');
+    mostrarError($("#recDate"),'Fecha de ingreso obligatoria','error_recDate');
+    mostrarError($("#area"),'Area obligatoria','error_area');
+    mostrarError($("#section"),'Departamento obligatorio','error_section');
+    mostrarError($("#position"),'Puesto obligatorio','error_position');
+    mostrarError($("#ceco"),'Centro de costo obligatorio','error_ceco');
+    mostrarError($("#dateOfBirth"),'Fecha de nacimiento obligatoria','error_dateOfBirth');
+    mostrarError($("#placeOfBirth"),'Lugar de nacimiento obligatorio','error_placeOfBirth');
+    mostrarError($("#gender"),'Sexo del/la empleado(a) obligatorio','error_gender');
+    mostrarError($("#maritalStatus"),'Estado civil obligatorio','error_maritalStatus');
+    mostrarError($("#nss"),'Número de seguridad social obligatorio','error_nss');
+    mostrarError($("#curp"),'CURP obligatorio','error_curp');
+    mostrarError($("#rfc"),'RFC obligatorio','error_rfc');
+    mostrarError($("#address"),'Domicilio obligatorio','error_address');
+    mostrarError($("#colonia"),'Colonia obligatoria','error_colonia');
+    mostrarError($("#municipio"),'Municipio obligatorio','error_municipio');
+    mostrarError($("#estado"),'Estado obligatorio','error_estado');
+    mostrarError($("#postalcode"),'Código postal obligatorio','error_postalcode');
+    mostrarError($("#education"),'Escolaridad obligatoria','error_education');
+    mostrarError($("#email"),'Correo electrónico obligatorio','error_email');
+    mostrarError($("#phone"),'Teléfono obligatorio','error_phone');
+    mostrarError($("#baseSalary"),'Sueldo base obligatorio','error_baseSalary');
+    mostrarError($("#paymentType"),'Tipo de pago obligatorio','error_paymentType');
+    mostrarError($("#foodBonus"),'Bonos de despensa obligatorios','error_foodBonus');
+    mostrarError($("#savingFund"),'Fondo de ahorro obligatorio','error_savingFund');
+    mostrarError($("#bank"),'Banco obligatorio','error_bank');
+    mostrarError($("#bankAcc"),'Cuenta de banco obligatorio','error_bankAcc');
+  });
+
+  const recargar_select = (parentId, tipo) => {
     $.ajax({
-      url: "layout/select_options/section.php",
+      url: "layout/select_options/"+tipo+".php",
       type: "POST",
-      data: { areaId }
+      data: { parentId }
     }).done(function (response) {
-      $("#section").empty();
-      $("#section").append('<option value="">- Seleccione -</option>');
-      $("#section").append(response);
+      $("#"+tipo).empty();
+      $("#"+tipo).append('<option value="">- Seleccione -</option>');
+      $("#"+tipo).append(response);
       console.log(response);
     });
   }
 
-  const recargar_position = (sectionId) => {
-    $.ajax({
-      url: "layout/select_options/position.php",
-      type: "POST",
-      data: { sectionId }
-    }).done(function (response) {
-      $("#position").empty();
-      $("#position").append('<option value="">- Seleccione -</option>');
-      $("#position").append(response);
-      console.log(response);
-    });
+  const mostrarError = (vali, msg, errorEl) => {
+    if(vali.val() == ''){
+      $('#'+errorEl).text(msg);
+      vali.css('border-color', '#cc0000');
+      //CuentaMayor = '';
+    }else{
+      msg = '';
+      $('#'+errorEl).text(msg);
+      vali.css('border-color', '');        
+    }   
   }
 
 </script>

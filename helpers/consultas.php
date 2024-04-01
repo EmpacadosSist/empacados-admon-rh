@@ -260,6 +260,73 @@
       return $resultado;
 
     }  
+
+    public static function listEstados($conn){
+      $sqlSP="CALL select_estados()";
+      /*
+      alias de los campos
+		  'estadoId',
+      'nombreEstado'
+      */   
+      $resultSP=$conn->query($sqlSP, MYSQLI_STORE_RESULT);
+      
+      $resultado=[];
+      //condicion para verificar si se hizo la insercion en la bd
+      if($resultSP){        
+        while($row = $resultSP->fetch_assoc()){
+          array_push($resultado, $row);
+        }
+      }
+      $conn->next_result();
+      return $resultado;               
+    }
+
+    public static function listMunicipios($conn, $estadoId){
+      $sqlSP="CALL select_municipio($estadoId)";
+      /*
+      alias de los campos
+		  'municipioId',
+      'nombreMunicipio',
+      'estadoId'
+      */
+      $resultSP=$conn->query($sqlSP, MYSQLI_STORE_RESULT);
+      
+      $resultado=[];
+      //condicion para verificar si se hizo la insercion en la bd
+      if($resultSP){        
+        while($row = $resultSP->fetch_assoc()){
+          array_push($resultado, $row);
+        }
+      }
+      $conn->next_result();
+      return $resultado;
+
+    }
+    
+    public static function listColonias($conn, $municipioId){
+      $sqlSP="CALL select_colonia($municipioId)";
+      /*
+      alias de los campos
+		  'coloniaId',
+      'nombreColonia',
+      'municipioId',
+      ciudad,
+      asentamiento,
+      'codigoPostal'
+      */
+      $resultSP=$conn->query($sqlSP, MYSQLI_STORE_RESULT);
+      
+      $resultado=[];
+      //condicion para verificar si se hizo la insercion en la bd
+      if($resultSP){        
+        while($row = $resultSP->fetch_assoc()){
+          array_push($resultado, $row);
+        }
+      }
+      $conn->next_result();
+      return $resultado;
+
+    }
     
     public static function listCecos($conn){
       $sqlSP="CALL select_ceco()";
