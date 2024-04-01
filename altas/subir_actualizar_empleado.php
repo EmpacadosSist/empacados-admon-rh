@@ -10,6 +10,7 @@ require_once('../helpers/enviar_pass.php');
 if(count($_POST)>0){
 
   $userId = isset($_POST['userId']) ? $_POST['userId'] : "";
+  echo  $userId;
 
   $superUserId = isset($_POST['superUserId']) ? $_POST['superUserId'] : "";  
   $superUserIdVal = Validar::validarNum($superUserId);

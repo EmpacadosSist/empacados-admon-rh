@@ -1,3 +1,4 @@
+
 <?php 
   require_once('layout/session.php');
 ?>
@@ -531,7 +532,7 @@ body {
     var departmentsByArea = {
       'Operaciones': ['Almacen','Calidad', 'Distribución', 'Producción','Desarrollo','Mantenimiento'],
       'Admón': ['Facturación','Inventarios', 'Compras', 'Contabilidad', 'RH','Sistemas'],
-      'Comercial': ['Industrial','Ventas', 'Marketing','Autoservicios','Comercial','Líder Trade Marketing','Industrial','Institucional','Mayoreo']
+      'Comercial': ['Industrial','Marketing','Autoservicios','Comercial','Líder Trade Marketing','Institucional','Mayoreo']
     };
 
    var positionsByDepartment = {
@@ -539,7 +540,7 @@ body {
       'Inventarios': ['Lider de Inventarios y Costos','Auditor de Inventarios','Analista de Inventarios'],
 
     
-      'Sistemas': ['Ingeniero Sistemas'],
+      'Sistemas': ['Staff Sistemas'],
 
       'Desarrollo': ['Líder Innovación y Desarrollo','Ingeniero de Innovación & Desarrollo','Ingeniero Jr de Innovación & Desarrollo'],
 
