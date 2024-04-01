@@ -1,24 +1,20 @@
-<?php require 'layout/libreriasdatatable.php';?>
-<?php require 'nav.php'; ?>
-<?php require 'layout/sidebar.php';?>
+<?php 
+  require_once('layout/session.php');
+  require_once('layout/libreriasdatatable.php');
+  require_once('layout/sidebar.php'); 
+  require_once('nav.php'); 
+
+?>
 
 
 
 
   <main id="main" class="main">
-
     <div class="pagetitle">
       <nav>
         <style type="text/css">
           
-          dashboard-paragraph {
-      font-size: 24px;
-      font-weight: bold;
-      color: #343a40;
-      text-align: center;
-      margin-bottom: 30px;
-      opacity: 0; /* Inicialmente oculto */
-    }
+
 
     .dashboard-paragraph.animated {
       animation: fadeInUp 1.5s ease-out; /* Animación fadeInUp de animate.css */

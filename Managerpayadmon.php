@@ -1,6 +1,9 @@
+<?php 
+  require_once('layout/session.php');
+?>
 <?php require 'layout/libreriasdatatable.php';?>
+<?php require_once('layout/sidebar.php'); ?>
 <?php require 'nav.php'; ?>
-<?php require 'layout/sidebarfinal.php';?>
 
 <?php 
   $indicadores=Consultas::listIndicator($conn); 
@@ -323,7 +326,7 @@
   const recargar_tabla = () => {
     $.ajax({
             url: "layout/tabla_pagos.php",
-            type: "GET"
+            type: "POST"
             
         }).done(function(response){
           $(".tabla-pagos").empty();

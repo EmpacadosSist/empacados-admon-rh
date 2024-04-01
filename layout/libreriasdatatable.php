@@ -19,7 +19,7 @@
 <link href="assets/vendor/quill/quill.snow.css" rel="stylesheet">
 <link href="assets/vendor/quill/quill.bubble.css" rel="stylesheet">
 <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
-<link href="assets/css/style.css" rel="stylesheet">
+
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <link href="assets/img/Capturalog.ico" rel="icon">
 <link href="assets/img/Capturalog.ico" rel="apple-touch-icon">

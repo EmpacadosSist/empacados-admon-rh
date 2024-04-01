@@ -1,6 +1,9 @@
+<?php 
+  require_once('layout/session.php');
+?>
 <?php require 'layout/libreriasdatatable.php';?>
 <?php require 'nav.php'; ?>
-<?php require 'layout/sidebarfinal.php';
+<?php require_once('layout/sidebar.php'); 
 
   $indicadores=Consultas::listIndicator($conn);
 
@@ -256,10 +259,15 @@
     alert(value);
   });
 
+  //aqui vamos a especificar si es individual y cual es el id del usuario
   const recargar_tabla = () => {
     $.ajax({
       url: "layout/tabla_pagos.php",
-      type: "GET"
+      type: "POST",
+      data: { 
+        indiv: 1,
+        userId: 2 
+      }
     }).done(function(response){
       $(".tabla-pagos").empty();
       $(".tabla-pagos").append(response);

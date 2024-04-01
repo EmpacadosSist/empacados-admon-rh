@@ -1,6 +1,9 @@
+<?php 
+  require_once('layout/session.php');
+?>
 <?php require 'layout/libreriasdatatable.php';?>
+<?php require_once('layout/sidebar.php'); ?>
 <?php require 'nav.php'; ?>
-<?php require 'layout/sidebarfinal.php';?>
 
   <!-- Bootstrap Slider CSS -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/11.0.2/css/bootstrap-slider.min.css">
