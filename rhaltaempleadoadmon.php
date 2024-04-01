@@ -1,3 +1,4 @@
+
 <?php 
   require_once('layout/session.php');
 ?>
@@ -431,20 +432,20 @@
 
   }
 </style>
-<script>
-  // Datos de ejemplo para departamentos y puestos
-  var departmentsByArea = {
-    'Operaciones': ['Almacen', 'Calidad', 'Distribución', 'Producción', 'Desarrollo', 'Mantenimiento'],
-    'Admón': ['Facturación', 'Inventarios', 'Compras', 'Contabilidad', 'RH', 'Sistemas'],
-    'Comercial': ['Industrial', 'Ventas', 'Marketing', 'Autoservicios', 'Comercial', 'Líder Trade Marketing', 'Industrial', 'Institucional', 'Mayoreo']
-  };
+ <script>
+    // Datos de ejemplo para departamentos y puestos
+    var departmentsByArea = {
+      'Operaciones': ['Almacen','Calidad', 'Distribución', 'Producción','Desarrollo','Mantenimiento'],
+      'Admón': ['Facturación','Inventarios', 'Compras', 'Contabilidad', 'RH','Sistemas'],
+      'Comercial': ['Industrial','Marketing','Autoservicios','Comercial','Líder Trade Marketing','Institucional','Mayoreo']
+    };
 
   var positionsByDepartment = {
     'Almacen': ['Lider de Almacenes'],
     'Inventarios': ['Lider de Inventarios y Costos', 'Auditor de Inventarios', 'Analista de Inventarios'],
 
-
-    'Sistemas': ['Ingeniero Sistemas'],
+    
+      'Sistemas': ['Ingeniero Sistemas'],
 
     'Desarrollo': ['Líder Innovación y Desarrollo', 'Ingeniero de Innovación & Desarrollo', 'Ingeniero Jr de Innovación & Desarrollo'],
 
