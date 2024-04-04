@@ -45,7 +45,8 @@
       'puesto', 
       'fechaIngreso', 
       'correo', 
-      'variable' 
+      'variable',
+      'area'
       */
       $resultSP=$conn->query($sqlSP, MYSQLI_STORE_RESULT);
       
@@ -196,6 +197,26 @@
       $conn->next_result();
       return $resultado;               
     }
+
+    public static function listPaymentTypes($conn){
+      $sqlSP="CALL select_payment_type()";
+      /*
+      alias de los campos
+      'tipoPagoId', 
+	    'nombreTipoPago' 
+      */   
+      $resultSP=$conn->query($sqlSP, MYSQLI_STORE_RESULT);
+      
+      $resultado=[];
+      //condicion para verificar si se hizo la insercion en la bd
+      if($resultSP){        
+        while($row = $resultSP->fetch_assoc()){
+          array_push($resultado, $row);
+        }
+      }
+      $conn->next_result();
+      return $resultado;
+    }    
 
     public static function listAreas($conn){
       $sqlSP="CALL select_area()";

@@ -1,4 +1,3 @@
-
 <?php 
   require_once('layout/session.php');
 ?>
@@ -9,7 +8,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Alta Empleados Empacados</title>
-  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
 
 </head>
 
@@ -21,6 +20,8 @@
 <?php $areas = Consultas::listAreas($conn); ?>
 <?php $cecos = Consultas::listCecos($conn); ?>
 <?php $estados = Consultas::listEstados($conn); ?>
+<?php $empleados = Consultas::listUsers($conn); ?>
+<?php $tipos_pago = Consultas::listPaymentTypes($conn); ?>
 
 <style type="text/css">
   .h4,
@@ -70,6 +71,10 @@
     font-weight: bold;
 
   }
+
+  div.dataTables_wrapper div.dataTables_length select{
+    width:50px;
+  }
 </style>
 
 
@@ -93,7 +98,8 @@
                   <i class="fas fa-id-card"></i>
                   No. de empleado
                 </label>
-                <input type="number" class="form-control" id="empNum" name="empNum" inputmode="numeric" pattern="[0-9]+">
+                <input type="number" class="form-control" id="empNum" name="empNum" inputmode="numeric"
+                  pattern="[0-9]+">
                 <span id="error_empNum" class="text-danger"></span>
               </div>
               <div class="form-group col-md-3">
@@ -110,7 +116,7 @@
                 </label>
                 <input type="text" class="form-control" id="lastName2" name="lastName2" pattern="[A-Za-z]+"
                   title="Solo se permiten caracteres">
-                  <span id="error_lastName2" class="text-danger"></span>
+                <span id="error_lastName2" class="text-danger"></span>
               </div>
               <div class="form-group col-md-3">
                 <label for="name">
@@ -118,7 +124,7 @@
                 </label>
                 <input type="text" class="form-control" id="name" name="name" pattern="[A-Za-z]+"
                   title="Solo se permiten caracteres">
-                  <span id="error_name" class="text-danger"></span>
+                <span id="error_name" class="text-danger"></span>
               </div>
             </div>
 
@@ -151,7 +157,7 @@
 
               <div class="form-group col-md-3">
                 <label for="section"><i class="fas fa-building"></i> Departamento</label>
-                <select class="form-control" id="section" name="section" onchange="updatePositions()">
+                <select class="form-control" id="section" name="section">
                   <option value="">- Seleccione -</option>
                 </select>
                 <span id="error_section" class="text-danger"></span>
@@ -182,6 +188,13 @@
                 </select>
                 <span id="error_ceco" class="text-danger"></span>
               </div>
+              <div class="form-group col-md-6">
+                <label for="btnJefeDirecto"><i class="fas fa-user-tie"></i> Jefe directo</label>
+                <!--
+                  <input type="text" class="form-control" id="jefeDirecto" name="jefeDirecto">
+                -->
+                <button class="form-control text-left" id="btnJefeDirecto">- Seleccione -</button>
+              </div>
             </div>
 
             <div class="row">
@@ -194,14 +207,12 @@
             <div class="row">
               <div class="form-group col-md-3">
                 <label for="dateOfBirth"><i class="fas fa-calendar-alt"></i> Fecha de Nacimiento</label>
-                <input type="date" class="form-control" id="dateOfBirth" name="dateOfBirth"
-                  placeholder="Fecha de Nacimiento">
+                <input type="date" class="form-control" id="dateOfBirth" name="dateOfBirth">
                 <span id="error_dateOfBirth" class="text-danger"></span>
               </div>
               <div class="form-group col-md-3">
                 <label for="placeOfBirth"><i class="fas fa-globe"></i> Lugar de Nacimiento</label>
-                <input type="text" class="form-control" id="placeOfBirth" name="placeOfBirth"
-                  placeholder="Lugar de Nacimiento">
+                <input type="text" class="form-control" id="placeOfBirth" name="placeOfBirth">
                 <span id="error_placeOfBirth" class="text-danger"></span>
               </div>
 
@@ -225,34 +236,54 @@
                   <option value="Casado(a)">Casado(a)</option>
                   <option value="Unión Libre">Unión Libre</option>
                 </select>
-                <span id="error_maritalStatus" class="text-danger"></span>                
+                <span id="error_maritalStatus" class="text-danger"></span>
               </div>
+            </div>
+
+            <div class="row">
+              <div class="form-group col-md-6">
+                <label for="spouseName"><i class="fas fa-heart"></i> Nombre de cónyuge/pareja</label>
+                <input type="text" class="form-control" id="spouseName" name="spouseName" disabled>
+                <span id="error_spouseName" class="text-danger"></span>
+              </div>
+              <div class="form-group col-md-6">
+                <label for="spouseDob"><i class="fas fa-calendar-alt"></i> Fecha nac. cónyuge/pareja</label>
+                <input type="date" class="form-control" id="spouseDob" name="spouseDob" disabled>
+                <span id="error_spouseDob" class="text-danger"></span>
+              </div>              
+            </div>
+
+            <div class="row">
+              <div class="form-group col-md-3">
+                <label for="childrenInfo"><i class="fas fa-child"></i> Hijos</label>
+                <button class="form-control text-left" id="childrenInfo" name="childrenInfo">0</button>              
+              </div>              
             </div>
 
             <div class="row">
               <div class="form-group col-md-3">
                 <label for="nss"><i class="fas fa-venus-mars"></i> NSS</label>
                 <input type="text" class="form-control" id="nss" name="nss" pattern="[0-9]+"
-                  title="Solo se permiten números" placeholder="Número de seguro social">
-                  <span id="error_nss" class="text-danger"></span>                  
+                  title="Solo se permiten números">
+                <span id="error_nss" class="text-danger"></span>
               </div>
               <div class="form-group col-md-3">
                 <label for="curp"><i class="fas fa-id-card"></i> CURP</label>
                 <input type="text" class="form-control" id="curp" name="curp" pattern="[A-Za-z0-9]+"
-                  title="Solo se permiten caracteres" placeholder="Ingrese su CURP">
-                  <span id="error_curp" class="text-danger"></span>                  
+                  title="Solo se permiten caracteres">
+                <span id="error_curp" class="text-danger"></span>
               </div>
               <div class="form-group col-md-3">
                 <label for="rfc"><i class="fas fa-id-card"></i> RFC</label>
                 <input type="text" class="form-control" id="rfc" name="rfc" pattern="[A-Za-z0-9]+"
-                  title="Solo se permiten caracteres" placeholder="Ingrese su RFC">
-                  <span id="error_rfc" class="text-danger"></span>                  
+                  title="Solo se permiten caracteres">
+                <span id="error_rfc" class="text-danger"></span>
               </div>
               <div class="form-group col-md-3">
                 <label for="education"><i class="fa-solid fa-magnifying-glass-location"></i> Escolaridad</label>
                 <input type="text" class="form-control" id="education" name="education" pattern="[A-Za-z]+"
-                  title="Solo se permiten caracteres" placeholder="Ingrese su nivel de escolaridad">
-                <span id="error_education" class="text-danger"></span>  
+                  title="Solo se permiten caracteres">
+                <span id="error_education" class="text-danger"></span>
               </div>
             </div>
 
@@ -270,7 +301,7 @@
                     }
                     ?>
                 </select>
-                <span id="error_estado" class="text-danger"></span>                  
+                <span id="error_estado" class="text-danger"></span>
               </div>
               <div class="form-group col-md-3">
                 <label for="municipio"><i class="fas fa-map-marker-alt"></i> Municipio</label>
@@ -281,7 +312,7 @@
                   <input type="text" class="form-control" id="municipio" name="municipio" pattern="[A-Za-z0-9]+"
                   title="Solo se permiten caracteres" placeholder="Ingrese su municipio">
                 -->
-                <span id="error_municipio" class="text-danger"></span>                
+                <span id="error_municipio" class="text-danger"></span>
               </div>
               <div class="form-group col-md-3">
                 <label for="colonia"><i class="fas fa-map-marker-alt"></i> Colonia</label>
@@ -292,13 +323,13 @@
                   <input type="text" class="form-control" id="colonia" name="colonia" pattern="[A-Za-z0-9]+"
                   title="Solo se permiten caracteres" placeholder="Ingrese su colonia">
                 -->
-                  <span id="error_colonia" class="text-danger"></span>                  
+                <span id="error_colonia" class="text-danger"></span>
               </div>
               <div class="form-group col-md-3">
                 <label for="postalcode"><i class="fas fa-map-marker-alt"></i> C.P. (actual)</label>
                 <input type="text" class="form-control" id="postalcode" name="postalcode" pattern="[A-Za-z0-9]+"
                   title="Solo se permiten caracteres" disabled>
-                  <span id="error_postalcode" class="text-danger"></span>                
+                <span id="error_postalcode" class="text-danger"></span>
               </div>
             </div>
 
@@ -306,21 +337,20 @@
               <div class="form-group col-md-4">
                 <label for="address"><i class="fas fa-map"></i> Domicilio calle y Num.</label>
                 <input type="text" class="form-control" id="address" name="address" pattern="[A-Za-z0-9]+"
-                  title="Solo se permiten caracteres" placeholder="Ingrese su domicilio">
-                  <span id="error_address" class="text-danger"></span>                 
-                
+                  title="Solo se permiten caracteres">
+                <span id="error_address" class="text-danger"></span>
+
               </div>
               <div class="form-group col-md-4">
                 <label for="email"><i class="fas fa-envelope"></i> Correo electrónico</label>
-                <input type="email" class="form-control" id="email" name="email"
-                  placeholder="Ingrese su correo electrónico">
-                  <span id="error_email" class="text-danger"></span>                  
+                <input type="email" class="form-control" id="email" name="email">
+                <span id="error_email" class="text-danger"></span>
               </div>
               <div class="form-group col-md-4">
                 <label for="phone"><i class="fas fa-phone"></i> Teléfono actual</label>
                 <input type="tel" class="form-control" id="phone" name="phone" pattern="[0-9]+"
-                  title="Solo se permiten números" placeholder="Ingrese su número de teléfono actual">
-                  <span id="error_phone" class="text-danger"></span>                  
+                  title="Solo se permiten números">
+                <span id="error_phone" class="text-danger"></span>
               </div>
             </div>
 
@@ -334,7 +364,7 @@
             <div class="row">
               <div class="form-group col-md-3">
                 <label for="shirtSize"><i class="fas fa-tshirt"></i> Talla de Camisa</label>
-                <input type="text" class="form-control" id="shirtSize" name="shirtSize" placeholder="Ingrese talla de camisa">
+                <input type="text" class="form-control" id="shirtSize" name="shirtSize">
                 <!--
 
                   <select class="form-control" id="shirtSize" name="shirtSize">
@@ -344,11 +374,11 @@
                     <option value="L">L</option>
                   </select>                
                 -->
-              
+
               </div>
               <div class="form-group col-md-3">
                 <label for="pantsSize"><img src="assets/img/pantalones.png" width="20px"> Talla de Pantalón</label>
-                <input type="text" class="form-control" id="pantsSize" name="pantsSize" placeholder="Ingrese talla de pantalón">
+                <input type="text" class="form-control" id="pantsSize" name="pantsSize">
                 <!--
 
                   <select class="form-control" id="pantsSize" name="pantsSize">
@@ -358,11 +388,11 @@
                     <option value="32">32</option>
                   </select>              
                 -->
-              
+
               </div>
               <div class="form-group col-md-3">
                 <label for="shoeSize"><i class="fas fa-shoe-prints"></i> Talla de Calzado</label>
-                <input type="text" class="form-control" id="shoeSize" name="shoeSize" placeholder="Ingrese talla de calzado">
+                <input type="text" class="form-control" id="shoeSize" name="shoeSize">
                 <!--
 
                   <select class="form-control" id="shoeSize" name="shoeSize">
@@ -372,12 +402,12 @@
                     <option value="9">9</option>
                   </select>
                 -->
-              
+
               </div>
               <div class="form-group col-md-3">
                 <label for="illnesses"><i class="fas fa-heartbeat"></i> Enfermedades Crónicas</label>
                 <input type="text" class="form-control" id="illnesses" name="illnesses" pattern="[A-Za-z]+"
-                  title="Solo se permiten caracteres" placeholder="Enfermedades Crónicas">                  
+                  title="Solo se permiten caracteres">
               </div>
             </div>
 
@@ -385,22 +415,22 @@
               <div class="form-group col-md-3">
                 <label for="allergies"><i class="fas fa-allergies"></i> Alergias</label>
                 <input type="text" class="form-control" id="allergies" name="allergies" pattern="[A-Za-z]+"
-                  title="Solo se permiten caracteres" placeholder="Alergias">
+                  title="Solo se permiten caracteres">
               </div>
               <div class="form-group col-md-3">
                 <label for="medication"><i class="fas fa-pills"></i> Medicamentos</label>
                 <input type="text" class="form-control" id="medication" name="medication" pattern="[A-Za-z]+"
-                  title="Solo se permiten caracteres" placeholder="Toma algún medicamento">
+                  title="Solo se permiten caracteres">
               </div>
               <div class="form-group col-md-3">
                 <label for="emerPhone1"><i class="fas fa-phone"></i> Num emergencia</label>
                 <input type="text" class="form-control" id="emerPhone1" name="emerPhone1" pattern="[0-9]+"
-                  title="Solo se permiten caracteres numéricos" placeholder="Contacto de emergencia">
+                  title="Solo se permiten caracteres numéricos">
               </div>
               <div class="form-group col-md-3">
                 <label for="emerPhone2"><i class="fas fa-phone"></i> Num emergencia 2</label>
                 <input type="text" class="form-control" id="emerPhone2" name="emerPhone2" pattern="[0-9]+"
-                  title="Solo se permiten caracteres numéricos" placeholder="Contacto de emergencia 2">
+                  title="Solo se permiten caracteres numéricos">
               </div>
             </div>
 
@@ -408,32 +438,35 @@
               <div class="form-group col-md-3">
                 <label for="baseSalary"><i class="fas fa-money-bill-wave"></i> Sueldo base</label>
                 <input type="text" class="form-control" id="baseSalary" name="baseSalary" pattern="[0-9]+"
-                  title="Solo se permiten caracteres" placeholder="Sueldo base">
-                <span id="error_baseSalary" class="text-danger"></span>                  
+                  title="Solo se permiten caracteres">
+                <span id="error_baseSalary" class="text-danger"></span>
               </div>
               <div class="form-group col-md-3">
                 <label for="paymentType"><i class="fa-solid fa-mobile-screen-button"></i>Tipo de Pago</label>
                 <select class="form-control" id="paymentType" name="paymentType">
                   <option value="">- Seleccione -</option>
-                  <option value="efectivo">Efectivo</option>
-                  <option value="transferencia">Transferencia bancaria</option>
-                  <option value="cheque">Cheque</option>
-                  <option value="tarjeta">Tarjeta de crédito/débito</option>
-                  <option value="paypal">PayPal</option>
+                  <?php 
+                    for ($i=0; $i < count($tipos_pago); $i++) { ?>
+                  <option value="<?=$tipos_pago[$i]['tipoPagoId']?>">
+                    <?=$tipos_pago[$i]['nombreTipoPago']?>
+                  </option>
+                  <?php 
+                    }
+                    ?>
                 </select>
-                <span id="error_paymentType" class="text-danger"></span>                
+                <span id="error_paymentType" class="text-danger"></span>
               </div>
               <div class="form-group col-md-3">
                 <label for="foodBonus"><i class="fas fa-utensils"></i> Bonos de despensa</label>
                 <input type="text" class="form-control" id="foodBonus" name="foodBonus" pattern="[0-9]+"
-                  title="Solo se permiten números" placeholder="Bonos de despensa">
-                  <span id="error_foodBonus" class="text-danger"></span>
+                  title="Solo se permiten números">
+                <span id="error_foodBonus" class="text-danger"></span>
               </div>
               <div class="form-group col-md-3">
                 <label for="savingFund"><i class="fas fa-piggy-bank"></i> Fondo de ahorro</label>
                 <input type="text" class="form-control" id="savingFund" name="savingFund" pattern="[A-Za-z]+"
-                  title="Solo se permiten caracteres" placeholder="Fondo de ahorro">
-                  <span id="error_savingFund" class="text-danger"></span>                  
+                  title="Solo se permiten caracteres">
+                <span id="error_savingFund" class="text-danger"></span>
               </div>
             </div>
 
@@ -442,25 +475,25 @@
                 <label for="bank"><i class="fas fa-money-check"></i> Banco</label>
                 <select class="form-control" id="bank" name="bank">
                   <option value="">- Seleccione -</option>
+                  <option value="BBVA">BBVA</option>
                   <option value="Bancomer">Bancomer</option>
-                  <option value="Santander">Santander</option>
-                  <option value="HSBC">HSBC</option>
                   <option value="Banorte">Banorte</option>
-                  <option value="BBVA" selected>BBVA</option>
-                  <option value="Scotiabank">Scotiabank</option>
+                  <option value="HSBC">HSBC</option>
                   <option value="Inbursa">Inbursa</option>
+                  <option value="Santander">Santander</option>
+                  <option value="Scotiabank">Scotiabank</option>
                   <!-- Agrega más opciones según sea necesario -->
                 </select>
-                <span id="error_bank" class="text-danger"></span>    
+                <span id="error_bank" class="text-danger"></span>
               </div>
               <div class="form-group col-md-6">
                 <label for="bankAcc"><i class="fa-solid fa-money-check-dollar"></i> Cuenta bancaria</label>
                 <input type="text" class="form-control" id="bankAcc" name="bankAcc" pattern="[A-Za-z]+"
-                  title="Solo se permiten caracteres" placeholder="Cuenta bancaria">
-                <span id="error_bankAcc" class="text-danger"></span>                  
+                  title="Solo se permiten caracteres">
+                <span id="error_bankAcc" class="text-danger"></span>
               </div>
             </div>
-
+            <hr>
             <div class="row">
 
               <div class="form-group col-md-3">
@@ -470,13 +503,13 @@
                     <i class="fa-solid fa-file-pdf"></i> Generar Contrato PDF
                   </button>
                 -->
-              
+                <button class="btn btn-primary" id="btnGuardarEmpleado">Guardar</button>
               </div>
               <div class="form-group col-md-6">
 
               </div>
               <div class="form-group col-md-3">
-                <button class="btn btn-primary" id="btnGuardarEmpleado">Guardar</button>
+                
               </div>
             </div>
 
@@ -486,6 +519,8 @@
     </div>
 
   </section>
+
+
 </main>
 
 </html>
@@ -501,187 +536,78 @@
 
   }
 </style>
- <script>
-    // Datos de ejemplo para departamentos y puestos
-    var departmentsByArea = {
-      'Operaciones': ['Almacen','Calidad', 'Distribución', 'Producción','Desarrollo','Mantenimiento'],
-      'Admón': ['Facturación','Inventarios', 'Compras', 'Contabilidad', 'RH','Sistemas'],
-      'Comercial': ['Industrial','Marketing','Autoservicios','Comercial','Líder Trade Marketing','Institucional','Mayoreo']
-    };
 
-  var positionsByDepartment = {
-    'Almacen': ['Lider de Almacenes'],
-    'Inventarios': ['Lider de Inventarios y Costos', 'Auditor de Inventarios', 'Analista de Inventarios'],
-
-    
-      'Sistemas': ['Ingeniero Sistemas'],
-
-    'Desarrollo': ['Líder Innovación y Desarrollo', 'Ingeniero de Innovación & Desarrollo', 'Ingeniero Jr de Innovación & Desarrollo'],
-
-    'Contabilidad': ['Auxiliar Contable', 'Auditor Fiscal', 'Analista Tesorería y Contabilidad', 'Analista Fiscal', 'Analista Contable', 'Líder de Contabilidad', 'Staff de Contabilidad'],
-
-    'RH': ['Lider de Recursos Humanos', 'Analista de Reclutamiento', 'Analista de Capacitación', 'Analista de Recursos Humanos', 'Coordinación Seguridad de Higiene'],
-
-    'Mantenimiento': ['Líder de Mantenimiento e Ingeniería', 'Supervisor de Mantenimiento', 'Staff de Mantenimiento e Ingeniería'],
-
-
-    'Facturación': ['Lider Credito y Cobranza', 'Analista de Facturación', 'Analista de Créditos', 'Staff de Facturación'],
-    'Compras': ['Líder de Compras Nacional y Planeación', 'Analista de Compras Internacionales', 'Líder de Compras Internacionales', 'Asistente de Compras'],
-
-    'Comercial': ['Líder Export y Conveniencia'],
-
-    'Autoservicios': ['KAE Norte', 'KAE Cadenas Regionales', 'Gerente Nacional Retail'],
-
-    'Mayoreo': ['Líder Ventas Mayoreo', 'Vendedor Monterrey La Costa', 'Vendedor Chihuahua', 'Vendedor Centro', 'Vendedor Guadalajara'],
-
-    'Marketing': ['Analista de Inteligencia de Mercados', 'Digital Content Manager', 'Líder Marketing', 'Líder Experiencia del Cliente', 'Diseñador'],
-
-    'Líder Trade Marketing': ['Líder Trade Marketing'],
-
-    'Ventas': ['Director Comercial', 'Líder Coordinación de Servicio', 'Staff de Servicio', 'KAE Centro', 'Planner Comercial'],
-    'Industrial': ['Director Industrial', 'KAE Industrial CDMX', 'KAE Industrial Guadalajara', 'KAE Industrial Norte', 'Staff de Industrial'],
-
-    'Institucional': ['KAE Institucional'],
-
-    'Calidad': ['Lider Calidad e Inocuidad', 'Staff de Calidad e Inocuidad MIP', 'Staff de Calidad e Inocuidad SGC', 'Analista de Microbiología', 'Inspector de Calidad en Procesos', 'Inspector de Calidad en Materia Prima'],
-
-    'Distribución': ['Lider de Distribución', 'Staff de Distribución General', 'Staff de Distribución Institucional', 'Staff de Distribución Mayoreo', 'Staff de Retail Distribución'],
-
-    'Producción': ['Líder de Producción', 'Master Planner Producción', 'Staff de Producción', 'Supervisor de Producción'],
-
-
-  };
-  function updatePositions() {
-    var department = document.getElementById('department').value;
-    var positionsSelect = document.getElementById('position');
-
-    // Limpiar opciones actuales
-    positionsSelect.innerHTML = '';
-
-    // Agregar nuevas opciones para el puesto
-    positionsByDepartment[department].forEach(function (position) {
-      var option = document.createElement('option');
-      option.value = position;
-      option.text = position;
-      positionsSelect.add(option);
-    });
-  }
-
-  // Llamar a la función de actualización de departamentos al cargar la página
-  updateDepartments();
-
-
-
-</script>
-
-
-
-
-<script>
-  $(document).ready(function () {
-    $('#work_contract').click(function () {
-      $('#form_id').attr('action', 'pdfpuesto.php');
-    });
-  });
-
-
-</script>
-
-
-
-<!-- Modal para mostrar información -->
-<div class="modal fade" id="infoModal" tabindex="-1" role="dialog" aria-labelledby="infoModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg" role="document">
+<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="jefeDirectoModalLabel"
+  aria-hidden="true" id="modalJefeDirecto">
+  <div class="modal-dialog modal-lg">
     <div class="modal-content">
+
       <div class="modal-header">
-        <h5 class="modal-title" id="infoModalLabel">
-          <i class="fas fa-info-circle"></i> Información Adicional
-        </h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
+        <h4 class="modal-title" id="jefeDirectoModalLabel">Seleccionar jefe directo</h4>
+        <button type="button" class="close" aria-label="Close" id="modalJefeDirectoClose">
+          <span aria-hidden="true">×</span>
         </button>
       </div>
-
       <div class="modal-body">
-        <!-- Contenido del modal -->
-        <form id="personalForm">
-          <div class="form-group">
-            <div class="form-group">
-              <label for="apellido">Apellido Paterno:</label>
-              <input type="text" class="form-control" id="apellido" placeholder="Ingrese su apellido">
-            </div>
-            <div class="form-group">
-              <label for="apellidomaterno">Apellido Materno:</label>
-              <input type="text" class="form-control" id="apellidomaterno" placeholder="Ingrese su apellido materno">
-            </div>
-            <label for="nombre">Nombre:</label>
-            <input type="text" class="form-control" id="nombre" placeholder="Ingrese su nombre">
-          </div>
-          <div class="form-group">
-            <label for="fechaNacimientoconyuge">Fecha de nacimiento :</label>
-            <input type="date" class="form-control" id="fechaNacimientoconyuge">
-            <label for="edad">Edad</label>
-            <input type="text" class="form-control" id="edad" readonly>
-          </div>
-          <button type="button" class="btn btn-primary" id="guardarDatos">Guardar</button>
-          <div class="form-check"> <br>
-            <!-- Tabla para mostrar datos HIJOS -->
-            <input class="form-check-input" type="checkbox" id="tieneHijos">
-            <label class="form-check-label" for="tieneHijos">Tiene hijos</label>
-          </div>
-          <div class="form-group" id="datosHijo" style="display: none;">
-            <label for="nombreHijo">Nombre del hijo:</label>
-            <input type="text" class="form-control" id="nombreHijo" placeholder="Ingrese el nombre del hijo">
-            <label for="apellidohijo"></label>
-            <input type="text" class="form-control" id="apellidohijo" placeholder="Ingrese el nombre del hijo">
-            <label for="apellidomaternohijo"></label>
-            <input type="text" class="form-control" id="apellidomaternohijo" placeholder="Ingrese el nombre del hijo">
-            <label for="fechaNacimiento">Fecha de nacimiento del hijo:</label>
-            <input type="date" class="form-control" id="fechaNacimiento">
-            <label for="edadHijo">Edad del hijo:</label>
-            <input type="text" class="form-control" id="edadHijo" readonly>
-          </div>
-          <button type="button" class="btn btn-primary" id="guardarDatosHijo">Guardar</button>
-        </form>
-        <hr>
-        <!-- Tabla para mostrar datos -->
-        <h5>Datos Personales:</h5>
-        <table class="table">
+        <table class="table table-striped table-bordered" id="modalTable">
           <thead>
-            <tr>
-              <th>Nombre</th>
-              <th>Apellido</th>
-              <th>Edad</th>
-              <th>Fecha de Nacimiento</th>
-              <th>Acciones</th>
-            </tr>
+            <th>Número de empleado</th>
+            <th>Nombre</th>
+            <th>Puesto</th>
+            <th>Área</th>       
+            <th></th>         
           </thead>
-          <tbody id="tablaDatos">
-            <!-- Aquí se mostrarán los datos ingresados -->
+          <tbody>
+            <?php 
+            for ($i=0; $i < count($empleados); $i++) { 
+              $nombreJefe=$empleados[$i]['nombre']." ".$empleados[$i]['apellido1']." ".$empleados[$i]['apellido2'];  
+            ?>
+              <tr data-id="<?=$empleados[$i]['usuarioId']?>" data-jefe="<?=$nombreJefe?>">
+                <td><?=$empleados[$i]['numEmpleado']?></td>
+                <td><?=$nombreJefe?></td>
+                <td><?=$empleados[$i]['puesto']?></td>
+                <td><?=$empleados[$i]['area']?></td>
+                <td><button class="btn btn-success seleccionar-jefe">Seleccionar</button></td>
+              </tr>
+          <?php 
+            }
+            ?>
           </tbody>
         </table>
-        <!-- Fin de la tabla -->
-        <div id="tabHijo" style="display: none;">
-          <h5>Datos del Hijo:</h5>
-          <table class="table">
-            <thead>
-              <tr>
-                <th>Nombre</th>
-                <th>Apellido</th>
-                <th>Edad</th>
-                <th>Fecha de Nacimiento</th>
-                <th>Acciones</th>
-              </tr>
-            </thead>
-            <tbody id="tablaHijo">
-              <!-- Aquí se mostrarán los datos del hijo -->
-            </tbody>
-          </table>
-        </div>
-        <!-- Fin del Tab Content para los datos del hijo -->
+        <input type="hidden" id="superUser" value="NULL">
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-danger" id="cancelarModalJefe">Cancelar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="hijosModalLabel"
+  aria-hidden="true" id="modalHijos">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h4 class="modal-title" id="hijosModalLabel">Seleccionar jefe directo</h4>
+        <button type="button" class="close" aria-label="Close" id="modalHijos">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="form-group col-md-4">
+            <label for="childName"><i class="fas fa-child"></i> Nombre</label>
+            <input type="text" class="form-control" id="childName" name="childName" pattern="[A-Za-z0-9]+"
+              title="Solo se permiten caracteres">
+            <span id="error_childName" class="text-danger"></span>
+
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" id="cancelarModalHijos">Cancelar</button>
       </div>
     </div>
   </div>
@@ -722,25 +648,87 @@
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-
+<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+<!-- DataTables Bootstrap 4 JS -->
+<script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap4.min.js"></script>
 <script>
+  var table = $('#modalTable').DataTable({
+    "pageLength": 0,
+    "lengthMenu": [5, 10, 15],
+    language: {
+      "processing": "Procesando...",
+      "lengthMenu": "Mostrar _MENU_ registros",
+      "zeroRecords": "No se encontraron resultados",
+      "emptyTable": "Ningún dato disponible en esta tabla",
+      "infoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+      "infoFiltered": "(filtrado de un total de _MAX_ registros)",
+      "search": "Buscar:",
+      "infoThousands": ",",
+      "loadingRecords": "Cargando...",
+      "paginate": {
+        "first": "Primero",
+        "last": "Último",
+        "next": "Siguiente",
+        "previous": "Anterior"
+      },
+      "info": "Mostrando _START_ a _END_ de _TOTAL_ registros"
+    }
+  });
 
+  $("#btnJefeDirecto").click(function () {
+    $('#modalJefeDirecto').modal('show');
+  });
+
+  $("#modalJefeDirectoClose").click(function () {
+    $('#modalJefeDirecto').modal('hide');
+  });
+
+  $("#cancelarModalJefe").click(function(){
+    $('#modalJefeDirecto').modal('hide');
+    $("#btnJefeDirecto").text('- Seleccione -');
+    $("#superUser").val('NULL');
+  });
+
+  $(".seleccionar-jefe").click(function(){
+    let parentTr=$(this).parent().parent();
+    let userId=parentTr.attr('data-id');
+    let nombreJefe=parentTr.attr('data-jefe');
+
+    $("#btnJefeDirecto").text(nombreJefe);
+    $('#modalJefeDirecto').modal('hide');
+    $("#superUser").val(userId);
+  });
+  
+
+
+  $('#maritalStatus').change(function () {  
+    let estadoCivil = $(this).val();
+    let fieldSpouseName=$("#spouseName");
+    let fieldSpouseDob=$("#spouseDob");    
+    if (estadoCivil === 'Casado(a)' || estadoCivil === 'Unión Libre') {
+      //$('#tab1').addClass('show active');
+      //$('#tab2').removeClass('show active');
+      //$('#infoModal').modal('show');
+      fieldSpouseName.prop('disabled', false);
+      fieldSpouseDob.prop('disabled', false);      
+    } else {
+      //$('#tab2').addClass('show active');
+      //$('#tab1').removeClass('show active');
+      //$('#infoModal').modal('show');      
+      fieldSpouseName.prop('disabled', true);
+      fieldSpouseDob.prop('disabled', true);       
+      fieldSpouseName.val('');
+      fieldSpouseDob.val('');
+    }
+    /*
+    */
+  });
+
+  $("#childrenInfo").click(function(){
+    $('#modalHijos').modal('show');
+  });
 
   $(document).ready(function () {
-    $('#estadoCivil').change(function () {
-      var estadoCivil = $(this).val();
-      if (estadoCivil === 'casado') {
-        $('#tab1').addClass('show active');
-        $('#tab2').removeClass('show active');
-        $('#infoModal').modal('show');
-      } else {
-        $('#tab2').addClass('show active');
-        $('#tab1').removeClass('show active');
-        $('#infoModal').modal('show');
-
-
-      }
-    });
 
     var usuarioRegistrado = false;
 
@@ -918,116 +906,143 @@
 
   $("#area").on('change', function () {
     let area_id = $(this).val();
-    recargar_select(area_id,'section'); 
-    recargar_select(0,'position');   
+    recargar_select(area_id, 'section');
+    recargar_select(0, 'position');
     //recargar_section(area_id);
   });
 
   $("#section").on('change', function () {
     let section_id = $(this).val();
-    recargar_select(section_id,'position');    
+    recargar_select(section_id, 'position');
     //recargar_position(section_id);
   });
 
   $("#estado").on('change', function () {
     let estado_id = $(this).val();
-    recargar_select(estado_id,'municipio');
-    recargar_select(0,'colonia');
+    recargar_select(estado_id, 'municipio');
+    recargar_select(0, 'colonia');
     $("#postalcode").val('');
-  });  
+  });
 
   $("#municipio").on('change', function () {
     let municipio_id = $(this).val();
-    recargar_select(municipio_id,'colonia');
+    recargar_select(municipio_id, 'colonia');
     $("#postalcode").val('');
   });
-  
-  $("#colonia").on('change', function () {
-    let cp=$(this).find(':selected').data('cp')
-    $("#postalcode").val(cp);
-  });  
 
-  $("#btnGuardarEmpleado").click(function(){
-    mostrarError($("#empNum"),'Número de empleado obligatorio','error_empNum');
-    mostrarError($("#lastName1"),'Apellido paterno obligatorio','error_lastName1');
-    mostrarError($("#lastName2"),'Apellido materno obligatorio','error_lastName2');
-    mostrarError($("#name"),'Nombre(s) obligatorio','error_name');
-    mostrarError($("#recDate"),'Fecha de ingreso obligatoria','error_recDate');
-    mostrarError($("#area"),'Area obligatoria','error_area');
-    mostrarError($("#section"),'Departamento obligatorio','error_section');
-    mostrarError($("#position"),'Puesto obligatorio','error_position');
-    mostrarError($("#ceco"),'Centro de costo obligatorio','error_ceco');
-    mostrarError($("#dateOfBirth"),'Fecha de nacimiento obligatoria','error_dateOfBirth');
-    mostrarError($("#placeOfBirth"),'Lugar de nacimiento obligatorio','error_placeOfBirth');
-    mostrarError($("#gender"),'Sexo del/la empleado(a) obligatorio','error_gender');
-    mostrarError($("#maritalStatus"),'Estado civil obligatorio','error_maritalStatus');
-    mostrarError($("#nss"),'Número de seguridad social obligatorio','error_nss');
-    mostrarError($("#curp"),'CURP obligatorio','error_curp');
-    mostrarError($("#rfc"),'RFC obligatorio','error_rfc');
-    mostrarError($("#address"),'Domicilio obligatorio','error_address');
-    mostrarError($("#colonia"),'Colonia obligatoria','error_colonia');
-    mostrarError($("#municipio"),'Municipio obligatorio','error_municipio');
-    mostrarError($("#estado"),'Estado obligatorio','error_estado');
-    mostrarError($("#postalcode"),'Código postal obligatorio','error_postalcode');
-    mostrarError($("#education"),'Escolaridad obligatoria','error_education');
-    mostrarError($("#email"),'Correo electrónico obligatorio','error_email');
-    mostrarError($("#phone"),'Teléfono obligatorio','error_phone');
-    mostrarError($("#baseSalary"),'Sueldo base obligatorio','error_baseSalary');
-    mostrarError($("#paymentType"),'Tipo de pago obligatorio','error_paymentType');
-    mostrarError($("#foodBonus"),'Bonos de despensa obligatorios','error_foodBonus');
-    mostrarError($("#savingFund"),'Fondo de ahorro obligatorio','error_savingFund');
-    mostrarError($("#bank"),'Banco obligatorio','error_bank');
-    mostrarError($("#bankAcc"),'Cuenta de banco obligatorio','error_bankAcc');
+  $("#colonia").on('change', function () {
+    let cp = $(this).find(':selected').data('cp')
+    $("#postalcode").val(cp);
+  });
+
+  $("#btnGuardarEmpleado").click(function () {
+    let empNum = $("#empNum").val(); 
+    let lastName1 = $("#lastName1").val(); 
+    let lastName2 = $("#lastName2").val(); 
+    let name = $("#name").val(); 
+    let recDate = $("#recDate").val(); 
+    let position = $("#position").val(); 
+    let ceco = $("#ceco").val(); 
+    let dateOfBirth = $("#dateOfBirth").val(); 
+    let placeOfBirth = $("#placeOfBirth").val(); 
+    let gender = $("#gender").val();
+
+    let maritalStatus = $("#maritalStatus").val(); 
+    let spouseName = $("#spouseName").val();
+    let spouseDob = $("#spouseDob").val();    
+    
+    let nss = $("#nss").val(); 
+    let curp = $("#curp").val(); 
+    let rfc = $("#rfc").val(); 
+    let education = $("#education").val(); 
+    let colonia = $("#colonia").val(); 
+    let address = $("#address").val(); 
+    let email = $("#email").val(); 
+    let phone = $("#phone").val(); 
+    let shirtSize = $("#shirtSize").val(); 
+    let pantsSize = $("#pantsSize").val(); 
+    let shoeSize = $("#shoeSize").val(); 
+    let illnesses = $("#illnesses").val(); 
+    let allergies = $("#allergies").val(); 
+    let medication = $("#medication").val(); 
+    let emerPhone1 = $("#emerPhone1").val(); 
+    let emerPhone2 = $("#emerPhone2").val(); 
+    let baseSalary = $("#baseSalary").val(); 
+    let paymentType = $("#paymentType").val(); 
+    let foodBonus = $("#foodBonus").val(); 
+    let savingFund = $("#savingFund").val(); 
+    let bank = $("#bank").val(); 
+    let bankAcc = $("#bankAcc").val(); 
+    let superUser = $("#superUser").val(); 
+
+    console.log({
+      empNum, lastName1, lastName2, name, recDate, position, ceco, dateOfBirth, placeOfBirth, gender, maritalStatus, spouseName, spouseDob, nss, curp, rfc, education, colonia, address, email, phone, shirtSize, pantsSize, shoeSize, illnesses, allergies, medication, emerPhone1, emerPhone2, baseSalary, paymentType, foodBonus, savingFund, bank, bankAcc, superUser
+    });
+
+
+
+    mostrarError($("#empNum"), 'Número de empleado obligatorio', 'error_empNum');
+    mostrarError($("#lastName1"), 'Apellido paterno obligatorio', 'error_lastName1');
+    mostrarError($("#lastName2"), 'Apellido materno obligatorio', 'error_lastName2');
+    mostrarError($("#name"), 'Nombre(s) obligatorio', 'error_name');
+    mostrarError($("#recDate"), 'Fecha de ingreso obligatoria', 'error_recDate');
+    mostrarError($("#area"), 'Area obligatoria', 'error_area');
+    mostrarError($("#section"), 'Departamento obligatorio', 'error_section');
+    mostrarError($("#position"), 'Puesto obligatorio', 'error_position');
+    mostrarError($("#ceco"), 'Centro de costo obligatorio', 'error_ceco');
+    mostrarError($("#dateOfBirth"), 'Fecha de nacimiento obligatoria', 'error_dateOfBirth');
+    mostrarError($("#placeOfBirth"), 'Lugar de nacimiento obligatorio', 'error_placeOfBirth');
+    mostrarError($("#gender"), 'Sexo del/la empleado(a) obligatorio', 'error_gender');
+    mostrarError($("#maritalStatus"), 'Estado civil obligatorio', 'error_maritalStatus');
+
+    if(maritalStatus==="Casado(a)" || maritalStatus==="Unión Libre"){
+      mostrarError($("#spouseName"), 'Nombre de cónyuge/pareja obligatorio', 'error_spouseName');
+      mostrarError($("#spouseDob"), 'Fecha de nacimiento de cónyuge/pareja obligatorio', 'error_spouseDob');      
+    }
+    
+    
+    mostrarError($("#nss"), 'Número de seguridad social obligatorio', 'error_nss');
+    mostrarError($("#curp"), 'CURP obligatorio', 'error_curp');
+    mostrarError($("#rfc"), 'RFC obligatorio', 'error_rfc');
+    mostrarError($("#address"), 'Domicilio obligatorio', 'error_address');
+    mostrarError($("#colonia"), 'Colonia obligatoria', 'error_colonia');
+    mostrarError($("#municipio"), 'Municipio obligatorio', 'error_municipio');
+    mostrarError($("#estado"), 'Estado obligatorio', 'error_estado');
+    mostrarError($("#postalcode"), 'Código postal obligatorio', 'error_postalcode');
+    mostrarError($("#education"), 'Escolaridad obligatoria', 'error_education');
+    mostrarError($("#email"), 'Correo electrónico obligatorio', 'error_email');
+    mostrarError($("#phone"), 'Teléfono obligatorio', 'error_phone');
+    mostrarError($("#baseSalary"), 'Sueldo base obligatorio', 'error_baseSalary');
+    mostrarError($("#paymentType"), 'Tipo de pago obligatorio', 'error_paymentType');
+    mostrarError($("#foodBonus"), 'Bonos de despensa obligatorios', 'error_foodBonus');
+    mostrarError($("#savingFund"), 'Fondo de ahorro obligatorio', 'error_savingFund');
+    mostrarError($("#bank"), 'Banco obligatorio', 'error_bank');
+    mostrarError($("#bankAcc"), 'Cuenta de banco obligatorio', 'error_bankAcc');
   });
 
   const recargar_select = (parentId, tipo) => {
     $.ajax({
-      url: "layout/select_options/"+tipo+".php",
+      url: "layout/select_options/" + tipo + ".php",
       type: "POST",
       data: { parentId }
     }).done(function (response) {
-      $("#"+tipo).empty();
-      $("#"+tipo).append('<option value="">- Seleccione -</option>');
-      $("#"+tipo).append(response);
+      $("#" + tipo).empty();
+      $("#" + tipo).append('<option value="">- Seleccione -</option>');
+      $("#" + tipo).append(response);
       console.log(response);
     });
   }
 
   const mostrarError = (vali, msg, errorEl) => {
-    if(vali.val() == ''){
-      $('#'+errorEl).text(msg);
+    if (vali.val() == '') {
+      $('#' + errorEl).text(msg);
       vali.css('border-color', '#cc0000');
       //CuentaMayor = '';
-    }else{
+    } else {
       msg = '';
-      $('#'+errorEl).text(msg);
-      vali.css('border-color', '');        
-    }   
+      $('#' + errorEl).text(msg);
+      vali.css('border-color', '');
+    }
   }
-
-</script>
-<script>
-  $(document).ready(function () {
-    $('#fechaNacimientoconyuge').change(function () {
-      var fechaNacimiento = new Date($(this).val());
-      var hoy = new Date();
-      var edad = hoy.getFullYear() - fechaNacimiento.getFullYear();
-      var mes = hoy.getMonth() - fechaNacimiento.getMonth();
-      var dia = hoy.getDate() - fechaNacimiento.getDate();
-
-      // Verificar si todavía no ha pasado el cumpleaños este año
-      if (mes < 0 || (mes === 0 && dia < 0)) {
-        edad--;
-      }
-
-      // Calcular la diferencia de meses
-      var meses = (hoy.getMonth() + 12) - fechaNacimiento.getMonth();
-      if (dia < 0) {
-        meses--;
-      }
-
-      $('#edad').val(edad + " años y " + meses + " meses");
-    });
-  });
 
 </script>
