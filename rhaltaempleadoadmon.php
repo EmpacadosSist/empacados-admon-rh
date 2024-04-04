@@ -496,19 +496,19 @@
             <hr>
             <div class="row">
 
-              <div class="form-group col-md-3">
+              <div class="form-group col-md-4">
                 <!--
 
                   <button type="submit" id="work_contract" name="generate_contract" class="medium-button">
                     <i class="fa-solid fa-file-pdf"></i> Generar Contrato PDF
                   </button>
                 -->
-                <button class="btn btn-primary" id="btnGuardarEmpleado">Guardar</button>
               </div>
-              <div class="form-group col-md-6">
+              <div class="form-group col-md-4">
+                <button class="btn btn-primary btn-block" id="btnGuardarEmpleado">Guardar</button>
 
               </div>
-              <div class="form-group col-md-3">
+              <div class="form-group col-md-4">
                 
               </div>
             </div>
@@ -590,46 +590,36 @@
     <div class="modal-content">
 
       <div class="modal-header">
-        <h4 class="modal-title" id="hijosModalLabel">Seleccionar jefe directo</h4>
-        <button type="button" class="close" aria-label="Close" id="modalHijos">
+        <h4 class="modal-title" id="hijosModalLabel">Hijos</h4>
+        <button type="button" class="close" aria-label="Close" id="modalHijosClose">
           <span aria-hidden="true">×</span>
         </button>
       </div>
       <div class="modal-body">
-        <div class="row">
-          <div class="form-group col-md-4">
-            <label for="childName"><i class="fas fa-child"></i> Nombre</label>
-            <input type="text" class="form-control" id="childName" name="childName" pattern="[A-Za-z0-9]+"
-              title="Solo se permiten caracteres">
-            <span id="error_childName" class="text-danger"></span>
-
+        <div id="rowHijos">
+          <div class="row fila-form">
+            <div class="form-group col-md-6">
+              <label><i class="fas fa-child"></i> Nombre</label>
+              <input type="text" class="form-control childName" pattern="[A-Za-z0-9]+" title="Solo se permiten caracteres">              
+            </div>
+            <div class="form-group col-md-6">
+              <label><i class="fas fa-calendar-alt"></i> Fecha de nacimiento</label>
+              <input type="date" class="form-control childDob">
+            </div>
           </div>
+        </div>
+        <div class="row">
+          <div class="col-4">
+          </div>
+          <div class="col-4">
+            <button class="btn btn-success btn-block" id="agregarHijo"><i class="fas fa-plus"></i></button>
+          </div>
+          <div class="col"></div>
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-danger" id="cancelarModalHijos">Cancelar</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-<!-- Modal para advertir campos vacíos -->
-<div class="modal fade" id="advertenciaModal" tabindex="-1" role="dialog" aria-labelledby="advertenciaModalLabel"
-  aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="advertenciaModalLabel">Advertencia</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        Por favor complete todos los campos.
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        <button class="btn btn-danger" id="limpiarModalHijos">Limpiar</button>
+        <button class="btn btn-primary" id="guardarModalHijos">Guardar</button>
       </div>
     </div>
   </div>
@@ -652,6 +642,7 @@
 <!-- DataTables Bootstrap 4 JS -->
 <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap4.min.js"></script>
 <script>
+  let arrHijos=[];
   var table = $('#modalTable').DataTable({
     "pageLength": 0,
     "lengthMenu": [5, 10, 15],
@@ -728,180 +719,54 @@
     $('#modalHijos').modal('show');
   });
 
-  $(document).ready(function () {
+  $("#modalHijosClose").click(function () {
+    $('#modalHijos').modal('hide');
+  });
 
-    var usuarioRegistrado = false;
+  $("#limpiarModalHijos").click(function(){
+    $('#modalHijos').modal('hide');
+    let linea='<div class="row fila-form">'; 
+    linea+='<div class="form-group col-md-6">';
+    linea+= '<label><i class="fas fa-child"></i> Nombre</label>';
+    linea+= '<input type="text" class="form-control childName" name="childName" pattern="[A-Za-z0-9]+" title="Solo se permiten caracteres">';               
+    linea+= '</div>'
+    linea+= '<div class="form-group col-md-6">'
+    linea+= '<label><i class="fas fa-calendar-alt"></i> Fecha de nacimiento</label>'
+    linea+= '<input type="date" class="form-control childDob" name="childDob">';
+    linea+= '</div>';
+    linea+= '</div>';
+    $("#rowHijos").html(linea);   
+    arrHijos=[]; 
+    $("#childrenInfo").text('0');
+    //$("#btnJefeDirecto").text('- Seleccione -');
+    //$("#superUser").val('NULL');
+  });  
 
-    $('#guardarDatos').click(function () {
-      var nombre = $('#nombre').val();
-      var apellido = $('#apellido').val();
-      var apellidomaterno = $('#apellidomaterno').val();
-      var edad = $('#edad').val();
-      var fechaNacimientoconyuge = $('#fechaNacimientoconyuge').val();
+  $("#agregarHijo").click(function(){
+    let linea='<div class="row fila-form">'; 
+    linea+='<div class="form-group col-md-6">';
+    linea+= '<label><i class="fas fa-child"></i> Nombre</label>';
+    linea+= '<input type="text" class="form-control childName" name="childName" pattern="[A-Za-z0-9]+" title="Solo se permiten caracteres">';               
+    linea+= '</div>'
+    linea+= '<div class="form-group col-md-6">'
+    linea+= '<label><i class="fas fa-calendar-alt"></i> Fecha de nacimiento</label>'
+    linea+= '<input type="date" class="form-control childDob" name="childDob">';
+    linea+= '</div>';
+    linea+= '</div>';
+    $("#rowHijos").append(linea);
+  });
 
-      // Verificar si los campos no están vacíos
-      if (nombre.trim() !== '' && apellido.trim() !== '' && edad.trim() !== '' && fechaNacimientoconyuge.trim() !== '') {
-        if ($('#tablaDatos tr').length === 0) {
-          $('#tablaDatos').append('<tr><td>' + nombre + '</td><td>' + apellido + ' ' + apellidomaterno + '</td><td>' + edad + '</td><td>' + fechaNacimientoconyuge + '</td><td><button class="btn btn-danger eliminar">Eliminar</button> <button class="btn btn-primary editar">Editar</button></td></tr>');
-        } else {
-          alert('Solo se permite un registro. Para editar, haz clic en "Editar".');
-        }
-
-        $('#nombre').val('');
-        $('#apellido').val('');
-        $('#apellidomaterno').val('');
-        $('#edad').val('');
-        $('#fechaNacimientoconyuge').val('');
-
-        // Bloquear el modal después del primer registro
-        if (!usuarioRegistrado) {
-          usuarioRegistrado = true;
-        }
-      } else {
-        // Mostrar el modal de advertencia
-        $('#advertenciaModal').modal('show');
+  $("#guardarModalHijos").click(function(){
+    arrHijos=[];
+    $(".fila-form").each(function() {
+      let nombreHijo=$(this).find('.childName').val();
+      let fechaNacHijo=$(this).find('.childDob').val();      
+      if(nombreHijo!='' && fechaNacHijo!=''){
+        arrHijos.push([nombreHijo, fechaNacHijo]);
       }
     });
-
-    // Evento para eliminar una fila de la tabla de datos personales
-    $('#tablaDatos').on('click', '.eliminar', function () {
-      $(this).closest('tr').remove();
-
-      // Habilitar el campo de estado civil si se elimina el único registro
-      if ($('#tablaDatos tr').length === 0) {
-        usuarioRegistrado = false;
-        // Habilitar los campos si no hay registros
-        $('#nombre').prop('disabled', false);
-        $('#apellido').prop('disabled', false);
-        $('#apellidomaterno').prop('disabled', false);
-        $('#edad').prop('disabled', false);
-        $('#fechaNacimientoconyuge').prop('disabled', false);
-      }
-    });
-
-    // Evento para editar una fila de la tabla de datos personales
-    $('#tablaDatos').on('click', '.editar', function () {
-      var nombre = $(this).closest('tr').find('td').eq(0).text();
-      var apellidos = $(this).closest('tr').find('td').eq(1).text().split(' ');
-      var apellido = apellidos[0];
-      var apellidomaterno = apellidos.length > 1 ? apellidos[1] : '';
-      var edad = $(this).closest('tr').find('td').eq(2).text();
-      var fechaNacimientoconyuge = $(this).closest('tr').find('td').eq(3).text();
-
-      $('#nombre').val(nombre);
-      $('#apellido').val(apellido);
-      $('#apellidomaterno').val(apellidomaterno);
-      $('#edad').val(edad);
-      $('#fechaNacimientoconyuge').val(fechaNacimientoconyuge);
-
-      // Habilitar los campos para edición
-      $('#nombre').prop('disabled', false);
-      $('#apellido').prop('disabled', false);
-      $('#apellidomaterno').prop('disabled', false);
-      $('#edad').prop('disabled', false);
-      $('#fechaNacimientoconyuge').prop('disabled', false);
-
-      // Eliminar la fila actual
-      $(this).closest('tr').remove();
-
-      // Habilitar los campos si no hay registros después de la eliminación
-      if ($('#tablaDatos tr').length === 0) {
-        usuarioRegistrado = false;
-      }
-    });
-
-
-    // DATOS PERSONALES HIJOS////////////////
-
-    // Mostrar campos del hijo cuando se marque el checkbox
-    $('#tieneHijos').change(function () {
-      if ($(this).is(':checked')) {
-        $('#datosHijo').show();
-        $('#tabHijo').show();
-      } else {
-        $('#datosHijo').hide();
-        $('#tabHijo').hide();
-      }
-    });
-
-    $('#guardarDatosHijo').click(function () {
-      var nombreHijo = $('#nombreHijo').val();
-      var apellidoHijo = $('#apellidohijo').val();
-      var apellidomaternoHijo = $('#apellidomaternohijo').val();
-      var fechaNacimiento = $('#fechaNacimiento').val();
-
-      // Verificar si el nombre del hijo y la fecha de nacimiento no están vacíos
-      if (nombreHijo.trim() !== '' && apellidoHijo.trim() !== '' && apellidomaternoHijo.trim() !== '' && fechaNacimiento.trim() !== '') {
-        var hoy = new Date();
-        var fechaNac = new Date(fechaNacimiento);
-        var edadHijo = hoy.getFullYear() - fechaNac.getFullYear();
-
-        $('#tablaHijo').append('<tr><td>' + nombreHijo + '</td><td>' + apellidoHijo + ' ' + apellidomaternoHijo + '</td><td>' + fechaNacimiento + '</td><td>' + edadHijo + '</td><td><button class="btn btn-danger eliminarHijo">Eliminar</button> <button class="btn btn-primary editarHijo">Editar</button></td></tr>');
-
-        // Limpiar los campos después de agregar la fila
-        $('#nombreHijo').val('');
-        $('#apellidohijo').val('');
-        $('#apellidomaternohijo').val('');
-        $('#fechaNacimiento').val('');
-        $('#edadHijo').val(edadHijo);
-      } else {
-        // Mostrar un mensaje de alerta si algún campo está vacío
-        $('#advertenciaModal').modal('show');
-      }
-
-
-    });
-
-    // Evento para eliminar un hijo de la tabla de datos de hijos
-    $('#tablaHijo').on('click', '.eliminarHijo', function () {
-      $(this).closest('tr').remove();
-    });
-
-    // Evento para editar un hijo de la tabla de datos de hijos
-    $('#tablaHijo').on('click', '.editarHijo', function () {
-      var row = $(this).closest('tr');
-      var nombreHijo = row.find('td:eq(0)').text();
-      var apellidosHijo = row.find('td:eq(1)').text().split(' ');
-      var apellidoHijo = apellidosHijo[0];
-      var apellidomaternoHijo = apellidosHijo[1];
-      var fechaNacimiento = row.find('td:eq(2)').text();
-      var edadHijo = row.find('td:eq(3)').text();
-
-
-
-
-      $('#nombreHijo').val(nombreHijo);
-      $('#apellidohijo').val(apellidoHijo);
-      $('#apellidomaternohijo').val(apellidomaternoHijo);
-      $('#fechaNacimiento').val(fechaNacimiento);
-      $('#edadHijo').val(edadHijo);
-      $('#tieneHijos').prop('checked', true);
-      $('#datosHijo').show();
-      $('#tabHijo').show();
-      console.log('Nombre del hijo:', nombreHijo);
-      console.log('Apellidos del hijo:', apellidosHijo);
-      console.log('Apellido del hijo:', apellidoHijo);
-      console.log('Apellido Materno del hijo:', apellidomaternoHijo);
-      console.log('Fecha de Nacimiento del hijo:', fechaNacimiento);
-      console.log('Edad del hijo:', edadHijo);
-
-      // Eliminar la fila actual
-      row.remove();
-    });
-
-    // Calcular automáticamente la edad del hijo
-    $('#fechaNacimiento').change(function () {
-      var fechaNac = new Date($(this).val());
-      var hoy = new Date();
-      var diff = hoy.getTime() - fechaNac.getTime();
-      var edadAnios = Math.floor(diff / (1000 * 60 * 60 * 24 * 365.25));
-      var mesesRestantes = diff % (1000 * 60 * 60 * 24 * 365.25);
-      var edadMeses = Math.floor(mesesRestantes / (1000 * 60 * 60 * 24 * 30.44));
-
-      $('#edadHijo').val(edadAnios + " años y " + edadMeses + " meses");
-
-
-    });
+    $("#childrenInfo").text(arrHijos.length);
+    $('#modalHijos').modal('hide');
   });
 
   $("#area").on('change', function () {
@@ -975,12 +840,6 @@
     let bankAcc = $("#bankAcc").val(); 
     let superUser = $("#superUser").val(); 
 
-    console.log({
-      empNum, lastName1, lastName2, name, recDate, position, ceco, dateOfBirth, placeOfBirth, gender, maritalStatus, spouseName, spouseDob, nss, curp, rfc, education, colonia, address, email, phone, shirtSize, pantsSize, shoeSize, illnesses, allergies, medication, emerPhone1, emerPhone2, baseSalary, paymentType, foodBonus, savingFund, bank, bankAcc, superUser
-    });
-
-
-
     mostrarError($("#empNum"), 'Número de empleado obligatorio', 'error_empNum');
     mostrarError($("#lastName1"), 'Apellido paterno obligatorio', 'error_lastName1');
     mostrarError($("#lastName2"), 'Apellido materno obligatorio', 'error_lastName2');
@@ -1000,7 +859,6 @@
       mostrarError($("#spouseDob"), 'Fecha de nacimiento de cónyuge/pareja obligatorio', 'error_spouseDob');      
     }
     
-    
     mostrarError($("#nss"), 'Número de seguridad social obligatorio', 'error_nss');
     mostrarError($("#curp"), 'CURP obligatorio', 'error_curp');
     mostrarError($("#rfc"), 'RFC obligatorio', 'error_rfc');
@@ -1018,6 +876,32 @@
     mostrarError($("#savingFund"), 'Fondo de ahorro obligatorio', 'error_savingFund');
     mostrarError($("#bank"), 'Banco obligatorio', 'error_bank');
     mostrarError($("#bankAcc"), 'Cuenta de banco obligatorio', 'error_bankAcc');
+
+    console.log({
+      empNum, lastName1, lastName2, name, recDate, position, ceco, dateOfBirth, placeOfBirth, gender, maritalStatus, spouseName, spouseDob, nss, curp, rfc, education, colonia, address, email, phone, shirtSize, pantsSize, shoeSize, illnesses, allergies, medication, emerPhone1, emerPhone2, baseSalary, paymentType, foodBonus, savingFund, bank, bankAcc, superUser
+    });
+    
+    if(empNum!=""&&lastName1!=""&&lastName2!=""&&name!=""&&recDate!=""&&position!=""&&ceco!=""&&dateOfBirth!=""&&placeOfBirth!=""&&gender!=""&&maritalStatus!=""&&nss!=""&&curp!=""&&rfc!=""&&education!=""&&colonia!=""&&address!=""&&email!=""&&phone!=""&&baseSalary!=""&&paymentType!=""&&foodBonus!=""&&savingFund!=""&&bank!=""&&bankAcc!=""){
+      
+      if(maritalStatus==="Casado(a)" || maritalStatus==="Unión Libre"){
+        if(spouseName!=""&&spouseDob!=""){
+          let fd = new FormData();
+          fd.append('prueba', 'valor de prueba');
+          //fd.append('bonusRuleId', bonusRuleId);
+          //fd.append('type', type);  
+          enviarInfo(fd);
+          console.log('procede');
+        }else{
+          console.log('no procede');
+        }
+      }else{
+        //aqui omitimos los campos de nombre y fecha de nacimiento de pareja
+        console.log('procede');
+      }
+      
+    }else{
+      console.log('no procede');
+    }
   });
 
   const recargar_select = (parentId, tipo) => {
@@ -1043,6 +927,28 @@
       $('#' + errorEl).text(msg);
       vali.css('border-color', '');
     }
+  }
+
+  const enviarInfo = (fd) => {
+    //let fd = new FormData();
+    //fd.append('indicatorId', indicadorId);
+    //fd.append('bonusRuleId', bonusRuleId);
+    //fd.append('type', type);   
+
+    fetch('altas/subir_empleado.php', {
+        method: "POST",
+        body: fd
+      })
+      .then(response => {
+        return response.ok ? response.json() : Promise.reject(response);
+      })
+      .then(data => {
+        console.log(data);
+      })
+      .catch(err => {
+        let message = err.statusText || "Ocurrió un error";
+        console.log(err);
+      })   
   }
 
 </script>
