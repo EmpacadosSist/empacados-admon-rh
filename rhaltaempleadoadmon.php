@@ -840,6 +840,8 @@
     let bankAcc = $("#bankAcc").val(); 
     let superUser = $("#superUser").val(); 
 
+    let fd = new FormData();
+
     mostrarError($("#empNum"), 'Número de empleado obligatorio', 'error_empNum');
     mostrarError($("#lastName1"), 'Apellido paterno obligatorio', 'error_lastName1');
     mostrarError($("#lastName2"), 'Apellido materno obligatorio', 'error_lastName2');
@@ -880,17 +882,53 @@
     console.log({
       empNum, lastName1, lastName2, name, recDate, position, ceco, dateOfBirth, placeOfBirth, gender, maritalStatus, spouseName, spouseDob, nss, curp, rfc, education, colonia, address, email, phone, shirtSize, pantsSize, shoeSize, illnesses, allergies, medication, emerPhone1, emerPhone2, baseSalary, paymentType, foodBonus, savingFund, bank, bankAcc, superUser
     });
+
+    fd.append('empNum', empNum);
+    fd.append('lastName1', lastName1);
+    fd.append('lastName2', lastName2);
+    fd.append('name', name);
+    fd.append('recDate', recDate);
+    fd.append('position', position);
+    fd.append('ceco', ceco);
+    fd.append('dateOfBirth', dateOfBirth);
+    fd.append('placeOfBirth', placeOfBirth);
+    fd.append('gender', gender);
+    fd.append('maritalStatus', maritalStatus);
+    fd.append('spouseName', spouseName);
+    fd.append('spouseDob', spouseDob);
+    fd.append('nss', nss);
+    fd.append('curp', curp);
+    fd.append('rfc', rfc);
+    fd.append('education', education);
+    fd.append('colonia', colonia);
+    fd.append('address', address);
+    fd.append('email', email);
+    fd.append('phone', phone);
+    fd.append('shirtSize', shirtSize);
+    fd.append('pantsSize', pantsSize);
+    fd.append('shoeSize', shoeSize);
+    fd.append('illnesses', illnesses);
+    fd.append('allergies', allergies);
+    fd.append('medication', medication);
+    fd.append('emerPhone1', emerPhone1);
+    fd.append('emerPhone2', emerPhone2);
+    fd.append('baseSalary', baseSalary);
+    fd.append('paymentType', paymentType);
+    fd.append('foodBonus', foodBonus);
+    fd.append('savingFund', savingFund);
+    fd.append('bank', bank);
+    fd.append('bankAcc', bankAcc);
+    fd.append('superUser', superUser);
     
     if(empNum!=""&&lastName1!=""&&lastName2!=""&&name!=""&&recDate!=""&&position!=""&&ceco!=""&&dateOfBirth!=""&&placeOfBirth!=""&&gender!=""&&maritalStatus!=""&&nss!=""&&curp!=""&&rfc!=""&&education!=""&&colonia!=""&&address!=""&&email!=""&&phone!=""&&baseSalary!=""&&paymentType!=""&&foodBonus!=""&&savingFund!=""&&bank!=""&&bankAcc!=""){
       
       if(maritalStatus==="Casado(a)" || maritalStatus==="Unión Libre"){
         if(spouseName!=""&&spouseDob!=""){
-          let fd = new FormData();
-          fd.append('prueba', 'valor de prueba');
+
           //fd.append('bonusRuleId', bonusRuleId);
           //fd.append('type', type);  
           enviarInfo(fd);
-          console.log('procede');
+          console.log('proceded');
         }else{
           console.log('no procede');
         }
@@ -930,12 +968,8 @@
   }
 
   const enviarInfo = (fd) => {
-    //let fd = new FormData();
-    //fd.append('indicatorId', indicadorId);
-    //fd.append('bonusRuleId', bonusRuleId);
-    //fd.append('type', type);   
 
-    fetch('altas/subir_empleado.php', {
+    fetch('altas/subir_actualizar_empleado.php', {
         method: "POST",
         body: fd
       })

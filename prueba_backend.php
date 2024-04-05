@@ -13,26 +13,10 @@ require_once('helpers/consultas.php'); ?>
     -----------------------
     <br>
     <?php 
-      
-      $res=Consultas::listUsers($conn);
-      foreach ($res as $valor){
-        echo $valor['numEmpleado'];
-        echo "<br>";
-        echo $valor['nombreCompleto'];
-        echo "<br>";
-        echo $valor['nivel'];
-        echo "<br>";
-        echo $valor['puesto'];
-        echo "<br>";
-        echo $valor['fechaIngreso'];
-        echo "<br>";
-        echo $valor['correo'];
-        echo "<br>";
-        echo $valor['variable'];
-        echo "<br>";
-        echo "------------------------------";
-        echo "<br>";
-      }
+      $shirtSize="Valor del campo";
+      $shirtSize = $shirtSize!="" ? "'$shirtSize'" : "NULL";
+      echo $shirtSize;
+      echo "<br>";
     ?>
     <button onclick="subir_autorizacion()">Probar</button>
     <script>

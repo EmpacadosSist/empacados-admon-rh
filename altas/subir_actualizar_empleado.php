@@ -10,9 +10,9 @@ require_once('../helpers/enviar_pass.php');
 if(count($_POST)>0){
 
   $userId = isset($_POST['userId']) ? $_POST['userId'] : "";
-  echo  $userId;
+  //echo  $userId;
 
-  $superUserId = isset($_POST['superUserId']) ? $_POST['superUserId'] : "";  
+  $superUserId = isset($_POST['superUser']) ? $_POST['superUser'] : "";  
   $superUserIdVal = Validar::validarNum($superUserId);
 
   //se genera una contraseña automaticamente con 8 caracteres
@@ -37,27 +37,27 @@ if(count($_POST)>0){
   $empNumVal = Validar::validarNum($empNum);
 
   //se valida campo que no venga vacio y que cumpla la validacion de tipo numerico  
-  $positionId = isset($_POST['positionId']) ? $_POST['positionId'] : "";
+  $positionId = isset($_POST['position']) ? $_POST['position'] : "";
   $positionIdVal = Validar::validarNum($positionId);
 
   //se valida campo que no venga vacio y que cumpla la validacion de tipo numerico  
-  $paymentVar = isset($_POST['paymentVar']) ? $_POST['paymentVar'] : "";
-  $paymentVarVal = Validar::validarNum($paymentVar);
+  //$paymentVar = isset($_POST['paymentVar']) ? $_POST['paymentVar'] : "";
+  //$paymentVarVal = Validar::validarNum($paymentVar);
 
   //se valida campo que no venga vacio y que cumpla la validacion de fecha  
   $recDate = isset($_POST['recDate']) ? $_POST['recDate'] : "";
   $recDateVal = Validar::validarFecha($recDate);
 
-  $contract = isset($_POST['contract']) ? $_POST['contract'] : "";
-  $contractVal = Validar::validarLongitud($contract,3,100);    
+  //$contract = isset($_POST['contract']) ? $_POST['contract'] : "";
+  //$contractVal = Validar::validarLongitud($contract,3,100);    
 
   //se valida campo que no venga vacio y que cumpla la validacion de tipo numerico  
-  $cecoId = isset($_POST['cecoId']) ? $_POST['cecoId'] : "";
+  $cecoId = isset($_POST['ceco']) ? $_POST['ceco'] : "";
   $cecoIdVal = Validar::validarNum($cecoId);  
 
   //se valida campo que no venga vacio y que cumpla la validacion de tipo numerico  
-  $age = isset($_POST['age']) ? $_POST['age'] : "";
-  $ageVal = Validar::validarNum($age);  
+  //$age = isset($_POST['age']) ? $_POST['age'] : "";
+  //$ageVal = Validar::validarNum($age);  
 
   //se valida campo que no venga vacio y que cumpla la validacion de fecha
   $dateOfBirth = isset($_POST['dateOfBirth']) ? $_POST['dateOfBirth'] : "";
@@ -96,7 +96,7 @@ if(count($_POST)>0){
   $rfcVal = Validar::validarLongitud($rfc,3,100);
   
   //se valida campo que no venga vacio y que cumpla la validacion de longitud
-  $rfcZipCode = isset($_POST['rfcZipCode']) ? $_POST['rfcZipCode'] : "";
+  $rfcZipCode = isset($_POST['rfcZipCode']) ? $_POST['rfcZipCode'] : "665500";
   $rfcZipCodeVal = Validar::validarLongitud($rfcZipCode,3,100);  
 
   //se valida campo que no venga vacio y que cumpla la validacion de longitud
@@ -104,7 +104,7 @@ if(count($_POST)>0){
   $addressVal = Validar::validarLongitud($address,3,100);    
 
   //se valida campo que no venga vacio y que cumpla la validacion de tipo numerico  
-  $coloniaId = isset($_POST['coloniaId']) ? $_POST['coloniaId'] : "";
+  $coloniaId = isset($_POST['colonia']) ? $_POST['colonia'] : "";
   $coloniaIdVal = Validar::validarNum($coloniaId);   
     
   //se valida campo que no venga vacio y que cumpla la validacion de longitud
@@ -128,7 +128,7 @@ if(count($_POST)>0){
   $shoeSizeVal = Validar::validarLongitud($shoeSize,3,10);
 
   //se valida campo que no venga vacio y que cumpla la validacion de tipo numerico  
-  $paymentTypeId = isset($_POST['paymentTypeId']) ? $_POST['paymentTypeId'] : "";
+  $paymentTypeId = isset($_POST['paymentType']) ? $_POST['paymentType'] : "";
   $paymentTypeIdVal = Validar::validarNum($paymentTypeId);
   
   //se valida campo que no venga vacio y que cumpla la validacion de longitud
@@ -175,18 +175,28 @@ if(count($_POST)>0){
   $sqlSP="";
 
   //condicion para verificar que todos los campos cumplan con su validacion
-  if($superUserIdVal && $nameVal && $lastName1Val && $lastName2Val && $emailVal && $empNumVal && $positionIdVal && $paymentVarVal && $recDateVal && $contractVal && $cecoIdVal && $ageVal && $dateOfBirthVal && $placeOfBirthVal && $genderVal && $maritalStatusVal && $spouseNameVal && $spouseDobVal && $nssVal && $curpVal && $rfcVal && $rfcZipCodeVal && $addressVal && $coloniaIdVal && $educationVal && $phoneVal && $shirtSizeVal && $pantsSizeVal && $shoeSizeVal && $paymentTypeIdVal && $emerPhone1Val && $emerPhone2Val && $allergiesVal && $illnessesVal && $medicationVal && $baseSalaryVal && $foodBonusVal && $savingFundVal && $bankAccVal && $bankVal){    
+  if($superUserIdVal && $nameVal && $lastName1Val && $lastName2Val && $emailVal && $empNumVal && $positionIdVal && $recDateVal && $cecoIdVal && $dateOfBirthVal && $placeOfBirthVal && $genderVal && $maritalStatusVal && $spouseNameVal && $spouseDobVal && $nssVal && $curpVal && $rfcVal && $rfcZipCodeVal && $addressVal && $coloniaIdVal && $educationVal && $phoneVal && $paymentTypeIdVal && $baseSalaryVal && $foodBonusVal && $savingFundVal && $bankAccVal && $bankVal){    
     //encriptar contraseña
     $encryptedPassword=password_hash($password, PASSWORD_BCRYPT, ['cost'=> 4]);		
 
+    //campos opcionales
+    $shirtSize = $shirtSize!="" ? "'$shirtSize'" : "NULL"; 
+    $pantsSize = $pantsSize!="" ? "'$pantsSize'" : "NULL"; 
+    $shoeSize = $shoeSize!="" ? "'$shoeSize'" : "NULL"; 
+    $emerPhone1 = $emerPhone1!="" ? "'$emerPhone1'" : "NULL"; 
+    $emerPhone2 = $emerPhone2!="" ? "'$emerPhone2'" : "NULL"; 
+    $allergies = $allergies!="" ? "'$allergies'" : "NULL"; 
+    $illnesses = $illnesses!="" ? "'$illnesses'" : "NULL"; 
+    $medication = $medication!="" ? "'$medication'" : "NULL"; 
+
     //se hace un insert o update a la bd por medio de un stored procedure, pasando campos como parametros
     //el ultimo parametro del sp de insert es un parametro de salida, que mostrara el ultimo id insertado
-    $sqlSP="CALL insert_user($superUserId, '$name', '$lastName1', '$lastName2', '', '$email', '$encryptedPassword', '$empNum', $positionId, $paymentVar, '$recDate', '$contract', $cecoId, $age, '$dateOfBirth', '$placeOfBirth', '$gender', '$maritalStatus', '$spouseName', '$spouseDob', '$nss', '$curp', '$rfc', '$rfcZipCode', '$address', $coloniaId, '$education', '$phone', '$shirtSize', '$pantsSize', '$shoeSize', $paymentTypeId, '$emerPhone1', '$emerPhone2', '$allergies', '$illnesses', '$medication', $baseSalary, $foodBonus, $savingFund, '$bankAcc', '$bank', @LID)";
+    $sqlSP="CALL insert_user($superUserId, '$name', '$lastName1', '$lastName2', '', '$email', '$encryptedPassword', '$empNum', $positionId, $paymentVar, '$recDate', '$contract', $cecoId, $age, '$dateOfBirth', '$placeOfBirth', '$gender', '$maritalStatus', '$spouseName', '$spouseDob', '$nss', '$curp', '$rfc', '$rfcZipCode', '$address', $coloniaId, '$education', '$phone', $shirtSize, $pantsSize, $shoeSize, $paymentTypeId, $emerPhone1, $emerPhone2, $allergies, $illnesses, $medication, $baseSalary, $foodBonus, $savingFund, '$bankAcc', '$bank', @LID)";
     if($userId!=""){
-      $sqlSP="CALL update_user($userId, $superUserId, '$name', '$lastName1', '$lastName2', '', '$email', '$empNum', $positionId, $paymentVar, '$recDate', '$contract', $cecoId, $age, '$dateOfBirth', '$placeOfBirth', '$gender', '$maritalStatus', '$spouseName', '$spouseDob', '$nss', '$curp', '$rfc', '$rfcZipCode', '$address', $coloniaId, '$education', '$phone', '$shirtSize', '$pantsSize', '$shoeSize', $paymentTypeId, '$emerPhone1', '$emerPhone2', '$allergies', '$illnesses', '$medication', $baseSalary, $foodBonus, $savingFund, '$bankAcc', '$bank')";
+      $sqlSP="CALL update_user($userId, $superUserId, '$name', '$lastName1', '$lastName2', '', '$email', '$empNum', $positionId, $paymentVar, '$recDate', '$contract', $cecoId, $age, '$dateOfBirth', '$placeOfBirth', '$gender', '$maritalStatus', '$spouseName', '$spouseDob', '$nss', '$curp', '$rfc', '$rfcZipCode', '$address', $coloniaId, '$education', '$phone', $shirtSize, $pantsSize, $shoeSize, $paymentTypeId, $emerPhone1, $emerPhone2, $allergies, $illnesses, $medication, $baseSalary, $foodBonus, $savingFund, '$bankAcc', '$bank')";
     }
-		$resultSP=$conn->query($sqlSP);
-    
+		//$resultSP=$conn->query($sqlSP);
+    $resultSP=false;
     //condicion para verificar si se hizo la insercion en la bd
     if($resultSP){
       $message="";
