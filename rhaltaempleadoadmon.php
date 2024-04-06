@@ -194,6 +194,7 @@
                   <input type="text" class="form-control" id="jefeDirecto" name="jefeDirecto">
                 -->
                 <button class="form-control text-left" id="btnJefeDirecto">- Seleccione -</button>
+                <span id="error_btnJefeDirecto" class="text-danger"></span>
               </div>
             </div>
 
@@ -334,24 +335,30 @@
             </div>
 
             <div class="row">
-              <div class="form-group col-md-4">
+              <div class="form-group col-md-3">
                 <label for="address"><i class="fas fa-map"></i> Domicilio calle y Num.</label>
                 <input type="text" class="form-control" id="address" name="address" pattern="[A-Za-z0-9]+"
                   title="Solo se permiten caracteres">
                 <span id="error_address" class="text-danger"></span>
 
               </div>
-              <div class="form-group col-md-4">
+              <div class="form-group col-md-3">
                 <label for="email"><i class="fas fa-envelope"></i> Correo electrónico</label>
                 <input type="email" class="form-control" id="email" name="email">
                 <span id="error_email" class="text-danger"></span>
               </div>
-              <div class="form-group col-md-4">
+              <div class="form-group col-md-3">
                 <label for="phone"><i class="fas fa-phone"></i> Teléfono actual</label>
                 <input type="tel" class="form-control" id="phone" name="phone" pattern="[0-9]+"
                   title="Solo se permiten números">
                 <span id="error_phone" class="text-danger"></span>
               </div>
+              <div class="form-group col-md-3">
+                <label for="rfcZipCode"><i class="fas fa-map-marker-alt"></i> Código postal RFC</label>
+                <input type="tel" class="form-control" id="rfcZipCode" name="rfcZipCode" pattern="[0-9]+"
+                  title="Solo se permiten números">
+                <span id="error_rfcZipCode" class="text-danger"></span>
+              </div>              
             </div>
 
             <div class="row">
@@ -819,6 +826,7 @@
     let nss = $("#nss").val(); 
     let curp = $("#curp").val(); 
     let rfc = $("#rfc").val(); 
+    let rfcZipCode = $("#rfcZipCode").val();     
     let education = $("#education").val(); 
     let colonia = $("#colonia").val(); 
     let address = $("#address").val(); 
@@ -841,43 +849,47 @@
     let superUser = $("#superUser").val(); 
 
     let fd = new FormData();
+    //btnJefeDirecto
+    mostrarErrorJefeDirecto($("#superUser"), $("#btnJefeDirecto"), 'Jefe directo obligatorio', 'error_btnJefeDirecto');
+    //mostrarErrorJefeDirecto = (valiHidden, valiButton, msg, errorEl)
 
     mostrarError($("#empNum"), 'Número de empleado obligatorio', 'error_empNum');
-    mostrarError($("#lastName1"), 'Apellido paterno obligatorio', 'error_lastName1');
-    mostrarError($("#lastName2"), 'Apellido materno obligatorio', 'error_lastName2');
-    mostrarError($("#name"), 'Nombre(s) obligatorio', 'error_name');
+    mostrarError($("#lastName1"), 'Apellido paterno obligatorio', 'error_lastName1',true,3,50);
+    mostrarError($("#lastName2"), 'Apellido materno obligatorio', 'error_lastName2',true,3,50);
+    mostrarError($("#name"), 'Nombre(s) obligatorio', 'error_name',true,3,50);
     mostrarError($("#recDate"), 'Fecha de ingreso obligatoria', 'error_recDate');
     mostrarError($("#area"), 'Area obligatoria', 'error_area');
     mostrarError($("#section"), 'Departamento obligatorio', 'error_section');
     mostrarError($("#position"), 'Puesto obligatorio', 'error_position');
     mostrarError($("#ceco"), 'Centro de costo obligatorio', 'error_ceco');
     mostrarError($("#dateOfBirth"), 'Fecha de nacimiento obligatoria', 'error_dateOfBirth');
-    mostrarError($("#placeOfBirth"), 'Lugar de nacimiento obligatorio', 'error_placeOfBirth');
+    mostrarError($("#placeOfBirth"), 'Lugar de nacimiento obligatorio', 'error_placeOfBirth',true,3,100);
     mostrarError($("#gender"), 'Sexo del/la empleado(a) obligatorio', 'error_gender');
     mostrarError($("#maritalStatus"), 'Estado civil obligatorio', 'error_maritalStatus');
 
     if(maritalStatus==="Casado(a)" || maritalStatus==="Unión Libre"){
-      mostrarError($("#spouseName"), 'Nombre de cónyuge/pareja obligatorio', 'error_spouseName');
+      mostrarError($("#spouseName"), 'Nombre de cónyuge/pareja obligatorio', 'error_spouseName',true,3,100);
       mostrarError($("#spouseDob"), 'Fecha de nacimiento de cónyuge/pareja obligatorio', 'error_spouseDob');      
     }
     
-    mostrarError($("#nss"), 'Número de seguridad social obligatorio', 'error_nss');
-    mostrarError($("#curp"), 'CURP obligatorio', 'error_curp');
-    mostrarError($("#rfc"), 'RFC obligatorio', 'error_rfc');
-    mostrarError($("#address"), 'Domicilio obligatorio', 'error_address');
+    mostrarError($("#nss"), 'Número de seguridad social obligatorio', 'error_nss',true,3,45);
+    mostrarError($("#curp"), 'CURP obligatorio', 'error_curp',true,3,100);
+    mostrarError($("#rfc"), 'RFC obligatorio', 'error_rfc',true,3,100);
+    mostrarError($("#rfcZipCode"), 'Código Postal del RFC obligatorio', 'error_rfcZipCode',true,3,100);
+    mostrarError($("#address"), 'Domicilio obligatorio', 'error_address',true,3,100);
     mostrarError($("#colonia"), 'Colonia obligatoria', 'error_colonia');
     mostrarError($("#municipio"), 'Municipio obligatorio', 'error_municipio');
     mostrarError($("#estado"), 'Estado obligatorio', 'error_estado');
     mostrarError($("#postalcode"), 'Código postal obligatorio', 'error_postalcode');
-    mostrarError($("#education"), 'Escolaridad obligatoria', 'error_education');
-    mostrarError($("#email"), 'Correo electrónico obligatorio', 'error_email');
-    mostrarError($("#phone"), 'Teléfono obligatorio', 'error_phone');
+    mostrarError($("#education"), 'Escolaridad obligatoria', 'error_education',true,3,45);
+    mostrarError($("#email"), 'Correo electrónico obligatorio', 'error_email',true,3,50);
+    mostrarError($("#phone"), 'Teléfono obligatorio', 'error_phone',true,3,20);
     mostrarError($("#baseSalary"), 'Sueldo base obligatorio', 'error_baseSalary');
     mostrarError($("#paymentType"), 'Tipo de pago obligatorio', 'error_paymentType');
     mostrarError($("#foodBonus"), 'Bonos de despensa obligatorios', 'error_foodBonus');
     mostrarError($("#savingFund"), 'Fondo de ahorro obligatorio', 'error_savingFund');
-    mostrarError($("#bank"), 'Banco obligatorio', 'error_bank');
-    mostrarError($("#bankAcc"), 'Cuenta de banco obligatorio', 'error_bankAcc');
+    mostrarError($("#bank"), 'Banco obligatorio', 'error_bank',true,3,45);
+    mostrarError($("#bankAcc"), 'Cuenta de banco obligatorio', 'error_bankAcc',true,3,100);
 
     console.log({
       empNum, lastName1, lastName2, name, recDate, position, ceco, dateOfBirth, placeOfBirth, gender, maritalStatus, spouseName, spouseDob, nss, curp, rfc, education, colonia, address, email, phone, shirtSize, pantsSize, shoeSize, illnesses, allergies, medication, emerPhone1, emerPhone2, baseSalary, paymentType, foodBonus, savingFund, bank, bankAcc, superUser
@@ -899,6 +911,7 @@
     fd.append('nss', nss);
     fd.append('curp', curp);
     fd.append('rfc', rfc);
+    fd.append('rfcZipCode', rfcZipCode);    
     fd.append('education', education);
     fd.append('colonia', colonia);
     fd.append('address', address);
@@ -919,26 +932,27 @@
     fd.append('bank', bank);
     fd.append('bankAcc', bankAcc);
     fd.append('superUser', superUser);
-    
-    if(empNum!=""&&lastName1!=""&&lastName2!=""&&name!=""&&recDate!=""&&position!=""&&ceco!=""&&dateOfBirth!=""&&placeOfBirth!=""&&gender!=""&&maritalStatus!=""&&nss!=""&&curp!=""&&rfc!=""&&education!=""&&colonia!=""&&address!=""&&email!=""&&phone!=""&&baseSalary!=""&&paymentType!=""&&foodBonus!=""&&savingFund!=""&&bank!=""&&bankAcc!=""){
+    //console.log(validarNumCar(lastName1,3,100));
+    //subir_test(name, lastName1, lastName2);
+    //return false;
+    if(empNum!=""&&(lastName1!=""&&validarNumCar(lastName1,3,50))&&(lastName2!=""&&validarNumCar(lastName2,3,50))&&(name!=""&&validarNumCar(name,3,50))&&recDate!=""&&position!=""&&ceco!=""&&dateOfBirth!=""&&(placeOfBirth!=""&&validarNumCar(placeOfBirth,3,100))&&gender!=""&&maritalStatus!=""&&(nss!=""&&validarNumCar(nss,3,45))&&(curp!=""&&validarNumCar(curp,3,100))&&(rfc!=""&&validarNumCar(rfc,3,100))&&(rfcZipCode!=""&&validarNumCar(rfcZipCode,3,100))&&(education!=""&&validarNumCar(education,3,45))&&colonia!=""&&(address!=""&&validarNumCar(address,3,100))&&(email!=""&&validarNumCar(email,3,100))&&(phone!=""&&validarNumCar(phone,3,20))&&baseSalary!=""&&paymentType!=""&&foodBonus!=""&&savingFund!=""&&(bank!=""&&validarNumCar(bank,3,45))&&(bankAcc!=""&&validarNumCar(bankAcc,3,100))&&superUser!=""){
       
       if(maritalStatus==="Casado(a)" || maritalStatus==="Unión Libre"){
-        if(spouseName!=""&&spouseDob!=""){
+        if((spouseName!=""&&validarNumCar(spouseName,3,100))&&spouseDob!=""){
 
-          //fd.append('bonusRuleId', bonusRuleId);
-          //fd.append('type', type);  
           enviarInfo(fd);
-          console.log('proceded');
+          console.log('procede - con conyuge');
         }else{
-          console.log('no procede');
+          console.log('no procede - faltan campos de conyuge');
         }
       }else{
         //aqui omitimos los campos de nombre y fecha de nacimiento de pareja
-        console.log('procede');
+        enviarInfo(fd);
+        console.log('procede - sin conyuge');
       }
       
     }else{
-      console.log('no procede');
+      console.log('no procede - faltan campos obligatorios');
     }
   });
 
@@ -955,8 +969,9 @@
     });
   }
 
-  const mostrarError = (vali, msg, errorEl) => {
-    if (vali.val() == '') {
+  const mostrarError = (vali, msg, errorEl, isText=false, inf=0, sup=0) => {
+    let valor=vali.val();
+    if (valor == '') {
       $('#' + errorEl).text(msg);
       vali.css('border-color', '#cc0000');
       //CuentaMayor = '';
@@ -964,8 +979,24 @@
       msg = '';
       $('#' + errorEl).text(msg);
       vali.css('border-color', '');
+      if(isText && (valor.length<inf||valor.length>sup)){
+        $('#' + errorEl).text('Cantidad de carácteres inválida');
+        vali.css('border-color', '#cc0000');        
+      }
     }
   }
+
+  const mostrarErrorJefeDirecto = (valiHidden, valiButton, msg, errorEl) => {
+    if (valiHidden.val() == 'NULL') {
+      $('#' + errorEl).text(msg);
+      valiButton.css('border-color', '#cc0000');
+      //CuentaMayor = '';
+    } else {
+      msg = '';
+      $('#' + errorEl).text(msg);
+      valiButton.css('border-color', '');
+    }
+  }  
 
   const enviarInfo = (fd) => {
 
@@ -985,4 +1016,42 @@
       })   
   }
 
+
+  const subir_test = (name, lastName1, lastName2) => {
+    let datos = {
+      name,
+      lastName1,
+      lastName2
+    }
+        
+    let fd = new FormData();
+
+    for(var key in datos){
+      fd.append(key, datos[key]);
+    }
+
+    fetch('altas/subir_test.php', {
+      method: "POST",
+      body: fd
+    })
+    .then(response => {
+      return response.ok ? response.json() : Promise.reject(response);
+    })
+    .then(data => {
+      console.log(data);
+    })
+    .catch(err => {
+      let message = err.statusText || "Ocurrió un error";
+      console.log(err);
+    })
+
+  }
+
+  const validarNumCar = (texto, inf, sup) => {
+    if(texto.length<=sup && texto.length>=inf){
+      return true;
+    }else{
+      return false;
+    }
+  }
 </script>

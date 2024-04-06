@@ -47,8 +47,8 @@ class Validar{
   }  
 
   public static function validarFecha($fecha){
-    $recDateDay=substr($fecha, 6, 2);
-    $recDateMonth=substr($fecha, 4, 2);
+    $recDateDay=substr($fecha, 8, 2);
+    $recDateMonth=substr($fecha, 5, 2);
     $recDateYear=substr($fecha, 0, 4);
 
     if(is_numeric($recDateDay) && is_numeric($recDateMonth) && is_numeric($recDateYear)){
