@@ -200,13 +200,14 @@ if(count($_POST)>0){
     
     //se hace un insert o update a la bd por medio de un stored procedure, pasando campos como parametros
     //el ultimo parametro del sp de insert es un parametro de salida, que mostrara el ultimo id insertado
-    $sqlSP="CALL insert_user($superUserId, '$name', '$lastName1', '$lastName2', '', '$email', '$encryptedPassword', '$empNum', $positionId, '$recDate', $cecoId, '$dateOfBirth', '$placeOfBirth', '$gender', '$maritalStatus', $spouseName, $spouseDob, '$nss', '$curp', '$rfc', '$rfcZipCode', '$address', $coloniaId, '$education', '$phone', $shirtSize, $pantsSize, $shoeSize, $paymentTypeId, $emerPhone1, $emerPhone2, $allergies, $illnesses, $medication, $baseSalary, $foodBonus, $savingFund, '$bankAcc', '$bank', @LID)";
+    //NOTA: SE AGREGA DE FORMA PROVISIONAL UN PARAMETRO EXTRA DETRAS DE LA CONTRASEÑA ENCRIPTADA, Y ESTA SERÁ LA CONTRASEÑA SIN ENCRIPTAR PARA GUARDARLA EN OTRA TABLA DIFERENTE
+    $sqlSP="CALL insert_user($superUserId, '$name', '$lastName1', '$lastName2', '$email', '$password', '$encryptedPassword', '$empNum', $positionId, '$recDate', $cecoId, '$dateOfBirth', '$placeOfBirth', '$gender', '$maritalStatus', $spouseName, $spouseDob, '$nss', '$curp', '$rfc', '$rfcZipCode', '$address', $coloniaId, '$education', '$phone', $shirtSize, $pantsSize, $shoeSize, $paymentTypeId, $emerPhone1, $emerPhone2, $allergies, $illnesses, $medication, $baseSalary, $foodBonus, $savingFund, '$bankAcc', '$bank', @LID)";
 
     if($userId!=""){
-      $sqlSP="CALL update_user($userId, $superUserId, '$name', '$lastName1', '$lastName2', '', '$email', '$empNum', $positionId, '$recDate', $cecoId, '$dateOfBirth', '$placeOfBirth', '$gender', '$maritalStatus', $spouseName, $spouseDob, '$nss', '$curp', '$rfc', '$rfcZipCode', '$address', $coloniaId, '$education', '$phone', $shirtSize, $pantsSize, $shoeSize, $paymentTypeId, $emerPhone1, $emerPhone2, $allergies, $illnesses, $medication, $baseSalary, $foodBonus, $savingFund, '$bankAcc', '$bank')";
+      $sqlSP="CALL update_user($userId, $superUserId, '$name', '$lastName1', '$lastName2', '$email', '$empNum', $positionId, '$recDate', $cecoId, '$dateOfBirth', '$placeOfBirth', '$gender', '$maritalStatus', $spouseName, $spouseDob, '$nss', '$curp', '$rfc', '$rfcZipCode', '$address', $coloniaId, '$education', '$phone', $shirtSize, $pantsSize, $shoeSize, $paymentTypeId, $emerPhone1, $emerPhone2, $allergies, $illnesses, $medication, $baseSalary, $foodBonus, $savingFund, '$bankAcc', '$bank')";
     }
-		//$resultSP=$conn->query($sqlSP);
-    $resultSP=false;
+		$resultSP=$conn->query($sqlSP);
+    //$resultSP=false;
     //condicion para verificar si se hizo la insercion en la bd
     if($resultSP){
       $message="";
@@ -232,7 +233,7 @@ if(count($_POST)>0){
 
     }else{
       //se guarda en una variable el resultado de haber un error al agregar a la bd      
-      $resultado = ["ok"=>false,"message"=>"Error al agregar a la base de datos","sql"=>$sqlSP];
+      $resultado = ["ok"=>false,"message"=>"Error al agregar a la base de datos"];
 
     }
 

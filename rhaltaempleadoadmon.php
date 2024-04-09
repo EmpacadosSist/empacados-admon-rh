@@ -772,6 +772,7 @@
         arrHijos.push([nombreHijo, fechaNacHijo]);
       }
     });
+    console.log(arrHijos);
     $("#childrenInfo").text(arrHijos.length);
     $('#modalHijos').modal('hide');
   });
@@ -1009,6 +1010,7 @@
       })
       .then(data => {
         console.log(data);
+        location.reload();
       })
       .catch(err => {
         let message = err.statusText || "Ocurrió un error";
