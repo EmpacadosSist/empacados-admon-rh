@@ -1,9 +1,10 @@
 <?php 
   require_once('layout/session.php');
+  require_once('helpers/utils.php');
 ?>
 <?php require 'layout/libreriasdatatable.php';?>
-<?php require_once('layout/sidebar.php'); ?>
 <?php require 'nav.php'; ?>
+<?php require_once('layout/sidebar.php'); ?>
 
  
   <main id="main" class="main">

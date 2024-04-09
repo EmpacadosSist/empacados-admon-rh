@@ -1,8 +1,6 @@
 <!-- ======= Sidebar ======= -->
 <aside id="sidebar" class="sidebar">
-
   <ul class="sidebar-nav" id="sidebar-nav">
-
     <li class="nav-item">
       <a class="nav-link collapsed" href="index.php">
         <i class="bx bxs-dashboard"></i>
@@ -13,7 +11,7 @@
     <!-- aqui inicia sidebar -->
 
 
-
+    <?php if(Utils::buscarPermiso(3)): ?>
     <li class="nav-item">
       <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
         <i class="ri-user-follow-fill"></i><span>Manager</span><i class="bi bi-chevron-down ms-auto"></i>
@@ -54,6 +52,7 @@
       </ul>
 
     </li><!-- End Components Nav -->
+    <?php endif; ?>
 
     <li class="nav-item">
       <a class="nav-link collapsed" href="Miscorecard.php">
@@ -61,13 +60,16 @@
       </a>
     </li>
 
+    <?php if(Utils::buscarPermiso(1)): ?>
     <li class="nav-item">
       <a class="nav-link collapsed" href="Managerindicadoresadmon.php">
         <i class="bi bi-bar-chart-line-fill"></i>
         <span>Indicadores</span>
       </a>
     </li>
+    <?php endif; ?>
 
+    <?php if(Utils::buscarPermiso(6)): ?>
     <li class="nav-item">
       <a class="nav-link collapsed" data-bs-target="#components-obj" data-bs-toggle="collapse" href="#">
         <i class="bi bi-bullseye"></i><span>Objetivos</span><i class="bi bi-chevron-down ms-auto"></i>
@@ -88,12 +90,15 @@
         </li>
       </ul>
     </li>
+    <?php endif; ?>
 
+    <?php if(Utils::buscarPermiso(2)): ?>
     <li class="nav-item">
       <a class="nav-link collapsed" href="Managerrulestableadmon.php">
-        <i class="bi bi-rulers"></i><span>Reglas del Bono</span>
+        <i class="bi bi-rulers"></i><span>Reglas de Bono</span>
       </a>
     </li>
+    <?php endif; ?>    
 
     <li class="nav-item">
       <a class="nav-link collapsed" href="Managerscoremensualadmon.php">
@@ -101,12 +106,15 @@
       </a>
     </li>
 
+    <?php if(Utils::buscarPermiso(5)): ?>
     <li class="nav-item">
       <a class="nav-link collapsed" href="Managerpayadmon.php">
         <i class="bi bi-currency-exchange"></i><span>Pagos</span>
       </a>
     </li>
+    <?php endif; ?>    
 
+    <?php if(Utils::buscarPermiso(7)): ?>
     <li class="nav-item">
       <a class="nav-link collapsed" data-bs-target="#components-res" data-bs-toggle="collapse" href="Managerresultadmon.php">
         <i class="bi bi-speedometer" ></i><span>Resultados</span><i class="bi bi-chevron-down ms-auto"></i>
@@ -139,6 +147,7 @@
         </li>            
       </ul>      
     </li>
+    <?php endif; ?>
     <!--
     <li class="nav-item">
       <a class="nav-link " data-bs-target="#tables-nav" data-bs-toggle="collapse" href="#">

@@ -1,9 +1,11 @@
 <?php 
   require_once('layout/session.php');
+  require_once('helpers/utils.php');
+  $permisoEdicion=Utils::buscarPermiso(4);
 ?>
 <?php require 'layout/libreriasdatatable.php';?>
-<?php require_once('layout/sidebar.php'); ?>
 <?php require 'nav.php'; ?>
+<?php require_once('layout/sidebar.php'); ?>
 
 <?php 
   $indicadores=Consultas::listIndicator($conn);
@@ -71,8 +73,8 @@
               $indicadoresReglaGyD=Consultas::listBonusRuleByIndicatorId($conn,$indicadores[$i]['id'],0);
               $indicadoresReglaSyL=Consultas::listBonusRuleByIndicatorId($conn,$indicadores[$i]['id'],1);
               $indicadorValores=Consultas::listIndicatorVPMIndiv($conn,$indicadores[$i]['id'],$month,$year);
-              $real=isset($indicadorValores[0]['real']) ? $indicadorValores[0]['real'] : "";
-              $objetivo=isset($indicadorValores[0]['objetivo']) ? $indicadorValores[0]['objetivo'] : "";
+              $real=isset($indicadorValores[0]['real']) ? $indicadorValores[0]['real'] : "0.00";
+              $objetivo=isset($indicadorValores[0]['objetivo']) ? $indicadorValores[0]['objetivo'] : "0.00";
               $formatoId=isset($indicadorValores[0]['formatoId']) ? $indicadorValores[0]['formatoId'] : "0";
               //$porcCumplimiento=0;
               $porcCumplimiento= Utils::porcCumplimiento($real,$objetivo);             
@@ -91,16 +93,22 @@
                     <td style="min-width: 100px;"><?=Utils::calcularPorc($indicadoresReglaGyD,$porcCumplimiento)?></td>
                     <td style="min-width: 100px;"><?=Utils::calcularPorc($indicadoresReglaSyL,$porcCumplimiento)?></td>
                     <td style="min-width: 200px;">
-                      <label class="form-control lbl-real"><?=$real!="" ? number_format($real,2) : ""?></label>
+                      <!--Label e input para valor real-->
+                      <label class="form-control <?php echo $permisoEdicion ? "lbl-real" : "" ?>"><?=$real!="" ? number_format($real,2) : ""?></label>
+                      <?php if($permisoEdicion): ?>
                       <input type="number" class="form-control val-real" value="<?=$real?>" style="display: none;">
+                      <?php endif; ?>                        
                     </td>
                     <td style="min-width: 200px;">
-                      <label class="form-control lbl-obj"><?=$objetivo!="" ? number_format($objetivo,2) : ""?></label>
+                      <!--Label e input para valor objetivo-->                                          
+                      <label class="form-control <?php echo $permisoEdicion ? "lbl-obj" : "" ?>"><?=$objetivo!="" ? number_format($objetivo,2) : ""?></label>
+                      <?php if($permisoEdicion): ?>
                       <input type="number" class="form-control val-obj" value="<?=$objetivo?>" style="display: none;">
+                      <?php endif; ?>
                     </td>                
                     <!--campo de formato-->
                     <td style="min-width: 150px;">
-                      <select name="formato" class="custom-select value-type">
+                      <select name="formato" class="custom-select value-type" <?=$permisoEdicion ? "" : "disabled" ?>>
                       <?php for($j=0; $j < count($formatos); $j++){ ?>
                           <option value="<?=$formatos[$j]['id']?>" <?php $selected = $formatoId==$formatos[$j]['id'] ? "selected" : ""; echo $selected; ?>><?=$formatos[$j]['nombreFormato']?></option>
                         <?php } ?>
@@ -108,7 +116,11 @@
                     </td>
                     <!--campo de formato-->
                     <td><?=$porcCumplimiento." %"?></td>
-                    <td><button class="btn btn-success actualizar-ind">Actualizar</button></td>                  
+                    <td>
+                      <?php if($permisoEdicion): ?>  
+                      <button class="btn btn-success actualizar-ind">Actualizar</button>
+                      <?php endif; ?>
+                    </td>                  
                   </tr>
                 <?php 
                 }
@@ -260,7 +272,7 @@
       let el=lbl.parent().find(elemento);
       lbl.hide();
       el.show();
-      let tmpStr = el.val();
+      let tmpStr = el.val()=="" ? "0.00" : el.val();
       el.focus();
       el.val('');
       el.val(tmpStr);

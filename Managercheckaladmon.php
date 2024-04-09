@@ -1,9 +1,11 @@
 <?php 
   require_once('layout/session.php');
+  require_once('helpers/utils.php');
+  Utils::redirectSinPermiso(6);
 ?>
 <?php require 'layout/libreriasdatatable.php';?>
-<?php require_once('layout/sidebar.php'); ?>
 <?php require 'nav.php'; ?>
+<?php require_once('layout/sidebar.php'); ?>
 
     <style>
     table {

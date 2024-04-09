@@ -1,6 +1,5 @@
 
 <?php require_once('helpers/consultas.php'); ?>
-<?php require_once('helpers/utils.php'); ?>
 <?php require_once('conexion/conexion.php'); 
 $nombreEmpleado=$_SESSION['identity']->name." ".$_SESSION['identity']->lastName1." ".$_SESSION['identity']->lastName2;
 $puesto=$_SESSION['identity']->nombrePuesto;

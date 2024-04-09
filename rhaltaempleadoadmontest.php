@@ -1,5 +1,6 @@
 <?php 
   require_once('layout/session.php');
+  require_once('helpers/utils.php');
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -14,8 +15,8 @@
 <?php require 'layout/libreriasdatatable.php';?>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/animate/4.0.0/animate.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
-<?php require_once('layout/sidebar.php'); ?>
 <?php require 'nav.php'; ?>
+<?php require_once('layout/sidebar.php'); ?>
 <?php $areas = Consultas::listAreas($conn); ?>
 <?php $cecos = Consultas::listCecos($conn); ?>
 

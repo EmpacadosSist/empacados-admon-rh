@@ -90,4 +90,37 @@
   
       return $name;
     }
+
+    public static function buscarPermiso($numPerm){
+      $resultado=false;
+      if(isset($_SESSION['permisos'])){
+  
+        for ($i=0; $i < count($_SESSION['permisos']); $i++) { 
+          # code...
+          $permisoSesion=$_SESSION['permisos'][$i]['autorizacionId'];
+          if($numPerm==$permisoSesion){
+            $resultado=true;
+          }
+        }
+      }
+      return $resultado;
+    }
+
+    public static function redirectSinPermiso($numPerm){
+      $resultado=false;
+      if(isset($_SESSION['permisos'])){
+  
+        for ($i=0; $i < count($_SESSION['permisos']); $i++) { 
+          # code...
+          $permisoSesion=$_SESSION['permisos'][$i]['autorizacionId'];
+          if($numPerm==$permisoSesion){
+            $resultado=true;
+          }
+        }
+      }
+      if(!$resultado){
+        header('Location: index.php'); 
+      }
+      return false;
+    }    
   }
