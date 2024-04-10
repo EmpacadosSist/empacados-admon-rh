@@ -28,7 +28,7 @@
           </a>
         </li>
         <li>
-          <a class="bi bi-people-fill" href="tables-data.php">
+          <a class="bi bi-people-fill" href="empleados.php">
             <i></i><span>Empleados</span>
           </a>
         </li>
