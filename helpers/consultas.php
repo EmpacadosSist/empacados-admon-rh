@@ -387,5 +387,46 @@
       }
       $conn->next_result();
       return $resultado;               
-    }    
+    }
+    
+    public static function listAuthorizations($conn){
+      $sqlSP="CALL select_authorization()";
+      /*
+      alias de los campos
+	    'autorizacionId',
+      'nombreAutorizacion'
+      */
+      $resultSP=$conn->query($sqlSP, MYSQLI_STORE_RESULT);
+      
+      $resultado=[];
+      //condicion para verificar si se hizo la insercion en la bd
+      if($resultSP){        
+        while($row = $resultSP->fetch_assoc()){
+          array_push($resultado, $row);
+        }
+      }
+      $conn->next_result();
+      return $resultado;
+
+    }
+
+    public static function listOneUserAuth($conn,$userId,$authorizationId){
+      $sqlSP="CALL select_one_user_authorization()";
+      /*
+      alias de los campos
+	    N/A
+      */
+      $resultSP=$conn->query($sqlSP, MYSQLI_STORE_RESULT);
+      
+      $resultado=[];
+      //condicion para verificar si se hizo la insercion en la bd
+      if($resultSP){        
+        while($row = $resultSP->fetch_assoc()){
+          array_push($resultado, $row);
+        }
+      }
+      $conn->next_result();
+      return $resultado;
+
+    }
   }

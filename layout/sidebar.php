@@ -14,22 +14,22 @@
     <?php if(Utils::buscarPermiso(3)): ?>
     <li class="nav-item">
       <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
-        <i class="ri-user-follow-fill"></i><span>Manager</span><i class="bi bi-chevron-down ms-auto"></i>
+        <i class="ri-user-follow-fill"></i><span>Empleados</span><i class="bi bi-chevron-down ms-auto"></i>
       </a>
       <ul id="components-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
         <li>
           <a class="bi bi-person-fill-add" href="rhaltaempleadoadmon.php">
-            <i></i><span>Alta Empleados</span>
+            <i></i><span>Dar de alta</span>
           </a>
         </li>
         <li>
           <a class="bi bi-person-fill-down" href="rhbajaempleadoadmon.php">
-            <i></i><span>Baja Empleados</span>
+            <i></i><span>Dar de baja</span>
           </a>
         </li>
         <li>
           <a class="bi bi-people-fill" href="empleados.php">
-            <i></i><span>Empleados</span>
+            <i></i><span>Listado</span>
           </a>
         </li>
         <li>

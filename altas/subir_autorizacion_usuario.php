@@ -14,8 +14,16 @@ if(count($_POST)>0){
   $userId = isset($_POST['userId']) ? $_POST['userId'] : "";
   $userIdVal = Validar::validarNum($userId);
 
-    if($authorizationIdVal && $userIdVal){
-      $sqlSP="CALL insert_user_authorization($userId, $authorizationId)";
+  //variable que nos indica si se va a agregar o borrar un permiso
+  $tipo = isset($_POST['tipo']) ? $_POST['tipo'] : "";  
+
+    if($authorizationIdVal && $userIdVal && $tipo!=""){
+      if($tipo=="1"){
+        $sqlSP="CALL insert_user_authorization($userId, $authorizationId)";
+      }else{
+        $sqlSP="CALL delete_user_authorization($userId, $authorizationId)";        
+      }
+      
       $resultSP=$conn->query($sqlSP);
 
       if($resultSP){

@@ -25,7 +25,7 @@
   <main id="main" class="main">
 
     <div class="pagetitle">
-      <h1>EMPACADOS INDICADORES</h1>
+      <h1>MI SCORECARD</h1>
       <nav>
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="index.php">Home</a></li>
@@ -39,18 +39,22 @@
 <div class="container mt-4">
       <!-- Pestañas -->
       <ul class="nav nav-tabs" id="pestanas" role="tablist">
+
         <li class="nav-item">
           <a class="nav-link active" id="pestaña1" data-toggle="tab" href="#contenido1" role="tab"
             aria-controls="contenido1" aria-selected="true">Objetivos</a>
         </li>
+
         <li class="nav-item">
           <a class="nav-link" id="pestaña2" data-toggle="tab" href="#contenido2" role="tab"
             aria-controls="contenido2" aria-selected="true">Indicadores</a>
         </li>
+
         <li class="nav-item">
           <a class="nav-link" id="pestaña3" data-toggle="tab" href="#contenido3" role="tab" aria-controls="contenido3"
             aria-selected="false">Pagos</a>
         </li>
+        
         <!-- Agrega más pestañas según sea necesario -->
       </ul>
 
