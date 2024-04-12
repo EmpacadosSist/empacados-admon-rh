@@ -2,6 +2,17 @@
   require_once('layout/session.php');
   require_once('helpers/utils.php');
 ?>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mi Scorecard</title>
+
+
+</head>
 <?php require 'layout/libreriasdatatable.php';?>
 <?php require 'nav.php'; ?>
 <?php require_once('layout/sidebar.php'); 
@@ -181,12 +192,16 @@
     </div>
 
 </body>
+<?php require 'layout/footer.php';?>
 </html>
   
 
  <!-- Vendor JS Files -->
-  <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
-  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+ <!--
+
+   <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
+   <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  -->
   <script src="assets/vendor/chart.js/chart.umd.js"></script>
   <script src="assets/vendor/echarts/echarts.min.js"></script>
   <script src="assets/vendor/quill/quill.min.js"></script>
