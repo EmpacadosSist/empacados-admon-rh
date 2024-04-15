@@ -100,7 +100,15 @@
                   <?php } ?>
                   
                   <td style="min-width: 100px;">$ <?=$sumaPagos?></td> <!-- Agrega más filas según tus necesidades -->
-                  <td style="min-width: 100px;"><?=round((($sumaPagos/$usuariosArr['variable'])*100), 0, PHP_ROUND_HALF_UP)?> %</td>
+                  <td style="min-width: 100px;"><?php 
+                  if($usuariosArr['variable']!=0){
+                    echo round((($sumaPagos/$usuariosArr['variable'])*100), 0, PHP_ROUND_HALF_UP);
+
+                  }else{
+                    echo "0";
+                  }
+                  
+                  ?> %</td>
                 </tr>
                 <?php } ?>
               </tbody>
