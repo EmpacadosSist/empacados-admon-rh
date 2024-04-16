@@ -122,5 +122,13 @@
         header('Location: index.php'); 
       }
       return false;
-    }    
+    }
+    
+    public static function redirectSinParametro($resParam){
+      //recibe parametro boolean que indica si se tuvieron parametros
+      if(!$resParam){
+        header('Location: index.php'); 
+      }
+      return false;
+    }       
   }

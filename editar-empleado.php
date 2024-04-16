@@ -2,6 +2,12 @@
   require_once('layout/session.php');
   require_once('helpers/utils.php');
   Utils::redirectSinPermiso(3);
+
+  $empId= isset($_GET['id']) ? $_GET['id'] : "";
+
+  //verificamos si se reciben los parametros esperados por el url, en caso de que no se reciban, se redirige al inicio
+  $resParam = ($empId!="");
+  Utils::redirectSinParametro($resParam);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -9,7 +15,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Alta Empleados Empacados</title>
+  <title>Editar empleado</title>
 
 
 </head>
@@ -25,6 +31,13 @@
 <?php $empleados = Consultas::listUsers($conn); ?>
 <?php $director_general = Consultas::listOneUser($conn, 1); ?>
 <?php $tipos_pago = Consultas::listPaymentTypes($conn); ?>
+
+<?php $raw_user = Consultas::listOneRawUser($conn, $empId); ?>
+<?php $puesto_empleado_id = $raw_user[0]['positionId']; ?>
+
+<?php $ADP = Consultas::listAreaSectionPosition($conn, $puesto_empleado_id); ?>
+<?php $departamentos = Consultas::listSections($conn, $ADP[0]['areaId']); ?>
+<?php $puestos=Consultas::listPositions($conn, $ADP[0]['departamentoId']); ?>
 
 <style type="text/css">
   .h4,
@@ -80,7 +93,7 @@
 
 <main id="main" class="main">
   <section class="section">
-
+    <?=var_dump($puestos)?>
     <div class="col-lg-12">
       <div class="card">
         <div class="card-body">
@@ -98,7 +111,7 @@
                   No. de empleado
                 </label>
                 <input type="number" class="form-control" id="empNum" name="empNum" inputmode="numeric"
-                  pattern="[0-9]+">
+                  pattern="[0-9]+" value="<?=$raw_user[0]['empNum']?>">
                 <span id="error_empNum" class="text-danger"></span>
               </div>
               <div class="form-group col-md-3">
@@ -106,7 +119,7 @@
                   <i class="fas fa-user"></i> Apellido Paterno
                 </label>
                 <input type="text" class="form-control" id="lastName1" name="lastName1" pattern="[A-Za-z]+"
-                  title="Solo se permiten caracteres">
+                  title="Solo se permiten caracteres" value="<?=$raw_user[0]['lastName1']?>">
                 <span id="error_lastName1" class="text-danger"></span>
               </div>
               <div class="form-group col-md-3">
@@ -114,7 +127,7 @@
                   <i class="fas fa-user"></i> Apellido Materno
                 </label>
                 <input type="text" class="form-control" id="lastName2" name="lastName2" pattern="[A-Za-z]+"
-                  title="Solo se permiten caracteres">
+                  title="Solo se permiten caracteres" value="<?=$raw_user[0]['lastName2']?>">
                 <span id="error_lastName2" class="text-danger"></span>
               </div>
               <div class="form-group col-md-3">
@@ -122,7 +135,7 @@
                   <i class="fas fa-user"></i> Nombre(s)
                 </label>
                 <input type="text" class="form-control" id="name" name="name" pattern="[A-Za-z]+"
-                  title="Solo se permiten caracteres">
+                  title="Solo se permiten caracteres" value="<?=$raw_user[0]['name']?>">
                 <span id="error_name" class="text-danger"></span>
               </div>
             </div>
@@ -133,7 +146,7 @@
                   <i class="fas fa-calendar-alt"></i> Fecha de Ingreso
                 </label>
                 <input type="date" class="form-control" id="recDate" name="recDate" pattern="\d{4}-\d{2}-\d{2}"
-                  title="Solo se permiten caracteres">
+                  title="Solo se permiten caracteres" value="<?=substr($raw_user[0]['recDate'],0,10)?>">
                 <span id="error_recDate" class="text-danger"></span>
               </div>
               <div class="form-group col-md-3">
@@ -143,8 +156,11 @@
                 <select class="form-control" id="area" name="area">
                   <option value="">- Seleccione -</option>
                   <?php 
-                    for ($i=0; $i < count($areas); $i++) { ?>
-                  <option value="<?=$areas[$i]['areaId']?>">
+                    for ($i=0; $i < count($areas); $i++) { 
+                      //$ADP
+                      $areaOp=$areas[$i]['areaId'];
+                      ?>
+                  <option value="<?=$areaOp?>" <?=$areaOp==$ADP[0]['areaId'] ? "selected" : "" ?>>
                     <?=$areas[$i]['nombreArea']?>
                   </option>
                   <?php 
@@ -158,6 +174,17 @@
                 <label for="section"><i class="fas fa-building"></i> Departamento</label>
                 <select class="form-control" id="section" name="section">
                   <option value="">- Seleccione -</option>
+                  <?php 
+                    for ($i=0; $i < count($departamentos); $i++) { 
+                      //$ADP
+                      $sectionOp=$departamentos[$i]['departamentoId'];
+                      ?>
+                  <option value="<?=$sectionOp?>" <?=$sectionOp==$ADP[0]['departamentoId'] ? "selected" : "" ?>>
+                    <?=$departamentos[$i]['nombreDepartamento']?>
+                  </option>
+                  <?php 
+                    }
+                    ?>                  
                 </select>
                 <span id="error_section" class="text-danger"></span>
               </div>
@@ -166,6 +193,17 @@
                 <label for="position"><i class="fas fa-user-tie"></i> Puesto</label>
                 <select class="form-control" id="position" name="position">
                   <option value="">- Seleccione -</option>
+                  <?php 
+                    for ($i=0; $i < count($puestos); $i++) { 
+                      //$ADP
+                      $positionOp=$puestos[$i]['puestoId'];
+                      ?>
+                  <option value="<?=$positionOp?>" <?=$positionOp==$ADP[0]['puestoId'] ? "selected" : "" ?>>
+                    <?=$puestos[$i]['nombrePuesto']?>
+                  </option>
+                  <?php 
+                    }
+                    ?>                    
                 </select>
                 <span id="error_position" class="text-danger"></span>
               </div>
@@ -174,11 +212,13 @@
             <div class="row">
               <div class="form-group col-md-3">
                 <label for="ceco"><i class="fas fa-dollar-sign"></i> Centro de Costos</label>
-                <select class="form-control" id="ceco" name="ceco" on>
+                <select class="form-control" id="ceco" name="ceco">
                   <option value="">- Seleccione -</option>
                   <?php 
-                   for ($i=0; $i < count($cecos); $i++) { ?>
-                  <option value="<?=$cecos[$i]['cecoId']?>">
+                   for ($i=0; $i < count($cecos); $i++) { 
+                    $cecoOp=$cecos[$i]['cecoId'];
+                    ?>
+                  <option value="<?=$cecoOp?>" <?=$cecoOp==$raw_user[0]['cecoId'] ? "selected" : "" ?>>
                     <?=$cecos[$i]['nombreCeco']?>
                   </option>
                   <?php 
@@ -207,12 +247,12 @@
             <div class="row">
               <div class="form-group col-md-3">
                 <label for="dateOfBirth"><i class="fas fa-calendar-alt"></i> Fecha de Nacimiento</label>
-                <input type="date" class="form-control" id="dateOfBirth" name="dateOfBirth">
+                <input type="date" class="form-control" id="dateOfBirth" name="dateOfBirth" value="<?=substr($raw_user[0]['dateOfBirth'],0,10)?>">
                 <span id="error_dateOfBirth" class="text-danger"></span>
               </div>
               <div class="form-group col-md-3">
                 <label for="placeOfBirth"><i class="fas fa-globe"></i> Lugar de Nacimiento</label>
-                <input type="text" class="form-control" id="placeOfBirth" name="placeOfBirth">
+                <input type="text" class="form-control" id="placeOfBirth" name="placeOfBirth" value="<?=$raw_user[0]['placeOfBirth']?>">
                 <span id="error_placeOfBirth" class="text-danger"></span>
               </div>
 
@@ -220,9 +260,9 @@
                 <label for="gender"><i class="fas fa-venus-mars"></i> Sexo</label>
                 <select class="form-control" id="gender" name="gender">
                   <option value="">- Seleccione -</option>
-                  <option value="F">Femenino</option>
-                  <option value="M">Masculino</option>
-                  <option value="X">No Definido</option>
+                  <option value="F" <?=$raw_user[0]['gender']=="F" ? "selected" : "" ?>>Femenino</option>
+                  <option value="M" <?=$raw_user[0]['gender']=="M" ? "selected" : "" ?>>Masculino</option>
+                  <option value="X" <?=$raw_user[0]['gender']=="X" ? "selected" : "" ?>>No Definido</option>
                 </select>
                 <span id="error_gender" class="text-danger"></span>
               </div>
@@ -232,9 +272,9 @@
                 <label for="maritalStatus"><i class="fas fa-heart"></i> Estado civil</label>
                 <select class="form-control" id="maritalStatus" name="maritalStatus">
                   <option value="">- Seleccione -</option>
-                  <option value="Soltero(a)">Soltero(a)</option>
-                  <option value="Casado(a)">Casado(a)</option>
-                  <option value="Unión Libre">Unión Libre</option>
+                  <option value="Soltero(a)" <?=$raw_user[0]['maritalStatus']=="Soltero(a)" ? "selected" : "" ?>>Soltero(a)</option>
+                  <option value="Casado(a)" <?=$raw_user[0]['maritalStatus']=="Casado(a)" ? "selected" : "" ?>>Casado(a)</option>
+                  <option value="Unión Libre" <?=$raw_user[0]['maritalStatus']=="Unión Libre" ? "selected" : "" ?>>Unión Libre</option>
                 </select>
                 <span id="error_maritalStatus" class="text-danger"></span>
               </div>
@@ -243,12 +283,12 @@
             <div class="row">
               <div class="form-group col-md-6">
                 <label for="spouseName"><i class="fas fa-heart"></i> Nombre de cónyuge/pareja</label>
-                <input type="text" class="form-control" id="spouseName" name="spouseName" disabled>
+                <input type="text" class="form-control" id="spouseName" name="spouseName" value="<?=$raw_user[0]['spouseName']?>" <?=$raw_user[0]['maritalStatus']!="Soltero(a)" ? "" : "disabled"?>>
                 <span id="error_spouseName" class="text-danger"></span>
               </div>
               <div class="form-group col-md-6">
                 <label for="spouseDob"><i class="fas fa-calendar-alt"></i> Fecha nac. cónyuge/pareja</label>
-                <input type="date" class="form-control" id="spouseDob" name="spouseDob" disabled>
+                <input type="date" class="form-control" id="spouseDob" name="spouseDob" value="<?=substr($raw_user[0]['spouseDob'],0,10)?>" <?=$raw_user[0]['maritalStatus']!="Soltero(a)" ? "" : "disabled"?>>
                 <span id="error_spouseDob" class="text-danger"></span>
               </div>              
             </div>
@@ -264,25 +304,25 @@
               <div class="form-group col-md-3">
                 <label for="nss"><i class="fas fa-venus-mars"></i> NSS</label>
                 <input type="text" class="form-control" id="nss" name="nss" pattern="[0-9]+"
-                  title="Solo se permiten números">
+                  title="Solo se permiten números" value="<?=$raw_user[0]['nss']?>">
                 <span id="error_nss" class="text-danger"></span>
               </div>
               <div class="form-group col-md-3">
                 <label for="curp"><i class="fas fa-id-card"></i> CURP</label>
                 <input type="text" class="form-control" id="curp" name="curp" pattern="[A-Za-z0-9]+"
-                  title="Solo se permiten caracteres">
+                  title="Solo se permiten caracteres" value="<?=$raw_user[0]['curp']?>">
                 <span id="error_curp" class="text-danger"></span>
               </div>
               <div class="form-group col-md-3">
                 <label for="rfc"><i class="fas fa-id-card"></i> RFC</label>
                 <input type="text" class="form-control" id="rfc" name="rfc" pattern="[A-Za-z0-9]+"
-                  title="Solo se permiten caracteres">
+                  title="Solo se permiten caracteres" value="<?=$raw_user[0]['rfc']?>">
                 <span id="error_rfc" class="text-danger"></span>
               </div>
               <div class="form-group col-md-3">
                 <label for="education"><i class="fa-solid fa-magnifying-glass-location"></i> Escolaridad</label>
                 <input type="text" class="form-control" id="education" name="education" pattern="[A-Za-z]+"
-                  title="Solo se permiten caracteres">
+                  title="Solo se permiten caracteres" value="<?=$raw_user[0]['education']?>">
                 <span id="error_education" class="text-danger"></span>
               </div>
             </div>
@@ -337,25 +377,25 @@
               <div class="form-group col-md-3">
                 <label for="address"><i class="fas fa-map"></i> Domicilio calle y Num.</label>
                 <input type="text" class="form-control" id="address" name="address" pattern="[A-Za-z0-9]+"
-                  title="Solo se permiten caracteres">
+                  title="Solo se permiten caracteres" value="<?=$raw_user[0]['address']?>">
                 <span id="error_address" class="text-danger"></span>
 
               </div>
               <div class="form-group col-md-3">
                 <label for="email"><i class="fas fa-envelope"></i> Correo electrónico</label>
-                <input type="email" class="form-control" id="email" name="email">
+                <input type="email" class="form-control" id="email" name="email" value="<?=$raw_user[0]['email']?>">
                 <span id="error_email" class="text-danger"></span>
               </div>
               <div class="form-group col-md-3">
                 <label for="phone"><i class="fas fa-phone"></i> Teléfono actual</label>
                 <input type="tel" class="form-control" id="phone" name="phone" pattern="[0-9]+"
-                  title="Solo se permiten números">
+                  title="Solo se permiten números" value="<?=$raw_user[0]['phone']?>">
                 <span id="error_phone" class="text-danger"></span>
               </div>
               <div class="form-group col-md-3">
                 <label for="rfcZipCode"><i class="fas fa-map-marker-alt"></i> Código postal RFC</label>
                 <input type="tel" class="form-control" id="rfcZipCode" name="rfcZipCode" pattern="[0-9]+"
-                  title="Solo se permiten números">
+                  title="Solo se permiten números" value="<?=$raw_user[0]['rfcZipCode']?>">
                 <span id="error_rfcZipCode" class="text-danger"></span>
               </div>              
             </div>
@@ -370,7 +410,7 @@
             <div class="row">
               <div class="form-group col-md-3">
                 <label for="shirtSize"><i class="fas fa-tshirt"></i> Talla de Camisa</label>
-                <input type="text" class="form-control" id="shirtSize" name="shirtSize">
+                <input type="text" class="form-control" id="shirtSize" name="shirtSize" value="<?=$raw_user[0]['shirtSize']?>">
                 <!--
 
                   <select class="form-control" id="shirtSize" name="shirtSize">
@@ -384,7 +424,7 @@
               </div>
               <div class="form-group col-md-3">
                 <label for="pantsSize"><img src="assets/img/pantalones.png" width="20px"> Talla de Pantalón</label>
-                <input type="text" class="form-control" id="pantsSize" name="pantsSize">
+                <input type="text" class="form-control" id="pantsSize" name="pantsSize" value="<?=$raw_user[0]['pantsSize']?>">
                 <!--
 
                   <select class="form-control" id="pantsSize" name="pantsSize">
@@ -398,7 +438,7 @@
               </div>
               <div class="form-group col-md-3">
                 <label for="shoeSize"><i class="fas fa-shoe-prints"></i> Talla de Calzado</label>
-                <input type="text" class="form-control" id="shoeSize" name="shoeSize">
+                <input type="text" class="form-control" id="shoeSize" name="shoeSize" value="<?=$raw_user[0]['shoeSize']?>">
                 <!--
 
                   <select class="form-control" id="shoeSize" name="shoeSize">
@@ -413,7 +453,7 @@
               <div class="form-group col-md-3">
                 <label for="illnesses"><i class="fas fa-heartbeat"></i> Enfermedades Crónicas</label>
                 <input type="text" class="form-control" id="illnesses" name="illnesses" pattern="[A-Za-z]+"
-                  title="Solo se permiten caracteres">
+                  title="Solo se permiten caracteres" value="<?=$raw_user[0]['illnesses']?>">
               </div>
             </div>
 
@@ -421,22 +461,22 @@
               <div class="form-group col-md-3">
                 <label for="allergies"><i class="fas fa-allergies"></i> Alergias</label>
                 <input type="text" class="form-control" id="allergies" name="allergies" pattern="[A-Za-z]+"
-                  title="Solo se permiten caracteres">
+                  title="Solo se permiten caracteres" value="<?=$raw_user[0]['allergies']?>">
               </div>
               <div class="form-group col-md-3">
                 <label for="medication"><i class="fas fa-pills"></i> Medicamentos</label>
                 <input type="text" class="form-control" id="medication" name="medication" pattern="[A-Za-z]+"
-                  title="Solo se permiten caracteres">
+                  title="Solo se permiten caracteres" value="<?=$raw_user[0]['medication']?>">
               </div>
               <div class="form-group col-md-3">
                 <label for="emerPhone1"><i class="fas fa-phone"></i> Num emergencia</label>
                 <input type="text" class="form-control" id="emerPhone1" name="emerPhone1" pattern="[0-9]+"
-                  title="Solo se permiten caracteres numéricos">
+                  title="Solo se permiten caracteres numéricos" value="<?=$raw_user[0]['emerPhone1']?>">
               </div>
               <div class="form-group col-md-3">
                 <label for="emerPhone2"><i class="fas fa-phone"></i> Num emergencia 2</label>
                 <input type="text" class="form-control" id="emerPhone2" name="emerPhone2" pattern="[0-9]+"
-                  title="Solo se permiten caracteres numéricos">
+                  title="Solo se permiten caracteres numéricos" value="<?=$raw_user[0]['emerPhone2']?>">
               </div>
             </div>
 
@@ -444,7 +484,7 @@
               <div class="form-group col-md-3">
                 <label for="baseSalary"><i class="fas fa-money-bill-wave"></i> Sueldo base</label>
                 <input type="number" class="form-control" id="baseSalary" name="baseSalary" pattern="[0-9]+"
-                  title="Solo se permiten caracteres">
+                  title="Solo se permiten caracteres" value="<?=$raw_user[0]['baseSalary']?>">
                 <span id="error_baseSalary" class="text-danger"></span>
               </div>
               <div class="form-group col-md-3">
@@ -452,8 +492,10 @@
                 <select class="form-control" id="paymentType" name="paymentType">
                   <option value="">- Seleccione -</option>
                   <?php 
-                    for ($i=0; $i < count($tipos_pago); $i++) { ?>
-                  <option value="<?=$tipos_pago[$i]['tipoPagoId']?>">
+                    for ($i=0; $i < count($tipos_pago); $i++) { 
+                      $tipo_pago=$tipos_pago[$i]['tipoPagoId'];
+                      ?>
+                  <option value="<?=$tipo_pago?>"  <?=$tipo_pago==$raw_user[0]['paymentTypeId'] ? "selected" : "" ?>>
                     <?=$tipos_pago[$i]['nombreTipoPago']?>
                   </option>
                   <?php 
@@ -465,13 +507,13 @@
               <div class="form-group col-md-3">
                 <label for="foodBonus"><i class="fas fa-utensils"></i> Bonos de despensa</label>
                 <input type="number" class="form-control" id="foodBonus" name="foodBonus" pattern="[0-9]+"
-                  title="Solo se permiten números">
+                  title="Solo se permiten números" value="<?=$raw_user[0]['foodBonus']?>">
                 <span id="error_foodBonus" class="text-danger"></span>
               </div>
               <div class="form-group col-md-3">
                 <label for="savingFund"><i class="fas fa-piggy-bank"></i> Fondo de ahorro</label>
                 <input type="number" class="form-control" id="savingFund" name="savingFund" pattern="[A-Za-z]+"
-                  title="Solo se permiten caracteres">
+                  title="Solo se permiten caracteres" value="<?=$raw_user[0]['savingFund']?>">
                 <span id="error_savingFund" class="text-danger"></span>
               </div>
             </div>
@@ -481,13 +523,13 @@
                 <label for="bank"><i class="fas fa-money-check"></i> Banco</label>
                 <select class="form-control" id="bank" name="bank">
                   <option value="">- Seleccione -</option>
-                  <option value="BBVA">BBVA</option>
-                  <option value="Bancomer">Bancomer</option>
-                  <option value="Banorte">Banorte</option>
-                  <option value="HSBC">HSBC</option>
-                  <option value="Inbursa">Inbursa</option>
-                  <option value="Santander">Santander</option>
-                  <option value="Scotiabank">Scotiabank</option>
+                  <option value="BBVA" <?=$raw_user[0]['bank']=="BBVA" ? "selected" : "" ?>>BBVA</option>
+                  <option value="Bancomer" <?=$raw_user[0]['bank']=="Bancomer" ? "selected" : "" ?>>Bancomer</option>
+                  <option value="Banorte" <?=$raw_user[0]['bank']=="Banorte" ? "selected" : "" ?>>Banorte</option>
+                  <option value="HSBC" <?=$raw_user[0]['bank']=="HSBC" ? "selected" : "" ?>>HSBC</option>
+                  <option value="Inbursa" <?=$raw_user[0]['bank']=="Inbursa" ? "selected" : "" ?>>Inbursa</option>
+                  <option value="Santander" <?=$raw_user[0]['bank']=="Santander" ? "selected" : "" ?>>Santander</option>
+                  <option value="Scotiabank" <?=$raw_user[0]['bank']=="Scotiabank" ? "selected" : "" ?>>Scotiabank</option>
                   <!-- Agrega más opciones según sea necesario -->
                 </select>
                 <span id="error_bank" class="text-danger"></span>
@@ -495,7 +537,7 @@
               <div class="form-group col-md-6">
                 <label for="bankAcc"><i class="fa-solid fa-money-check-dollar"></i> Cuenta bancaria</label>
                 <input type="text" class="form-control" id="bankAcc" name="bankAcc" pattern="[A-Za-z]+"
-                  title="Solo se permiten caracteres">
+                  title="Solo se permiten caracteres" value="<?=$raw_user[0]['bankAcc']?>">
                 <span id="error_bankAcc" class="text-danger"></span>
               </div>
             </div>

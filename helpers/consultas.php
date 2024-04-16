@@ -429,4 +429,49 @@
       return $resultado;
 
     }
+
+    public static function listOneRawUser($conn,$userId){
+      $sqlSP="CALL select_one_user($userId)";
+      /*
+      alias de los campos
+	    *como viene en la bd
+      */
+      $resultSP=$conn->query($sqlSP, MYSQLI_STORE_RESULT);
+      
+      $resultado=[];
+      //condicion para verificar si se hizo la insercion en la bd
+      if($resultSP){        
+        while($row = $resultSP->fetch_assoc()){
+          unset($row['password']);
+          array_push($resultado, $row);
+        }
+      }
+      $conn->next_result();
+      return $resultado;
+
+    }
+    
+    public static function listAreaSectionPosition($conn, $positionId){
+      $sqlSP="CALL select_area_section_position($positionId)";
+      /*
+      alias de los campos
+        'areaId',
+        'nombreArea',
+        'departamentoId',
+        'nombreDepartamento',
+        'puestoId',        
+        'puesto'
+      */
+      $resultSP=$conn->query($sqlSP, MYSQLI_STORE_RESULT);
+      
+      $resultado=[];
+      //condicion para verificar si se hizo la insercion en la bd
+      if($resultSP){        
+        while($row = $resultSP->fetch_assoc()){
+          array_push($resultado, $row);
+        }
+      }
+      $conn->next_result();
+      return $resultado;
+    }
   }

@@ -18,7 +18,6 @@
   <?php require 'layout/sidebar.php';?>
   <?php $empleados = Consultas::listUsers($conn); ?>
   <?php $autorizaciones = Consultas::listAuthorizations($conn); ?>  
-  <title>Título de tu página</title>
 
 
 </head>
@@ -246,6 +245,7 @@
                         <thead>
                           <tr>
                             <th>Permisos</th>
+                            <th>Editar empleado</th>
                             <th>Nombre</th>
                             <th>Apellido Paterno</th>
                             <th>Apellido Materno</th>
@@ -267,9 +267,11 @@
                           <?php 
                           for ($i=0; $i < count($empleados); $i++) { 
                             //$empleadoNombre=$empleados[$i]['nombre']." ".$empleados[$i]['apellido1']." ".$empleados[$i]['apellido2'];  
+                            $empId=$empleados[$i]['usuarioId'];
                           ?>
-                            <tr data-empId="<?=$empleados[$i]['usuarioId']?>">
-                              <td><button class="btn btn-success btn-sm select-permisos">Seleccionar</button></td>
+                            <tr data-empId="<?=$empId?>">
+                              <td class="text-center"><button class="btn btn-success btn-sm select-permisos"><i class="bi bi-pencil-square"></i></button></td>
+                              <td class="text-center"> <a href="editar-empleado.php?id=<?=$empId?>" class="btn btn-primary btn-sm"><i class="bi bi-pencil-square"></i></a></td>                              
                               <td><?=$empleados[$i]['nombre']?></td>
                               <td><?=$empleados[$i]['apellido1']?></td>
                               <td><?=$empleados[$i]['apellido2']?></td>
@@ -342,7 +344,7 @@
     "pageLength": 0,
     "lengthMenu": [5, 15, 25, 50, 100],
     scrollX: true,
-    order: [[1, 'asc']],
+    order: [[2, 'asc']],
     language: {
       "processing": "Procesando...",
       "lengthMenu": "Mostrar _MENU_ registros",
@@ -399,7 +401,7 @@
         
         $('#modalPermisos').modal('show');
         
-      });  
+      });     
 
       $("#guardarModalPermisos").click(function(){
         let fd = new FormData();
