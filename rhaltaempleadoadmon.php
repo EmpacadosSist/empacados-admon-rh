@@ -45,11 +45,7 @@
     margin-top: 0rem !important;
   }
 
-  body {
-    font-family: "Open Sans", sans-serif;
-    background: #052668;
-    color: 'black;';
-  }
+
 
   .card-title {
     padding: -3px 0 19px 0;

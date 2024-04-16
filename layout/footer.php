@@ -2,24 +2,7 @@
 
 <!-- Include Animate.css library -->
 
-<style type="text/css">
-  .footer {
-    padding: 20px 0; /* Add padding for spacing */
-    border-top: 3px solid #fdfdfd;
-  }
 
-.footer .copyright, .footer .credits {
-    text-align: center;
-    color: #fff;
-    font-size: 12px;
-    margin-bottom: -4px;
-}
-  .footer img {
-    display: inline-block;
-    vertical-align: middle; /* Align images vertically with text */
-    margin-right: 5px; /* Add some space between image and text */
-  }
-</style>
 
 <!-- Footer -->
 <footer id="footer" class="footer">
