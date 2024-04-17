@@ -946,6 +946,8 @@
     fd.append('bank', bank);
     fd.append('bankAcc', bankAcc);
     fd.append('superUser', superUser);
+
+    fd.append('children', JSON.stringify(arrHijos));
     //console.log(validarNumCar(lastName1,3,100));
     //subir_test(name, lastName1, lastName2);
     //return false;

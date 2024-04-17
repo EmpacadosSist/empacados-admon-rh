@@ -13,6 +13,8 @@ if(count($_POST)>0){
   
   $superUserId = isset($_POST['superUser']) ? $_POST['superUser'] : "";  
   $superUserIdVal = Validar::validarNum($superUserId);
+
+  $children = isset($_POST['children']) ? json_decode($_POST['children']) : "";  
   
   //se genera una contraseña automaticamente con 8 caracteres
   $password = generarPassword(8);
@@ -178,6 +180,7 @@ if(count($_POST)>0){
   $bankVal = Validar::validarLongitud($bank,3,45);  
 
 
+
   $resultado="";
   $sqlSP="";
 
@@ -220,16 +223,54 @@ if(count($_POST)>0){
         $userId=$last_id->id;
         //variable que almacena el resultado de haber enviado por correo la contraseña
         //$isSent=enviarPassword($password, $empNum, $email);
+
+        //$arr=[];
+        $f=0;
+        for ($i=0; $i < count($children); $i++) { 
+          $childName=$children[$i][0];
+          $childDob=$children[$i][1];
+          $sqlSPCh="CALL insert_child($userId,'$childName','$childDob', @LID)";
+          $resultSPCh=$conn->query($sqlSPCh);
+          //$resultSP=false;
+          //condicion para verificar si se hizo la insercion en la bd
+          if($resultSPCh){
+            $f++;
+          }
+          //array_push($arr, $children[$i][1]);
+        }
+      
+        //$resultado = ["ok"=>true,"message"=>$arr];
+        //echo json_encode($resultado);
+        //die();
+
         $isSent="Prueba sin envio";
         $message="Usuario agregado exitosamente";
       }else{
+        //primero se borra en caso de que haya hijos
+        $sqlSPChD="CALL delete_child($userId)";
+        $resultSPChD=$conn->query($sqlSPChD);
+
+        $f=0;
+        for ($i=0; $i < count($children); $i++) { 
+          //despues se insertan los hijos
+          $childName=$children[$i][0];
+          $childDob=$children[$i][1];
+          $sqlSPCh="CALL insert_child($userId,'$childName','$childDob', @LID)";
+          $resultSPCh=$conn->query($sqlSPCh);
+
+          if($resultSPCh){
+            $f++;
+          }
+          //array_push($arr, $children[$i][1]);
+        }
+
         $isSent="No aplica";
         $message="Usuario actualizado exitosamente";        
       }
 
 
       //se guarda en una variable el resultado de haber agregado o atcualizado exitosamente el empleado
-      $resultado = ["ok"=>true,"message"=>$message, "Id"=>$userId, "emailSent"=>$isSent];
+      $resultado = ["ok"=>true,"message"=>$message, "Id"=>$userId, "emailSent"=>$isSent, "addedChildren"=>$f];
 
     }else{
       //se guarda en una variable el resultado de haber un error al agregar a la bd      

@@ -47,6 +47,8 @@
 <?php $colonias=Consultas::listColonias($conn, $EMC[0]['municipioId']); ?>
 <?php $codigo_postal = $EMC[0]['codigoPostal'] ?>
 
+<?php $children = Consultas::listChildren($conn, $empId); ?>
+
 <style type="text/css">
   .h4,
   h4 {
@@ -688,17 +690,25 @@
       </div>
       <div class="modal-body">
         <div id="rowHijos">
+          
+          <?php for($i=0; $i<count($children); $i++){ 
+              $childName=$children[$i]['nombre'];
+              $childDob = substr($children[$i]['fechaNacimiento'],0,10);
+            ?>
           <div class="row fila-form">
             <div class="form-group col-md-6">
               <label><i class="fas fa-child"></i> Nombre</label>
-              <input type="text" class="form-control childName" pattern="[A-Za-z0-9]+" title="Solo se permiten caracteres">              
+              <input type="text" class="form-control childName" pattern="[A-Za-z0-9]+" title="Solo se permiten caracteres" value="<?=$childName?>">              
             </div>
             <div class="form-group col-md-6">
               <label><i class="fas fa-calendar-alt"></i> Fecha de nacimiento</label>
-              <input type="date" class="form-control childDob">
+              <input type="date" class="form-control childDob" value="<?=$childDob?>">
             </div>
           </div>
+          <?php } ?>        
+        
         </div>
+        
         <div class="row">
           <div class="col-4">
           </div>
@@ -734,6 +744,19 @@
 <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap4.min.js"></script>
 <script>
   let arrHijos=[];
+
+  $(document).ready(function(){
+    $(".fila-form").each(function() {
+      let nombreHijo=$(this).find('.childName').val();
+      let fechaNacHijo=$(this).find('.childDob').val();      
+      if(nombreHijo!='' && fechaNacHijo!=''){
+        arrHijos.push([nombreHijo, fechaNacHijo]);
+      }
+    });
+    console.log(arrHijos);
+    $("#childrenInfo").text(arrHijos.length);
+  });
+
   var table = $('#modalTable').DataTable({
     "pageLength": 0,
     "lengthMenu": [5, 10, 15],
@@ -1019,6 +1042,8 @@
     fd.append('bank', bank);
     fd.append('bankAcc', bankAcc);
     fd.append('superUser', superUser);
+
+    fd.append('children', JSON.stringify(arrHijos));
     //console.log(validarNumCar(lastName1,3,100));
     //subir_test(name, lastName1, lastName2);
     //return false;
