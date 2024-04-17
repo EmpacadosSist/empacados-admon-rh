@@ -34,10 +34,18 @@
 
 <?php $raw_user = Consultas::listOneRawUser($conn, $empId); ?>
 <?php $puesto_empleado_id = $raw_user[0]['positionId']; ?>
+<?php $colonia_id = $raw_user[0]['coloniaId']; ?>
+<?php $jefe_directo_id = $raw_user[0]['superUserId']; ?>
+<?php $jefe_directo = Consultas::listOneUser($conn, $jefe_directo_id); ?>
 
 <?php $ADP = Consultas::listAreaSectionPosition($conn, $puesto_empleado_id); ?>
 <?php $departamentos = Consultas::listSections($conn, $ADP[0]['areaId']); ?>
 <?php $puestos=Consultas::listPositions($conn, $ADP[0]['departamentoId']); ?>
+
+<?php $EMC = Consultas::listEstadoMunicipioColonia($conn, $colonia_id); ?>
+<?php $municipios = Consultas::listMunicipios($conn, $EMC[0]['estadoId']); ?>
+<?php $colonias=Consultas::listColonias($conn, $EMC[0]['municipioId']); ?>
+<?php $codigo_postal = $EMC[0]['codigoPostal'] ?>
 
 <style type="text/css">
   .h4,
@@ -89,11 +97,9 @@
   }
 </style>
 
-
-
 <main id="main" class="main">
+  <input type="hidden" id="empId" value="<?=$empId?>">
   <section class="section">
-    <?=var_dump($puestos)?>
     <div class="col-lg-12">
       <div class="card">
         <div class="card-body">
@@ -232,7 +238,7 @@
                 <!--
                   <input type="text" class="form-control" id="jefeDirecto" name="jefeDirecto">
                 -->
-                <button class="form-control text-left" id="btnJefeDirecto">- Seleccione -</button>
+                <button class="form-control text-left" id="btnJefeDirecto"><?=$jefe_directo[0]['nombre']." ".$jefe_directo[0]['apellido1']." ".$jefe_directo[0]['apellido2']?></button>
                 <span id="error_btnJefeDirecto" class="text-danger"></span>
               </div>
             </div>
@@ -333,8 +339,11 @@
                 <select class="form-control" id="estado" name="estado">
                   <option value="">- Seleccione -</option>
                   <?php 
-                    for ($i=0; $i < count($estados); $i++) { ?>
-                  <option value="<?=$estados[$i]['estadoId']?>">
+                    for ($i=0; $i < count($estados); $i++) { 
+                      //$EMC
+                      $estadoOp=$estados[$i]['estadoId'];
+                      ?>
+                  <option value="<?=$estadoOp?>" <?=$estadoOp==$EMC[0]['estadoId'] ? "selected" : "" ?>>
                     <?=$estados[$i]['nombreEstado']?>
                   </option>
                   <?php 
@@ -347,6 +356,16 @@
                 <label for="municipio"><i class="fas fa-map-marker-alt"></i> Municipio</label>
                 <select class="form-control" id="municipio" name="municipio">
                   <option value="">- Seleccione -</option>
+                  <?php 
+                    for ($i=0; $i < count($municipios); $i++) { 
+                      $municipioOp=$municipios[$i]['municipioId'];
+                      ?>
+                  <option value="<?=$municipioOp?>" <?=$municipioOp==$EMC[0]['municipioId'] ? "selected" : "" ?>>
+                    <?=$municipios[$i]['nombreMunicipio']?>
+                  </option>
+                  <?php 
+                    }
+                    ?>                  
                 </select>
                 <!--
                   <input type="text" class="form-control" id="municipio" name="municipio" pattern="[A-Za-z0-9]+"
@@ -358,6 +377,16 @@
                 <label for="colonia"><i class="fas fa-map-marker-alt"></i> Colonia</label>
                 <select class="form-control" id="colonia" name="colonia">
                   <option value="">- Seleccione -</option>
+                  <?php 
+                    for ($i=0; $i < count($colonias); $i++) { 
+                      $coloniaOp=$colonias[$i]['coloniaId'];
+                      ?>
+                  <option value="<?=$coloniaOp?>" data-cp="<?=$colonias[$i]['codigoPostal']?>" <?=$coloniaOp==$EMC[0]['coloniaId'] ? "selected" : "" ?>>
+                    <?=$colonias[$i]['nombreColonia']?>
+                  </option>
+                  <?php 
+                    }
+                    ?>                      
                 </select>
                 <!--
                   <input type="text" class="form-control" id="colonia" name="colonia" pattern="[A-Za-z0-9]+"
@@ -368,7 +397,7 @@
               <div class="form-group col-md-3">
                 <label for="postalcode"><i class="fas fa-map-marker-alt"></i> C.P. (actual)</label>
                 <input type="text" class="form-control" id="postalcode" name="postalcode" pattern="[A-Za-z0-9]+"
-                  title="Solo se permiten caracteres" disabled>
+                  title="Solo se permiten caracteres" value="<?=$codigo_postal?>" disabled>
                 <span id="error_postalcode" class="text-danger"></span>
               </div>
             </div>
@@ -553,7 +582,7 @@
                 -->
               </div>
               <div class="form-group col-md-4">
-                <button class="btn btn-primary btn-block" id="btnGuardarEmpleado">Guardar</button>
+                <button class="btn btn-primary btn-block" id="btnGuardarEmpleado">Actualizar</button>
 
               </div>
               <div class="form-group col-md-4">
@@ -636,7 +665,7 @@
             ?>
           </tbody>
         </table>
-        <input type="hidden" id="superUser" value="NULL">
+        <input type="hidden" id="superUser" value="<?=$raw_user[0]['superUserId']?>">
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-danger" id="cancelarModalJefe">Cancelar</button>
@@ -864,6 +893,7 @@
   });
 
   $("#btnGuardarEmpleado").click(function () {
+    let empId = $("#empId").val(); 
     let empNum = $("#empNum").val(); 
     let lastName1 = $("#lastName1").val(); 
     let lastName2 = $("#lastName2").val(); 
@@ -950,7 +980,8 @@
     console.log({
       empNum, lastName1, lastName2, name, recDate, position, ceco, dateOfBirth, placeOfBirth, gender, maritalStatus, spouseName, spouseDob, nss, curp, rfc, education, colonia, address, email, phone, shirtSize, pantsSize, shoeSize, illnesses, allergies, medication, emerPhone1, emerPhone2, baseSalary, paymentType, foodBonus, savingFund, bank, bankAcc, superUser
     });
-
+    
+    fd.append('userId', empId);
     fd.append('empNum', empNum);
     fd.append('lastName1', lastName1);
     fd.append('lastName2', lastName2);

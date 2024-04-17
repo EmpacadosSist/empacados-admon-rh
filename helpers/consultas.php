@@ -474,4 +474,29 @@
       $conn->next_result();
       return $resultado;
     }
+
+    public static function listEstadoMunicipioColonia($conn, $coloniaId){
+      $sqlSP="CALL select_estado_municipio_colonia($coloniaId)";
+      /*
+      alias de los campos
+        'estadoId',
+        'nombreEstado',
+        'municipioId',
+        'nombreMunicipio',
+        'coloniaId',        
+        'coloniaNombre',
+        'codigoPostal'
+      */
+      $resultSP=$conn->query($sqlSP, MYSQLI_STORE_RESULT);
+      
+      $resultado=[];
+      //condicion para verificar si se hizo la insercion en la bd
+      if($resultSP){        
+        while($row = $resultSP->fetch_assoc()){
+          array_push($resultado, $row);
+        }
+      }
+      $conn->next_result();
+      return $resultado;
+    }    
   }
