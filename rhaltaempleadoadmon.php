@@ -663,6 +663,7 @@
 <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap4.min.js"></script>
 <script>
   let arrHijos=[];
+
   var table = $('#modalTable').DataTable({
     "pageLength": 0,
     "lengthMenu": [5, 10, 15],
@@ -821,8 +822,38 @@
     $("#postalcode").val(cp);
   });
 
-  $("#btnGuardarEmpleado").click(function () {
+  $("#btnGuardarEmpleado").click(async function() {
     let empNum = $("#empNum").val(); 
+    
+    let fdCheck = new FormData();
+    let resultado=true;
+    fdCheck.append('empNum', empNum);
+    await fetch('helpers/emp_num_check.php', {
+      method: "POST",
+      body: fdCheck
+    })
+    .then(response => {
+      return response.ok ? response.json() : Promise.reject(response);
+    })
+    .then(data => {
+      console.log(data.rows);
+      if(data.rows>0){
+        $("html, body").animate({
+          scrollTop: 0
+        }, 0);
+        $('#error_empNum').text('Ya existe número de empleado');
+        $("#empNum").css('border-color', '#cc0000');  
+        resultado = false; 
+      }
+    })
+    .catch(err => {
+      let message = err.statusText || "Ocurrió un error";
+      console.log(err);
+    });
+    if(!resultado){
+      return resultado;
+    }
+
     let lastName1 = $("#lastName1").val(); 
     let lastName2 = $("#lastName2").val(); 
     let name = $("#name").val(); 
@@ -971,6 +1002,38 @@
       console.log('no procede - faltan campos obligatorios');
     }
   });
+
+  const num_repetido = async (empNum) => {
+    let fdCheck = new FormData();
+    //let resultado;
+    fdCheck.append('empNum', empNum);
+    await fetch('helpers/emp_num_check.php', {
+      method: "POST",
+      body: fdCheck
+    })
+    .then(response => {
+      return response.ok ? response.json() : Promise.reject(response);
+    })
+    .then(data => {
+      console.log(data.rows);
+      //resultado = data.rows;
+      if(data.rows>0){
+        $("html, body").animate({
+          scrollTop: 0
+        }, 0);
+        //mostrarError($("#empNum"), 'Ya existe número de empleado', 'error_empNum');  
+
+        $('#error_empNum').text('Ya existe número de empleado');
+        $("#empNum").css('border-color', '#cc0000');  
+        return false; 
+      }
+      //location.reload();
+    })
+    .catch(err => {
+      let message = err.statusText || "Ocurrió un error";
+      console.log(err);
+    })  
+  }
 
   const recargar_select = (parentId, tipo) => {
     $.ajax({
