@@ -48,6 +48,7 @@
 <?php $codigo_postal = $EMC[0]['codigoPostal'] ?>
 
 <?php $children = Consultas::listChildren($conn, $empId); ?>
+<?php $num_empleado = $raw_user[0]['empNum']; ?>
 
 <style type="text/css">
   .h4,
@@ -101,6 +102,7 @@
 
 <main id="main" class="main">
   <input type="hidden" id="empId" value="<?=$empId?>">
+  <input type="hidden" id="oldEmpNum" value="<?=$num_empleado?>">
   <section class="section">
     <div class="col-lg-12">
       <div class="card">
@@ -119,7 +121,7 @@
                   No. de empleado
                 </label>
                 <input type="number" class="form-control" id="empNum" name="empNum" inputmode="numeric"
-                  pattern="[0-9]+" value="<?=$raw_user[0]['empNum']?>">
+                  pattern="[0-9]+" value="<?=$num_empleado?>">
                 <span id="error_empNum" class="text-danger"></span>
               </div>
               <div class="form-group col-md-3">
@@ -915,9 +917,44 @@
     $("#postalcode").val(cp);
   });
 
-  $("#btnGuardarEmpleado").click(function () {
+  $("#btnGuardarEmpleado").click(async function () {
     let empId = $("#empId").val(); 
     let empNum = $("#empNum").val(); 
+    
+    let oldEmpNum = $("#oldEmpNum").val();
+    let comp=(oldEmpNum!=empNum);
+    
+    //fetch para revisar si existe el numero de empleado
+    //comparando numero actual con numero anterior del empleado
+    let fdCheck = new FormData();
+    let resultado=true;
+    fdCheck.append('empNum', empNum);
+    await fetch('helpers/emp_num_check.php', {
+      method: "POST",
+      body: fdCheck
+    })
+    .then(response => {
+      return response.ok ? response.json() : Promise.reject(response);
+    })
+    .then(data => {
+      console.log(data.rows);
+      if(data.rows>0 && comp){
+        $("html, body").animate({
+          scrollTop: 0
+        }, 0);
+        $('#error_empNum').text('Ya existe número de empleado');
+        $("#empNum").css('border-color', '#cc0000');  
+        resultado = false; 
+      }
+    })
+    .catch(err => {
+      let message = err.statusText || "Ocurrió un error";
+      console.log(err);
+    });
+    if(!resultado){
+      return resultado;
+    }
+
     let lastName1 = $("#lastName1").val(); 
     let lastName2 = $("#lastName2").val(); 
     let name = $("#name").val(); 

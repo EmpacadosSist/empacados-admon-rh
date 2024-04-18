@@ -825,6 +825,7 @@
   $("#btnGuardarEmpleado").click(async function() {
     let empNum = $("#empNum").val(); 
     
+    //fetch para revisar si existe el numero de empleado
     let fdCheck = new FormData();
     let resultado=true;
     fdCheck.append('empNum', empNum);
