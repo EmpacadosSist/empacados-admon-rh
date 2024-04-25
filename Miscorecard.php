@@ -10,8 +10,6 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Mi Scorecard</title>
-
-
 </head>
 <?php require 'layout/libreriasdatatable.php';?>
 <?php require 'nav.php'; ?>
@@ -34,7 +32,6 @@
 
   
   <main id="main" class="main">
-
     <div class="pagetitle">
       <h1>MI SCORECARD</h1>
       <nav>
@@ -218,31 +215,30 @@
 
   <style type="text/css">
 
-.slider.slider-horizontal {
-    width: 80%;
-    height: 22px;
-}
+    .slider.slider-horizontal {
+      width: 80%;
+      height: 22px;
+    }
  
+    /* Estilo para el Slider 1 */
+    #slider1 .slider-selection,
+    #slider2 .slider-selection,
+    #slider3 .slider-selection {
+      background: #00A800; /* Cambia el color de la selección a naranja para el Slider 3 */
+    }
 
-  /* Estilo para el Slider 1 */
-  #slider1 .slider-selection,
-  #slider2 .slider-selection,
-  #slider3 .slider-selection {
-    background: #00A800; /* Cambia el color de la selección a naranja para el Slider 3 */
-  }
+    #slider1 .slider-handle,
+    #slider2 .slider-handle,
+    #slider3 .slider-handle {
+      background: #007500; /* Cambia el color de la selección a naranja para el Slider 3 */
+    }  
 
-  #slider1 .slider-handle,
-  #slider2 .slider-handle,
-  #slider3 .slider-handle {
-    background: #007500; /* Cambia el color de la selección a naranja para el Slider 3 */
-  }  
-
-  /* Estilo para las pistas de los sliders */
-  #slider1 .slider-track-low, #slider1 .slider-track-high,
-  #slider2 .slider-track-low, #slider2 .slider-track-high,
-  #slider3 .slider-track-low, #slider3 .slider-track-high {
-    background: white; /* Cambia el color de las pistas a un tono claro de verde para todos los sliders */
-  }
+    /* Estilo para las pistas de los sliders */
+    #slider1 .slider-track-low, #slider1 .slider-track-high,
+    #slider2 .slider-track-low, #slider2 .slider-track-high,
+    #slider3 .slider-track-low, #slider3 .slider-track-high {
+      background: white; /* Cambia el color de las pistas a un tono claro de verde para todos los sliders */
+    }
 
 </style>
 
