@@ -736,7 +736,6 @@
 
 
 <!-- Template Main JS File -->
-<script src="assets/js/main.js"></script>
 
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -744,6 +743,7 @@
 <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 <!-- DataTables Bootstrap 4 JS -->
 <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap4.min.js"></script>
+<script src="assets/js/main.js"></script>
 <script>
   let arrHijos=[];
 

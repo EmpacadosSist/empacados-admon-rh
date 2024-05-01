@@ -379,7 +379,8 @@
           }        
         }
       }
-      console.log(arrEliminadosRules);
+      //se ejecuta funcionalidad de actualizacion del indicador con sus rules
+      actualizar_indicador(arrRules, arrEliminadosRules, indicadorId, nombreInd, comments)
     })
 
     $(".agregar").on('change', function() {
@@ -451,8 +452,8 @@
         })
     }
 
-    const actualizar_indicador = (arrRules, indicatorId, indicatorName, comments) => {
-
+    const actualizar_indicador = (arrRules, arrEliminadosRules, indicatorId, indicatorName, comments) => {
+      $(".loader").show();
       let fd = new FormData();
 
       fd.append('indicatorId', indicatorId);
@@ -472,13 +473,31 @@
           if (arrRules.length > 0) {
             for (let key in arrRules) {
               //console.log(arrRules[key].rule);
-              asignar_regla(data.indId, arrRules[key].rule, arrRules[key].type);
+              let tipo='gyd';
+              if(arrRules[key].type=='1'){
+                tipo='syl';
+              }
+              asignar_regla(indicatorId, arrRules[key].rule, tipo);
             }
           }
 
+          if (arrEliminadosRules.length > 0) {
+            for (let key in arrEliminadosRules) {
+              //console.log(arrRules[key].rule);
+              let tipo='gyd';
+              if(arrEliminadosRules[key].tipo=='1'){
+                tipo='syl';
+              }              
+              quitar_regla(indicatorId, arrEliminadosRules[key].id, tipo);
+            }
+          }          
+
         })
         .then(data => {
-          location.reload();
+          setTimeout(() => {
+            location.reload();            
+          }, 2000);
+        
         })
         .catch(err => {
           let message = err.statusText || "Ocurrió un error";
@@ -492,9 +511,33 @@
 
       fd.append('indicatorId', indicadorId);
       fd.append('bonusRuleId', bonusRuleId);
+      //se debe recibir el parametro type como string: gyd o syl
       fd.append('type', type);
 
       fetch('altas/subir_regla_bono_indicador.php', {
+          method: "POST",
+          body: fd
+        })
+        .then(response => {
+          return response.ok ? response.json() : Promise.reject(response);
+        })
+        .then(data => {
+          console.log(data);
+        })
+        .catch(err => {
+          let message = err.statusText || "Ocurrió un error";
+          console.log(err);
+        })
+    }
+
+    const quitar_regla = (indicadorId, bonusRuleId, type) => {
+      let fd = new FormData();
+      fd.append('indicatorId', indicadorId);
+      fd.append('bonusRuleId', bonusRuleId);
+      //se debe recibir el parametro type como string: gyd o syl
+      fd.append('type', type);
+
+      fetch('bajas/eliminar_enlace_regla.php', {
           method: "POST",
           body: fd
         })

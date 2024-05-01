@@ -337,7 +337,7 @@
   </div>
   <!-- Include Bootstrap JS -->
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
-
+  <script src="assets/js/main.js"></script>
   <script>  
     $(document).ready(function () {
       var table = $('#myTable1').DataTable({

@@ -15,13 +15,13 @@ if(count($_POST)>0){
   $commentsVal = Validar::validarLongitudMax($comments, 255);  
 
     if($indicatorNameVal && $commentsVal){
-      //$sqlSP="CALL update_bonus_rule($bonusId, '$minPer', '$maxPer', '$bonusPer')";
-      //$resultSP=$conn->query($sqlSP);
+      $sqlSP="CALL update_indicator($indicatorId, '$indicatorName', '$comments')";
+      $resultSP=$conn->query($sqlSP);
 
-      if(true){
+      if($resultSP){
 
         //se guarda en una variable el resultado de haber agregado o atcualizado exitosamente el empleado
-        $resultado = ["ok"=>true,"message"=>"Regla de bono agregada exitosamente"];
+        $resultado = ["ok"=>true,"message"=>"Indicador actualizado exitosamente"];
   
       }else{
         //se guarda en una variable el resultado de haber un error al agregar a la bd      
