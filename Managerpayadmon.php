@@ -358,11 +358,12 @@
 
 
   const descargar = () => {
-    
     // Exporta una tabla HTML a excel
-    /* as long as this script appears after the table, it will be visible */
+    //obtener tabla en variable
     var tbl = document.getElementById("tablaPestana2");
+    //se agrega tabla a objeto XLSX
     const wb = XLSX.utils.table_to_book(tbl);
+    //se escribe xlsx y se descarga
     XLSX.writeFile(wb, "pagos.xlsx");
   }
   </script>
