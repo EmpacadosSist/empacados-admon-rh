@@ -13,10 +13,17 @@
 ?>
 <style>
 .st {
-  /*
   position:sticky;
   left:0px;
-  */
+  background-color: white;
+  z-index: 2;
+}
+
+.st1 {
+  position:sticky;
+  left:100px;
+  background-color: white;
+  z-index: 2;
 }
 </style>
 <main id="main" class="main">
@@ -71,23 +78,17 @@
               <thead>
                 <tr>
                   <th class="st">Número de empleado</th>
-                  <th class="st">Nombre</th>
+                  <th class="st1">Nombre</th>
                   <th>Puesto</th>
                   <th>Area</th>
                   <th>Ceco</th>
                   <th>$ Variable</th>
-                  <!--
-                    <th>Nivel en estructura</th>
-                  -->
 
                   <?php 
-                for($i=0; $i<count($indicadores); $i++){
-
-              ?>
+                for($i=0; $i<count($indicadores); $i++){ ?>
                   <th><?=$indicadores[$i]['nombreIndicador']?></th>
                   <?php               
-                }
-              ?>
+                } ?>
                   <th>Total</th>
                   <th></th>
                   <!-- Agrega más columnas según tus necesidades -->
@@ -101,7 +102,7 @@
               ?>
                 <tr data-user-id="<?=$usuariosArr['usuarioId']?>" data-pos-id="<?=$usuariosArr['puestoId']?>">
                   <td class="st" style="min-width: 100px;"><?=$usuariosArr['numEmpleado']?></td>
-                  <td class="st" style="min-width: 300px;">
+                  <td class="st1" style="min-width: 300px;">
                     <?=$usuariosArr['nombre']." ".$usuariosArr['apellido1']." ".$usuariosArr['apellido2']?></td>
                   <td style="min-width: 300px;"><?=$usuariosArr['puesto']?></td>
                   <td style="min-width: 100px;"><?=$usuariosArr['area']?></td>
@@ -124,8 +125,7 @@
                     $porcentaje=Consultas::paymentVar($conn, $usuariosArr['puestoId'], $indicadorId);
                     $valorPorcentaje= isset($porcentaje[0]) ? $porcentaje[0]['porcentaje'] : 0; 
                     $sumaPorc+=$valorPorcentaje;
-                //var_dump($muestra);
-                ?>
+                  ?>
                   <td style="min-width: 150px;">
                     <div class="input-group mb-3">
                       <input data-indic="<?=$indicadorId?>" class="form-control porc" type="number" data-old-per="<?=$valorPorcentaje?>" value="<?=$valorPorcentaje?>">

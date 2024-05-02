@@ -23,8 +23,8 @@
               <!-- Contenido de la tabla -->
               <thead>
                 <tr>
-                  <th>Número de empleado</th>
-                  <th>Nombre</th>
+                  <th class="st">Número de empleado</th>
+                  <th class="st1">Nombre</th>
                   <th>Puesto</th>
                   <th>Area</th>
                   <th>Ceco</th>
@@ -54,7 +54,7 @@
             ?>
                 <tr data-user-id="<?=$usuariosArr['usuarioId']?>" data-pos-id="<?=$usuariosArr['puestoId']?>">
                   <td class="st" style="min-width: 100px;"><?=$usuariosArr['numEmpleado']?></td>
-                  <td class="st" style="min-width: 300px;">
+                  <td class="st1" style="min-width: 300px;">
                     <?=$usuariosArr['nombre']." ".$usuariosArr['apellido1']." ".$usuariosArr['apellido2']?></td>
                   <td style="min-width: 300px;"><?=$usuariosArr['puesto']?></td>
                   <td style="min-width: 100px;"><?=$usuariosArr['area']?></td>
