@@ -146,6 +146,17 @@
         </div>
 
         <div class="tab-pane fade" id="contenido2" role="tabpanel" aria-labelledby="pestaña2">
+          <div class="row mb-3 mt-3">
+              <div class="col">
+              </div>
+              <div class="col">
+              </div>
+              <div class="col d-flex justify-content-end">
+                <button class="btn btn-success" onclick="descargar()">Descargar excel</button>
+
+              </div>
+
+          </div>
           <div class="table-responsive tabla-pagos">
             
           </div>
@@ -175,6 +186,11 @@
 
   <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+  <!-- use version 0.20.2 -->
+  <script src="https://cdn.sheetjs.com/xlsx-0.20.2/package/dist/shim.min.js"></script>
+  <script src="https://cdn.sheetjs.com/xlsx-0.20.2/package/dist/xlsx.full.min.js"></script>
+
 
   <!-- Template Main JS File -->
   <script src="assets/js/main.js"></script>
@@ -337,5 +353,16 @@
           $(".tabla-pagos").empty();
           $(".tabla-pagos").append(response);
         });
+  }
+
+
+
+  const descargar = () => {
+    
+    // Exporta una tabla HTML a excel
+    /* as long as this script appears after the table, it will be visible */
+    var tbl = document.getElementById("tablaPestana2");
+    const wb = XLSX.utils.table_to_book(tbl);
+    XLSX.writeFile(wb, "pagos.xlsx");
   }
   </script>
