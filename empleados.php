@@ -365,28 +365,25 @@
     }
   });
 
-      $('#myTable1 tbody').on('click', 'tr', function () {
-        /*
-        var tr = $(this);
-        var row = table.row(tr);
-        
-        if (row.child.isShown()) {
-          // Este row ya está abierto, cerrarlo
-          console.log("se oculta");
-          row.child.hide();
-          tr.removeClass('shown');
-        } else {
-          // Abrir este row
-          console.log("se muestra");
-          row.child(format(row.data())).show();
-          tr.addClass('shown');
-        }
-        */
-
-
-      });
 
       $(".select-permisos").click(function(){
+        //let fd = new FormData();
+        //let empId=$(this).parent().parent().attr('data-empId');
+        //let authId;
+        //fd.append('userId', empId);
+        //$("#empId").val(empId);
+        //
+        //$(".auth-input").each(async function() {
+        //  authId=$(this).val();
+        //  fd.append('authorizationId', authId);        
+        //  await consulta_permiso(fd,$(this));
+        //});
+        //
+        //$('#modalPermisos').modal('show');
+        //console.log("asi origen");
+      });    
+      
+      table.on('click', 'tbody tr .select-permisos', function () {
         let fd = new FormData();
         let empId=$(this).parent().parent().attr('data-empId');
         let authId;
@@ -400,8 +397,8 @@
         });
         
         $('#modalPermisos').modal('show');
-        
-      });     
+        //console.log("asi");
+      });      
 
       $("#guardarModalPermisos").click(function(){
         let fd = new FormData();
@@ -434,7 +431,7 @@
         fetch('altas/subir_autorizacion_usuario.php', {
             method: "POST",
             body: fd
-          })
+          }) 
           .then(response => {
             return response.ok ? response.json() : Promise.reject(response);
           })

@@ -28,6 +28,34 @@
 
     <!-- aqui inicia sidebar -->
 
+    <?php if(Utils::buscarPermiso(8)): ?>
+    <li class="nav-item">
+      <a class="nav-link collapsed" data-bs-target="#components-adp" data-bs-toggle="collapse" href="#">
+        <i class="bi bi-building-fill-gear" ></i><span>Áreas/Deptos./Puestos</span><i class="bi bi-chevron-down ms-auto"></i>
+      </a>
+      <ul id="components-adp" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+
+        <li>
+          <a class="bi bi-diagram-2-fill" href="control-area.php">
+            <i></i><span>Subir área
+            </span>
+          </a>
+        </li>
+        <li>
+          <a class="bi bi-diagram-2-fill" href="control-departamento.php">
+            <i></i><span>Subir departamento
+            </span>
+          </a>
+        </li>
+        <li>
+          <a class="bi bi-diagram-2-fill" href="control-puesto.php">
+            <i></i><span>Subir puesto
+            </span>
+          </a>
+        </li>                
+      </ul>      
+    </li>
+    <?php endif; ?>    
 
     <?php if(Utils::buscarPermiso(3)): ?>
     <li class="nav-item">

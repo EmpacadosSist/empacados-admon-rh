@@ -346,13 +346,12 @@
 
   const recargar_tabla = () => {
     $.ajax({
-            url: "layout/tabla_pagos.php",
-            type: "POST"
-            
-        }).done(function(response){
-          $(".tabla-pagos").empty();
-          $(".tabla-pagos").append(response);
-        });
+      url: "layout/tabla_pagos.php",
+      type: "POST"      
+    }).done(function(response){
+      $(".tabla-pagos").empty();
+      $(".tabla-pagos").append(response);
+    });
   }
 
 
