@@ -797,6 +797,16 @@
   });
 
   $(".seleccionar-jefe").click(function(){
+    //let parentTr=$(this).parent().parent();
+    //let userId=parentTr.attr('data-id');
+    //let nombreJefe=parentTr.attr('data-jefe');
+
+    //$("#btnJefeDirecto").text(nombreJefe);
+    //$('#modalJefeDirecto').modal('hide');
+    //$("#superUser").val(userId);
+  });
+  
+  table.on('click', 'tbody tr .seleccionar-jefe', function () {
     let parentTr=$(this).parent().parent();
     let userId=parentTr.attr('data-id');
     let nombreJefe=parentTr.attr('data-jefe');
@@ -805,8 +815,6 @@
     $('#modalJefeDirecto').modal('hide');
     $("#superUser").val(userId);
   });
-  
-
 
   $('#maritalStatus').change(function () {  
     let estadoCivil = $(this).val();
