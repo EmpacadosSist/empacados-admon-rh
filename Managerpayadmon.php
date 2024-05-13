@@ -2,6 +2,8 @@
   require_once('layout/session.php');
   require_once('helpers/utils.php');
   Utils::redirectSinPermiso(5);
+  $tienePermiso=Utils::buscarPermiso(9);
+  
 ?>
 <?php require 'layout/libreriasdatatable.php';?>
 <?php require 'nav.php'; ?>
@@ -9,25 +11,27 @@
 
 <?php 
   $indicadores=Consultas::listIndicator($conn); 
-  $usuarios=Consultas::listUsers($conn);
+  //$usuarios=Consultas::listUsers($conn);
+  $current_user_id = $_SESSION['identity']->userId;
+  $usuarios=Consultas::listUsersBySupervisor($conn,$current_user_id);
 ?>
 <style>
 .st {
-  position:sticky;
-  left:0px;
+  position: sticky;
+  left: 0px;
   background-color: white;
   z-index: 2;
 }
 
 .st1 {
-  position:sticky;
-  left:100px;
+  position: sticky;
+  left: 100px;
   background-color: white;
   z-index: 2;
 }
 </style>
 <main id="main" class="main">
-
+  <input type="hidden" value="<?=$current_user_id?>" id="currentUserId">
   <div class="pagetitle">
     <h1>EMPACADOS PAGOS</h1>
     <nav>
@@ -59,6 +63,7 @@
       <div class="tab-content" id="contenidoPestanas">
         <!-- Contenido de la Pestaña 1 -->
         <div class="tab-pane fade show active" id="contenido1" role="tabpanel" aria-labelledby="pestaña1">
+        <?php if($tienePermiso): ?>
           <div class="row mb-3 mt-3">
             <div class="col d-flex justify-content-end">
               <label for="archivo">Seleccionar plantilla excel: </label>
@@ -72,6 +77,7 @@
             </div>
 
           </div>
+          <?php endif; ?>
           <div class="table-responsive">
             <table class="table table-striped table-bordered table-sm" id="tablaPestana1">
               <!-- Contenido de la tabla -->
@@ -96,9 +102,13 @@
               </thead>
               <tbody>
                 <?php 
+                $arrIds=[];
+                $paramIds="";
+                $checkChildren=false;
             for($k=0;$k<count($usuarios);$k++){
               $sumaPorc=0;
               $usuariosArr=$usuarios[$k];
+              array_push($arrIds,$usuariosArr['usuarioId']);
               ?>
                 <tr data-user-id="<?=$usuariosArr['usuarioId']?>" data-pos-id="<?=$usuariosArr['puestoId']?>">
                   <td class="st" style="min-width: 100px;"><?=$usuariosArr['numEmpleado']?></td>
@@ -113,7 +123,7 @@
                         <span class="input-group-text">$</span>
                       </div>
                       <input type="number" class="form-control variable" data-old-value="<?=$usuariosArr['variable']?>"
-                        value="<?=$usuariosArr['variable']?>">
+                        value="<?=$usuariosArr['variable']?>" <?=$tienePermiso ? "" : "disabled" ?>>
                     </div>
                   </td>
                   <!--
@@ -128,7 +138,8 @@
                   ?>
                   <td style="min-width: 150px;">
                     <div class="input-group mb-3">
-                      <input data-indic="<?=$indicadorId?>" class="form-control porc" type="number" data-old-per="<?=$valorPorcentaje?>" value="<?=$valorPorcentaje?>">
+                      <input data-indic="<?=$indicadorId?>" class="form-control porc" type="number"
+                        data-old-per="<?=$valorPorcentaje?>" value="<?=$valorPorcentaje?>" <?=$tienePermiso ? "" : "disabled" ?>>
                       <div class="input-group-append">
                         <span class="input-group-text">%</span>
                       </div>
@@ -136,10 +147,97 @@
                   </td>
                   <?php } ?>
 
-                  <td style="min-width: 100px;"><label class="suma-porc"><?=$sumaPorc?></label> %</td> <!-- Agrega más filas según tus necesidades -->
-                  <td><button class="btn btn-success actualizar-porc">Actualizar</button></td>
+                  <td style="min-width: 100px;"><label class="suma-porc"><?=$sumaPorc?></label> %</td>
+                  <!-- Agrega más filas según tus necesidades -->
+                  <td>
+                  <?php if($tienePermiso): ?>
+                    <button class="btn btn-success actualizar-porc">Actualizar</button>
+                    <?php endif; ?>
+                  </td>
                 </tr>
                 <?php } ?>
+
+                <?php 
+                      if(count($arrIds)>0){
+                        $checkChildren=true;
+                        $paramIds=implode(",", $arrIds);
+                      }
+                      
+                    ?>
+
+                <?php 
+                  while($checkChildren){
+                    $arrIds=[];
+                    $usuariosChildren=Consultas::listUsersBySupervisor($conn, $paramIds);
+                ?>
+
+                <?php 
+
+
+            for($l=0;$l<count($usuariosChildren);$l++){
+              $sumaPorc=0;
+              $usuariosArrChildren=$usuariosChildren[$l];
+              array_push($arrIds,$usuariosArrChildren['usuarioId']);
+              ?>
+                <tr data-user-id="<?=$usuariosArrChildren['usuarioId']?>"
+                  data-pos-id="<?=$usuariosArrChildren['puestoId']?>">
+                  <td class="st" style="min-width: 100px;"><?=$usuariosArrChildren['numEmpleado']?></td>
+                  <td class="st1" style="min-width: 300px;">
+                    <?=$usuariosArrChildren['nombre']." ".$usuariosArrChildren['apellido1']." ".$usuariosArrChildren['apellido2']?>
+                  </td>
+                  <td style="min-width: 300px;"><?=$usuariosArrChildren['puesto']?></td>
+                  <td style="min-width: 100px;"><?=$usuariosArrChildren['area']?></td>
+                  <td style="min-width: 100px;"><?=$usuariosArrChildren['ceco']?></td>
+                  <td style="min-width: 200px;">
+                    <div class="input-group mb-3">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">$</span>
+                      </div>
+                      <input type="number" class="form-control variable"
+                        data-old-value="<?=$usuariosArrChildren['variable']?>"
+                        value="<?=$usuariosArrChildren['variable']?>" <?=$tienePermiso ? "" : "disabled" ?>>
+                    </div>
+                  </td>
+                  <!--
+                    <td style="min-width: 100px;"><?php //$usuariosArrChildren['nivel']?></td>
+                  -->
+
+                  <?php for($j=0;$j<count($indicadores);$j++){ 
+                    $indicadorId=$indicadores[$j]['id'];
+                    $porcentaje=Consultas::paymentVar($conn, $usuariosArrChildren['puestoId'], $indicadorId);
+                    $valorPorcentaje= isset($porcentaje[0]) ? $porcentaje[0]['porcentaje'] : 0; 
+                    $sumaPorc+=$valorPorcentaje;
+                  ?>
+                  <td style="min-width: 150px;">
+                    <div class="input-group mb-3">
+                      <input data-indic="<?=$indicadorId?>" class="form-control porc" type="number"
+                        data-old-per="<?=$valorPorcentaje?>" value="<?=$valorPorcentaje?>" <?=$tienePermiso ? "" : "disabled" ?>>
+                      <div class="input-group-append">
+                        <span class="input-group-text">%</span>
+                      </div>
+                    </div>
+                  </td>
+                  <?php } ?>
+
+                  <td style="min-width: 100px;"><label class="suma-porc"><?=$sumaPorc?></label> %</td>
+                  <!-- Agrega más filas según tus necesidades -->
+                  <td>
+                  <?php if($tienePermiso): ?>
+                    <button class="btn btn-success actualizar-porc">Actualizar</button>
+                  <?php endif; ?>
+                  </td>
+                </tr>
+                <?php } ?>
+
+                <?php
+                    if(count($arrIds)>0){
+                      $paramIds=implode(",", $arrIds);
+                    }else{
+                      $checkChildren=false;
+                    } 
+                  }
+                ?>
+
               </tbody>
             </table>
           </div>
@@ -147,18 +245,18 @@
 
         <div class="tab-pane fade" id="contenido2" role="tabpanel" aria-labelledby="pestaña2">
           <div class="row mb-3 mt-3">
-              <div class="col">
-              </div>
-              <div class="col">
-              </div>
-              <div class="col d-flex justify-content-end">
-                <button class="btn btn-success" onclick="descargar()">Descargar excel</button>
+            <div class="col">
+            </div>
+            <div class="col">
+            </div>
+            <div class="col d-flex justify-content-end">
+              <button class="btn btn-success" onclick="descargar()">Descargar excel</button>
 
-              </div>
+            </div>
 
           </div>
           <div class="table-responsive tabla-pagos">
-            
+
           </div>
         </div>
         <!-- Agrega más contenidos de pestañas según sea necesario -->
@@ -197,38 +295,38 @@
 
 
   <script>
+  $(document).ready(function() {
+    let currentUserId = $("#currentUserId").val();
+    recargar_tabla(currentUserId);
+  });
 
-    $(document).ready(function(){
-      recargar_tabla();
-    });
-  
 
-    $(".subir-archivo").click(function(){
-      let archivoppto=$('#archivo');
-      let numIndicadores=$("#num_indicadores").val();
+  $(".subir-archivo").click(function() {
+    let archivoppto = $('#archivo');
+    let numIndicadores = $("#num_indicadores").val();
 
-      let archivo=archivoppto[0].files[0];
-      if((archivo===undefined)){
-        console.log("Archivo vacio")
-      }else{
-        let formData = new FormData();
-        formData.append('archivo',archivo);        
-        formData.append('numIndicadores',numIndicadores);
+    let archivo = archivoppto[0].files[0];
+    if ((archivo === undefined)) {
+      console.log("Archivo vacio")
+    } else {
+      let formData = new FormData();
+      formData.append('archivo', archivo);
+      formData.append('numIndicadores', numIndicadores);
 
-        $.ajax({
-          url: "altas/subir_puesto_indicador_excel.php",
-          type: "POST",
-          data: formData,
-          contentType: false,
-          processData: false,
-          beforeSend: function(){
-            $('.loader').show();
-          } 
-        }).done(function(response){
-          console.log(response);
-        });
-      }
-    });
+      $.ajax({
+        url: "altas/subir_puesto_indicador_excel.php",
+        type: "POST",
+        data: formData,
+        contentType: false,
+        processData: false,
+        beforeSend: function() {
+          $('.loader').show();
+        }
+      }).done(function(response) {
+        console.log(response);
+      });
+    }
+  });
 
   $(".actualizar-porc").click(function() {
     let boton = $(this);
@@ -237,10 +335,11 @@
     let varValue = $(this).parent().parent().find('.variable').val();
     let oldValue = $(this).parent().parent().find('.variable').attr('data-old-value');
     let userId = $(this).parent().parent().attr('data-user-id');
-    let elementoPorcentaje=$(this).parent().parent().find('.suma-porc');
-    let sumaPorcentaje=$(this).parent().parent().find('.suma-porc').text();
+    let elementoPorcentaje = $(this).parent().parent().find('.suma-porc');
+    let sumaPorcentaje = $(this).parent().parent().find('.suma-porc').text();
+
     console.log(sumaPorcentaje);
-    
+
     campos.each(function(index) {
       let actual = $(this);
       let porcentaje = actual.val();
@@ -248,9 +347,9 @@
       let porcentajeAnterior = actual.attr('data-old-per');
       if (porcentaje != "" && porcentaje != porcentajeAnterior) {
         //console.log("Puesto: " + positionId + " Valor del campo: " + porcentaje + " Id de indicador: " + indicadorId + " porcentaje anterior: " + porcentajeAnterior);
-        sumaPorcentaje = (sumaPorcentaje-porcentajeAnterior)+parseInt(porcentaje);
+        sumaPorcentaje = (sumaPorcentaje - porcentajeAnterior) + parseInt(porcentaje);
         //sumaPorcentaje += porcentaje;
-        console.log("Valor nuevo: "+(porcentaje-5));
+        console.log("Valor nuevo: " + (porcentaje - 5));
         elementoPorcentaje.text(sumaPorcentaje);
         actual.attr('data-old-per', porcentaje);
         subir_pos_ind(indicadorId, positionId, porcentaje, boton)
@@ -262,7 +361,8 @@
       actualizar_var(varValue, userId, boton);
     }
 
-    recargar_tabla();
+    let currentUserId = $("#currentUserId").val();
+    recargar_tabla(currentUserId);
   });
 
   $('.porc').on('keydown', function(e) {
@@ -344,11 +444,15 @@
       })
   }
 
-  const recargar_tabla = () => {
+  const recargar_tabla = (currentUserId) => {
+
     $.ajax({
       url: "layout/tabla_pagos.php",
-      type: "POST"      
-    }).done(function(response){
+      type: "POST",
+      data: {
+        currentUserId
+      }
+    }).done(function(response) {
       $(".tabla-pagos").empty();
       $(".tabla-pagos").append(response);
     });

@@ -562,4 +562,40 @@
       $conn->next_result();
       return $resultado;
     }    
+
+    public static function listUsersBySupervisor($conn, $userIds){
+      $sqlSP="CALL select_user_position_by_supervisor('$userIds')";
+      /*
+      alias de los campos
+        'usuarioId',
+        'puestoId',       
+        'numEmpleado', 
+        'ceco',
+        'nombre', 
+        'apellido1', 
+        'apellido2', 
+        'fechaNacimiento',
+        'genero',
+        'estadoCivil',
+        'telefono',
+        'nivel', 
+        'puesto', 
+        'fechaIngreso', 
+        'correo', 
+        'variable', 
+        'departamento',
+        'area'
+      */
+      $resultSP=$conn->query($sqlSP, MYSQLI_STORE_RESULT);
+      
+      $resultado=[];
+      //condicion para verificar si se hizo la insercion en la bd
+      if($resultSP){        
+        while($row = $resultSP->fetch_assoc()){
+          array_push($resultado, $row);
+        }
+      }
+      $conn->next_result();
+      return $resultado;
+    }
   }

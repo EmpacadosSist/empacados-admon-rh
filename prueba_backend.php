@@ -9,16 +9,49 @@ require_once('helpers/consultas.php'); ?>
       <title>Document</title>
   </head>
   <body>
-    Esto es una prueba
-    -----------------------
-    <br>
+    
     <?php 
-      $shirtSize="Valor del campo";
-      $shirtSize = $shirtSize!="" ? "'$shirtSize'" : "NULL";
-      echo $shirtSize;
-      echo "<br>";
+    get_tree($conn, 2);
+    function get_tree($conn, $id)
+    {
+      $rec=$conn;
+      $sqlSP="CALL select_user_position_by_supervisor($id)";
+      /*
+      alias de los campos
+      	   u.userId as 'usuarioId',
+	   u.name as 'nombre', 
+  	   u.lastName1 as 'apellido1', 
+   	   u.lastName2 as 'apellido2', 
+      */
+      $resultSP=$conn->query($sqlSP, MYSQLI_STORE_RESULT);
+      
+      $resultado=[];
+      //condicion para verificar si se hizo la insercion en la bd
+      if($resultSP){        
+        while($row = $resultSP->fetch_assoc()){
+          echo $row['nombre']." ".$row['apellido1']." ".$row['apellido2'];
+          echo "<br>";
+          
+          get_tree($rec, $row['usuarioId']);
+          //array_push($resultado, $row);
+        }
+      }
+      //$conn->next_result();
+      //return $resultado;
+
+
+      //////////////////////////////////
+      /*
+      $result = mysql_query('SELECT id, title FROM elements WHERE parent_id='.$id);
+      while ($row = mysql_fetch_array($result))
+      {
+        echo str_repeat(' ', $level), $row['title'], "\r\n";
+        get_tree($row['id'], $level + 1);
+      }
+      */
+    }
+    
     ?>
-    <button onclick="subir_autorizacion()">Probar</button>
     <script>
 
       const subir_autorizacion = () => {
