@@ -68,7 +68,8 @@
       'id', 
 	    'minimo', 
       'maximo', 
-      'bonus'
+      'bonus',
+      'tipoCalculo'
       */
       $resultSP=$conn->query($sqlSP, MYSQLI_STORE_RESULT);
       

@@ -29,6 +29,15 @@
   background-color: white;
   z-index: 2;
 }
+
+th {
+  background-color: #222;
+  color: white;
+  padding: 2px;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 2px;
+}
 </style>
 <main id="main" class="main">
   <input type="hidden" value="<?=$current_user_id?>" id="currentUserId">

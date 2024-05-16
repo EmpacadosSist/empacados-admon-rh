@@ -111,7 +111,12 @@
           
           <div class="row mt-3">
             <div class="col-6">              
-
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="checkCalcType">
+                <label class="form-check-label" for="checkCalcType">
+                  Activar cálculo alternativo de reglas de bono
+                </label>
+              </div>
             </div>
             <div class="col">
               <div class="form-check">
@@ -142,8 +147,10 @@
               </thead>
               <tbody>
               <?php 
-                for ($i=0; $i < count($reglas); $i++) { ?>
-                  <tr data-id="<?=$reglas[$i]['id']?>">
+                for ($i=0; $i < count($reglas); $i++) { 
+                  if($reglas[$i]['tipoCalculo']=='0'):
+              ?>
+                  <tr data-id="<?=$reglas[$i]['id']?>" class="type_0">
                     <td>
                       <?php
                         $mid="-";
@@ -173,9 +180,43 @@
                     <td><input type="checkbox" class="gyd" disabled></td>
                     <td><input type="checkbox" class="syl" disabled></td>                    
                   </tr>
-                <?php 
+              <?php 
+                else:                
+              ?>
+                  <tr data-id="<?=$reglas[$i]['id']?>" class="type_1" style="display: none;">
+                    <td>
+                      <?php
+                        $mid="-";
+                        if($reglas[$i]['minimo']=='T'||$reglas[$i]['maximo']=='T'){
+                          $mid="";
+                        } 
+                        if($reglas[$i]['minimo']=='T'){
+                          echo "Menor o igual a";
+                        }else{
+                          echo $reglas[$i]['minimo']." ";
+                        }
+                        echo $mid;
+                        if($reglas[$i]['maximo']=='T'){
+                          echo "o más";
+                        }else{
+                          echo " ".$reglas[$i]['maximo'];
+                        }
+                        echo " = ";
+                        if($reglas[$i]['bonus']=='T'){
+                          echo "Proporcional";
+                        }else{
+                          echo $reglas[$i]['bonus'];
+                        }
+                      ?>
+                    </td>
+                    <td><input type="checkbox" class="agregar"></td>
+                    <td><input type="checkbox" class="gyd" disabled></td>
+                    <td><input type="checkbox" class="syl" disabled></td>                    
+                  </tr>              
+              <?php 
+                  endif;
                 }
-                ?>
+              ?>
               </tbody>
             </table>
           </div>
@@ -221,14 +262,17 @@
       let targetValue=$("#targetValue").val();
       let comments = $("#comments").val();
       let allYear=$("#checkAllYear").is(':checked');
+      let calculationType=$("#checkCalcType").is(':checked');      
       
       if(indicatorName != "" && realValue != "" && targetValue != ""){
         //aqui va el codigo para agregar a la bd la informacion despues de validar
         subir_indicador({
+        //console.log({
           valueTypeId,
           indicatorName,
           realValue,
           targetValue,
+          calculationType,
           comments
         }, allYear);
       }
@@ -273,6 +317,27 @@
     $(".syl").on('change', function(){
       arrayRules($(this), 'syl');
     });
+
+    $("#checkCalcType").on('change', function(){
+      //arrayRules($(this), 'syl');
+      //console.log($(this).is(':checked'));
+      let agregado=$(".agregar");
+      let gyd= $(".gyd");
+      let syl= $(".syl");
+      agregado.prop('checked', false);
+      gyd.prop('checked', false);
+      syl.prop('checked', false);
+
+      gyd.prop('disabled', true);
+      syl.prop('disabled', true);
+      if($(this).is(':checked')){
+        $(".type_0").hide();
+        $(".type_1").show();
+      }else{
+        $(".type_0").show();
+        $(".type_1").hide();
+      }
+    });    
 
     const arrayRules = (_this, type) => {
       let ruleId = _this.parent().parent().attr('data-id');
@@ -355,7 +420,7 @@
 
       fd.append('indicatorId', indicadorId);
       fd.append('bonusRuleId', bonusRuleId);
-      fd.append('type', type);            
+      fd.append('type', type);
 
       fetch('altas/subir_regla_bono_indicador.php', {
         method: "POST",
