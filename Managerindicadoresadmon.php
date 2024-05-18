@@ -113,6 +113,18 @@
           <textarea id="comments" name="comments" class="form-control" maxlength="255" required></textarea>
         </div>
       </div>
+
+      <div class="row mt-3">
+        <div class="col-6">
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="checkCalcType">
+            <label class="form-check-label" for="checkCalcType">
+              Activar cálculo alternativo de reglas de bono
+            </label>
+          </div>
+        </div>
+      </div>
+
       <input type="hidden" id="indicatorId" value="0">
       <div class="row mt-3">
         <table class="table table-rule">
@@ -125,11 +137,13 @@
             </tr>
           </thead>
           <tbody>
-            <?php 
-                for ($i=0; $i < count($reglas); $i++) { ?>
-            <tr class="lista-reglas" data-id="<?=$reglas[$i]['id']?>">
-              <td>
-                <?php
+          <?php 
+                for ($i=0; $i < count($reglas); $i++) { 
+                  if($reglas[$i]['tipoCalculo']=='0'):
+              ?>
+                  <tr data-id="<?=$reglas[$i]['id']?>" class="lista-reglas type_0">
+                    <td>
+                      <?php
                         $mid="-";
                         if($reglas[$i]['minimo']=='T'||$reglas[$i]['maximo']=='T'){
                           $mid="";
@@ -152,14 +166,48 @@
                           echo $reglas[$i]['bonus']."%";
                         }
                       ?>
-              </td>
-              <td><input type="checkbox" class="agregar"></td>
-              <td><input type="checkbox" class="gyd" disabled></td>
-              <td><input type="checkbox" class="syl" disabled></td>
-            </tr>
-            <?php 
+                    </td>
+                    <td><input type="checkbox" class="agregar"></td>
+                    <td><input type="checkbox" class="gyd" disabled></td>
+                    <td><input type="checkbox" class="syl" disabled></td>                    
+                  </tr>
+              <?php 
+                else:
+              ?>
+                  <tr data-id="<?=$reglas[$i]['id']?>" class="lista-reglas type_1" style="display: none;">
+                    <td>
+                      <?php
+                        $mid="a";
+                        if($reglas[$i]['minimo']=='T'||$reglas[$i]['maximo']=='T'){
+                          $mid="";
+                        } 
+                        if($reglas[$i]['minimo']=='T'){
+                          echo "Menor o igual a";
+                        }else{
+                          echo $reglas[$i]['minimo']." ";
+                        }
+                        echo $mid;
+                        if($reglas[$i]['maximo']=='T'){
+                          echo "o más";
+                        }else{
+                          echo " ".$reglas[$i]['maximo'];
+                        }
+                        echo " = ";
+                        if($reglas[$i]['bonus']=='T'){
+                          echo "Proporcional";
+                        }else{
+                          echo $reglas[$i]['bonus']."%";
+                        }
+                      ?>
+                    </td>
+                    <td><input type="checkbox" class="agregar"></td>
+                    <td><input type="checkbox" class="gyd" disabled></td>
+                    <td><input type="checkbox" class="syl" disabled></td>                    
+                  </tr>              
+              <?php 
+                  endif;
                 }
-                ?>
+              ?>
           </tbody>
         </table>
       </div>
@@ -219,7 +267,7 @@
               //$porcCumplimiento= Utils::porcCumplimiento($indicadores[$i]['real'],$indicadores[$i]['objetivo']);             
               ?>
                 <tr data-id="<?=$indicadores[$i]['id']?>" data-nombreInd="<?=$indicadores[$i]['nombreIndicador']?>"
-                  data-comentarios="<?=$indicadores[$i]['comentarios']?>">
+                  data-comentarios="<?=$indicadores[$i]['comentarios']?>" data-calculo="<?=$indicadores[$i]['calculo']?>">
                   <td style="min-width: 150px;"><?=$indicadores[$i]['nombreIndicador']?></td>
                   <td style="min-width: 300px;">
                     <!---->
@@ -292,14 +340,50 @@
       let id = $(this).parent().parent().attr('data-id');
       let nombre = $(this).parent().parent().attr('data-nombreInd');
       let comentarios = $(this).parent().parent().attr('data-comentarios');
+      let calculo = $(this).parent().parent().attr('data-calculo');
 
       $("#indicatorId").val(id);
       $("#indicatorName").val(nombre);
       $("#comments").val(comentarios);
 
+
+      let isChecked = calculo=='0' ? false : true; 
+
+      $("#checkCalcType").prop('checked',isChecked);
+
+      if(isChecked){
+        $(".type_0").hide();
+        $(".type_1").show();
+      }else{
+        $(".type_0").show();
+        $(".type_1").hide();
+      }
+
+      console.log(calculo);
       cargar_reglas(id);
       //console.log({id, nombre, comentarios});
     })
+
+    $("#checkCalcType").on('change', function(){
+      //arrayRules($(this), 'syl');
+      //console.log($(this).is(':checked'));
+      let agregado=$(".agregar");
+      let gyd= $(".gyd");
+      let syl= $(".syl");
+      agregado.prop('checked', false);
+      gyd.prop('checked', false);
+      syl.prop('checked', false);
+
+      gyd.prop('disabled', true);
+      syl.prop('disabled', true);
+      if($(this).is(':checked')){
+        $(".type_0").hide();
+        $(".type_1").show();
+      }else{
+        $(".type_0").show();
+        $(".type_1").hide();
+      }
+    });       
 
     $("#btnActualizarIndicador").click(function() {
       let arrRules = [];
@@ -307,6 +391,7 @@
       let indicadorId = $("#indicatorId").val();
       let nombreInd = $("#indicatorName").val();
       let comments = $("#comments").val();
+      let calculationType=$("#checkCalcType").is(':checked');    
 
       $(".lista-reglas").each(function() {
         if ($(this).find('.agregar').prop('checked')) {
@@ -340,10 +425,10 @@
       //arrIndRules['nombreInd']=nombreInd;
       //arrIndRules['comments']=comments;
       //arrIndRules['rules']=arrRules;      
-      
+
       //const array1 = [5, 12, 8, 130, 44];
       //const found = array1.find((element) => element == 130);
-      
+
       //console.log(arrRules, oldArrRules);
       //old son las reglas anteriores
 
@@ -351,36 +436,42 @@
       for (let key in oldArrRules) {
         //en caso de que el tipo sea 2 (o sea que sean 0 y 1) se buscan manualmente el 0 y el 1. en caso de que no se encuentren
         //devuelve undefined el find, y metemos en un arreglo los que se van a eliminar
-        if(oldArrRules[key]['tipo']=='2'){ 
-          const found = arrRules.find((element) => ((element['rule'] == oldArrRules[key]['id'])&&(element['type']=='0')));     
-          if(found===undefined){
-            let id=oldArrRules[key]['id'];
-            let tipo='0';
+        if (oldArrRules[key]['tipo'] == '2') {
+          const found = arrRules.find((element) => ((element['rule'] == oldArrRules[key]['id']) && (element[
+            'type'] == '0')));
+          if (found === undefined) {
+            let id = oldArrRules[key]['id'];
+            let tipo = '0';
             arrEliminadosRules.push({
-              id, tipo
+              id,
+              tipo
             })
           }
-          const found2 = arrRules.find((element) => ((element['rule'] == oldArrRules[key]['id'])&&(element['type']=='1')));                
-          if(found2===undefined){
-            let id=oldArrRules[key]['id'];
-            let tipo='1';
+          const found2 = arrRules.find((element) => ((element['rule'] == oldArrRules[key]['id']) && (element[
+            'type'] == '1')));
+          if (found2 === undefined) {
+            let id = oldArrRules[key]['id'];
+            let tipo = '1';
             arrEliminadosRules.push({
-              id, tipo
+              id,
+              tipo
             })
           }
-        }else{
-          const found = arrRules.find((element) => ((element['rule'] == oldArrRules[key]['id'])&&(element['type']==oldArrRules[key]['tipo'])));
-          if(found===undefined){
-            let id=oldArrRules[key]['id'];
-            let tipo=oldArrRules[key]['tipo'];
+        } else {
+          const found = arrRules.find((element) => ((element['rule'] == oldArrRules[key]['id']) && (element[
+            'type'] == oldArrRules[key]['tipo'])));
+          if (found === undefined) {
+            let id = oldArrRules[key]['id'];
+            let tipo = oldArrRules[key]['tipo'];
             arrEliminadosRules.push({
-              id, tipo
+              id,
+              tipo
             })
-          }        
+          }
         }
       }
       //se ejecuta funcionalidad de actualizacion del indicador con sus rules
-      actualizar_indicador(arrRules, arrEliminadosRules, indicadorId, nombreInd, comments)
+      actualizar_indicador(arrRules, arrEliminadosRules, indicadorId, nombreInd, comments, calculationType)
     })
 
     $(".agregar").on('change', function() {
@@ -408,7 +499,7 @@
           return response.ok ? response.json() : Promise.reject(response);
         })
         .then(data => {
-          oldArrRules=data.reglas;
+          oldArrRules = data.reglas;
           console.log(oldArrRules);
           $(".lista-reglas").each(function() {
             let bonusRuleId = $(this).attr('data-id');
@@ -452,13 +543,14 @@
         })
     }
 
-    const actualizar_indicador = (arrRules, arrEliminadosRules, indicatorId, indicatorName, comments) => {
+    const actualizar_indicador = (arrRules, arrEliminadosRules, indicatorId, indicatorName, comments, calculationType) => {
       $(".loader").show();
       let fd = new FormData();
 
       fd.append('indicatorId', indicatorId);
       fd.append('indicatorName', indicatorName);
       fd.append('comments', comments);
+      fd.append('calculationType', calculationType);
 
       fetch('cambios/actualizar_indicador.php', {
           method: "POST",
@@ -473,9 +565,9 @@
           if (arrRules.length > 0) {
             for (let key in arrRules) {
               //console.log(arrRules[key].rule);
-              let tipo='gyd';
-              if(arrRules[key].type=='1'){
-                tipo='syl';
+              let tipo = 'gyd';
+              if (arrRules[key].type == '1') {
+                tipo = 'syl';
               }
               asignar_regla(indicatorId, arrRules[key].rule, tipo);
             }
@@ -484,20 +576,20 @@
           if (arrEliminadosRules.length > 0) {
             for (let key in arrEliminadosRules) {
               //console.log(arrRules[key].rule);
-              let tipo='gyd';
-              if(arrEliminadosRules[key].tipo=='1'){
-                tipo='syl';
-              }              
+              let tipo = 'gyd';
+              if (arrEliminadosRules[key].tipo == '1') {
+                tipo = 'syl';
+              }
               quitar_regla(indicatorId, arrEliminadosRules[key].id, tipo);
             }
-          }          
+          }
 
         })
         .then(data => {
           setTimeout(() => {
-            location.reload();            
+            location.reload();
           }, 2000);
-        
+
         })
         .catch(err => {
           let message = err.statusText || "Ocurrió un error";

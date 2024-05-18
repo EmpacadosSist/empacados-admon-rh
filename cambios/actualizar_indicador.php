@@ -14,8 +14,11 @@ if(count($_POST)>0){
   $comments = isset($_POST['comments']) ? $_POST['comments'] : "";  
   $commentsVal = Validar::validarLongitudMax($comments, 255);  
 
-    if($indicatorNameVal && $commentsVal){
-      $sqlSP="CALL update_indicator($indicatorId, '$indicatorName', '$comments')";
+  $calculationType = isset($_POST['calculationType']) ? $_POST['calculationType'] : "";
+  $calculationTypeVal = Validar::validarBool($calculationType);  
+
+    if($indicatorNameVal && $commentsVal && $calculationTypeVal){
+      $sqlSP="CALL update_indicator($indicatorId, '$indicatorName', '$comments', $calculationType)";
       $resultSP=$conn->query($sqlSP);
 
       if($resultSP){

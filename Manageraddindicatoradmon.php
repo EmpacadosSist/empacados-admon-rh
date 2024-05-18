@@ -181,12 +181,12 @@
                     <td><input type="checkbox" class="syl" disabled></td>                    
                   </tr>
               <?php 
-                else:                
+                else:
               ?>
                   <tr data-id="<?=$reglas[$i]['id']?>" class="type_1" style="display: none;">
                     <td>
                       <?php
-                        $mid="-";
+                        $mid="a";
                         if($reglas[$i]['minimo']=='T'||$reglas[$i]['maximo']=='T'){
                           $mid="";
                         } 
@@ -205,7 +205,7 @@
                         if($reglas[$i]['bonus']=='T'){
                           echo "Proporcional";
                         }else{
-                          echo $reglas[$i]['bonus'];
+                          echo $reglas[$i]['bonus']."%";
                         }
                       ?>
                     </td>

@@ -139,7 +139,8 @@
       alias de los campos
 	    'id',
 	    'nombreIndicador',
-	    'comentarios'
+	    'comentarios',
+      'calculo'
       */
       $resultSP=$conn->query($sqlSP, MYSQLI_STORE_RESULT);
       
@@ -162,7 +163,8 @@
 	    'id',
       'minimo',
       'maximo',
-      'bonus', 
+      'bonus',
+      'calculo', 
       'tipo'
       */
       $resultSP=$conn->query($sqlSP, MYSQLI_STORE_RESULT);
