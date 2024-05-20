@@ -499,6 +499,14 @@
                 <span id="error_bankAcc" class="text-danger"></span>
               </div>
             </div>
+
+            <div class="row">
+              <div class="form-group col-md-6">
+                <label for="variable"><i class="fas fa-dollar-sign"></i> Variable</label>
+                <input type="number" class="form-control" id="variable" name="variable">
+                <span id="error_variable" class="text-danger"></span>
+              </div>
+            </div>            
             <hr>
             <div class="row">
 
@@ -902,6 +910,7 @@
     let bank = $("#bank").val(); 
     let bankAcc = $("#bankAcc").val(); 
     let superUser = $("#superUser").val(); 
+    let variable=("#variable").val();
 
     let fd = new FormData();
     //btnJefeDirecto
@@ -987,6 +996,7 @@
     fd.append('bank', bank);
     fd.append('bankAcc', bankAcc);
     fd.append('superUser', superUser);
+    fd.append('paymentVar', variable);    
 
     fd.append('children', JSON.stringify(arrHijos));
     //console.log(validarNumCar(lastName1,3,100));

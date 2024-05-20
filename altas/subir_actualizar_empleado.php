@@ -42,8 +42,8 @@ if(count($_POST)>0){
   $positionIdVal = Validar::validarNum($positionId);
   
   //se valida campo que no venga vacio y que cumpla la validacion de tipo numerico  
-  //$paymentVar = isset($_POST['paymentVar']) ? $_POST['paymentVar'] : "";
-  //$paymentVarVal = Validar::validarNum($paymentVar);
+  $paymentVar = isset($_POST['paymentVar']) ? $_POST['paymentVar'] : "0.00";
+  $paymentVarVal = Validar::validarNum($paymentVar);
   
   //se valida campo que no venga vacio y que cumpla la validacion de fecha  
   $recDate = isset($_POST['recDate']) ? $_POST['recDate'] : "";
@@ -200,14 +200,18 @@ if(count($_POST)>0){
     $medication = $medication!="" ? "'$medication'" : "NULL"; 
     $spouseName = $spouseName!="" ? "'$spouseName'" : "NULL"; 
     $spouseDob = $spouseDob!="" ? "'$spouseDob'" : "NULL";     
+
+    if(!$paymentVarVal){
+      $paymentVar='0.00';
+    }
     
     //se hace un insert o update a la bd por medio de un stored procedure, pasando campos como parametros
     //el ultimo parametro del sp de insert es un parametro de salida, que mostrara el ultimo id insertado
     //NOTA: SE AGREGA DE FORMA PROVISIONAL UN PARAMETRO EXTRA DETRAS DE LA CONTRASEÑA ENCRIPTADA, Y ESTA SERÁ LA CONTRASEÑA SIN ENCRIPTAR PARA GUARDARLA EN OTRA TABLA DIFERENTE
-    $sqlSP="CALL insert_user($superUserId, '$name', '$lastName1', '$lastName2', '$email', '$password', '$encryptedPassword', '$empNum', $positionId, '$recDate', $cecoId, '$dateOfBirth', '$placeOfBirth', '$gender', '$maritalStatus', $spouseName, $spouseDob, '$nss', '$curp', '$rfc', '$rfcZipCode', '$address', $coloniaId, '$education', '$phone', $shirtSize, $pantsSize, $shoeSize, $paymentTypeId, $emerPhone1, $emerPhone2, $allergies, $illnesses, $medication, $baseSalary, $foodBonus, $savingFund, '$bankAcc', '$bank', @LID)";
+    $sqlSP="CALL insert_user($superUserId, '$name', '$lastName1', '$lastName2', '$email', '$password', '$encryptedPassword', '$empNum', $positionId, $paymentVar, '$recDate', $cecoId, '$dateOfBirth', '$placeOfBirth', '$gender', '$maritalStatus', $spouseName, $spouseDob, '$nss', '$curp', '$rfc', '$rfcZipCode', '$address', $coloniaId, '$education', '$phone', $shirtSize, $pantsSize, $shoeSize, $paymentTypeId, $emerPhone1, $emerPhone2, $allergies, $illnesses, $medication, $baseSalary, $foodBonus, $savingFund, '$bankAcc', '$bank', @LID)";
 
     if($userId!=""){
-      $sqlSP="CALL update_user($userId, $superUserId, '$name', '$lastName1', '$lastName2', '$email', '$empNum', $positionId, '$recDate', $cecoId, '$dateOfBirth', '$placeOfBirth', '$gender', '$maritalStatus', $spouseName, $spouseDob, '$nss', '$curp', '$rfc', '$rfcZipCode', '$address', $coloniaId, '$education', '$phone', $shirtSize, $pantsSize, $shoeSize, $paymentTypeId, $emerPhone1, $emerPhone2, $allergies, $illnesses, $medication, $baseSalary, $foodBonus, $savingFund, '$bankAcc', '$bank')";
+      $sqlSP="CALL update_user($userId, $superUserId, '$name', '$lastName1', '$lastName2', '$email', '$empNum', $positionId, $paymentVar, '$recDate', $cecoId, '$dateOfBirth', '$placeOfBirth', '$gender', '$maritalStatus', $spouseName, $spouseDob, '$nss', '$curp', '$rfc', '$rfcZipCode', '$address', $coloniaId, '$education', '$phone', $shirtSize, $pantsSize, $shoeSize, $paymentTypeId, $emerPhone1, $emerPhone2, $allergies, $illnesses, $medication, $baseSalary, $foodBonus, $savingFund, '$bankAcc', '$bank')";
     }
 		$resultSP=$conn->query($sqlSP);
     //$resultSP=false;
