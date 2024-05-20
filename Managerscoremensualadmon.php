@@ -90,8 +90,8 @@
                       <?=Utils::mostrarReglas($indicadoresReglaSyL)?>
                     </td>
                     <td style="min-width: 300px;"><?=$indicadores[$i]['comentarios']?></td>
-                    <td style="min-width: 100px;"><?=Utils::calcularPorc($indicadoresReglaGyD,$porcCumplimiento)?></td>
-                    <td style="min-width: 100px;"><?=Utils::calcularPorc($indicadoresReglaSyL,$porcCumplimiento)?></td>
+                    <td style="min-width: 100px;"><?=Utils::calcularPorc($indicadoresReglaGyD,$porcCumplimiento,$indicadores[$i]['calculo'],$real)?></td>
+                    <td style="min-width: 100px;"><?=Utils::calcularPorc($indicadoresReglaSyL,$porcCumplimiento,$indicadores[$i]['calculo'],$real)?></td>
                     <td style="min-width: 200px;">
                       <!--Label e input para valor real-->
                       <label class="form-control <?php echo $permisoEdicion ? "lbl-real" : "" ?>"><?=$real!="" ? number_format($real,2) : ""?></label>

@@ -73,7 +73,7 @@
       return $resultado;
     }
 
-    public static function calcularPorc($indregla, $porcentaje){
+    public static function calcularPorc($indregla, $porcentaje, $tipocalc, $real){
       $resultado="0.00";
       for($i=0; $i < count($indregla); $i++){ 
         $rango1="";
@@ -83,34 +83,68 @@
         $rango2=$indregla[$i]['maximo'];
         $bonus=$indregla[$i]['bonus'];
         if($rango1!='T'&&$rango2!='T'){
-          if($porcentaje>=$rango1&&$porcentaje<=$rango2){
-            if($bonus!='T')
-              $resultado=$bonus;
-            else
-              $resultado=$porcentaje;
-          }          
+          if($tipocalc=='0'){
+            if($porcentaje>=$rango1&&$porcentaje<=$rango2){
+              if($bonus!='T')
+                $resultado=$bonus;
+              else
+                $resultado=$porcentaje;
+            }    
+
+          }else{
+            if($real>=$rango1&&$real<=$rango2){
+              if($bonus!='T')
+                $resultado=$bonus;
+              else
+                $resultado=$real;
+            }  
+          }
+
         }
 
         if($rango1!='T'&&$rango2=='T'){
-          if($porcentaje>=$rango1){
-            if($bonus!='T')
-              $resultado=$bonus;
-            else
-              $resultado=$porcentaje;            
+
+          if($tipocalc=='0'){
+            if($porcentaje>=$rango1){
+              if($bonus!='T')
+                $resultado=$bonus;
+              else
+                $resultado=$porcentaje;            
+            }
+
+          }else{
+            if($real>=$rango1){
+              if($bonus!='T')
+                $resultado=$bonus;
+              else
+                $resultado=$real;            
+            }
           }
+
         }
 
         if($rango1=='T'&&$rango2!='T'){
-          if($porcentaje<=rango2){
-            if($bonus!='T')
-              $resultado=$bonus;
-            else
-              $resultado=$porcentaje;
+          if($tipocalc=='0'){
+            if($porcentaje<=$rango2){
+              if($bonus!='T')
+                $resultado=$bonus;
+              else
+                $resultado=$porcentaje;
+            }
+
+          }else{
+            if($real<=$rango2){
+              if($bonus!='T')
+                $resultado=$bonus;
+              else
+                $resultado=$real;
+            }
           }
+
         }        
         
       }
-      return $resultado;
+      return number_format($resultado,2);
     }
 
     public static function deleteSession($name){

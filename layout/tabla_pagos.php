@@ -89,8 +89,8 @@
       <td style="min-width: 150px;">
         <?php
                   $totalpago=0; 
-                  $valorGyD=Utils::calcularPorc($indicadoresReglaGyD,$porcCumplimiento);
-                  $valorSyL=Utils::calcularPorc($indicadoresReglaSyL,$porcCumplimiento);
+                  $valorGyD=Utils::calcularPorc($indicadoresReglaGyD,$porcCumplimiento,$indicadores[$j]['calculo'],$real);
+                  $valorSyL=Utils::calcularPorc($indicadoresReglaSyL,$porcCumplimiento,$indicadores[$j]['calculo'],$real);
                     
                   if($usuariosArr['nivel']=='1'||$usuariosArr['nivel']=='2'){
                     $totalpago=$valorPorcentaje/100 * $valorGyD/100;
@@ -129,7 +129,11 @@
     <?php 
                   while($checkChildren2){
                     $arrIds2=[];
-                    $usuariosChildren=Consultas::listUsersBySupervisor($conn, $paramIds2);
+                    $usuariosChildren=[];
+                    if(!$isInd){
+                      $usuariosChildren=Consultas::listUsersBySupervisor($conn, $paramIds2);
+
+                    }
                 ?>
 
     <?php 
@@ -169,8 +173,8 @@
       <td style="min-width: 150px;">
         <?php
                   $totalpago=0; 
-                  $valorGyD=Utils::calcularPorc($indicadoresReglaGyD,$porcCumplimiento);
-                  $valorSyL=Utils::calcularPorc($indicadoresReglaSyL,$porcCumplimiento);
+                  $valorGyD=Utils::calcularPorc($indicadoresReglaGyD,$porcCumplimiento,$indicadores[$j]['calculo'],$real);
+                  $valorSyL=Utils::calcularPorc($indicadoresReglaSyL,$porcCumplimiento,$indicadores[$j]['calculo'],$real);
                     
                   if($usuariosArr['nivel']=='1'||$usuariosArr['nivel']=='2'){
                     $totalpago=$valorPorcentaje/100 * $valorGyD/100;

@@ -16,8 +16,11 @@ if(count($_POST)>0){
   $bonusPer = isset($_POST['bonusPer']) ? $_POST['bonusPer'] : "";
   $bonusPerVal = Validar::validarLongitud($bonusPer,1,100);  
 
-    if($minPerVal && $maxPerVal && $bonusPerVal){
-      $sqlSP="CALL insert_bonus_rule('$minPer', '$maxPer', '$bonusPer', @LID)";
+  $calculationType = isset($_POST['calculationType']) ? $_POST['calculationType'] : "";
+  $calculationTypeVal = Validar::validarBool($calculationType);    
+
+    if($minPerVal && $maxPerVal && $bonusPerVal && $calculationTypeVal){
+      $sqlSP="CALL insert_bonus_rule('$minPer', '$maxPer', '$bonusPer', $calculationType, @LID)";
       $resultSP=$conn->query($sqlSP);
 
       if($resultSP){

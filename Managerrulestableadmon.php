@@ -199,6 +199,17 @@
           </div>
         </div>
 
+        <div class="row mt-3 mb-3">
+          <div class="col-6">              
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="checkCalcType">
+              <label class="form-check-label" for="checkCalcType">
+                Activar cálculo alternativo de reglas de bono
+              </label>
+            </div>
+          </div>
+        </div>        
+
         <div class="row mt-3 mb-3" id="rowEdicion" style="display: none;">
           <div class="col">
             <b>Editando: <label id="lblR1"></label> <label id="lblR2"></label> <label id="lblR3"></label></b> <a class="btn btn-secondary btn-sm" href="#" id="limpiar">Limpiar</a>
@@ -223,8 +234,10 @@
             </thead>
             <tbody>
             <?php 
-                for ($i=0; $i < count($reglas); $i++) { ?>
-                  <tr data-id="<?=$reglas[$i]['id']?>" data-min="<?=$reglas[$i]['minimo']?>" data-max="<?=$reglas[$i]['maximo']?>" data-bonus="<?=$reglas[$i]['bonus']?>">
+                for ($i=0; $i < count($reglas); $i++) { 
+                  if($reglas[$i]['tipoCalculo']=='0'):
+                  ?>
+                  <tr data-calculo="<?=$reglas[$i]['tipoCalculo']?>" data-id="<?=$reglas[$i]['id']?>" data-min="<?=$reglas[$i]['minimo']?>" data-max="<?=$reglas[$i]['maximo']?>" data-bonus="<?=$reglas[$i]['bonus']?>"  class="type_0">
                     <td>
                       <?php
                         $mid="-";
@@ -253,7 +266,42 @@
                     <td><button class="btn btn-primary btn-editar"><i class="bi bi-pencil-square ms-auto"></i></button> </td>
                     <td><button class="btn btn-danger btn-eliminar"><i class="bi bi-trash-fill ms-auto"></i></button> </td>                    
                   </tr>
-                <?php 
+              
+              <?php 
+                else:
+              ?>
+                  <tr data-calculo="<?=$reglas[$i]['tipoCalculo']?>" data-id="<?=$reglas[$i]['id']?>" data-min="<?=$reglas[$i]['minimo']?>" data-max="<?=$reglas[$i]['maximo']?>" data-bonus="<?=$reglas[$i]['bonus']?>" class="type_1" style="display: none;">
+                    <td>
+                      <?php
+                        $mid="a";
+                        if($reglas[$i]['minimo']=='T'||$reglas[$i]['maximo']=='T'){
+                          $mid="";
+                        } 
+                        if($reglas[$i]['minimo']=='T'){
+                          echo "Menor o igual a";
+                        }else{
+                          echo $reglas[$i]['minimo']." ";
+                        }
+                        echo $mid;
+                        if($reglas[$i]['maximo']=='T'){
+                          echo "o más";
+                        }else{
+                          echo " ".$reglas[$i]['maximo'];
+                        }
+                        echo " = ";
+                        if($reglas[$i]['bonus']=='T'){
+                          echo "Proporcional";
+                        }else{
+                          echo $reglas[$i]['bonus']."%";
+                        }
+                      ?>
+                    </td>
+                    <td><button class="btn btn-primary btn-editar"><i class="bi bi-pencil-square ms-auto"></i></button> </td>
+                    <td><button class="btn btn-danger btn-eliminar"><i class="bi bi-trash-fill ms-auto"></i></button> </td>                    
+                  </tr>
+
+                <?php
+                  endif;
                 }
                 ?>
 
@@ -329,14 +377,19 @@
       let bonusPer=checkRule3 ? 'T' : $("#bonusPer").val();      
       
       let bonusId=$("#bonusId").val();
+
+      let calculationType=$("#checkCalcType").is(':checked');    
+
       let url='altas/subir_regla_bono.php';
 
       let datos={
         bonusId,
         minPer,
         maxPer,
-        bonusPer
+        bonusPer,
+        calculationType
       }
+
       if(minPer!=""&&maxPer!=""&&bonusPer!=""){
 
         let fd = new FormData();
@@ -397,7 +450,8 @@
       let min = $(this).parent().parent().attr('data-min');
       let max = $(this).parent().parent().attr('data-max');
       let bonus = $(this).parent().parent().attr('data-bonus');
-
+      let calculo = $(this).parent().parent().attr('data-calculo');      
+      
       let minPer=$("#minPer");
       let maxPer=$("#maxPer");
       let bonusPer=$("#bonusPer");
@@ -414,6 +468,8 @@
       $("#bonusId").val(id);
 
       $("#rowEdicion").show();
+
+      $("#checkCalcType").prop('disabled', true);
       //checkRule1
       //checkRule2
       //checkRule3
@@ -422,17 +478,30 @@
         minPer.val(min);
         minPer.prop('disabled', false);
         checkRule1.prop('checked', false);
-        lblR1.text(min+' %');
+
+        if(calculo=='0'){
+          lblR1.text(min+' %');
+
+        }else{
+          lblR1.text(min+' ');          
+        }
       }else{
         minPer.prop('disabled', true); 
         checkRule1.prop('checked', true);
-        lblR1.text('Menor o igual a ');   
+        lblR1.text('Menor o igual ');   
       }
       if(max!="T"){
         maxPer.val(max); 
         maxPer.prop('disabled', false);
         checkRule2.prop('checked', false);
-        lblR2.text('- '+max+' %');       
+
+          
+        if(calculo=='0'){
+          lblR2.text('a '+max+' %');
+
+        }else{
+          lblR2.text('a '+max+' ');          
+        }             
       }else{
         maxPer.prop('disabled', true);   
         checkRule2.prop('checked', true);
@@ -473,7 +542,9 @@
       let checkRule3=$("#checkRule3");     
       
       $("#bonusId").val(0);
-      
+      $("#checkCalcType").prop('disabled', false);
+      //$("#checkCalcType").val('checked', false);
+
       minPer.val('');
       minPer.prop('disabled', false);
       checkRule1.prop('checked', false);
@@ -521,6 +592,17 @@
         alert("Falta un dato");
       }  
     });
+
+    $("#checkCalcType").on('change', function(){
+
+      if($(this).is(':checked')){
+        $(".type_0").hide();
+        $(".type_1").show();
+      }else{
+        $(".type_0").show();
+        $(".type_1").hide();
+      }
+    });      
 
     //funcion de cambio de checks
     const cambioChecks = (_this, numCheckOp) => {
