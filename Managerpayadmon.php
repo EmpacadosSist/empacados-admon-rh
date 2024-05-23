@@ -42,7 +42,7 @@ th {
 <main id="main" class="main">
   <input type="hidden" value="<?=$current_user_id?>" id="currentUserId">
   <div class="pagetitle">
-    <h1>EMPACADOS PAGOS</h1>
+    <h1>PAGOS</h1>
     <nav>
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="index.php">Home</a></li>
@@ -304,10 +304,12 @@ th {
 
 
   <script>
-  $(document).ready(function() {
-    let currentUserId = $("#currentUserId").val();
-    recargar_tabla(currentUserId);
-  });
+  
+    document.title = "Scorecard pagos";    
+    $(document).ready(function() {
+      let currentUserId = $("#currentUserId").val();
+      recargar_tabla(currentUserId);
+    });
 
 
   $(".subir-archivo").click(function() {

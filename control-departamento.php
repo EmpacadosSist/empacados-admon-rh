@@ -250,6 +250,9 @@
   <script src="assets/js/main.js"></script>
 
   <script>
+
+    document.title = "Subir departamento";
+
     $("#btnGuardarDepartamento").click(function(){
       //todo lo minimo
       let sectionName=$("#departamentoNombre").val();      

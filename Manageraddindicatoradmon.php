@@ -8,7 +8,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-      <title>Alta Empleados Empacados</title>
+      <title>Agregar indicador</title>
       <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 
 </head>
@@ -48,7 +48,7 @@
 <main id="main" class="main">
 
   <div class="pagetitle">
-    <h1>EMPACADOS INDICADORES</h1>
+    <h1>AGREGAR INDICADOR</h1>
     <nav>
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="index.php">Home</a></li>

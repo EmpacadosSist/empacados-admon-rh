@@ -278,6 +278,8 @@
   <script src="assets/js/main.js"></script>
 
   <script>
+    document.title = "Subir puesto";
+
     $("#btnGuardarPuesto").click(function(){
       //todo lo minimo
       let positionName=$("#puestoNombre").val();      

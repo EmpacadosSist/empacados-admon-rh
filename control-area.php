@@ -248,6 +248,8 @@
   <script src="assets/js/main.js"></script>
 
   <script>
+    document.title = "Subir área";
+
     $("#btnGuardarArea").click(function(){
       //todo lo minimo
       let areaName=$("#areaNombre").val();            

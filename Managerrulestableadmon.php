@@ -361,6 +361,8 @@
   <script src="assets/js/main.js"></script>
 
   <script>
+    document.title = "Agregar reglas de bono";
+
     $("#btnGuardarRegla").click(function(){
       //todo lo minimo
       let checkRule1=$("#checkRule1").is(':checked');

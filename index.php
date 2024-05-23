@@ -60,11 +60,12 @@
   <script src="assets/js/main.js"></script>
 <script>
   new WOW().init();
-  
+  document.title = "Inicio";
   // Agregar la clase "animated" para activar la animación cuando la página está completamente cargada
   $(document).ready(function() {
     $('#dashboardText').addClass('animated');
   });
+
 </script>
 
 </body>

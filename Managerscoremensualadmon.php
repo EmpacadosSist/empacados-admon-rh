@@ -238,6 +238,9 @@
   <script src="assets/js/main.js"></script>
 
   <script>
+
+    document.title = "Scorecard <?=strtolower($mesSpanish)?>";
+
     $(".actualizar-ind").click(function(){
       let indicadorId=$(this).parent().parent().attr('data-id');
       let valorReal=$(this).parent().parent().find('.val-real').val();
