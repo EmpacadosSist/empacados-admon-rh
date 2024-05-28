@@ -910,7 +910,7 @@
     let bank = $("#bank").val(); 
     let bankAcc = $("#bankAcc").val(); 
     let superUser = $("#superUser").val(); 
-    let variable=("#variable").val();
+    let variable=$("#variable").val();
 
     let fd = new FormData();
     //btnJefeDirecto
