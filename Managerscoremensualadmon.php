@@ -12,12 +12,22 @@
   //$indicadoresMontos=Consultas::listIndicatorVPM($conn);   
   $formatos=Consultas::listValueTypes($conn);
   //$month = 4;
-  $month = date('n');
-  $year = date('Y');
+
+  $month = isset($_GET['month']) ? $_GET['month'] : date('n');
+
+  $year = isset($_GET['yr']) ? $_GET['yr'] : date('Y');
+
   $meses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
   $mesSpanish=strtoupper($meses[$month-1]);
 ?>
-
+<style>
+  .st {
+  position: sticky;
+  left: 0px;
+  background-color: white;
+  z-index: 2;
+}
+</style>
   <main id="main" class="main">
 
     <div class="pagetitle">
@@ -33,13 +43,43 @@
 <body>
 <input type="hidden" id="inpMonth" value="<?=$month?>">
 <input type="hidden" id="inpYear" value="<?=$year?>">
+
+<div class="row">
+  <div class="col-3">
+    <select class="form-select" name="mes" id="mes">
+      <option value="1" <?=$month=="1" ? "selected" : "" ?>>Enero</option>
+      <option value="2" <?=$month=="2" ? "selected" : "" ?>>Febrero</option>
+      <option value="3" <?=$month=="3" ? "selected" : "" ?>>Marzo</option>
+      <option value="4" <?=$month=="4" ? "selected" : "" ?>>Abril</option>
+      <option value="5" <?=$month=="5" ? "selected" : "" ?>>Mayo</option>
+      <option value="6" <?=$month=="6" ? "selected" : "" ?>>Junio</option>
+      <option value="7" <?=$month=="7" ? "selected" : "" ?>>Julio</option>
+      <option value="8" <?=$month=="8" ? "selected" : "" ?>>Agosto</option>
+      <option value="9" <?=$month=="9" ? "selected" : "" ?>>Septiembre</option>
+      <option value="10" <?=$month=="10" ? "selected" : "" ?>>Octubre</option>
+      <option value="11" <?=$month=="11" ? "selected" : "" ?>>Noviembre</option>
+      <option value="12" <?=$month=="12" ? "selected" : "" ?>>Diciembre</option>    
+    </select>
+  </div>
+  <div class="col-3">
+    <select class="form-select" name="anio" id="anio">
+      <option value="2024" <?=$year=="2024" ? "selected" : "" ?>>2024</option>
+      <option value="2025" <?=$year=="2025" ? "selected" : "" ?>>2025</option>
+      <option value="2026" <?=$year=="2026" ? "selected" : "" ?>>2026</option>
+      <option value="2027" <?=$year=="2027" ? "selected" : "" ?>>2027</option>
+      <option value="2028" <?=$year=="2028" ? "selected" : "" ?>>2028</option>
+      <option value="2029" <?=$year=="2029" ? "selected" : "" ?>>2029</option>
+      <option value="2030" <?=$year=="2030" ? "selected" : "" ?>>2030</option>            
+    </select>
+  </div>
+</div>
+
 <div class="container mt-4">
   <!-- Pestañas -->
   <ul class="nav nav-tabs" id="pestanas" role="tablist">
     <li class="nav-item">
       <a class="nav-link active" id="pestaña1" data-toggle="tab" href="#contenido1" role="tab" aria-controls="contenido1" aria-selected="true">Indicadores</a>
     </li>
-   
     <!-- Agrega más pestañas según sea necesario -->
   </ul>
 
@@ -52,7 +92,7 @@
           <!-- Contenido de la tabla -->
           <thead>
             <tr>
-              <th>Nombres</th>
+              <th class="st">Nombres</th>
               <th>Reglas Bonos GyD</th>
               <th>Reglas Bonos SyL</th>
               <th>Comentarios</th>
@@ -80,7 +120,7 @@
               $porcCumplimiento= Utils::porcCumplimiento($real,$objetivo);             
               ?>
                   <tr data-id="<?=$indicadores[$i]['id']?>">
-                    <td style="min-width: 150px;"><?=$indicadores[$i]['nombreIndicador']?></td>
+                    <td class="st" style="min-width: 150px;"><?=$indicadores[$i]['nombreIndicador']?></td>
                     <td style="min-width: 300px;">
                       <!---->
                       <?=Utils::mostrarReglas($indicadoresReglaGyD)?>
@@ -272,6 +312,25 @@
     $(".val-obj").on("blur", function(){
       ocultar_input($(this), ".lbl-obj");
     });    
+
+    $("#mes").on("change", function(){
+      let mes = $(this).val();
+      let anio = $("#anio").val();
+      //window.location.href='Managerscoremensualadmon.php?month='+mes+'&yr='+anio;
+      reload_page(mes, anio);
+    });
+
+    $("#anio").on("change", function(){
+      let mes = $("#mes").val();
+      let anio = $(this).val();
+      reload_page(mes, anio);
+    });    
+    
+    const reload_page = (mes, anio) => {
+      $(".loader").show();
+      window.location.href='Managerscoremensualadmon.php?month='+mes+'&yr='+anio;
+      console.log({mes, anio});      
+    }
 
     const mostrar_input = (_this, elemento) => {
       let lbl=_this;
