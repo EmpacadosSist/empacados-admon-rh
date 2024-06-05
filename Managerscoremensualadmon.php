@@ -44,7 +44,21 @@
 <input type="hidden" id="inpMonth" value="<?=$month?>">
 <input type="hidden" id="inpYear" value="<?=$year?>">
 
+<div class="row mb-3 mt-3">
+<div class="col d-flex justify-content-end">
+              <label for="archivo">Seleccionar plantilla excel: </label>
+            </div>
+            <div class="col">
+              <input class="form-control" type="file" name="archivo" id="archivo" accept=".xls,.xlsx">
+            </div>
+            <div class="col-1 d-flex justify-content-end">
+              <button class="btn btn-success subir-archivo">Subir</button>
+
+            </div>  
+</div>
+
 <div class="row">
+  <div class="col"></div>
   <div class="col-3">
     <select class="form-select" name="mes" id="mes">
       <option value="1" <?=$month=="1" ? "selected" : "" ?>>Enero</option>
@@ -72,7 +86,10 @@
       <option value="2030" <?=$year=="2030" ? "selected" : "" ?>>2030</option>            
     </select>
   </div>
+  
 </div>
+
+
 
 <div class="container mt-4">
   <!-- Pestañas -->
@@ -109,6 +126,7 @@
           </thead>
           <tbody>
           <?php 
+
             for ($i=0; $i < count($indicadores); $i++) { 
               $indicadoresReglaGyD=Consultas::listBonusRuleByIndicatorId($conn,$indicadores[$i]['id'],0);
               $indicadoresReglaSyL=Consultas::listBonusRuleByIndicatorId($conn,$indicadores[$i]['id'],1);
@@ -324,6 +342,40 @@
       let mes = $("#mes").val();
       let anio = $(this).val();
       reload_page(mes, anio);
+    });    
+
+    $(".subir-archivo").click(function() {
+      let archivoppto = $('#archivo');
+      let numIndicadores = $("#num_indicadores").val();
+      let mes = $("#mes").val();
+      let anio = $("#anio").val();      
+
+      let archivo = archivoppto[0].files[0];
+      if ((archivo === undefined)) {
+        console.log("Archivo vacio")
+      } else {
+        let formData = new FormData();
+        formData.append('archivo', archivo);
+        formData.append('month', mes);
+        formData.append('year', anio);                
+        //formData.append('numIndicadores', numIndicadores);
+        //console.log("Si hay archivo ", archivo);
+        $.ajax({
+          url: "altas/subir_scorecard_mensual_excel.php",
+          type: "POST",
+          data: formData,
+          contentType: false,
+          processData: false,
+          beforeSend: function() {
+            $('.loader').show();
+          }
+        }).done(function(response) {
+          console.log(response);
+          window.location.reload();
+        });
+        /*
+        */
+      }
     });    
     
     const reload_page = (mes, anio) => {
