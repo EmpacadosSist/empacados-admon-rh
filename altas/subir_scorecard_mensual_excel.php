@@ -72,7 +72,7 @@ if($monthVal&&$yearVal){
         if($arr[$i][1]!=""){
           //$nombre=$arr[$i][0];
           $real=($arr[$i][0]==""||!is_numeric($arr[$i][0])) ? "0.00" : $arr[$i][0];
-          $objetivo=($arr[$i][1]==""||!is_numeric($arr[$i][1])) ? "0.00" : $arr[$i][1];;
+          $objetivo=($arr[$i][1]==""||!is_numeric($arr[$i][1])) ? "0.00" : $arr[$i][1];
           $formato=$arr[$i][2];                    
 
           //$resultado .= " ** $real * $objetivo * $formato** ";
