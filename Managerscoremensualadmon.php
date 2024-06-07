@@ -32,13 +32,7 @@
 
     <div class="pagetitle">
       <h1>SCORECARD <?=$mesSpanish?></h1>
-      <nav>
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="index.php">Home</a></li>
-          <li class="breadcrumb-item">Tables</li>
-          <li class="breadcrumb-item active">Data</li>
-        </ol>
-      </nav>
+      <hr>
     </div><!-- End Page Title -->
 <body>
 <input type="hidden" id="inpMonth" value="<?=$month?>">

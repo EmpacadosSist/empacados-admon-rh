@@ -1,21 +1,22 @@
 <style type="text/css">
+  .loader {
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+    background: url('assets/img/loading.gif') 50% 50% no-repeat rgb(249,249,249);
+    opacity: .8;
+  }
       
-      .loader {
-        position: fixed;
-        left: 0px;
-        top: 0px;
-        width: 100%;
-        height: 100%;
-        z-index: 9999;
-        background: url('assets/img/loading.gif') 50% 50% no-repeat rgb(249,249,249);
-        opacity: .8;
-      }
-      
-      .modal {
-        overflow-y:auto;
-      }
+  .modal {
+    overflow-y:auto;
+  }
 </style>
-    <div class="loader"></div>
+
+<div class="loader"></div>
+
 <!-- ======= Sidebar ======= -->
 <aside id="sidebar" class="sidebar">
   <ul class="sidebar-nav" id="sidebar-nav">
@@ -27,30 +28,30 @@
     </li><!-- End Dashboard Nav -->
 
     <!-- aqui inicia sidebar -->
-
     <?php if(Utils::buscarPermiso(8)): ?>
     <li class="nav-item">
       <a class="nav-link collapsed" data-bs-target="#components-adp" data-bs-toggle="collapse" href="#">
-        <i class="bi bi-building-fill-gear" ></i><span>Áreas/Deptos./Puestos</span><i class="bi bi-chevron-down ms-auto"></i>
+        <i class="bi bi-building-fill-gear" ></i>
+        <span>Áreas/Deptos./Puestos</span>
+        <i class="bi bi-chevron-down ms-auto"></i>
       </a>
       <ul id="components-adp" class="nav-content collapse" data-bs-parent="#sidebar-nav">
-
         <li>
           <a class="bi bi-diagram-2-fill" href="control-area.php">
-            <i></i><span>Subir área
-            </span>
+            <i></i>
+            <span>Subir área</span>
           </a>
         </li>
         <li>
           <a class="bi bi-diagram-2-fill" href="control-departamento.php">
-            <i></i><span>Subir departamento
-            </span>
+            <i></i>
+            <span>Subir departamento</span>
           </a>
         </li>
         <li>
           <a class="bi bi-diagram-2-fill" href="control-puesto.php">
-            <i></i><span>Subir puesto
-            </span>
+            <i></i>
+            <span>Subir puesto</span>
           </a>
         </li>                
       </ul>      
@@ -60,7 +61,9 @@
     <?php if(Utils::buscarPermiso(3)): ?>
     <li class="nav-item">
       <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
-        <i class="ri-user-follow-fill"></i><span>Empleados</span><i class="bi bi-chevron-down ms-auto"></i>
+        <i class="ri-user-follow-fill"></i>
+        <span>Empleados</span>
+        <i class="bi bi-chevron-down ms-auto"></i>
       </a>
       <ul id="components-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
         <li>
@@ -79,30 +82,32 @@
           </a>
         </li>
         <li>
-               <a href="rhvacations.php">
-                <img src="assets/img/beach.png" alt="" width="18">
-                   <i></i>
-                   <span>Vacaciones</span>
-             </a>
-          </li>
+          <a href="rhvacations.php">
+            <img src="assets/img/beach.png" alt="" width="18">
+            <i></i>
+            <span>Vacaciones</span>
+          </a>
+        </li>
         <li>
           <a class="bi bi-person-vcard-fill" href="rhposicionesadmon.php">
-            <i></i><span>Posiciones</span>
+            <i></i>
+            <span>Posiciones</span>
           </a>
         </li>
         <li>
           <a class="bi bi-diagram-3-fill" href="rhorganigramaadmon.php">
-            <i></i><span>Organigrama</span>
+            <i></i>
+            <span>Organigrama</span>
           </a>
         </li>
       </ul>
-
     </li><!-- End Components Nav -->
     <?php endif; ?>
 
     <li class="nav-item">
       <a class="nav-link collapsed" href="Miscorecard.php">
-        <i class="bi bi-graph-up-arrow"></i><span>Mi Scorecard</span>
+        <i class="bi bi-graph-up-arrow"></i>
+        <span>Mi Scorecard</span>
       </a>
     </li>
 
@@ -118,20 +123,21 @@
     <?php if(Utils::buscarPermiso(6)): ?>
     <li class="nav-item">
       <a class="nav-link collapsed" data-bs-target="#components-obj" data-bs-toggle="collapse" href="#">
-        <i class="bi bi-bullseye"></i><span>Objetivos</span><i class="bi bi-chevron-down ms-auto"></i>
+        <i class="bi bi-bullseye"></i>
+        <span>Objetivos</span>
+        <i class="bi bi-chevron-down ms-auto"></i>
       </a>
       <ul id="components-obj" class="nav-content collapse" data-bs-parent="#sidebar-nav">
-
         <li>
           <a class="bi bi-person-arms-up " href="Managertargetadmon.php">
-            <i></i><span>Agregar Objetivo
-            </span>
+            <i></i>
+            <span>Agregar Objetivo</span>
           </a>
         </li>
         <li>
           <a class="bi bi-clipboard2-check-fill  " href="Managercheckaladmon.php">
-            <i></i><span>Revisión General
-            </span>
+            <i></i>
+            <span>Revisión General</span>
           </a>
         </li>
       </ul>
@@ -141,21 +147,24 @@
     <?php if(Utils::buscarPermiso(2)): ?>
     <li class="nav-item">
       <a class="nav-link collapsed" href="Managerrulestableadmon.php">
-        <i class="bi bi-rulers"></i><span>Reglas de Bono</span>
+        <i class="bi bi-rulers"></i>
+        <span>Reglas de Bono</span>
       </a>
     </li>
     <?php endif; ?>    
 
     <li class="nav-item">
       <a class="nav-link collapsed" href="Managerscoremensualadmon.php">
-        <i class="bi bi-calendar-minus-fill"></i><span>Scorecard Mensual</span>
+        <i class="bi bi-calendar-minus-fill"></i>
+        <span>Scorecard Mensual</span>
       </a>
     </li>
 
     <?php if(Utils::buscarPermiso(5)): ?>
     <li class="nav-item">
       <a class="nav-link collapsed" href="Managerpayadmon.php">
-        <i class="bi bi-currency-exchange"></i><span>Pagos</span>
+        <i class="bi bi-currency-exchange"></i>
+        <span>Pagos</span>
       </a>
     </li>
     <?php endif; ?>    
@@ -163,32 +172,33 @@
     <?php if(Utils::buscarPermiso(7)): ?>
     <li class="nav-item">
       <a class="nav-link collapsed" data-bs-target="#components-res" data-bs-toggle="collapse" href="Managerresultadmon.php">
-        <i class="bi bi-speedometer" ></i><span>Resultados</span><i class="bi bi-chevron-down ms-auto"></i>
+        <i class="bi bi-speedometer" ></i>
+        <span>Resultados</span>
+        <i class="bi bi-chevron-down ms-auto"></i>
       </a>
       <ul id="components-res" class="nav-content collapse" data-bs-parent="#sidebar-nav">
-
         <li>
           <a class="bi bi-person-arms-up " href="#">
-            <i></i><span>Area 1
-            </span>
+            <i></i>
+            <span>Area 1</span>
           </a>
         </li>
         <li>
           <a class="bi bi-person-arms-up " href="#">
-            <i></i><span>Area 2
-            </span>
+            <i></i>
+            <span>Area 2</span>
           </a>
         </li>
         <li>
           <a class="bi bi-person-arms-up " href="#">
-            <i></i><span>Area 3
-            </span>
+            <i></i>
+            <span>Area 3</span>
           </a>
         </li>    
         <li>
           <a class="bi bi-person-arms-up " href="#">
-            <i></i><span>Promedios
-            </span>
+            <i></i>
+            <span>Promedios</span>
           </a>
         </li>            
       </ul>      
@@ -353,10 +363,15 @@
           <span>Blank</span>
         </a>
       </li> End Blank Page Nav 
-    -->      
-
+    <img src="assets/img/beach.png" alt="" width="18">
+    -->          
+    <li class="nav-item">
+      <a class="nav-link collapsed" href="solicitar-vacaciones.php">
+        <i class="bi bi-suitcase"></i>
+        <span>Vacaciones</span>
+      </a>
+    </li>
   </ul>
-
 </aside><!-- End Sidebar-->
 
 
