@@ -14,7 +14,7 @@ if(count($_POST)>0){
   $maxPerVal = Validar::validarLongitud($maxPer,1,100);
   
   $bonusPer = isset($_POST['bonusPer']) ? $_POST['bonusPer'] : "";
-  $bonusPerVal = Validar::validarLongitud($bonusPer,1,100);  
+  $bonusPerVal = Validar::validarNum($bonusPer);  
 
   $calculationType = isset($_POST['calculationType']) ? $_POST['calculationType'] : "";
   $calculationTypeVal = Validar::validarBool($calculationType);    
