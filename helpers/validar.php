@@ -2,7 +2,7 @@
 class Validar{
   public static function validarLongitud($valor, $min, $max){
     
-    $validar = (strlen($valor) > $max || strlen($valor) < $min || empty($valor));
+    $validar = (strlen($valor) > $max || strlen($valor) < $min || (empty($valor)&&$valor!="0"));
 
     if(!$validar){
       return true;

@@ -42,7 +42,7 @@ if(count($_POST)>0){
       }      
     }else{
       //se guarda en una variable el resultado de error de validacion de los campos
-      $resultado = ["ok"=>false,"message"=>"Error en la validación de información", "Porcentaje minimo"=>$minPerVal, "Porcentaje maximo"=>$maxPerVal, "Porcentaje bono"=>$bonusPerVal];
+      $resultado = ["ok"=>false,"message"=>"Error en la validación de información", "Porcentaje minimo"=>$minPerVal, "Porcentaje maximo"=>$maxPerVal, "Porcentaje bono"=>$bonusPerVal, "minimo"=>$minPer, "maximo"=>$maxPer];
     }
 }else{
   $resultado = ["ok"=>false,"message"=>"Sin parametros"];

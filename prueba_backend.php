@@ -11,7 +11,21 @@ require_once('helpers/consultas.php'); ?>
   <body>
     
     <?php 
-    get_tree($conn, 2);
+    //get_tree($conn, 2);
+    $validacion = validarLongitud("0.00", 1, 100); 
+    var_dump($validacion);
+
+    function validarLongitud($valor, $min, $max){
+    
+      $validar = (strlen($valor) > $max || strlen($valor) < $min || (empty($valor)&&$valor!="0"));
+  
+      if(!$validar){
+        return true;
+      }else{
+        return false;      
+      }
+    }
+
     function get_tree($conn, $id)
     {
       $rec=$conn;

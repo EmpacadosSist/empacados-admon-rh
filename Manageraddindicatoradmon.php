@@ -104,13 +104,22 @@
           </div>
           
           <div class="row mt-3">
-            <div class="col-6">              
-              <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="checkCalcType">
+            <div class="col-6"> 
+              
+              <select class="form-select" name="calcType" id="calcType">
+                <option value="0">Cálculo de porcentaje de completado</option>
+                <option value="1">Cálculo de objetivo</option>
+                <option value="2">Cálculo de diferencia</option>
+              </select>              
+              <!--
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="checkCalcType">
                 <label class="form-check-label" for="checkCalcType">
                   Activar cálculo alternativo de reglas de bono
                 </label>
               </div>
+              -->
+              
             </div>
             <div class="col">
               <div class="form-check">
@@ -175,7 +184,7 @@
                     <td><input type="checkbox" class="syl" disabled></td>                    
                   </tr>
               <?php 
-                else:
+                elseif($reglas[$i]['tipoCalculo']=='1'):
               ?>
                   <tr data-id="<?=$reglas[$i]['id']?>" class="type_1" style="display: none;">
                     <td>
@@ -208,7 +217,40 @@
                     <td><input type="checkbox" class="syl" disabled></td>                    
                   </tr>              
               <?php 
-                  endif;
+                else:
+                  ?>
+                      <tr data-id="<?=$reglas[$i]['id']?>" class="type_2" style="display: none;">
+                        <td>
+                          <?php
+                            $mid="a";
+                            if($reglas[$i]['minimo']=='T'||$reglas[$i]['maximo']=='T'){
+                              $mid="";
+                            } 
+                            if($reglas[$i]['minimo']=='T'){
+                              echo "Menor o igual a";
+                            }else{
+                              echo $reglas[$i]['minimo']." ";
+                            }
+                            echo $mid;
+                            if($reglas[$i]['maximo']=='T'){
+                              echo "o más";
+                            }else{
+                              echo " ".$reglas[$i]['maximo'];
+                            }
+                            echo " = ";
+                            if($reglas[$i]['bonus']=='T'){
+                              echo "Proporcional";
+                            }else{
+                              echo $reglas[$i]['bonus']."%";
+                            }
+                          ?>
+                        </td>
+                        <td><input type="checkbox" class="agregar"></td>
+                        <td><input type="checkbox" class="gyd" disabled></td>
+                        <td><input type="checkbox" class="syl" disabled></td>                    
+                      </tr>              
+                  <?php 
+                      endif;
                 }
               ?>
               </tbody>
@@ -312,6 +354,44 @@
       arrayRules($(this), 'syl');
     });
 
+
+    $("#calcType").on('change', function(){
+      //arrayRules($(this), 'syl');
+      //console.log($(this).is(':checked'));
+      let agregado=$(".agregar");
+      let gyd= $(".gyd");
+      let syl= $(".syl");
+      agregado.prop('checked', false);
+      gyd.prop('checked', false);
+      syl.prop('checked', false);
+      
+      gyd.prop('disabled', true);
+      syl.prop('disabled', true);
+      
+      let type = $(this).val();
+      switch (type) {
+        case '0':
+          $(".type_0").show();
+          $(".type_1").hide();
+          $(".type_2").hide();
+        break;
+        case '1':
+          $(".type_0").hide();
+          $(".type_1").show();
+          $(".type_2").hide();
+        break;
+        case '2':
+          $(".type_0").hide();
+          $(".type_1").hide();
+          $(".type_2").show();        
+        break;                        
+        default:
+          return false;
+        break;
+      }
+    });
+  
+  /*
     $("#checkCalcType").on('change', function(){
       //arrayRules($(this), 'syl');
       //console.log($(this).is(':checked'));
@@ -321,7 +401,7 @@
       agregado.prop('checked', false);
       gyd.prop('checked', false);
       syl.prop('checked', false);
-
+      
       gyd.prop('disabled', true);
       syl.prop('disabled', true);
       if($(this).is(':checked')){
@@ -332,6 +412,9 @@
         $(".type_1").hide();
       }
     });    
+  */
+
+
 
     const arrayRules = (_this, type) => {
       let ruleId = _this.parent().parent().attr('data-id');
