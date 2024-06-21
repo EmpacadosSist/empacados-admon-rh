@@ -84,13 +84,15 @@
                           $real=isset($indicadorValores[0]['real']) ? $indicadorValores[0]['real'] : "";
                           $objetivo=isset($indicadorValores[0]['objetivo']) ? $indicadorValores[0]['objetivo'] : "";
                           $formatoId=isset($indicadorValores[0]['formatoId']) ? $indicadorValores[0]['formatoId'] : "0";
-                          $porcCumplimiento= Utils::porcCumplimiento($real,$objetivo); 
+                          $porcCumplimiento= Utils::porcCumplimiento($real,$objetivo);
+                          $diffPorc = Utils::diffPorc($real,$objetivo); 
+                          
                   ?>
       <td style="min-width: 150px;">
         <?php
                   $totalpago=0; 
-                  $valorGyD=Utils::calcularPorc($indicadoresReglaGyD,$porcCumplimiento,$indicadores[$j]['calculo'],$real);
-                  $valorSyL=Utils::calcularPorc($indicadoresReglaSyL,$porcCumplimiento,$indicadores[$j]['calculo'],$real);
+                  $valorGyD=Utils::calcularPorc($indicadoresReglaGyD,$porcCumplimiento,$indicadores[$j]['calculo'],$real,$diffPorc);
+                  $valorSyL=Utils::calcularPorc($indicadoresReglaSyL,$porcCumplimiento,$indicadores[$j]['calculo'],$real,$diffPorc);
                     
                   if($usuariosArr['nivel']=='1'||$usuariosArr['nivel']=='2'){
                     $totalpago=$valorPorcentaje/100 * $valorGyD/100;
@@ -168,13 +170,14 @@
                           $real=isset($indicadorValores[0]['real']) ? $indicadorValores[0]['real'] : "";
                           $objetivo=isset($indicadorValores[0]['objetivo']) ? $indicadorValores[0]['objetivo'] : "";
                           $formatoId=isset($indicadorValores[0]['formatoId']) ? $indicadorValores[0]['formatoId'] : "0";
-                          $porcCumplimiento= Utils::porcCumplimiento($real,$objetivo); 
+                          $porcCumplimiento= Utils::porcCumplimiento($real,$objetivo);
+                          $diffPorc = Utils::diffPorc($real,$objetivo); 
                   ?>
       <td style="min-width: 150px;">
         <?php
                   $totalpago=0; 
-                  $valorGyD=Utils::calcularPorc($indicadoresReglaGyD,$porcCumplimiento,$indicadores[$j]['calculo'],$real);
-                  $valorSyL=Utils::calcularPorc($indicadoresReglaSyL,$porcCumplimiento,$indicadores[$j]['calculo'],$real);
+                  $valorGyD=Utils::calcularPorc($indicadoresReglaGyD,$porcCumplimiento,$indicadores[$j]['calculo'],$real,$diffPorc);
+                  $valorSyL=Utils::calcularPorc($indicadoresReglaSyL,$porcCumplimiento,$indicadores[$j]['calculo'],$real,$diffPorc);
                     
                   if($usuariosArr['nivel']=='1'||$usuariosArr['nivel']=='2'){
                     $totalpago=$valorPorcentaje/100 * $valorGyD/100;

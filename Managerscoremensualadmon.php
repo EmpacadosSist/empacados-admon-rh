@@ -129,7 +129,8 @@
               $objetivo=isset($indicadorValores[0]['objetivo']) ? $indicadorValores[0]['objetivo'] : "0.00";
               $formatoId=isset($indicadorValores[0]['formatoId']) ? $indicadorValores[0]['formatoId'] : "0";
               //$porcCumplimiento=0;
-              $porcCumplimiento= Utils::porcCumplimiento($real,$objetivo);             
+              $porcCumplimiento= Utils::porcCumplimiento($real,$objetivo);
+              $diffPorc = Utils::diffPorc($real,$objetivo);                           
               ?>
                   <tr data-id="<?=$indicadores[$i]['id']?>">
                     <td class="st" style="min-width: 150px;"><?=$indicadores[$i]['nombreIndicador']?></td>
@@ -142,8 +143,10 @@
                       <?=Utils::mostrarReglas($indicadoresReglaSyL)?>
                     </td>
                     <td style="min-width: 300px;"><?=$indicadores[$i]['comentarios']?></td>
-                    <td style="min-width: 100px;"><?=Utils::calcularPorc($indicadoresReglaGyD,$porcCumplimiento,$indicadores[$i]['calculo'],$real)?></td>
-                    <td style="min-width: 100px;"><?=Utils::calcularPorc($indicadoresReglaSyL,$porcCumplimiento,$indicadores[$i]['calculo'],$real)?></td>
+
+                    <td style="min-width: 100px;"><?=Utils::calcularPorc($indicadoresReglaGyD,$porcCumplimiento,$indicadores[$i]['calculo'],$real, $diffPorc)?></td>
+                    <td style="min-width: 100px;"><?=Utils::calcularPorc($indicadoresReglaSyL,$porcCumplimiento,$indicadores[$i]['calculo'],$real, $diffPorc)?></td>
+
                     <td style="min-width: 200px;">
                       <!--Label e input para valor real-->
                       <label class="form-control <?php echo $permisoEdicion ? "lbl-real" : "" ?>"><?=$real!="" ? number_format($real,2) : ""?></label>

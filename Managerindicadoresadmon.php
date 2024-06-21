@@ -395,7 +395,7 @@
       }
       */
 
-      //let type = $("#calcType").val();
+      $("#calcType").val(calculo);
       switch (calculo) {
         case '0':
           $(".type_0").show();
@@ -490,7 +490,8 @@
       let indicadorId = $("#indicatorId").val();
       let nombreInd = $("#indicatorName").val();
       let comments = $("#comments").val();
-      let calculationType=$("#checkCalcType").is(':checked');    
+      //let calculationType=$("#checkCalcType").is(':checked');    
+      let calculationType = $("#calcType").val();
 
       $(".lista-reglas").each(function() {
         if ($(this).find('.agregar').prop('checked')) {
@@ -570,6 +571,7 @@
         }
       }
       //se ejecuta funcionalidad de actualizacion del indicador con sus rules
+      //console.log(arrRules, arrEliminadosRules, indicadorId, nombreInd, comments, calculationType)
       actualizar_indicador(arrRules, arrEliminadosRules, indicadorId, nombreInd, comments, calculationType)
     })
 

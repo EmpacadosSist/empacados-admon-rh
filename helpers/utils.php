@@ -73,7 +73,18 @@
       return $resultado;
     }
 
-    public static function calcularPorc($indregla, $porcentaje, $tipocalc, $real){
+    //se obtiene diferencia del objetivo menos el real
+    public static function diffPorc($real, $objetivo){
+      $objetivo = $objetivo == '' ? '0.00' : $objetivo;
+      $real = $real == '' ? '0.00' : $real;
+
+      $resultado = $objetivo - $real;
+      $resultado=number_format($resultado, 2);
+
+      return $resultado;
+    }
+
+    public static function calcularPorc($indregla, $porcentaje, $tipocalc, $real, $diferencia){
       $resultado="0.00";
       for($i=0; $i < count($indregla); $i++){ 
         $rango1="";
@@ -91,13 +102,15 @@
                 $resultado=$porcentaje;
             }    
 
-          }else{
+          }else if($tipocalc=='1'){
             if($real>=$rango1&&$real<=$rango2){
               if($bonus!='T')
                 $resultado=$bonus;
               else
                 $resultado=$real;
             }  
+          }else{
+            
           }
 
         }
@@ -112,13 +125,15 @@
                 $resultado=$porcentaje;            
             }
 
-          }else{
+          }else if($tipocalc=='1'){
             if($real>=$rango1){
               if($bonus!='T')
                 $resultado=$bonus;
               else
                 $resultado=$real;            
             }
+          }else{
+
           }
 
         }
@@ -132,13 +147,15 @@
                 $resultado=$porcentaje;
             }
 
-          }else{
+          }else if($tipocalc=='1'){
             if($real<=$rango2){
               if($bonus!='T')
                 $resultado=$bonus;
               else
                 $resultado=$real;
             }
+          }else{
+            
           }
 
         }        

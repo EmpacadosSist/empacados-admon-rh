@@ -298,7 +298,8 @@
       let targetValue=$("#targetValue").val();
       let comments = $("#comments").val();
       let allYear=$("#checkAllYear").is(':checked');
-      let calculationType=$("#checkCalcType").is(':checked');      
+      //let calculationType=$("#checkCalcType").is(':checked'); 
+      let calculationType = $("#calcType").val();     
       
       if(indicatorName != "" && realValue != "" && targetValue != ""){
         //aqui va el codigo para agregar a la bd la informacion despues de validar
@@ -483,7 +484,8 @@
         
       })
       .then(data => {
-        location.reload();
+        //location.reload();
+        console.log(data);
       })
       .catch(err => {
         let message = err.statusText || "Ocurrió un error";

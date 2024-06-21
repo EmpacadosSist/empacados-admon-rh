@@ -14,7 +14,7 @@ if(count($_POST)>0){
   $commentsVal = Validar::validarLongitudMax($comments, 255);  
 
   $calculationType = isset($_POST['calculationType']) ? $_POST['calculationType'] : "";
-  $calculationTypeVal = Validar::validarBool($calculationType);
+  $calculationTypeVal = Validar::validarNum($calculationType);    
 
   $valueTypeId = isset($_POST['valueTypeId']) ? $_POST['valueTypeId'] : "";
   $valueTypeIdVal = Validar::validarNum($valueTypeId);

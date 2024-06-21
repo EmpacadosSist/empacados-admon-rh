@@ -15,7 +15,7 @@ if(count($_POST)>0){
   $commentsVal = Validar::validarLongitudMax($comments, 255);  
 
   $calculationType = isset($_POST['calculationType']) ? $_POST['calculationType'] : "";
-  $calculationTypeVal = Validar::validarBool($calculationType);  
+  $calculationTypeVal = Validar::validarNum($calculationType);   
 
     if($indicatorNameVal && $commentsVal && $calculationTypeVal){
       $sqlSP="CALL update_indicator($indicatorId, '$indicatorName', '$comments', $calculationType)";
