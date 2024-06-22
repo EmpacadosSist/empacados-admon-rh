@@ -110,7 +110,12 @@
                 $resultado=$real;
             }  
           }else{
-            
+            if($diferencia>=$rango1&&$diferencia<=$rango2){
+              if($bonus!='T')
+                $resultado=$bonus;
+              else
+                $resultado=$diferencia;
+            }
           }
 
         }
@@ -133,7 +138,12 @@
                 $resultado=$real;            
             }
           }else{
-
+            if($diferencia>=$rango1){
+              if($bonus!='T')
+                $resultado=$bonus;
+              else
+                $resultado=$diferencia;            
+            }
           }
 
         }
@@ -155,7 +165,12 @@
                 $resultado=$real;
             }
           }else{
-            
+            if($diferencia<=$rango2){
+              if($bonus!='T')
+                $resultado=$bonus;
+              else
+                $resultado=$diferencia;
+            }            
           }
 
         }        
