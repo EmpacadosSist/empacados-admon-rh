@@ -73,7 +73,7 @@ $proximo_periodo_string = date('d/m/Y', $dateFormat);
           Inicio del siguiente periodo
           <hr>
           </div>
-          <div class="card-body" <?=(($dif_mes==3 && $dif_anio==0 && $dif_dias==0) || ($dif_mes<3)) ? 'style="background-color: #FFF751;"' : '' ?>>
+          <div class="card-body">
           <?=$proximo_periodo_string?>
         </div>
       </div>
@@ -83,7 +83,7 @@ $proximo_periodo_string = date('d/m/Y', $dateFormat);
         <div class="card-header-vac">
           <!--aqui va el valor de los dias disponibles desde la bd-->
           <input type="hidden" id="diasDisp" value="15">
-          <h1>15</h1>
+          <h1 <?=(($dif_mes==3 && $dif_anio==0 && $dif_dias==0) || ($dif_mes<3)) ? 'style="background-color: #FFF751;"' : '' ?>>15</h1>
           <hr>
         </div>
         <div class="card-body">
@@ -120,9 +120,12 @@ $proximo_periodo_string = date('d/m/Y', $dateFormat);
 
   <div class="row mt-4">
     <div class="col"></div>
-    <div class="col">
-      <button class="btn btn-success form-control" id="solicitar">Solicitar</button>
+    <div class="col-4">
+      <a class="btn btn-primary form-control" href="historial-vacaciones.php">Ver historial</a>
     </div>
+    <div class="col-4">
+      <button class="btn btn-success form-control" id="solicitar">Solicitar</button>
+    </div> 
     <div class="col"></div>    
   </div>
 

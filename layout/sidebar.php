@@ -82,12 +82,12 @@
           </a>
         </li>
         <li>
-          <a href="rhvacations.php">
-            <img src="assets/img/beach.png" alt="" width="18">
+          <a class="bi bi-suitcase" href="control-vacaciones.php">
             <i></i>
             <span>Vacaciones</span>
           </a>
-        </li>
+        </li>        
+
         <li>
           <a class="bi bi-person-vcard-fill" href="rhposicionesadmon.php">
             <i></i>
