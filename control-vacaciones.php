@@ -66,6 +66,7 @@
           <table class="table table-striped table-bordered" id="myTable">
             <thead>
               <tr>
+                <th>Número de empleado</th>
                 <th>Nombre</th>
                 <th>Periodo</th>
                 <th>Número de días</th>       
@@ -75,6 +76,7 @@
             </thead>
             <tbody>
               <tr>
+                <td>105207</td>
                 <td>Roberto Carlos Reyes Medrano</td>
                 <td>20/05/2024 - 27/05/2024</td>
                 <td>5 días</td>
@@ -82,6 +84,7 @@
                 <td class="text-center"><button class="btn btn-success"><i class="bi bi-check-circle-fill"></i></button></td>
               </tr>    
               <tr>
+                <td>105207</td>
                 <td>Armin Arlert</td>
                 <td>20/05/2024 - 27/05/2024</td>
                 <td>5 días</td>
@@ -92,6 +95,67 @@
           </table>
         </div>
       </div>
+
+      <div class="tab-pane fade" id="contenido2" role="tabpanel" aria-labelledby="pestaña2">
+      <div class="table-responsive">
+          <table class="table table-striped table-bordered" id="myTable2">
+            <thead>
+              <tr>
+                <th>Número de empleado</th>
+                <th>Nombre</th>
+                <th>Periodo</th>
+                <th>Número de días</th>    
+                <th>Revertir</th>   
+              </tr>                
+            </thead>
+            <tbody>
+              <tr>
+                <td>105207</td>
+                <td>Roberto Carlos Reyes Medrano</td>
+                <td>20/05/2024 - 27/05/2024</td>
+                <td>5 días</td>
+                <td class="text-center"><button class="btn btn-danger"><i class="bi bi-arrow-left-circle-fill"></i></button></td>
+              </tr>    
+              <tr>
+                <td>105207</td>
+                <td>Armin Arlert</td>
+                <td>20/05/2024 - 27/05/2024</td>
+                <td>5 días</td>
+                <td class="text-center"><button class="btn btn-danger"><i class="bi bi-arrow-left-circle-fill"></i></i></button></td>
+              </tr>                        
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="tab-pane fade" id="contenido3" role="tabpanel" aria-labelledby="pestaña3">
+      <div class="table-responsive">
+          <table class="table table-striped table-bordered" id="myTable3">
+            <thead>
+              <tr>
+                <th>Número de empleado</th>
+                <th>Nombre</th>
+                <th>Periodo</th>
+                <th>Número de días</th>       
+              </tr>                
+            </thead>
+            <tbody>
+              <tr>
+                <td>105207</td>
+                <td>Roberto Carlos Reyes Medrano</td>
+                <td>20/05/2024 - 27/05/2024</td>
+                <td>5 días</td>
+              </tr>    
+              <tr>
+                <td>105207</td>
+                <td>Armin Arlert</td>
+                <td>20/05/2024 - 27/05/2024</td>
+                <td>5 días</td>
+              </tr>                        
+            </tbody>
+          </table>
+        </div>
+      </div>      
     </div>
   </div>
 
@@ -100,12 +164,12 @@
 
 
 
-
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
     <!-- Template Main JS File -->
     <script src="assets/js/main.js"></script>
     <script>
       $(document).ready(function () {
-        var table = $('#myTable').DataTable({
+        let objOptions={
           lengthMenu: [[5, 10, 20, -1], [5, 10, 20, 'Todos']],
           language: {
             "processing": "Procesando...",
@@ -125,7 +189,13 @@
             },
             "info": "Mostrando _START_ a _END_ de _TOTAL_ registros"
           }          
-        });    
+        };
+
+        var table1 = $('#myTable').DataTable(objOptions);
+        var table2 = $('#myTable2').DataTable(objOptions);
+        var table3 = $('#myTable3').DataTable(objOptions);                  
+        
+        
       });
     </script>
   </body>
