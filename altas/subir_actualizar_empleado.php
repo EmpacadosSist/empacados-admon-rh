@@ -104,7 +104,7 @@ if(count($_POST)>0){
   $rfcVal = Validar::validarLongitud($rfc,3,100);
   
   //se valida campo que no venga vacio y que cumpla la validacion de longitud
-  $rfcZipCode = isset($_POST['rfcZipCode']) ? $_POST['rfcZipCode'] : "665500";
+  $rfcZipCode = isset($_POST['rfcZipCode']) ? $_POST['rfcZipCode'] : "";
   $rfcZipCodeVal = Validar::validarLongitud($rfcZipCode,3,100);  
   
   //se valida campo que no venga vacio y que cumpla la validacion de longitud
