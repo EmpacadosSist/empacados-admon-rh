@@ -10,10 +10,76 @@ require_once('helpers/consultas.php'); ?>
   </head>
   <body>
     
-    <?php 
+    <?php
+    		$message =	'<center style="background-color:#F2F2F2;">';
+        $message .= '<table border="0" cellpadding="5px" cellspacing="0" height="100%" width="100%" id="bodyTable" style="table-layout: fixed;max-width:100% !important;width: 100% !important;min-width: 100% !important;">';
+        
+        $message .= '<tr>';
+
+        $message .= '<td>';
+        $message .= '</td>';                        
+        $message .= '<td>';
+        $message .= '<b>No. de empleado:</b> 150024';		
+        $message .= '</td>';        
+        $message .= '<td>';
+        $message .= '</td>';        
+        
+        $message .= '</tr>';		
+        
+        $message .= '<tr>';
+        $message .= '<td>';
+        $message .= '</td>';                
+        $message .= '<td>';
+        $message .= '<b>Nombre:</b> Roberto Carlos Reyes Medrano';		
+        $message .= '</td>';
+        $message .= '<td>';
+        $message .= '</td>';                
+        $message .= '</tr>';
+        $message .= '<tr>';
+        $message .= '<td>';
+        $message .= '</td>';        
+        $message .= '<td>';
+        $message .= '<b>Puesto:</b> Ingeniero en sistemas';		
+        $message .= '</td>';
+        $message .= '<td>';
+        $message .= '</td>';        
+        $message .= '</tr>';
+        $message .= '<tr>';
+        $message .= '<td>';
+        $message .= '</td>';        
+        $message .= '<td>';
+        $message .= '<b>Departamento:</b> Administración';		
+        $message .= '</td>';
+        $message .= '<td>';
+        $message .= '</td>';        
+        $message .= '</tr>';
+        $message .= '<tr>';
+        $message .= '<td>';
+        $message .= '</td>';        
+        $message .= '<td>';
+        $message .= '<b>Días solicitados:</b> 20/06/2024 - 27/07/2024';		
+        $message .= '</td>';  
+        $message .= '<td>';
+        $message .= '</td>';                                      
+        $message .= '</tr>';
+        $message .= '<tr>';
+        $message .= '<td>';
+        $message .= '</td>';        
+        $message .= '</tr>';        
+        $message .= '<tr>';
+        $message .= '<td>';
+        $message .= '</td>';        
+        $message .= '<td style="text-align: center;">';
+        $message .= '<a style="color:#000000;text-decoration:none;font-family:Helvetica,Arial,sans-serif;font-size:15px;line-height:135%;" href="#" target="_blank">Ver en la web</a>';        
+        $message .= '</td>';  
+        $message .= '<td>';
+        $message .= '</td>';                      
+        $message .= '</tr>';        
+        $message .= '</table>';
+        
+        echo $message;
     //get_tree($conn, 2);
     $validacion = validarLongitud("0.00", 1, 100); 
-    var_dump($validacion);
 
     function validarLongitud($valor, $min, $max){
     

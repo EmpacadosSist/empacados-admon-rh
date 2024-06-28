@@ -157,6 +157,7 @@ $proximo_periodo_string = date('d/m/Y', $dateFormat);
         })
         //var diff = fechaFin - fechaInicio;
         //alert(calcularDiasHabiles(fechaInicio, fechaFin, tipoHorario));
+        solicitar_vacaciones();
       })
 
       const mostrarCambiosPantalla = () => {
@@ -197,7 +198,41 @@ $proximo_periodo_string = date('d/m/Y', $dateFormat);
         }
 
         return diasHabiles;
-      }      
+      }
+      
+      const solicitar_vacaciones = () => {
+        let datos = {
+          empNum: "15025",
+          name: "Roberto",
+          lastName1: "Reyes",
+          lastName2: "Medrano",
+          positionName: "Inge sistemas",
+          sectionName: "Sistemas",
+          requestedDays: "01/01/2024 - 08/01/2024"
+        }
+        
+        let fd = new FormData();
+
+        for(var key in datos){
+          fd.append(key, datos[key]);
+        }
+
+        fetch('altas/subir_vacaciones.php', {
+          method: "POST",
+          body: fd
+        })
+        .then(response => {
+          return response.ok ? response.json() : Promise.reject(response);
+        })
+        .then(data => {
+          console.log(data);
+        })
+        .catch(err => {
+          let message = err.statusText || "Ocurrió un error";
+          console.log(err);
+        })
+
+      }
     </script>
   </body>
 
