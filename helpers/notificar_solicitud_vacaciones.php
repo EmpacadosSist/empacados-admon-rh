@@ -19,12 +19,6 @@ function notificarSolicitud($datos)
 	  //$mail->Password = ; // Coloca aquí tu contraseña de Gmail
 	  //$mail->SMTPSecure = '';
 	  //$mail->Port = ;
-		
-    $ruta = __DIR__. "\assets\img\logo_correo.png";
-    //echo $ruta;
-
-    $contenidoBinario = file_get_contents($ruta);
-    $imagenComoBase64 = base64_encode($contenidoBinario);
 
 		$message =	'<center style="background-color:#F2F2F2;text-decoration:none;font-family:Helvetica,Arial,sans-serif;font-size:15px;line-height:135%;">';
 		$message .= '<table border="0" cellpadding="5px" cellspacing="0" height="100%" width="100%" id="bodyTable" style="table-layout: fixed;max-width:100% !important;width: 100% !important;min-width: 100% !important;">';
