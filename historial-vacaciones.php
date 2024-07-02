@@ -46,21 +46,52 @@
       <thead>
         <tr>
           <th>Periodo</th>
-          <th>Número de días</th>       
+          <th>Número de días</th>
+          <th>Comentarios</th>
+          <th>Estatus</th>       
+          <th>Solicitud de cancelación</th>
         </tr>                
       </thead>
       <tbody>
         <tr>
           <td>20/05/2024 - 27/05/2024</td>
           <td>5 días</td>
+          <td></td>
+          <td>Pendiente</td>
+          <td class="text-center"><button class="btn btn-danger" data-toggle="modal" data-target="#cancelarModal"><i class="bi bi-x-circle-fill"></i></button></td>
+        </tr>
+        <tr>
+          <td>20/05/2024 - 27/05/2024</td>
+          <td>5 días</td>
+          <td></td>
+          <td>Aprobado</td>
+          <td class="text-center"><button class="btn btn-danger" data-toggle="modal" data-target="#cancelarModal"><i class="bi bi-x-circle-fill"></i></button></td>
         </tr>                
       </tbody>
     </table>
 
+    <div class="modal fade" id="cancelarModal" tabindex="-1" role="dialog" aria-labelledby="cancelarModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="cancelarModalLabel">Confirmación</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        ¿Seguro(a) que desea enviar una solicitud de cancelación?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+        <button type="button" class="btn btn-primary">Si</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 
-
-
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
     <!-- Template Main JS File -->
     <script src="assets/js/main.js"></script>
     <script>

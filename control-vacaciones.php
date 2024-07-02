@@ -8,7 +8,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Solicitar vacaciones</title>
+  <title>Control de vacaciones</title>
   <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 
   <!-- jQuery -->
@@ -54,7 +54,10 @@
       </li>       
       <li class="nav-item">
         <a class="nav-link" id="pestaña3" data-toggle="tab" href="#contenido3" role="tab" aria-controls="contenido3" aria-selected="true">Ausentes</a>
-      </li>             
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="pestaña4" data-toggle="tab" href="#contenido4" role="tab" aria-controls="contenido4" aria-selected="true">Solicitudes de cancelación</a>
+      </li>                   
     </ul>
     <br>
 
@@ -80,7 +83,7 @@
                 <td>Roberto Carlos Reyes Medrano</td>
                 <td>20/05/2024 - 27/05/2024</td>
                 <td>5 días</td>
-                <td class="text-center"><button class="btn btn-danger"><i class="bi bi-x-circle-fill"></i></button></td>
+                <td class="text-center"><button class="btn btn-danger" data-toggle="modal" data-target="#rechazarModal"><i class="bi bi-x-circle-fill"></i></button></td>
                 <td class="text-center"><button class="btn btn-success"><i class="bi bi-check-circle-fill"></i></button></td>
               </tr>    
               <tr>
@@ -88,7 +91,7 @@
                 <td>Armin Arlert</td>
                 <td>20/05/2024 - 27/05/2024</td>
                 <td>5 días</td>
-                <td class="text-center"><button class="btn btn-danger"><i class="bi bi-x-circle-fill"></i></button></td>
+                <td class="text-center"><button class="btn btn-danger" data-toggle="modal" data-target="#rechazarModal"><i class="bi bi-x-circle-fill"></i></button></td>
                 <td class="text-center"><button class="btn btn-success"><i class="bi bi-check-circle-fill"></i></button></td>
               </tr>                        
             </tbody>
@@ -129,7 +132,7 @@
       </div>
 
       <div class="tab-pane fade" id="contenido3" role="tabpanel" aria-labelledby="pestaña3">
-      <div class="table-responsive">
+        <div class="table-responsive">
           <table class="table table-striped table-bordered" id="myTable3">
             <thead>
               <tr>
@@ -155,11 +158,88 @@
             </tbody>
           </table>
         </div>
-      </div>      
+      </div>
+
+      <div class="tab-pane fade" id="contenido4" role="tabpanel" aria-labelledby="pestaña4">
+        <div class="table-responsive">
+          <table class="table table-striped table-bordered" id="myTable4">
+            <thead>
+              <tr>
+                <th>Número de empleado</th>
+                <th>Nombre</th>
+                <th>Periodo</th>
+                <th>Número de días</th>   
+                <th>Aceptar</th>    
+              </tr>                
+            </thead>
+            <tbody>
+              <tr>
+                <td>105207</td>
+                <td>Roberto Carlos Reyes Medrano</td>
+                <td>20/05/2024 - 27/05/2024</td>
+                <td>5 días</td>
+                <td class="text-center"><button data-toggle="modal" data-target="#cancelarModal" class="btn btn-success"><i class="bi bi-check-circle-fill"></i></button></td>
+              </tr>    
+              <tr>
+                <td>105207</td>
+                <td>Armin Arlert</td>
+                <td>20/05/2024 - 27/05/2024</td>
+                <td>5 días</td>
+                <td class="text-center"><button data-toggle="modal" data-target="#cancelarModal" class="btn btn-success"><i class="bi bi-check-circle-fill"></i></button></td>
+              </tr>                        
+            </tbody>
+          </table>
+        </div>
+      </div>
+
     </div>
   </div>
 
+  
 
+  <div class="modal fade" id="rechazarModal" tabindex="-1" role="dialog" aria-labelledby="rechazarModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="rechazarModalLabel">Especificar motivo de rechazo:</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="form-group">
+              <textarea class="form-control" id="message-text"></textarea>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-primary">Aceptar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="cancelarModal" tabindex="-1" role="dialog" aria-labelledby="cancelarModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="cancelarModalLabel">Confirmación</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          ¿Seguro(a) que desea aceptar la cancelación?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+          <button type="button" class="btn btn-primary">Si</button>
+        </div>
+      </div>
+    </div>
+  </div>  
 
 
 
@@ -193,10 +273,23 @@
 
         var table1 = $('#myTable').DataTable(objOptions);
         var table2 = $('#myTable2').DataTable(objOptions);
-        var table3 = $('#myTable3').DataTable(objOptions);                  
+        var table3 = $('#myTable3').DataTable(objOptions);
+        var table4 = $('#myTable4').DataTable(objOptions);                          
         
         
       });
+
+      /*
+      $('#rechazarModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget) // Button that triggered the modal
+        var recipient = button.data('whatever') // Extract info from data-* attributes
+        // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+        // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+        var modal = $(this)
+        modal.find('.modal-title').text('New message to ' + recipient)
+        modal.find('.modal-body input').val(recipient)
+      })      
+      */
     </script>
   </body>
 

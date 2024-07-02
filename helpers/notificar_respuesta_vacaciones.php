@@ -3,7 +3,7 @@ require_once('../lib/phpmailer/PHPMailer.php');
 require_once('../lib/phpmailer/SMTP.php');
 require_once('../conexion/conexion.php');
 
-function notificarSolicitud($datos)
+function notificarRespuesta($datos)
 {
 	//count($datos)>0
 	if(true){
@@ -40,7 +40,9 @@ function notificarSolicitud($datos)
 		$message .= '<td>';
 		$message .= '</td>';
 		$message .= '<td style="text-align: center;">';
-		$message .= '<h2>Solicitud de vacaciones</h2>';
+
+    //aqui se cambiaria si es rechazada o aprobada la solicitud
+		$message .= '<h2>Solicitud de vacaciones rechazada</h2>';
 		$message .= '</td>';
 		$message .= '<td>';
 		$message .= '</td>';
@@ -76,48 +78,29 @@ function notificarSolicitud($datos)
 		$message .= '<td>';
 		$message .= '</td>';        
 		$message .= '<td>';
-		$message .= '<b>Puesto:</b> Ingeniero en sistemas';		
-		$message .= '</td>';
-		$message .= '<td>';
-		$message .= '</td>';  
-
-		$message .= '</tr>';
-
-		$message .= '<tr>';
-
-		$message .= '<td>';
-		$message .= '</td>';        
-		$message .= '<td>';
-		$message .= '<b>Departamento:</b> Administración';		
-		$message .= '</td>';
-		$message .= '<td>';
-		$message .= '</td>';   
-
-		$message .= '</tr>';
-
-		$message .= '<tr>';
-
-		$message .= '<td>';
-		$message .= '</td>';        
-		$message .= '<td>';
 		$message .= '<b>Días solicitados:</b> 20/06/2024 - 27/07/2024';		
 		$message .= '</td>';  
 		$message .= '<td>';
 		$message .= '</td>';  
 
-		$message .= '</tr>';
+		$message .= '</tr>';    
 
-		$message .= '<tr>';
-
-		$message .= '<td>';
-		$message .= '</td>';        
-		$message .= '<td>';
-		$message .= '<b>Número de días:</b> 5';		
-		$message .= '</td>';  
-		$message .= '<td>';
-		$message .= '</td>';  
-
-		$message .= '</tr>';
+    if(true){
+      
+      //esto solo se muestra cuando se rechaza la solicitud ------vvvvvvvvvvvv
+      $message .= '<tr>';
+      
+      $message .= '<td>';
+      $message .= '</td>';                
+      $message .= '<td>';
+      $message .= '<b>Motivo del rechazo:</b> No hay quien cubra tu puesto en esos días. Acude a la oficina para negociarlo.';		
+      $message .= '</td>';
+      $message .= '<td>';
+      $message .= '</td>'; 
+      
+      $message .= '</tr>';		
+      //esto solo se muestra cuando se rechaza la solicitud ------^^^^^^^^^^^^    
+    }
 
 		$message .= '<tr>';
 
@@ -153,7 +136,9 @@ function notificarSolicitud($datos)
 		
 		$mail->SetFrom('general@empacados.com', "Empacados - Admon RH");
 		$mail->AddReplyTo('no-reply@empacados.com','no-reply');
-		$mail->Subject = "Solicitud de vacaciones";
+		
+    //aqui se cambiaria si es rechazada o aprobada la solicitud
+    $mail->Subject = "Solicitud de vacaciones rechazada";
 		$mail->MsgHTML($message);
 		
 		$email = 'aux2.sistemas@empacados.com';

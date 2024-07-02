@@ -4,8 +4,6 @@ require_once('../conexion/conexion.php');
 //importar utilidades
 require_once('../helpers/validar.php');
 require_once('../helpers/notificar_solicitud_vacaciones.php');
-//probando respuesta vacaciones
-require_once('../helpers/notificar_respuesta_vacaciones.php');
 
 //condicion para verificar si hay parametros enviados por post
 if(count($_POST)>0){
@@ -60,9 +58,8 @@ if(count($_POST)>0){
       $datos = ["numEmpleado"=>$empNum,"nombre"=>$name." ".$lastName1." ".$lastName2,"puesto"=>$positionName,"departamento"=>$sectionName,"dias"=>$requestedDays];
 
       //variable que almacena el resultado de haber enviado por correo la contraseña
-      ////$isSent=notificarSolicitud($datos);      
-      $isSent=notificarRespuesta($datos);
-
+      $isSent=notificarSolicitud($datos);      
+      
       //se guarda en una variable el resultado de haber agregado o atcualizado exitosamente el empleado
       $resultado = ["ok"=>true,"message"=>"Enviado"];
 
