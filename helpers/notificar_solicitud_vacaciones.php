@@ -131,7 +131,7 @@ function notificarSolicitud($datos)
 		$message .= '<td>';
 		$message .= '</td>';        
 		$message .= '<td bgcolor="#C2C2C2" style="text-align: center;">';
-		$message .= '<a style="color:#000000;text-decoration:none;font-family:Helvetica,Arial,sans-serif;font-size:15px;line-height:135%;" href="#" target="_blank">Ver en la web</a>';        
+		$message .= '<a style="color:#000000;text-decoration:none;font-family:Helvetica,Arial,sans-serif;font-size:15px;line-height:135%;" href="#" target="_blank">Ver en la web para autorizar</a>';        
 		$message .= '</td>';
 		$message .= '<td>';
 		$message .= '</td>';

@@ -42,10 +42,11 @@
       $proximo_periodo = $yr.substr($_SESSION['identity']->recDate, 4, 6); 
 
       if($proximo_periodo<$current_date){
-        $proximo_periodo = date("d/m/Y",strtotime($proximo_periodo."+ 1 year"));
+        $proximo_periodo = date("Y-m-d",strtotime($proximo_periodo."+ 1 year"));
       }
 
-      $proximo_periodo_string = $proximo_periodo; 
+
+$proximo_periodo_string = $proximo_periodo; 
 // Fecha de inicio
 $fechaInicio = new DateTime('2023-08-01');
 $current_date= new DateTime($current_date);
@@ -53,6 +54,8 @@ $current_date= new DateTime($current_date);
 // Fecha de finalización (puede ser la fecha actual)
 $fechaFin = new DateTime('2024-08-31');
 $proximo_periodo = new DateTime($proximo_periodo);
+
+
 
 // Calcular la diferencia entre las fechas
 $diferencia = $current_date->diff($proximo_periodo);
