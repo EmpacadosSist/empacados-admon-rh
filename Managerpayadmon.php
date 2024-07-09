@@ -249,6 +249,10 @@ th {
         <div class="tab-pane fade" id="contenido2" role="tabpanel" aria-labelledby="pestaña2">
           <div class="row mb-3 mt-3">
             <div class="col">
+              <select class="form-select" name="selectMonth" id="selectMonth">
+                <option value="0">Mes actual</option>
+                <option value="1">Próximo mes</option>
+              </select>
             </div>
             <div class="col">
             </div>
@@ -397,7 +401,12 @@ th {
 
   });
 
-
+  $('#selectMonth').on('change', function() {
+    //alert("asi es");
+    console.log("Movimiento tabla pagos");
+    let currentUserId = $("#currentUserId").val();
+    recargar_tabla(currentUserId);
+  });
   const subir_pos_ind = (indicadorId, puestoId, porcentaje, boton) => {
     let datos = {
       indicatorId: indicadorId,
@@ -449,13 +458,14 @@ th {
       })
   }
 
-  const recargar_tabla = (currentUserId) => {
+  const recargar_tabla = (currentUserId, month="") => {
 
     $.ajax({
       url: "layout/tabla_pagos.php",
       type: "POST",
       data: {
-        currentUserId
+        currentUserId,
+        month
       }
     }).done(function(response) {
       $(".tabla-pagos").empty();

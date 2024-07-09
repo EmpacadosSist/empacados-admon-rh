@@ -650,20 +650,6 @@
           </thead>
           <tbody>
             <?php 
-            for ($j=0; $j < count($director_general); $j++) { 
-              $nombreJefe=$director_general[$j]['nombre']." ".$director_general[$j]['apellido1']." ".$director_general[$j]['apellido2'];  
-            ?>
-              <tr data-id="<?=$director_general[$j]['usuarioId']?>" data-jefe="<?=$nombreJefe?>">
-                <td><?=$director_general[$j]['numEmpleado']?></td>
-                <td><?=$nombreJefe?></td>
-                <td><?=$director_general[$j]['puesto']?></td>
-                <td><?=$director_general[$j]['area']?></td>
-                <td><button class="btn btn-success seleccionar-jefe">Seleccionar</button></td>
-              </tr>
-          <?php 
-            }
-            ?>
-            <?php 
             for ($i=0; $i < count($empleados); $i++) { 
               $nombreJefe=$empleados[$i]['nombre']." ".$empleados[$i]['apellido1']." ".$empleados[$i]['apellido2'];  
             ?>
