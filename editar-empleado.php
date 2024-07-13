@@ -36,7 +36,16 @@
 <?php $puesto_empleado_id = $raw_user[0]['positionId']; ?>
 <?php $colonia_id = $raw_user[0]['coloniaId']; ?>
 <?php $jefe_directo_id = $raw_user[0]['superUserId']; ?>
-<?php $jefe_directo = Consultas::listOneUser($conn, $jefe_directo_id); ?>
+<?php 
+if($jefe_directo_id!=null){
+  $jefe_directo = Consultas::listOneUser($conn, $jefe_directo_id); 
+}else{
+  $jefe_directo[0]['nombre'] = "No";
+  $jefe_directo[0]['apellido1'] = "Aplica";
+  $jefe_directo[0]['apellido2'] = "";
+}
+
+?>
 
 <?php $ADP = Consultas::listAreaSectionPosition($conn, $puesto_empleado_id); ?>
 <?php $departamentos = Consultas::listSections($conn, $ADP[0]['areaId']); ?>

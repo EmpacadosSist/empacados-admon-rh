@@ -1,6 +1,8 @@
 <?php 
   require_once('layout/session.php');
   require_once('helpers/utils.php');
+
+  //permiso de edicion del scorecardmensual
   $permisoEdicion=Utils::buscarPermiso(4);
 ?>
 <?php require 'layout/libreriasdatatable.php';?>
@@ -38,18 +40,19 @@
 <input type="hidden" id="inpMonth" value="<?=$month?>">
 <input type="hidden" id="inpYear" value="<?=$year?>">
 
+<?php if($permisoEdicion): ?>
 <div class="row mb-3 mt-3">
-<div class="col d-flex justify-content-end">
-              <label for="archivo">Seleccionar plantilla excel: </label>
-            </div>
-            <div class="col">
-              <input class="form-control" type="file" name="archivo" id="archivo" accept=".xls,.xlsx">
-            </div>
-            <div class="col-1 d-flex justify-content-end">
-              <button class="btn btn-success subir-archivo">Subir</button>
-
-            </div>  
+  <div class="col d-flex justify-content-end">
+    <label for="archivo">Seleccionar plantilla excel: </label>
+  </div>
+  <div class="col">
+    <input class="form-control" type="file" name="archivo" id="archivo" accept=".xls,.xlsx">
+  </div>
+  <div class="col-1 d-flex justify-content-end">
+    <button class="btn btn-success subir-archivo">Subir</button>
+  </div>  
 </div>
+<?php endif; ?>
 
 <div class="row">
   <div class="col"></div>

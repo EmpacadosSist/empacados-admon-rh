@@ -17,8 +17,9 @@
 
   $indicadores=Consultas::listIndicator($conn);
 
-  //consulta para ver un solo usuario con el id
-  $usuarios=Consultas::listOneUser($conn, 2);
+  $current_user_id=$_SESSION['identity']->userId;
+  //consulta para ver un solo usuario con el id 
+  $usuarios=Consultas::listOneUser($conn, $current_user_id);
 ?>
 
   <!-- Bootstrap Slider CSS -->
@@ -41,7 +42,7 @@
 <div class="container mt-4">
       <!-- Pestañas -->
       <ul class="nav nav-tabs" id="pestanas" role="tablist">
-
+        <input type="hidden" id="userId" value="<?=$current_user_id?>">
         <li class="nav-item">
           <a class="nav-link active" id="pestaña1" data-toggle="tab" href="#contenido1" role="tab"
             aria-controls="contenido1" aria-selected="true">Objetivos</a>
@@ -173,6 +174,20 @@
         </div>
 
         <div class="tab-pane fade" id="contenido3" role="tabpanel" aria-labelledby="pestaña3">
+          <div class="row mb-3 mt-3">
+              <div class="col">
+                <select class="form-select" name="selectMonth" id="selectMonth">
+                  <option value="<?=date('m')?>">Mes actual</option>
+                  <option value="<?=date('m')+1?>">Próximo mes</option>
+                </select>
+              </div>
+              <div class="col">
+              </div>
+              <div class="col">
+              
+              </div>
+
+            </div>
           <div class="table-responsive tabla-pagos">
             
           </div>
@@ -263,6 +278,13 @@
     tooltip: 'always'
   });
 
+  $('#selectMonth').on('change', function() {
+    //alert("asi es");
+    let mes = $(this).val();
+
+    recargar_tabla(mes);
+  });
+
   $(".actualizar-obj").click(function(){
     // Call a method on the slider
     let value = slider1.getValue();
@@ -270,13 +292,15 @@
   });
 
   //aqui vamos a especificar si es individual y cual es el id del usuario
-  const recargar_tabla = () => {
+  const recargar_tabla = (month="") => {
+    let userId = $("#userId").val();
     $.ajax({
       url: "layout/tabla_pagos.php",
       type: "POST",
       data: { 
+        month,
         indiv: 1,
-        userId: 2 
+        userId
       }
     }).done(function(response){
       $(".tabla-pagos").empty();

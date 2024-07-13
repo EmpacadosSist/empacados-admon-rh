@@ -2,7 +2,12 @@
   require_once('layout/session.php');
   require_once('helpers/utils.php');
   Utils::redirectSinPermiso(5);
+  //permiso no. 9 edicion de pagos
   $tienePermiso=Utils::buscarPermiso(9);
+  //permiso no. 10 revision de pagos
+  $permisoRev = Utils::buscarPermiso(10);
+  //permiso no. 11 autorización de pagos  
+  $permisoAut = Utils::buscarPermiso(11);  
   
 ?>
 <?php require 'layout/libreriasdatatable.php';?>
@@ -14,6 +19,7 @@
   //$usuarios=Consultas::listUsers($conn);
   $current_user_id = $_SESSION['identity']->userId;
   $usuarios=Consultas::listUsersBySupervisor($conn,$current_user_id);
+  $j=0;
 ?>
 <style>
 .st {
@@ -48,6 +54,26 @@ th {
 
   <body>
 
+    <!--LA SIGUIENTE VALIDACION ES PARA VERIFICAR SI EL USUARIO ACTUAL TIENE PERMISO DE AUTORIZAR LOS PAGOS-->
+    <?php if($permisoRev || $permisoAut): ?>
+    <div class="row">
+      <div class="col"></div>
+      <div class="col"></div>
+      <div class="col d-flex justify-content-end">
+
+        <!--LA SIGUIENTE VALIDACION ES PARA VERIFICAR QUE TIPO DE VALIDACIÓN VA A HACER EL USUARIO QUE PUEDE HACERLA-->
+        <?php if($permisoRev): ?>
+          <button class="btn btn-warning">Validar pagos para autorización</button>
+        <?php endif; ?>
+        <?php if($permisoAut): ?>
+          <button class="btn btn-warning">Autorizar pagos</button>
+        <?php endif; ?>
+      </div>
+    </div>
+    <?php endif; ?>
+     
+    <!--LA SIGUIENTE VALIDACION ES PARA VERIFICAR SI SE VA A MOSTRAR O NO LOS PAGOS, ESPERANDO LA AUTORIZACION--->
+    <?php if(true): ?>
     <div class="container mt-4">
       <!-- Pestañas -->
       <ul class="nav nav-tabs" id="pestanas" role="tablist">
@@ -250,8 +276,8 @@ th {
           <div class="row mb-3 mt-3">
             <div class="col">
               <select class="form-select" name="selectMonth" id="selectMonth">
-                <option value="0">Mes actual</option>
-                <option value="1">Próximo mes</option>
+                <option value="<?=date('m')?>">Mes actual</option>
+                <option value="<?=date('m')+1?>">Próximo mes</option>
               </select>
             </div>
             <div class="col">
@@ -271,6 +297,20 @@ th {
       </div>
     </div>
     <input type="hidden" id="num_indicadores" value="<?=$j?>">
+    <?php else: ?>
+      <div class="container mt-4">
+        <div class="row">
+          <div class="col-2">
+
+          </div>
+          <div class="col" style="text-align: center;">
+            <h2>Pagos en proceso de autorización</h2>
+
+          </div>
+          <div class="col-2"></div>
+        </div>
+      </div>
+    <?php endif; ?>
   </body>
 
   </html>
@@ -403,9 +443,10 @@ th {
 
   $('#selectMonth').on('change', function() {
     //alert("asi es");
-    console.log("Movimiento tabla pagos");
+    let mes = $(this).val();
+
     let currentUserId = $("#currentUserId").val();
-    recargar_tabla(currentUserId);
+    recargar_tabla(currentUserId,mes);
   });
   const subir_pos_ind = (indicadorId, puestoId, porcentaje, boton) => {
     let datos = {
