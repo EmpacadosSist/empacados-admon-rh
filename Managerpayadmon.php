@@ -45,14 +45,14 @@ th {
   top: 2px;
 }
 </style>
-<main id="main" class="main">
-  <input type="hidden" value="<?=$current_user_id?>" id="currentUserId">
-  <div class="pagetitle">
-    <h1>PAGOS</h1>
-    <hr>
-  </div><!-- End Page Title -->
 
-  <body>
+<body>
+  <main id="main" class="main">
+      <input type="hidden" value="<?=$current_user_id?>" id="currentUserId">
+      <div class="pagetitle">
+        <h1>PAGOS</h1>
+        <hr>
+      </div><!-- End Page Title -->
 
     <!--LA SIGUIENTE VALIDACION ES PARA VERIFICAR SI EL USUARIO ACTUAL TIENE PERMISO DE AUTORIZAR LOS PAGOS-->
     <?php if($permisoRev || $permisoAut): ?>
@@ -311,6 +311,8 @@ th {
         </div>
       </div>
     <?php endif; ?>
+    </main>
+    <?php require 'layout/footer.php';?>
   </body>
 
   </html>

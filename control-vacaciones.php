@@ -34,13 +34,13 @@
 <?php require 'nav.php'; ?>
 <?php require_once('layout/sidebar.php'); ?>
 
+<body>
 <main id="main" class="main">
 
   <div class="pagetitle">
     <h1>CONTROL DE VACACIONES</h1>
     <hr>
   </div><!-- End Page Title -->
-  <body>
 
   <div class="container mt-4">
     <!-- Pestañas -->
@@ -291,6 +291,9 @@
       })      
       */
     </script>
+
+    </main>
+    <?php require 'layout/footer.php';?>
   </body>
 
 </html>

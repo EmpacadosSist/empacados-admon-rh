@@ -118,6 +118,7 @@
 <?php $areas = Consultas::listAreas($conn); ?>
 <?php $levels = Consultas::listLevels($conn); ?>
 
+<body>
 <main id="main" class="main">
 
   <div class="pagetitle">
@@ -125,7 +126,6 @@
     <hr>
   </div><!-- End Page Title -->
 
-  <body>
 
     <div class="container mt-4">
 
@@ -248,7 +248,8 @@
       </div>
     </div>
 
-
+    </main>
+    <?php require 'layout/footer.php';?>
   </body>
 
   </html>
