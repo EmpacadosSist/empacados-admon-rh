@@ -45,6 +45,7 @@
 <?php $formatos = Consultas::listValueTypes($conn); ?>
 <?php $reglas = Consultas::listBonusRules($conn); ?>
 
+<body>
 <main id="main" class="main">
 
   <div class="pagetitle">
@@ -52,7 +53,6 @@
     <hr>
   </div><!-- End Page Title -->
 
-  <body>
 
     <div class="container mt-4">
       <!-- Pestañas -->
@@ -272,6 +272,8 @@
     </div>
 
   </div>
+  </main>
+  <?php require 'layout/footer.php';?>
   </body>
 
   </html>

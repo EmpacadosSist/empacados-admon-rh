@@ -34,13 +34,13 @@
 <?php require 'nav.php'; ?>
 <?php require_once('layout/sidebar.php'); ?>
 
+<body>
 <main id="main" class="main">
 
   <div class="pagetitle">
     <h1>HISTORIAL VACACIONES</h1>
     <hr>
   </div><!-- End Page Title -->
-  <body>
 
     <table class="table table-striped table-bordered" id="myTable">
       <thead>
@@ -119,6 +119,8 @@
         });    
       });
     </script>
+    </main>
+    <?php require 'layout/footer.php';?>
   </body>
 
 </html>

@@ -31,13 +31,13 @@
   <!-- Bootstrap Slider JS -->
 
 
+  <body>
   
   <main id="main" class="main">
     <div class="pagetitle">
       <h1>MI SCORECARD</h1>
       <hr>
     </div><!-- End Page Title -->
-<body>
 
 <div class="container mt-4">
       <!-- Pestañas -->
@@ -196,9 +196,9 @@
 
       </div>
     </div>
-
+    </main>
+    <?php require 'layout/footer.php';?>
 </body>
-<?php require 'layout/footer.php';?>
 </html>
   
 

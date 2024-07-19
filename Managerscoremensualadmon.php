@@ -30,13 +30,13 @@
   z-index: 2;
 }
 </style>
+<body>
   <main id="main" class="main">
 
     <div class="pagetitle">
       <h1>SCORECARD <?=$mesSpanish?></h1>
       <hr>
     </div><!-- End Page Title -->
-<body>
 <input type="hidden" id="inpMonth" value="<?=$month?>">
 <input type="hidden" id="inpYear" value="<?=$year?>">
 
@@ -273,7 +273,8 @@
 
 
 
-
+</main>
+<?php require 'layout/footer.php';?>
 </body>
 </html>
 

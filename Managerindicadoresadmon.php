@@ -39,6 +39,7 @@
 }
 </style>
 
+<body>
 <main id="main" class="main">
 
   <div class="pagetitle">
@@ -46,7 +47,6 @@
     <hr>
   </div><!-- End Page Title -->
 
-  <body>
 
     <div class="container mt-4 contenedor-form" style="display: none;">
 
@@ -746,7 +746,8 @@
         })
     }
     </script>
-
+    </main>
+    <?php require 'layout/footer.php';?>
   </body>
 
 </html>

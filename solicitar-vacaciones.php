@@ -28,13 +28,13 @@
   }
 </style>
 
+<body>
 <main id="main" class="main">
 
   <div class="pagetitle">
     <h1>SOLICITAR VACACIONES</h1>
     <hr>
   </div><!-- End Page Title -->
-  <body>
   <div class="row">
     <?php 
       $yr = date('Y');
@@ -237,6 +237,8 @@ $proximo_periodo_string = date('d/m/Y', $dateFormat);
 
       }
     </script>
+    </main>
+    <?php require 'layout/footer.php';?>
   </body>
 
 </html>
