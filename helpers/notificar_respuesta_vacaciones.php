@@ -13,12 +13,12 @@ function notificarRespuesta($datos)
 		$mail->CharSet = 'UTF-8';
 
 		//cambiar cuando se necesite
-	  //$mail->Host = 'smtp.gmail.com';
-	  //$mail->SMTPAuth = true;
-	  //$mail->Username = ''; // Coloca aquí tu dirección de correo de Gmail
-	  //$mail->Password = ''; // Coloca aquí tu contraseña de Gmail
-	  //$mail->SMTPSecure = '';
-	  //$mail->Port = ;
+	  $mail->Host = 'smtp.gmail.com';
+	  $mail->SMTPAuth = true;
+	  $mail->Username = 'tickets@empacados.com'; // Coloca aquí tu dirección de correo de Gmail
+	  $mail->Password = 'T1Ck#ts1@0403'; // Coloca aquí tu contraseña de Gmail
+	  $mail->SMTPSecure = 'ssl';
+	  $mail->Port = 465;
 
 		$message =	'<center style="background-color:#F2F2F2;text-decoration:none;font-family:Helvetica,Arial,sans-serif;font-size:15px;line-height:135%;">';
 		$message .= '<table border="0" cellpadding="5px" cellspacing="0" height="100%" width="100%" id="bodyTable" style="table-layout: fixed;max-width:100% !important;width: 100% !important;min-width: 100% !important;">';
@@ -41,8 +41,13 @@ function notificarRespuesta($datos)
 		$message .= '</td>';
 		$message .= '<td style="text-align: center;">';
 
-    //aqui se cambiaria si es rechazada o aprobada la solicitud
+		//esto le llega al empleado
+    //si se rechaza la solicitud: $message .= '<h2>Solicitud de vacaciones rechazada</h2>';
+		//si se aprueba la solicitud: $message .= '<h2>Solicitud de vacaciones aprobada</h2>';
+		//si se acepta la solicitud de cancelacion: $message .= '<h2>Solicitud de cancelación aprobada</h2>';
+		//si no se acepta la solicitud de cancelacion: $message .= '<h2>Solicitud de cancelación rechazada</h2>';		 
 		$message .= '<h2>Solicitud de vacaciones rechazada</h2>';
+
 		$message .= '</td>';
 		$message .= '<td>';
 		$message .= '</td>';
@@ -87,7 +92,7 @@ function notificarRespuesta($datos)
 
     if(true){
       
-      //esto solo se muestra cuando se rechaza la solicitud ------vvvvvvvvvvvv
+      //esto solo se muestra cuando se rechaza la solicitud de cualquier tipo ------vvvvvvvvvvvv
       $message .= '<tr>';
       
       $message .= '<td>';
@@ -99,7 +104,7 @@ function notificarRespuesta($datos)
       $message .= '</td>'; 
       
       $message .= '</tr>';		
-      //esto solo se muestra cuando se rechaza la solicitud ------^^^^^^^^^^^^    
+      //esto solo se muestra cuando se rechaza la solicitud de cualquier tipo ------^^^^^^^^^^^^    
     }
 
 		$message .= '<tr>';
@@ -129,7 +134,7 @@ function notificarRespuesta($datos)
 		$message .= '<p style=font-size:14px;">Nombre: '.$datos['nombre'].'</p>';
 		$message .= '<p style=font-size:14px;">Puesto: '.$datos['puesto'].'</p>';
 		$message .= '<p style=font-size:14px;">Departamento: '.$datos['departamento'].'</p>';
-		$message .= '<p style=font-size:14px;">Días soliciatados: '.$datos['dias'].'</p>';
+		$message .= '<p style=font-size:14px;">Días solicitados: '.$datos['dias'].'</p>';
 		$message .= '<p style=font-size:14px;">Este es un mensaje automático, favor de <u>NO</u> responder. </p>';
 	  $message .= '</body></html>';
 		*/
@@ -137,7 +142,10 @@ function notificarRespuesta($datos)
 		$mail->SetFrom('general@empacados.com', "Empacados - Admon RH");
 		$mail->AddReplyTo('no-reply@empacados.com','no-reply');
 		
-    //aqui se cambiaria si es rechazada o aprobada la solicitud
+    //si se rechaza la solicitud: "Solicitud de vacaciones rechazada";
+		//si se aprueba la solicitud: "Solicitud de vacaciones aprobada";
+		//si se acepta la solicitud de cancelacion: "Solicitud de cancelación aprobada";
+		//si no se acepta la solicitud de cancelacion: "Solicitud de cancelación rechazada";		 
     $mail->Subject = "Solicitud de vacaciones rechazada";
 		$mail->MsgHTML($message);
 		

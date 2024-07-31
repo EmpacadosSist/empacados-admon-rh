@@ -601,4 +601,51 @@
       $conn->next_result();
       return $resultado;
     }
+
+    public static function listVacationsDays($conn, $userId){
+      $sqlSP="CALL select_vacation_days($userId)";
+      /*
+      alias de los campos
+		    'diasVacacionesId',
+		    'numDias'
+      */
+      $resultSP=$conn->query($sqlSP, MYSQLI_STORE_RESULT);
+      
+      $resultado=[];
+      //condicion para verificar si se hizo la insercion en la bd
+      if($resultSP){        
+        while($row = $resultSP->fetch_assoc()){
+          array_push($resultado, $row);
+        }
+      }
+      $conn->next_result();
+      return $resultado;
+    }
+
+    public static function listVacationsPeriods($conn, $userId, $vacationsType, $vacationsStatus){
+      $sqlSP="CALL select_vacations_periods_by_supervisor($userId, '$vacationsType', '$vacationsStatus')";
+      /*
+      alias de los campos
+		    'numEmpleado', 
+		    'nombre',
+        'periodoId',
+		    'usuarioId',
+		    'tipoSolicitud',
+		    'estatusSolicitud',
+		    'tipoHorario',
+        'fechaInicio',
+        'fechaFinal'
+      */
+      $resultSP=$conn->query($sqlSP, MYSQLI_STORE_RESULT);
+      
+      $resultado=[];
+      //condicion para verificar si se hizo la insercion en la bd
+      if($resultSP){        
+        while($row = $resultSP->fetch_assoc()){
+          array_push($resultado, $row);
+        }
+      }
+      $conn->next_result();
+      return $resultado;
+    }
   }

@@ -17,7 +17,8 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
 <?php require 'nav.php'; ?>
 <?php require_once('layout/sidebar.php'); ?>
-
+<?php $diasVacaciones=Consultas::listVacationsDays($conn,$_SESSION['identity']->userId); ?>
+<?php $numDias = $diasVacaciones[0]['numDias']; ?>
 <style>
   .card-header-vac,
   .card-footer-vac {
@@ -85,8 +86,8 @@ $proximo_periodo_string = date('d/m/Y', $dateFormat);
       <div class="card text-center">
         <div class="card-header-vac">
           <!--aqui va el valor de los dias disponibles desde la bd-->
-          <input type="hidden" id="diasDisp" value="15">
-          <h1 <?=(($dif_mes==3 && $dif_anio==0 && $dif_dias==0) || ($dif_mes<3)) ? 'style="background-color: #FFF751;"' : '' ?>>15</h1>
+          <input type="hidden" id="diasDisp" value="<?=$numDias?>">
+          <h1 <?=(($dif_mes==3 && $dif_anio==0 && $dif_dias==0) || ($dif_mes<3)) ? 'style="background-color: #FFF751;"' : '' ?>><?=$numDias?></h1>
           <hr>
         </div>
         <div class="card-body">
@@ -118,6 +119,7 @@ $proximo_periodo_string = date('d/m/Y', $dateFormat);
     <div class="col-3">
       <label for="numDias">Cantidad de días:</label>
       <input class="form-control" type="text" value="0" id="numDias" disabled>
+      <span id="error_numDias" class="text-danger"></span>
     </div>
   </div>
 
@@ -152,16 +154,36 @@ $proximo_periodo_string = date('d/m/Y', $dateFormat);
         let fechaInicio=$("#fechaInicio").val();
         let fechaFin=$("#fechaFin").val();
         let tipoHorario=$("#tipoHorario").val();
-
+        /* 
         console.log({
           fechaInicio,
           fechaFin,
           tipoHorario
         })
+        */
         //var diff = fechaFin - fechaInicio;
         //alert(calcularDiasHabiles(fechaInicio, fechaFin, tipoHorario));
         solicitar_vacaciones();
       })
+
+      const mostrarError = (vali, errorEl, isText=false, inf=0, sup=0) => {
+        let valor=Number(vali.val());
+        let diasDisp=Number($("#diasDisp").val());
+
+        if(valor>0 && valor<=diasDisp){
+          $('#' + errorEl).text('');
+          vali.css('border-color', '');
+          console.log("MAS DE CERO, MENOR O IGUAL AL LIMITE");
+        }else if(valor>diasDisp){
+          $('#' + errorEl).text('Límite de días excedido');
+          vali.css('border-color', '#cc0000');
+          console.log("SE EXCEDE");
+        }else{
+          $('#' + errorEl).text('Agregar al menos 1 día');
+          vali.css('border-color', '#cc0000');
+          console.log("CERO O MENOS");
+        }
+      }      
 
       const mostrarCambiosPantalla = () => {
         let fechaInicioVal=$("#fechaInicio").val();
@@ -204,6 +226,9 @@ $proximo_periodo_string = date('d/m/Y', $dateFormat);
       }
       
       const solicitar_vacaciones = () => {
+        
+        mostrarError($("#numDias"), 'error_numDias');
+        /*
         let datos = {
           empNum: "15025",
           name: "Roberto",
@@ -234,6 +259,7 @@ $proximo_periodo_string = date('d/m/Y', $dateFormat);
           let message = err.statusText || "Ocurrió un error";
           console.log(err);
         })
+        */
 
       }
     </script>

@@ -34,9 +34,31 @@
 <?php require 'nav.php'; ?>
 <?php require_once('layout/sidebar.php'); ?>
 
+<?php //parametro 2 de la siguiente funcion es el id del usuario actual 
+$userId=$_SESSION['identity']->userId;
+?>
+<?php 
+//solicitudes de vacaciones pendientes por aprobar o rechazar
+$solicitudesPendientes = Consultas::listVacationsPeriods($conn, $userId, 'V', 'P'); 
+//$solicitudesPendientes=[];
+?>
+
+<?php 
+//solicitudes de vacaciones aprobadas por el jefe. Solo se deben mostrar las que aun no llegan a la fecha o los que estan en transcurso. se podra revertir
+///**** 1. en la pestaña Aprobados, se mostraran las aprobadas cuya fecha aun no llega (antes de la fecha de inicio de las vacaciones)
+///**** 2. en la pestaña Ausentes, se mostraran las aprobadas cuya fecha está en transcurso
+$solicitudesAprobadas = Consultas::listVacationsPeriods($conn, $userId, 'V', 'A'); ?>
+
+<?php 
+//cancelacion de solicitudes de vacaciones
+$cancelacionesPendientes = Consultas::listVacationsPeriods($conn, $userId, 'C', 'P'); 
+
+$fechaActual=date('Y-m-d');
+?>
+
 <body>
 <main id="main" class="main">
-
+  <?php //var_dump($solicitudesAprobadas); ?>
   <div class="pagetitle">
     <h1>CONTROL DE VACACIONES</h1>
     <hr>
@@ -72,28 +94,40 @@
                 <th>Número de empleado</th>
                 <th>Nombre</th>
                 <th>Periodo</th>
-                <th>Número de días</th>       
+                <th>Número de días</th>    
+                <th>Tipo de horario</th>   
                 <th>Rechazar</th>
                 <th>Aprobar</th>
               </tr>                
             </thead>
             <tbody>
+              <?php for ($i=0; $i < count($solicitudesPendientes); $i++) {  
+
+                  //check_in_range($fecha_inicio, $fecha_fin, $fecha)
+
+                 // if(!check_in_range($solicitudesPendientes[$i]['fechaInicio'], $solicitudesPendientes[$i]['fechaFinal'], $fechaActual)){
+              ?>
               <tr>
-                <td>105207</td>
-                <td>Roberto Carlos Reyes Medrano</td>
-                <td>20/05/2024 - 27/05/2024</td>
-                <td>5 días</td>
+                <td><?=$solicitudesPendientes[$i]['numEmpleado']?></td>
+                <td><?=$solicitudesPendientes[$i]['nombre']?></td>
+                <?php 
+                  $dateFormatInicio = strtotime($solicitudesPendientes[$i]['fechaInicio']); 
+                  $fechaInicio = date('d/m/Y', $dateFormatInicio);
+
+                  $dateFormatFinal = strtotime($solicitudesPendientes[$i]['fechaFinal']); 
+                  $fechaFinal = date('d/m/Y', $dateFormatFinal);  
+                ?>
+                <td><?=$fechaInicio?> - <?=$fechaFinal?></td>
+                <td><?=$solicitudesPendientes[$i]['numDias']?></td>
+                <td><?=$solicitudesPendientes[$i]['tipoHorario']?></td>
                 <td class="text-center"><button class="btn btn-danger" data-toggle="modal" data-target="#rechazarModal"><i class="bi bi-x-circle-fill"></i></button></td>
                 <td class="text-center"><button class="btn btn-success"><i class="bi bi-check-circle-fill"></i></button></td>
-              </tr>    
-              <tr>
-                <td>105207</td>
-                <td>Armin Arlert</td>
-                <td>20/05/2024 - 27/05/2024</td>
-                <td>5 días</td>
-                <td class="text-center"><button class="btn btn-danger" data-toggle="modal" data-target="#rechazarModal"><i class="bi bi-x-circle-fill"></i></button></td>
-                <td class="text-center"><button class="btn btn-success"><i class="bi bi-check-circle-fill"></i></button></td>
-              </tr>                        
+              </tr>   
+
+              <?php 
+                  //}
+                } 
+              ?>
             </tbody>
           </table>
         </div>
@@ -108,24 +142,38 @@
                 <th>Nombre</th>
                 <th>Periodo</th>
                 <th>Número de días</th>    
+                <th>Tipo de horario</th>
                 <th>Revertir</th>   
               </tr>                
             </thead>
             <tbody>
+            <?php for ($i=0; $i < count($solicitudesAprobadas); $i++) {  ?>
               <tr>
-                <td>105207</td>
-                <td>Roberto Carlos Reyes Medrano</td>
-                <td>20/05/2024 - 27/05/2024</td>
-                <td>5 días</td>
+                <td><?=$solicitudesAprobadas[$i]['numEmpleado']?></td>
+                <td><?=$solicitudesAprobadas[$i]['nombre']?></td>
+                <?php 
+                  $dateFormatInicio = strtotime($solicitudesAprobadas[$i]['fechaInicio']); 
+                  $fechaInicio = date('d/m/Y', $dateFormatInicio);
+
+                  $dateFormatFinal = strtotime($solicitudesAprobadas[$i]['fechaFinal']); 
+                  $fechaFinal = date('d/m/Y', $dateFormatFinal);  
+                ?>                
+                <td><?=$fechaInicio?> - <?=$fechaFinal?></td>
+                <td><?=$solicitudesAprobadas[$i]['numDias']?></td>
+                <td><?=$solicitudesAprobadas[$i]['tipoHorario']?></td>
                 <td class="text-center"><button class="btn btn-danger"><i class="bi bi-arrow-left-circle-fill"></i></button></td>
-              </tr>    
+              </tr>  
+              <?php } ?>
+              <!--
               <tr>
                 <td>105207</td>
                 <td>Armin Arlert</td>
                 <td>20/05/2024 - 27/05/2024</td>
                 <td>5 días</td>
                 <td class="text-center"><button class="btn btn-danger"><i class="bi bi-arrow-left-circle-fill"></i></i></button></td>
-              </tr>                        
+              </tr>
+              -->
+                                      
             </tbody>
           </table>
         </div>
@@ -139,22 +187,45 @@
                 <th>Número de empleado</th>
                 <th>Nombre</th>
                 <th>Periodo</th>
-                <th>Número de días</th>       
+                <th>Número de días</th>   
+                <th>Tipo de horario</th>    
               </tr>                
             </thead>
             <tbody>
+              <?php for ($i=0; $i < count($solicitudesPendientes); $i++) {  
+                  if(check_in_range($solicitudesPendientes[$i]['fechaInicio'], $solicitudesPendientes[$i]['fechaFinal'], $fechaActual)){
+              ?>
               <tr>
-                <td>105207</td>
-                <td>Roberto Carlos Reyes Medrano</td>
-                <td>20/05/2024 - 27/05/2024</td>
-                <td>5 días</td>
-              </tr>    
-              <tr>
-                <td>105207</td>
-                <td>Armin Arlert</td>
-                <td>20/05/2024 - 27/05/2024</td>
-                <td>5 días</td>
-              </tr>                        
+                <td><?=$solicitudesPendientes[$i]['numEmpleado']?></td>
+                <td><?=$solicitudesPendientes[$i]['nombre']?></td>
+                <?php 
+                  $dateFormatInicio = strtotime($solicitudesPendientes[$i]['fechaInicio']); 
+                  $fechaInicio = date('d/m/Y', $dateFormatInicio);
+
+                  $dateFormatFinal = strtotime($solicitudesPendientes[$i]['fechaFinal']); 
+                  $fechaFinal = date('d/m/Y', $dateFormatFinal);  
+                ?>
+                <td><?=$fechaInicio?> - <?=$fechaFinal?></td>
+                <td><?=$solicitudesPendientes[$i]['numDias']?></td>
+                <td>A</td>
+              </tr>   
+
+              <?php 
+                  }
+                } 
+              ?>
+              <!--
+                <tr>
+                  <td>105207</td>
+                  <td>Roberto Carlos Reyes Medrano</td>
+                  <td>20/05/2024 - 27/05/2024</td>
+                  <td>5</td>
+                  <td>A</td>
+                  <td class="text-center"><button class="btn btn-danger" data-toggle="modal" data-target="#rechazarModal"><i class="bi bi-x-circle-fill"></i></button></td>
+                  <td class="text-center"><button class="btn btn-success"><i class="bi bi-check-circle-fill"></i></button></td>
+                </tr> 
+                -->
+
             </tbody>
           </table>
         </div>
@@ -195,7 +266,23 @@
     </div>
   </div>
 
-  
+      <?php
+
+
+    /* Función */
+    function check_in_range($fecha_inicio, $fecha_fin, $fecha){
+
+         $fecha_inicio = strtotime($fecha_inicio);
+         $fecha_fin = strtotime($fecha_fin);
+         $fecha = strtotime($fecha);
+
+         if(($fecha >= $fecha_inicio) && ($fecha <= $fecha_fin))
+             return true;
+         else
+             return false;
+    }
+
+    ?>
 
   <div class="modal fade" id="rechazarModal" tabindex="-1" role="dialog" aria-labelledby="rechazarModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">

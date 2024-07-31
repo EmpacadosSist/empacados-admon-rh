@@ -40,6 +40,11 @@ function notificarSolicitud($datos)
 		$message .= '<td>';
 		$message .= '</td>';
 		$message .= '<td style="text-align: center;">';
+
+		//esto le llega al jefe
+		//si es solicitud de vacaciones normal es: $message .= '<h2>Solicitud de vacaciones</h2>';
+		//si es solicitud de cancelación es: $message .= '<h2>Solicitud de cancelación</h2>';		
+		//si es solicitud de cancelación de vacaciones aun no aprobadas: $message .= '<h2>Solicitud de vacaciones cancelada</h2>';		
 		$message .= '<h2>Solicitud de vacaciones</h2>';
 		$message .= '</td>';
 		$message .= '<td>';
@@ -153,6 +158,10 @@ function notificarSolicitud($datos)
 		
 		$mail->SetFrom('general@empacados.com', "Empacados - Admon RH");
 		$mail->AddReplyTo('no-reply@empacados.com','no-reply');
+
+		//si es solicitud de vacaciones normal es: $mail->Subject = "Solicitud de vacaciones";
+		//si es solicitud de cancelación es: $mail->Subject = "Solicitud de cancelación"; 		
+		//si es solicitud de cancelación de vacaciones aun no aprobadas: $mail->Subject = "Solicitud de vacaciones cancelada";	
 		$mail->Subject = "Solicitud de vacaciones";
 		$mail->MsgHTML($message);
 		
