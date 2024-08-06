@@ -18,6 +18,7 @@
 <?php require 'nav.php'; ?>
 <?php require_once('layout/sidebar.php'); ?>
 <?php $diasVacaciones=Consultas::listVacationsDays($conn,$_SESSION['identity']->userId); ?>
+<?php $correoJefe = Consultas::listOneRawUser($conn, $_SESSION['identity']->superUserId) ?>
 <?php $numDias = $diasVacaciones[0]['numDias']; ?>
 <style>
   .card-header-vac,
@@ -31,7 +32,15 @@
 
 <body>
 <main id="main" class="main">
-
+  <input type="hidden" id="userId" value="<?=$_SESSION['identity']->userId?>">
+  <input type="hidden" id="empNum" value="<?=$_SESSION['identity']->empNum?>">
+  <input type="hidden" id="name" value="<?=$_SESSION['identity']->name?>">
+  <input type="hidden" id="lastName1" value="<?=$_SESSION['identity']->lastName1?>">
+  <input type="hidden" id="lastName2" value="<?=$_SESSION['identity']->lastName2?>">
+  <input type="hidden" id="positionName" value="<?=$_SESSION['identity']->nombrePuesto?>">
+  <input type="hidden" id="sectionName" value="<?=$_SESSION['identity']->nombreDepartamento?>">
+  <input type="hidden" id="correoJefe" value="<?=$correoJefe[0]['email']?>">
+  
   <div class="pagetitle">
     <h1>SOLICITAR VACACIONES</h1>
     <hr>
@@ -45,7 +54,16 @@
       if($proximo_periodo<$current_date){
         $proximo_periodo = date("Y-m-d",strtotime($proximo_periodo."+ 1 year"));
       }
-
+      //var_dump($correoJefe[0]['email']);
+/*
+          empNum: "15025",
+          name: "Roberto",
+          lastName1: "Reyes",
+          lastName2: "Medrano",
+          positionName: "Inge sistemas",
+          sectionName: "Sistemas",
+          requestedDays: "01/01/2024 - 08/01/2024"
+*/
 
 $proximo_periodo_string = $proximo_periodo; 
 // Fecha de inicio
@@ -150,19 +168,7 @@ $proximo_periodo_string = date('d/m/Y', $dateFormat);
         mostrarCambiosPantalla();
       });
       
-      $("#solicitar").click(function(){        
-        let fechaInicio=$("#fechaInicio").val();
-        let fechaFin=$("#fechaFin").val();
-        let tipoHorario=$("#tipoHorario").val();
-        /* 
-        console.log({
-          fechaInicio,
-          fechaFin,
-          tipoHorario
-        })
-        */
-        //var diff = fechaFin - fechaInicio;
-        //alert(calcularDiasHabiles(fechaInicio, fechaFin, tipoHorario));
+      $("#solicitar").click(function(){
         solicitar_vacaciones();
       })
 
@@ -228,39 +234,79 @@ $proximo_periodo_string = date('d/m/Y', $dateFormat);
       const solicitar_vacaciones = () => {
         
         mostrarError($("#numDias"), 'error_numDias');
-        /*
-        let datos = {
-          empNum: "15025",
-          name: "Roberto",
-          lastName1: "Reyes",
-          lastName2: "Medrano",
-          positionName: "Inge sistemas",
-          sectionName: "Sistemas",
-          requestedDays: "01/01/2024 - 08/01/2024"
+        let diasSolic=$("#numDias").val();
+        let diasDisp=Number($("#diasDisp").val());
+        $(".loader").show();
+        if(diasSolic>0 && diasSolic<=diasDisp){
+          let userId=$("#userId").val();        
+          let fechaInicio=$("#fechaInicio").val();
+          let fechaFin=$("#fechaFin").val();
+          let tipoHorario=$("#tipoHorario").val();
+          let empNum = $("#empNum").val();
+          let name = $("#name").val();
+          let lastName1 = $("#lastName1").val(); 
+          let lastName2 = $("#lastName2").val();
+          let positionName = $("#positionName").val(); 
+          let sectionName = $("#sectionName").val();
+          let requestedDays = formatoFecha(fechaInicio)+" - "+formatoFecha(fechaFin);
+          let correoJefe = $("#correoJefe").val();
+          let numDias = $("#numDias").val();
+
+          let datos = {
+            vacationsType : "V",
+            vacationsStatus: "P",
+            userId,
+            fechaInicio,
+            fechaFin,
+            tipoHorario,
+            empNum,
+            correoJefe,
+            numDias,
+            name,
+            lastName1,
+            lastName2,
+            positionName,
+            sectionName,
+            requestedDays
+          }
+
+          //console.log(datos);
+          
+          
+          let fd = new FormData();
+          
+          for(var key in datos){
+            fd.append(key, datos[key]);
+          }
+          
+          
+          fetch('altas/subir_vacaciones.php', {
+            method: "POST",
+            body: fd
+          })
+          .then(response => {
+            return response.ok ? response.json() : Promise.reject(response);
+          })
+          .then(data => {
+            window.location.href = "proceso-completo.php?op=v";
+            console.log(data);
+          })
+          .catch(err => {
+            let message = err.statusText || "Ocurrió un error";
+            console.log(err);
+          })
+        }else{
+          $(".loader").hide();
+          console.log("no se pueden pedir 0 dias, ni excederse");
         }
         
-        let fd = new FormData();
+        
+        
 
-        for(var key in datos){
-          fd.append(key, datos[key]);
-        }
+      }
 
-        fetch('altas/subir_vacaciones.php', {
-          method: "POST",
-          body: fd
-        })
-        .then(response => {
-          return response.ok ? response.json() : Promise.reject(response);
-        })
-        .then(data => {
-          console.log(data);
-        })
-        .catch(err => {
-          let message = err.statusText || "Ocurrió un error";
-          console.log(err);
-        })
-        */
-
+      const formatoFecha = (texto) => {
+        return texto.replace(/^(\d{4})-(\d{2})-(\d{2})$/g,'$3/$2/$1');
       }
     </script>
     </main>

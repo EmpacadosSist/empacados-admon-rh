@@ -648,4 +648,33 @@
       $conn->next_result();
       return $resultado;
     }
+
+    public static function listVacationsPeriodsByUser($conn, $userId, $vacationsType){
+      $sqlSP="CALL select_vacations_periods_by_user($userId, '$vacationsType')";
+      /*
+      alias de los campos
+		  'numEmpleado', 
+		  'nombre',
+      'periodoId',
+		  'usuarioId',
+		  'tipoSolicitud',
+		  'estatusSolicitudLetra',
+      'estatusSolicitud',
+		  'tipoHorario',
+      'numDias',
+      'fechaInicio',
+      'fechaFinal'
+      */
+      $resultSP=$conn->query($sqlSP, MYSQLI_STORE_RESULT);
+      
+      $resultado=[];
+      //condicion para verificar si se hizo la insercion en la bd
+      if($resultSP){        
+        while($row = $resultSP->fetch_assoc()){
+          array_push($resultado, $row);
+        }
+      }
+      $conn->next_result();
+      return $resultado;
+    }    
   }

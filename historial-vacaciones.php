@@ -33,17 +33,101 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
 <?php require 'nav.php'; ?>
 <?php require_once('layout/sidebar.php'); ?>
+<?php $historial=Consultas::listVacationsPeriodsByUser($conn,$_SESSION['identity']->userId,'V'); ?>
+<?php $cancelaciones=Consultas::listVacationsPeriodsByUser($conn,$_SESSION['identity']->userId,'C'); ?>
 
 <body>
 <main id="main" class="main">
-
   <div class="pagetitle">
     <h1>HISTORIAL VACACIONES</h1>
     <hr>
   </div><!-- End Page Title -->
+  <div class="container mt-4">
+    <!-- Pestañas -->
+    <ul class="nav nav-tabs" id="pestanas" role="tablist">
+      <li class="nav-item">
+        <a class="nav-link active" id="pestaña1" data-toggle="tab" href="#contenido1" role="tab" aria-controls="contenido1" aria-selected="true">Historial</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="pestaña2" data-toggle="tab" href="#contenido2" role="tab" aria-controls="contenido2" aria-selected="true">Cancelaciones</a>
+      </li>                   
+    </ul>
+    <br>
 
-    <table class="table table-striped table-bordered" id="myTable">
-      <thead>
+    <!-- Contenido de las pestañas -->
+    <div class="tab-content" id="contenidoPestanas">
+      <!-- Contenido de la Pestaña 1 -->
+      <div class="tab-pane fade show active" id="contenido1" role="tabpanel" aria-labelledby="pestaña1">
+        <div class="table-responsive">
+          <table class="table table-striped table-bordered" id="myTable">
+            <thead>
+              <tr>
+                <th>Periodo</th>
+                <th>Número de días</th>
+                <th>Estatus</th>    
+                <th>Tipo de horario</th>   
+                <th>Solicitud de cancelación</th>
+              </tr>                
+            </thead>
+            <tbody>
+            <?php for ($i=0; $i < count($historial); $i++) { ?>
+              <tr>
+              <?php 
+                  $dateFormatInicio = strtotime($historial[$i]['fechaInicio']); 
+                  $fechaInicio = date('d/m/Y', $dateFormatInicio);
+
+                  $dateFormatFinal = strtotime($historial[$i]['fechaFinal']); 
+                  $fechaFinal = date('d/m/Y', $dateFormatFinal);  
+                ?>
+                <td><?=$fechaInicio?> - <?=$fechaFinal?></td>
+                <td><?=$historial[$i]['numDias']?></td>
+                <td><?=$historial[$i]['estatusSolicitud']?></td>
+                <td><?=$historial[$i]['tipoHorario']?></td>
+                <td class="text-center"><button class="btn btn-danger" data-toggle="modal" data-target="#cancelarModal"><i class="bi bi-x-circle-fill"></i></button></td>
+              </tr>  
+              <?php } ?>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="tab-pane fade" id="contenido2" role="tabpanel" aria-labelledby="pestaña2">
+        <div class="table-responsive">
+          <table class="table table-striped table-bordered" id="myTable2">
+            <thead>
+              <tr>
+                <th>Periodo</th>
+                <th>Número de días</th>
+                <th>Estatus</th>    
+                <th>Tipo de horario</th>    
+              </tr>                
+            </thead>
+            <tbody>
+            <?php for ($i=0; $i < count($cancelaciones); $i++) { ?>
+              <tr>
+              <?php 
+                  $dateFormatInicio = strtotime($cancelaciones[$i]['fechaInicio']); 
+                  $fechaInicio = date('d/m/Y', $dateFormatInicio);
+
+                  $dateFormatFinal = strtotime($cancelaciones[$i]['fechaFinal']); 
+                  $fechaFinal = date('d/m/Y', $dateFormatFinal);  
+                ?>
+                <td><?=$fechaInicio?> - <?=$fechaFinal?></td>
+                <td><?=$cancelaciones[$i]['numDias']?></td>
+                <td><?=$cancelaciones[$i]['estatusSolicitud']?></td>
+                <td><?=$cancelaciones[$i]['tipoHorario']?></td>                                               
+              </tr> 
+              <?php } ?>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </div>
+<!--
+  <table class="table table-striped table-bordered" id="myTable">
+    <thead>
         <tr>
           <th>Periodo</th>
           <th>Número de días</th>
@@ -69,6 +153,7 @@
         </tr>                
       </tbody>
     </table>
+-->
 
     <div class="modal fade" id="cancelarModal" tabindex="-1" role="dialog" aria-labelledby="cancelarModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
@@ -84,7 +169,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
-        <button type="button" class="btn btn-primary">Si</button>
+        <button type="button" class="btn btn-primary" id="solicitarCanc">Si</button>
       </div>
     </div>
   </div>
@@ -96,7 +181,7 @@
     <script src="assets/js/main.js"></script>
     <script>
       $(document).ready(function () {
-        var table = $('#myTable').DataTable({
+        let objOptions={
           lengthMenu: [[5, 10, 20, -1], [5, 10, 20, 'Todos']],
           language: {
             "processing": "Procesando...",
@@ -116,8 +201,20 @@
             },
             "info": "Mostrando _START_ a _END_ de _TOTAL_ registros"
           }          
-        });    
+        };
+
+        var table1 = $('#myTable').DataTable(objOptions);
+        var table2 = $('#myTable2').DataTable(objOptions); 
       });
+
+
+      $("#solicitarCanc").click(function(){
+        solicitar_cancelacion();
+      })
+
+      const solicitar_cancelacion = () => {
+        alert("ABC");
+      }
     </script>
     </main>
     <?php require 'layout/footer.php';?>

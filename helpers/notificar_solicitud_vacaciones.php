@@ -6,7 +6,7 @@ require_once('../conexion/conexion.php');
 function notificarSolicitud($datos)
 {
 	//count($datos)>0
-	if(true){
+	if(count($datos)>0){
 
 		$mail=new PHPMailer();
 	  $mail->isSMTP();
@@ -57,7 +57,7 @@ function notificarSolicitud($datos)
 		$message .= '<td>';
 		$message .= '</td>';                        
 		$message .= '<td>';
-		$message .= '<b>No. de empleado:</b> 150024';		
+		$message .= '<b>No. de empleado:</b> '.$datos['numEmpleado'];		
 		$message .= '</td>';        
 		$message .= '<td>';
 		$message .= '</td>';        
@@ -69,7 +69,7 @@ function notificarSolicitud($datos)
 		$message .= '<td>';
 		$message .= '</td>';                
 		$message .= '<td>';
-		$message .= '<b>Nombre:</b> Roberto Carlos Reyes Medrano';		
+		$message .= '<b>Nombre:</b> '.$datos['nombre'];		
 		$message .= '</td>';
 		$message .= '<td>';
 		$message .= '</td>'; 
@@ -81,7 +81,7 @@ function notificarSolicitud($datos)
 		$message .= '<td>';
 		$message .= '</td>';        
 		$message .= '<td>';
-		$message .= '<b>Puesto:</b> Ingeniero en sistemas';		
+		$message .= '<b>Puesto:</b> '.$datos['puesto'];		
 		$message .= '</td>';
 		$message .= '<td>';
 		$message .= '</td>';  
@@ -93,7 +93,7 @@ function notificarSolicitud($datos)
 		$message .= '<td>';
 		$message .= '</td>';        
 		$message .= '<td>';
-		$message .= '<b>Departamento:</b> Administración';		
+		$message .= '<b>Departamento:</b> '.$datos['departamento'];		
 		$message .= '</td>';
 		$message .= '<td>';
 		$message .= '</td>';   
@@ -105,7 +105,7 @@ function notificarSolicitud($datos)
 		$message .= '<td>';
 		$message .= '</td>';        
 		$message .= '<td>';
-		$message .= '<b>Días solicitados:</b> 20/06/2024 - 27/07/2024';		
+		$message .= '<b>Días solicitados:</b> '.$datos['requestedDays'];		
 		$message .= '</td>';  
 		$message .= '<td>';
 		$message .= '</td>';  
@@ -117,7 +117,7 @@ function notificarSolicitud($datos)
 		$message .= '<td>';
 		$message .= '</td>';        
 		$message .= '<td>';
-		$message .= '<b>Número de días:</b> 5';		
+		$message .= '<b>Número de días:</b> '.$datos['numDias'];		
 		$message .= '</td>';  
 		$message .= '<td>';
 		$message .= '</td>';  
@@ -165,7 +165,7 @@ function notificarSolicitud($datos)
 		$mail->Subject = "Solicitud de vacaciones";
 		$mail->MsgHTML($message);
 		
-		$email = 'aux2.sistemas@empacados.com';
+		$email = $datos['correoJefe'];
     $mail->AddAddress($email);
 		
     $exito=$mail->send();
