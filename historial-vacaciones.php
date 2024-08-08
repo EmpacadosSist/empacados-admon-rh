@@ -35,9 +35,20 @@
 <?php require_once('layout/sidebar.php'); ?>
 <?php $historial=Consultas::listVacationsPeriodsByUser($conn,$_SESSION['identity']->userId,'V'); ?>
 <?php $cancelaciones=Consultas::listVacationsPeriodsByUser($conn,$_SESSION['identity']->userId,'C'); ?>
+<?php $correoJefe = Consultas::listOneRawUser($conn, $_SESSION['identity']->superUserId) ?>
+
 
 <body>
 <main id="main" class="main">
+  <input type="hidden" id="userId" value="<?=$_SESSION['identity']->userId?>">
+  <input type="hidden" id="empNum" value="<?=$_SESSION['identity']->empNum?>">
+  <input type="hidden" id="name" value="<?=$_SESSION['identity']->name?>">
+  <input type="hidden" id="lastName1" value="<?=$_SESSION['identity']->lastName1?>">
+  <input type="hidden" id="lastName2" value="<?=$_SESSION['identity']->lastName2?>">
+  <input type="hidden" id="positionName" value="<?=$_SESSION['identity']->nombrePuesto?>">
+  <input type="hidden" id="sectionName" value="<?=$_SESSION['identity']->nombreDepartamento?>">
+  <input type="hidden" id="correoJefe" value="<?=$correoJefe[0]['email']?>">  
+  
   <div class="pagetitle">
     <h1>HISTORIAL VACACIONES</h1>
     <hr>
@@ -71,19 +82,20 @@
             </thead>
             <tbody>
             <?php for ($i=0; $i < count($historial); $i++) { ?>
-              <tr>
               <?php 
                   $dateFormatInicio = strtotime($historial[$i]['fechaInicio']); 
                   $fechaInicio = date('d/m/Y', $dateFormatInicio);
 
                   $dateFormatFinal = strtotime($historial[$i]['fechaFinal']); 
-                  $fechaFinal = date('d/m/Y', $dateFormatFinal);  
+                  $fechaFinal = date('d/m/Y', $dateFormatFinal); 
+                  $requestedDays=$fechaInicio." - ".$fechaFinal; 
                 ?>
-                <td><?=$fechaInicio?> - <?=$fechaFinal?></td>
+              <tr data-vp="<?=$historial[$i]['periodoId']?>" data-estatus="<?=$historial[$i]['estatusSolicitudLetra']?>" data-dias="<?=$historial[$i]['numDias']?>" data-rdias="<?=$requestedDays?>">
+                <td><?=$requestedDays?></td>
                 <td><?=$historial[$i]['numDias']?></td>
                 <td><?=$historial[$i]['estatusSolicitud']?></td>
                 <td><?=$historial[$i]['tipoHorario']?></td>
-                <td class="text-center"><button class="btn btn-danger" data-toggle="modal" data-target="#cancelarModal"><i class="bi bi-x-circle-fill"></i></button></td>
+                <td class="text-center"><button class="btn btn-danger" data-toggle="modal" data-target="#cancelarModal" onclick="set_vp_id(this)"><i class="bi bi-x-circle-fill"></i></button></td>
               </tr>  
               <?php } ?>
             </tbody>
@@ -159,6 +171,10 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
+        <input type="hidden" id="vpId" value="0">
+        <input type="hidden" id="estatusLetra" value="">
+        <input type="hidden" id="numDias" value="0">
+        <input type="hidden" id="rDias" value="">            
         <h5 class="modal-title" id="cancelarModalLabel">Confirmación</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
@@ -174,13 +190,25 @@
     </div>
   </div>
 </div>
-
+<input type="hidden" id="recarga" value="<?=isset($_GET['r']) ? $_GET['r'] : ""?>">
 
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
     <!-- Template Main JS File -->
     <script src="assets/js/main.js"></script>
     <script>
       $(document).ready(function () {
+        let rec=$("#recarga").val();
+        if(rec){
+          $("#pestaña1").removeClass("active");
+          $("#pestaña2").addClass("active");
+          $("#contenido1").removeClass("show");
+          $("#contenido1").removeClass("active");
+          $("#contenido2").addClass("show");
+          $("#contenido2").addClass("active"); 
+        }
+        
+        //.removeClass("selected")
+
         let objOptions={
           lengthMenu: [[5, 10, 20, -1], [5, 10, 20, 'Todos']],
           language: {
@@ -209,11 +237,83 @@
 
 
       $("#solicitarCanc").click(function(){
+        //alert($("#vpId").val());
+        //window.location.replace('historial-vacaciones.php');
         solicitar_cancelacion();
       })
 
+      const set_vp_id = (_this) => {
+        //estatusLetra
+        let vpId=$(_this).parent().parent().attr('data-vp');
+        let estatusLetra=$(_this).parent().parent().attr('data-estatus');
+        let numDias=$(_this).parent().parent().attr('data-dias');
+        let rDias=$(_this).parent().parent().attr('data-rdias');               
+        $("#vpId").val(vpId);
+        $("#estatusLetra").val(estatusLetra);
+        $("#numDias").val(numDias);
+        $("#rDias").val(rDias);
+      }
+
       const solicitar_cancelacion = () => {
-        alert("ABC");
+        
+        let vacationsPeriodId = $("#vpId").val();
+        let estatusLetra = $("#estatusLetra").val();
+        let numDias = $("#numDias").val();
+        let requestedDays = $("#rDias").val();
+
+        let empNum = $("#empNum").val();
+        let name = $("#name").val();
+        let lastName1 = $("#lastName1").val(); 
+        let lastName2 = $("#lastName2").val();
+        let positionName = $("#positionName").val(); 
+        let sectionName = $("#sectionName").val();
+        let correoJefe = $("#correoJefe").val();
+
+        let datos = {
+          vacationsPeriodId,
+          estatusLetra,
+          numDias,
+          requestedDays,
+          empNum,
+          name,
+          lastName1,
+          lastName2,
+          positionName,
+          sectionName,
+          correoJefe
+        }
+        
+        console.log(datos);
+
+        
+        let fd = new FormData();
+        
+        for(var key in datos){
+          fd.append(key, datos[key]);
+        }
+        
+        
+        fetch('altas/subir_solicitud_canc_vacaciones.php', {
+          method: "POST",
+          body: fd
+        })
+        .then(response => {
+          return response.ok ? response.json() : Promise.reject(response);
+        })
+        .then(data => {
+          //window.location.href = "proceso-completo.php?op=v";
+          //window.location.replace('historial-vacaciones.php?r=1');
+          console.log(data);
+        })
+        .catch(err => {
+          let message = err.statusText || "Ocurrió un error";
+          console.log(err);
+        })
+
+        
+
+        
+        
       }
     </script>
     </main>

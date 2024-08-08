@@ -13,7 +13,7 @@ function notificarSolicitud($datos)
 		$mail->CharSet = 'UTF-8';
 
 		//cambiar cuando se necesite
-	  //$mail->Host = 'smtp.gmail.com';
+	  $mail->Host = 'smtp.gmail.com';
 	  //$mail->SMTPAuth = true;
 	  //$mail->Username = ''; // Coloca aquí tu dirección de correo de Gmail
 	  //$mail->Password = ''; // Coloca aquí tu contraseña de Gmail
@@ -45,7 +45,13 @@ function notificarSolicitud($datos)
 		//si es solicitud de vacaciones normal es: $message .= '<h2>Solicitud de vacaciones</h2>';
 		//si es solicitud de cancelación es: $message .= '<h2>Solicitud de cancelación</h2>';		
 		//si es solicitud de cancelación de vacaciones aun no aprobadas: $message .= '<h2>Solicitud de vacaciones cancelada</h2>';		
-		$message .= '<h2>Solicitud de vacaciones</h2>';
+
+		if(isset($datos['cancelacion'])){
+			$message .= '<h2>Solicitud de cancelación</h2>';
+		}else{
+			$message .= '<h2>Solicitud de vacaciones</h2>';
+		}
+		
 		$message .= '</td>';
 		$message .= '<td>';
 		$message .= '</td>';
