@@ -14,11 +14,11 @@ function notificarSolicitud($datos)
 
 		//cambiar cuando se necesite
 	  $mail->Host = 'smtp.gmail.com';
-	  //$mail->SMTPAuth = true;
-	  //$mail->Username = ''; // Coloca aquí tu dirección de correo de Gmail
-	  //$mail->Password = ''; // Coloca aquí tu contraseña de Gmail
-	  //$mail->SMTPSecure = '';
-	  //$mail->Port = ;
+	  $mail->SMTPAuth = true;
+	  $mail->Username = 'tickets@empacados.com'; // Coloca aquí tu dirección de correo de Gmail
+	  $mail->Password = 'T1Ck#ts1@0403'; // Coloca aquí tu contraseña de Gmail
+	  $mail->SMTPSecure = 'ssl';
+	  $mail->Port = 465;
 
 		$message =	'<center style="background-color:#F2F2F2;text-decoration:none;font-family:Helvetica,Arial,sans-serif;font-size:15px;line-height:135%;">';
 		$message .= '<table border="0" cellpadding="5px" cellspacing="0" height="100%" width="100%" id="bodyTable" style="table-layout: fixed;max-width:100% !important;width: 100% !important;min-width: 100% !important;">';

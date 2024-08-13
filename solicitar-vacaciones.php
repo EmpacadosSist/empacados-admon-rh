@@ -18,7 +18,14 @@
 <?php require 'nav.php'; ?>
 <?php require_once('layout/sidebar.php'); ?>
 <?php $diasVacaciones=Consultas::listVacationsDays($conn,$_SESSION['identity']->userId); ?>
-<?php $correoJefe = Consultas::listOneRawUser($conn, $_SESSION['identity']->superUserId) ?>
+<?php 
+$jefeId=$_SESSION['identity']->superUserId;
+if($jefeId==""){
+  $jefeId=0;
+}
+$correoJefe = Consultas::listOneRawUser($conn, $jefeId); 
+
+?>
 <?php $numDias = $diasVacaciones[0]['numDias']; ?>
 <style>
   .card-header-vac,
@@ -39,7 +46,7 @@
   <input type="hidden" id="lastName2" value="<?=$_SESSION['identity']->lastName2?>">
   <input type="hidden" id="positionName" value="<?=$_SESSION['identity']->nombrePuesto?>">
   <input type="hidden" id="sectionName" value="<?=$_SESSION['identity']->nombreDepartamento?>">
-  <input type="hidden" id="correoJefe" value="<?=$correoJefe[0]['email']?>">
+  <input type="hidden" id="correoJefe" value="<?=isset($correoJefe[0]['email']) ? $correoJefe[0]['email'] : "" ?>">
   
   <div class="pagetitle">
     <h1>SOLICITAR VACACIONES</h1>

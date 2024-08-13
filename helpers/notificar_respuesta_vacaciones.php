@@ -46,6 +46,8 @@ function notificarRespuesta($datos)
 		//si se aprueba la solicitud: $message .= '<h2>Solicitud de vacaciones aprobada</h2>';
 		//si se acepta la solicitud de cancelacion: $message .= '<h2>Solicitud de cancelación aprobada</h2>';
 		//si no se acepta la solicitud de cancelacion: $message .= '<h2>Solicitud de cancelación rechazada</h2>';		 
+
+		
 		$message .= '<h2>Solicitud de vacaciones rechazada</h2>';
 
 		$message .= '</td>';

@@ -269,6 +269,8 @@
         let sectionName = $("#sectionName").val();
         let correoJefe = $("#correoJefe").val();
 
+        $(".loader").show();
+
         let datos = {
           vacationsPeriodId,
           estatusLetra,
@@ -302,18 +304,15 @@
         })
         .then(data => {
           //window.location.href = "proceso-completo.php?op=v";
-          //window.location.replace('historial-vacaciones.php?r=1');
+          window.location.replace('historial-vacaciones.php?r=1');
           console.log(data);
         })
         .catch(err => {
+          $(".loader").hide();
           let message = err.statusText || "Ocurrió un error";
           console.log(err);
         })
 
-        
-
-        
-        
       }
     </script>
     </main>

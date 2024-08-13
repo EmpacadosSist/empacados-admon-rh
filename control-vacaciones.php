@@ -101,27 +101,24 @@ $fechaActual=date('Y-m-d');
               </tr>                
             </thead>
             <tbody>
-              <?php for ($i=0; $i < count($solicitudesPendientes); $i++) {  
-
-                  //check_in_range($fecha_inicio, $fecha_fin, $fecha)
-
-                 // if(!check_in_range($solicitudesPendientes[$i]['fechaInicio'], $solicitudesPendientes[$i]['fechaFinal'], $fechaActual)){
-              ?>
-              <tr>
-                <td><?=$solicitudesPendientes[$i]['numEmpleado']?></td>
-                <td><?=$solicitudesPendientes[$i]['nombre']?></td>
-                <?php 
+              <?php for ($i=0; $i < count($solicitudesPendientes); $i++) { ?>
+              
+              <?php 
                   $dateFormatInicio = strtotime($solicitudesPendientes[$i]['fechaInicio']); 
                   $fechaInicio = date('d/m/Y', $dateFormatInicio);
 
                   $dateFormatFinal = strtotime($solicitudesPendientes[$i]['fechaFinal']); 
-                  $fechaFinal = date('d/m/Y', $dateFormatFinal);  
+                  $fechaFinal = date('d/m/Y', $dateFormatFinal); 
+                  $requestedDays=$fechaInicio." - ".$fechaFinal; 
                 ?>
-                <td><?=$fechaInicio?> - <?=$fechaFinal?></td>
+              <tr data-vp="<?=$solicitudesPendientes[$i]['periodoId']?>" data-correo="<?=$solicitudesPendientes[$i]['correo']?>" data-rdias="<?=$requestedDays?>" data-nombre="<?=$solicitudesPendientes[$i]['nombre']?>" data-numemp="<?=$solicitudesPendientes[$i]['numEmpleado']?>">
+                <td><?=$solicitudesPendientes[$i]['numEmpleado']?></td>
+                <td><?=$solicitudesPendientes[$i]['nombre']?></td>
+                <td><?=$requestedDays?></td>
                 <td><?=$solicitudesPendientes[$i]['numDias']?></td>
                 <td><?=$solicitudesPendientes[$i]['tipoHorario']?></td>
-                <td class="text-center"><button class="btn btn-danger" data-toggle="modal" data-target="#rechazarModal"><i class="bi bi-x-circle-fill"></i></button></td>
-                <td class="text-center"><button class="btn btn-success"><i class="bi bi-check-circle-fill"></i></button></td>
+                <td class="text-center"><button class="btn btn-danger" data-toggle="modal" data-target="#rechazarModal" onclick="set_vp_id(this)"><i class="bi bi-x-circle-fill"></i></button></td>
+                <td class="text-center"><button class="btn btn-success" data-toggle="modal" data-target="#confirmarModal" onclick="set_vp_id(this)"><i class="bi bi-check-circle-fill"></i></button></td>
               </tr>   
 
               <?php 
@@ -296,17 +293,23 @@ $fechaActual=date('Y-m-d');
         <div class="modal-body">
           <form>
             <div class="form-group">
-              <textarea class="form-control" id="message-text"></textarea>
+              <textarea class="form-control" id="reason" maxlength="144"></textarea>
             </div>
           </form>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-          <button type="button" class="btn btn-primary">Aceptar</button>
+          <button type="button" class="btn btn-primary" id="rechazarSolic">Aceptar</button>
         </div>
       </div>
     </div>
   </div>
+
+    <input type="hidden" id="vpId" value="">    
+    <input type="hidden" id="numEmp" value="">
+    <input type="hidden" id="nombre" value="">
+    <input type="hidden" id="requestedDays" value="">
+    <input type="hidden" id="correo" value="">
 
   <div class="modal fade" id="cancelarModal" tabindex="-1" role="dialog" aria-labelledby="cancelarModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -327,6 +330,26 @@ $fechaActual=date('Y-m-d');
       </div>
     </div>
   </div>  
+
+  <div class="modal fade" id="confirmarModal" tabindex="-1" role="dialog" aria-labelledby="confirmarModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="confirmarModalLabel">Confirmación</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          ¿Seguro(a) que desea aprobar la solicitud?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+          <button type="button" class="btn btn-primary" id="confirmarSolic">Si</button>
+        </div>
+      </div>
+    </div>
+  </div>    
 
 
 
@@ -366,17 +389,81 @@ $fechaActual=date('Y-m-d');
         
       });
 
-      /*
-      $('#rechazarModal').on('show.bs.modal', function (event) {
-        var button = $(event.relatedTarget) // Button that triggered the modal
-        var recipient = button.data('whatever') // Extract info from data-* attributes
-        // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
-        // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
-        var modal = $(this)
-        modal.find('.modal-title').text('New message to ' + recipient)
-        modal.find('.modal-body input').val(recipient)
-      })      
-      */
+
+      $("#rechazarSolic").click(function(){
+        aprobar_rechazar('R');
+      });
+
+      $("#confirmarSolic").click(function(){
+        aprobar_rechazar('A');
+      });      
+
+
+      const set_vp_id = (_this) => {
+        //estatusLetra
+        let vpId=$(_this).parent().parent().attr('data-vp');
+        let numEmp=$(_this).parent().parent().attr('data-numemp');
+        let nombre=$(_this).parent().parent().attr('data-nombre');         
+        let rDias=$(_this).parent().parent().attr('data-rdias'); 
+        let correo=$(_this).parent().parent().attr('data-correo');
+        
+        $("#vpId").val(vpId);
+        $("#numEmp").val(numEmp);
+        $("#nombre").val(nombre);
+        $("#requestedDays").val(rDias);
+        $("#correo").val(correo);
+      }
+
+      const aprobar_rechazar = (estatusLetra) => {
+        //let estatusLetra = 'A';
+        let vacationsPeriodId = $("#vpId").val();
+        let empNum = $("#numEmp").val();
+        let nombre = $("#nombre").val();
+        let requestedDays = $("#requestedDays").val(); 
+        let correo = $("#correo").val();
+
+        if(estatusLetra=='A'){
+          $("#reason").val('');
+        }
+        let reason = $("#reason").val();
+
+        let datos = {
+          vacationsPeriodId,
+          estatusLetra,
+          empNum,
+          nombre,
+          requestedDays,
+          correo,
+          reason
+        }
+
+        //console.log(datos);        
+        //alert("se aprueba");
+
+        let fd = new FormData();
+        
+        for(var key in datos){
+          fd.append(key, datos[key]);
+        }
+
+        fetch('cambios/aprobar_rechazar_vacaciones.php', {
+          method: "POST",
+          body: fd
+        })
+        .then(response => {
+          return response.ok ? response.json() : Promise.reject(response);
+        })
+        .then(data => {
+          //window.location.href = "proceso-completo.php?op=v";
+          //window.location.replace('control-vacaciones.php');
+          console.log(data);
+        })
+        .catch(err => {
+          $(".loader").hide();
+          let message = err.statusText || "Ocurrió un error";
+          console.log(err);
+        })        
+      }
     </script>
 
     </main>
