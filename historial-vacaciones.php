@@ -36,6 +36,7 @@
 <?php $historial=Consultas::listVacationsPeriodsByUser($conn,$_SESSION['identity']->userId,'V'); ?>
 <?php $cancelaciones=Consultas::listVacationsPeriodsByUser($conn,$_SESSION['identity']->userId,'C'); ?>
 <?php $correoJefe = Consultas::listOneRawUser($conn, $_SESSION['identity']->superUserId) ?>
+<?php $fechaActual=date('Y-m-d'); ?>
 
 
 <body>
@@ -76,6 +77,7 @@
                 <th>Periodo</th>
                 <th>Número de días</th>
                 <th>Estatus</th>    
+                <th>Motivo de rechazo</th>
                 <th>Tipo de horario</th>   
                 <th>Solicitud de cancelación</th>
               </tr>                
@@ -94,8 +96,19 @@
                 <td><?=$requestedDays?></td>
                 <td><?=$historial[$i]['numDias']?></td>
                 <td><?=$historial[$i]['estatusSolicitud']?></td>
+                <td><?=$historial[$i]['descripcion']?></td>
                 <td><?=$historial[$i]['tipoHorario']?></td>
+                <?php if(old_dates($historial[$i]['fechaInicio'], $historial[$i]['fechaFinal'], $fechaActual)){ 
+                  if($historial[$i]['estatusSolicitud']=='Rechazado'){ ?> 
+                    <td class="text-center"><button class="btn btn-danger" disabled><i class="bi bi-x-circle-fill"></i></button></td>                    
+                    <?php
+                  } else { ?> 
                 <td class="text-center"><button class="btn btn-danger" data-toggle="modal" data-target="#cancelarModal" onclick="set_vp_id(this)"><i class="bi bi-x-circle-fill"></i></button></td>
+                <?php 
+                  } 
+                }else{ ?>
+                  <td class="text-center"><button class="btn btn-danger" disabled><i class="bi bi-x-circle-fill"></i></button></td>                
+                <?php } ?>
               </tr>  
               <?php } ?>
             </tbody>
@@ -166,7 +179,19 @@
       </tbody>
     </table>
 -->
+<?php
+    function old_dates($fecha_inicio, $fecha_fin, $fecha){
 
+      $fecha_inicio = strtotime($fecha_inicio);
+      $fecha_fin = strtotime($fecha_fin);
+      $fecha = strtotime($fecha);
+
+      if(($fecha > $fecha_fin) || ($fecha >= $fecha_inicio) && ($fecha <= $fecha_fin))
+          return false;
+      else
+          return true;
+    }   
+?>
     <div class="modal fade" id="cancelarModal" tabindex="-1" role="dialog" aria-labelledby="cancelarModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">

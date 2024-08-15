@@ -659,6 +659,7 @@
 		  'usuarioId',
 		  'tipoSolicitud',
 		  'estatusSolicitudLetra',
+      'descripcion',
       'estatusSolicitud',
 		  'tipoHorario',
       'numDias',

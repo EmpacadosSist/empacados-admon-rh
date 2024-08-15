@@ -168,7 +168,14 @@ function notificarSolicitud($datos)
 		//si es solicitud de vacaciones normal es: $mail->Subject = "Solicitud de vacaciones";
 		//si es solicitud de cancelación es: $mail->Subject = "Solicitud de cancelación"; 		
 		//si es solicitud de cancelación de vacaciones aun no aprobadas: $mail->Subject = "Solicitud de vacaciones cancelada";	
-		$mail->Subject = "Solicitud de vacaciones";
+
+		if(isset($datos['cancelacion'])){
+			$resp="cancelación";
+		}else{
+			$resp="vacaciones";
+		}			
+		$mail->Subject = "Solicitud de ".$resp;
+
 		$mail->MsgHTML($message);
 		
 		$email = $datos['correoJefe'];

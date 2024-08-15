@@ -6,7 +6,7 @@ require_once('../conexion/conexion.php');
 function notificarRespuesta($datos)
 {
 	//count($datos)>0
-	if(true){
+	if(count($datos)>0){
 
 		$mail=new PHPMailer();
 	  $mail->isSMTP();
@@ -47,8 +47,11 @@ function notificarRespuesta($datos)
 		//si se acepta la solicitud de cancelacion: $message .= '<h2>Solicitud de cancelación aprobada</h2>';
 		//si no se acepta la solicitud de cancelacion: $message .= '<h2>Solicitud de cancelación rechazada</h2>';		 
 
-		
-		$message .= '<h2>Solicitud de vacaciones rechazada</h2>';
+		if($datos['estatus']=='A'){
+			$message .= '<h2>Solicitud de vacaciones aprobada</h2>';
+		}else{
+			$message .= '<h2>Solicitud de vacaciones rechazada</h2>';
+		}		
 
 		$message .= '</td>';
 		$message .= '<td>';
@@ -61,7 +64,7 @@ function notificarRespuesta($datos)
 		$message .= '<td>';
 		$message .= '</td>';                        
 		$message .= '<td>';
-		$message .= '<b>No. de empleado:</b> 150024';		
+		$message .= '<b>No. de empleado:</b> '.$datos['numEmpleado'];		
 		$message .= '</td>';        
 		$message .= '<td>';
 		$message .= '</td>';        
@@ -73,7 +76,7 @@ function notificarRespuesta($datos)
 		$message .= '<td>';
 		$message .= '</td>';                
 		$message .= '<td>';
-		$message .= '<b>Nombre:</b> Roberto Carlos Reyes Medrano';		
+		$message .= '<b>Nombre:</b> '.$datos['nombre'];		
 		$message .= '</td>';
 		$message .= '<td>';
 		$message .= '</td>'; 
@@ -85,14 +88,14 @@ function notificarRespuesta($datos)
 		$message .= '<td>';
 		$message .= '</td>';        
 		$message .= '<td>';
-		$message .= '<b>Días solicitados:</b> 20/06/2024 - 27/07/2024';		
+		$message .= '<b>Días solicitados:</b> '.$datos['dias'];		
 		$message .= '</td>';  
 		$message .= '<td>';
 		$message .= '</td>';  
 
 		$message .= '</tr>';    
 
-    if(true){
+    if($datos['estatus']=='R'){
       
       //esto solo se muestra cuando se rechaza la solicitud de cualquier tipo ------vvvvvvvvvvvv
       $message .= '<tr>';
@@ -100,7 +103,12 @@ function notificarRespuesta($datos)
       $message .= '<td>';
       $message .= '</td>';                
       $message .= '<td>';
-      $message .= '<b>Motivo del rechazo:</b> No hay quien cubra tu puesto en esos días. Acude a la oficina para negociarlo.';		
+			if($datos['motivo']=='null'){
+				$motivo="";
+			}else{
+				$motivo=$datos['motivo'];
+			}
+      $message .= '<b>Motivo del rechazo:</b> '.$motivo;		
       $message .= '</td>';
       $message .= '<td>';
       $message .= '</td>'; 
@@ -148,10 +156,17 @@ function notificarRespuesta($datos)
 		//si se aprueba la solicitud: "Solicitud de vacaciones aprobada";
 		//si se acepta la solicitud de cancelacion: "Solicitud de cancelación aprobada";
 		//si no se acepta la solicitud de cancelacion: "Solicitud de cancelación rechazada";		 
-    $mail->Subject = "Solicitud de vacaciones rechazada";
+		if($datos['estatus']=='R'){
+			$resp="rechazada";
+		}else{
+			$resp="aprobada";
+		}	
+
+    $mail->Subject = "Solicitud de vacaciones ".$resp;
+
 		$mail->MsgHTML($message);
-		
-		$email = 'aux2.sistemas@empacados.com';
+		$email = $datos['correo'];
+		//$email = 'aux2.sistemas@empacados.com';
     $mail->AddAddress($email);
 		
     $exito=$mail->send();
