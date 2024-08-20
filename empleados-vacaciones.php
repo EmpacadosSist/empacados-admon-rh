@@ -132,7 +132,61 @@ $userId=$_SESSION['identity']->userId;
                   <td>09/02/2021</td>
                   <td>2</td>
                   <td>5</td>
-                </tr>                              
+                </tr>
+                <tr>
+                  <td>6321</td>
+                  <td>Ana Gómez</td>
+                  <td>Contabilidad</td>
+                  <td>Administración</td>
+                  <td>15/03/2019</td>
+                  <td>10</td>
+                  <td>15</td>
+                </tr>
+                <tr>
+                  <td>9876</td>
+                  <td>Juan Pérez</td>
+                  <td>Recursos Humanos</td>
+                  <td>Administración</td>
+                  <td>10/07/2021</td>
+                  <td>12</td>
+                  <td>8</td>
+                </tr>
+                <tr>
+                  <td>1346</td>
+                  <td>María Rodriguez</td>
+                  <td>Desarrollo</td>
+                  <td>Operaciones</td>
+                  <td>05/02/2020</td>
+                  <td>7</td>
+                  <td>5</td>
+                </tr>
+                <tr>
+                  <td>8522</td>
+                  <td>Carlos Sánchez</td>
+                  <td>Calidad</td>
+                  <td>Operaciones</td>
+                  <td>22/11/2018</td>
+                  <td>5</td>
+                  <td>9</td>
+                </tr>
+                <tr>
+                  <td>7453</td>
+                  <td>Laura Hernández</td>
+                  <td>Marketing</td>
+                  <td>Comercial</td>
+                  <td>01/05/2022</td>
+                  <td>15</td>
+                  <td>5</td>
+                </tr>
+                <tr>
+                  <td>4587</td>
+                  <td>Erika Hernández</td>
+                  <td>Ventas</td>
+                  <td>Comercial</td>
+                  <td>01/08/2009</td>
+                  <td>6</td>
+                  <td>9</td>
+                </tr>
                 </tbody>
               </table>
 
@@ -158,9 +212,16 @@ $userId=$_SESSION['identity']->userId;
     <script src="assets/js/main.js"></script>
     <script>
       $(document).ready(function () {
-        let objOptions={
+        //let objOptions=;
+
+        var table1 = $('#myTable').DataTable({
           lengthMenu: [[5, 10, 20, -1], [5, 10, 20, 'Todos']],
           "order": [[ 0, "desc" ]],
+          layout: {
+            topStart: {
+              buttons: ['copyHtml5', 'excelHtml5', 'csvHtml5', 'pdfHtml5']
+            }
+          },
           language: {
             "processing": "Procesando...",
             "lengthMenu": "Mostrar _MENU_ registros",
@@ -178,20 +239,18 @@ $userId=$_SESSION['identity']->userId;
               "previous": "Anterior"
             },
             "info": "Mostrando _START_ a _END_ de _TOTAL_ registros"
-          }          
-        };
-
-        var table1 = $('#myTable').DataTable(objOptions);         
+          }        
+        });         
 
         $.fn.select2.defaults.set('language', 'es');
 
-        let numEmp = table1.columns(0).data().toArray()[0];
-        let nombre = table1.columns(1).data().toArray()[0];
-        let departamento = table1.columns(2).data().toArray()[0];
-        let area = table1.columns(3).data().toArray()[0];
-        let fechaIngreso = table1.columns(4).data().toArray()[0];
-        let diasPendientes = table1.columns(5).data().toArray()[0];
-        let diasTomados = table1.columns(6).data().toArray()[0];         
+        let numEmp = jQuery.unique(table1.columns(0).data().toArray()[0].sort());
+        let nombre = jQuery.unique(table1.columns(1).data().toArray()[0].sort());
+        let departamento = jQuery.unique(table1.columns(2).data().toArray()[0].sort());
+        let area = jQuery.unique(table1.columns(3).data().toArray()[0].sort());
+        let fechaIngreso = jQuery.unique(table1.columns(4).data().toArray()[0].sort());
+        let diasPendientes = jQuery.unique(table1.columns(5).data().toArray()[0].sort());
+        let diasTomados = jQuery.unique(table1.columns(6).data().toArray()[0].sort());
         
         numEmp.forEach(function(a){
           append_select('numEmpFilter', a);
