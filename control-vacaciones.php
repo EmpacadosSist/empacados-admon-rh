@@ -70,7 +70,7 @@ $fechaActual=date('Y-m-d');
 <main id="main" class="main">
   <?php //var_dump($solicitudesCancelacion); ?>
   <div class="pagetitle">
-    <h1>CONTROL DE VACACIONES</h1>
+    <h1>TRABAJADORES A MI CARGO</h1>
     <hr>
   </div><!-- End Page Title -->
 
@@ -104,6 +104,7 @@ $fechaActual=date('Y-m-d');
           <table class="table table-striped table-bordered" id="myTable">
             <thead>
               <tr>
+                <th>Id de solicitud</th>
                 <th>Número de empleado</th>
                 <th>Nombre</th>
                 <th>Periodo</th>
@@ -125,6 +126,7 @@ $fechaActual=date('Y-m-d');
                   $requestedDays=$fechaInicio." - ".$fechaFinal; 
                 ?>
               <tr data-vp="<?=$solicitudesPendientes[$i]['periodoId']?>" data-correo="<?=$solicitudesPendientes[$i]['correo']?>" data-rdias="<?=$requestedDays?>" data-nombre="<?=$solicitudesPendientes[$i]['nombre']?>" data-numemp="<?=$solicitudesPendientes[$i]['numEmpleado']?>">
+                <td><?=$solicitudesPendientes[$i]['periodoId']?></td>
                 <td><?=$solicitudesPendientes[$i]['numEmpleado']?></td>
                 <td><?=$solicitudesPendientes[$i]['nombre']?></td>
                 <td><?=$requestedDays?></td>
@@ -148,6 +150,7 @@ $fechaActual=date('Y-m-d');
           <table class="table table-striped table-bordered" id="myTable2">
             <thead>
               <tr>
+                <th>Id de solicitud</th>                
                 <th>Número de empleado</th>
                 <th>Nombre</th>
                 <th>Periodo</th>
@@ -169,6 +172,7 @@ $fechaActual=date('Y-m-d');
                   $requestedDays=$fechaInicio." - ".$fechaFinal; 
                 ?>                
               <tr data-vp="<?=$solicitudesAprobadas[$i]['periodoId']?>" data-correo="<?=$solicitudesAprobadas[$i]['correo']?>" data-rdias="<?=$requestedDays?>" data-nombre="<?=$solicitudesAprobadas[$i]['nombre']?>" data-numemp="<?=$solicitudesAprobadas[$i]['numEmpleado']?>">
+                <td><?=$solicitudesPendientes[$i]['periodoId']?></td>
                 <td><?=$solicitudesAprobadas[$i]['numEmpleado']?></td>
                 <td><?=$solicitudesAprobadas[$i]['nombre']?></td>
                 <td><?=$requestedDays?></td>
@@ -204,10 +208,12 @@ $fechaActual=date('Y-m-d');
           <table class="table table-striped table-bordered" id="myTable3">
             <thead>
               <tr>
+                <th>Id de solicitud</th>
                 <th>Número de empleado</th>
                 <th>Nombre</th>
                 <th>Periodo</th>
                 <th>Número de días</th>    
+                <th>Motivo de rechazo</th>
                 <th>Tipo de horario</th>
                 <th>Revertir</th>   
               </tr>                
@@ -223,10 +229,12 @@ $fechaActual=date('Y-m-d');
                   $requestedDays=$fechaInicio." - ".$fechaFinal; 
                 ?>                
               <tr data-vp="<?=$solicitudesRechazadas[$i]['periodoId']?>" data-correo="<?=$solicitudesRechazadas[$i]['correo']?>" data-rdias="<?=$requestedDays?>" data-nombre="<?=$solicitudesRechazadas[$i]['nombre']?>" data-numemp="<?=$solicitudesRechazadas[$i]['numEmpleado']?>">
+                <td><?=$solicitudesRechazadas[$i]['periodoId']?></td>                
                 <td><?=$solicitudesRechazadas[$i]['numEmpleado']?></td>
                 <td><?=$solicitudesRechazadas[$i]['nombre']?></td>
                 <td><?=$requestedDays?></td>
                 <td><?=$solicitudesRechazadas[$i]['numDias']?></td>
+                <td><?=$solicitudesRechazadas[$i]['descripcion']?></td>
                 <td><?=$solicitudesRechazadas[$i]['tipoHorario']?></td>
                 <td class="text-center"><button class="btn btn-danger" id="revertirRec"><i class="bi bi-arrow-left-circle-fill"></i></button></td>
               </tr>  
@@ -251,6 +259,7 @@ $fechaActual=date('Y-m-d');
           <table class="table table-striped table-bordered" id="myTable4">
             <thead>
               <tr>
+                <th>Id de solicitud</th>
                 <th>Número de empleado</th>
                 <th>Nombre</th>
                 <th>Periodo</th>
@@ -263,6 +272,7 @@ $fechaActual=date('Y-m-d');
                   if(check_in_range($solicitudesAprobadas[$i]['fechaInicio'], $solicitudesAprobadas[$i]['fechaFinal'], $fechaActual)){
               ?>
               <tr>
+                <td><?=$solicitudesAprobadas[$i]['periodoId']?></td>
                 <td><?=$solicitudesAprobadas[$i]['numEmpleado']?></td>
                 <td><?=$solicitudesAprobadas[$i]['nombre']?></td>
                 <?php 
@@ -303,6 +313,7 @@ $fechaActual=date('Y-m-d');
           <table class="table table-striped table-bordered" id="myTable5">
             <thead>
               <tr>
+                <th>Id de solicitud</th>
                 <th>Número de empleado</th>
                 <th>Nombre</th>
                 <th>Periodo</th>
@@ -323,6 +334,7 @@ $fechaActual=date('Y-m-d');
                   $requestedDays=$fechaInicio." - ".$fechaFinal; 
                 ?>                
               <tr data-vp="<?=$solicitudesCancelacion[$i]['periodoId']?>" data-correo="<?=$solicitudesCancelacion[$i]['correo']?>" data-rdias="<?=$requestedDays?>" data-nombre="<?=$solicitudesCancelacion[$i]['nombre']?>" data-numemp="<?=$solicitudesCancelacion[$i]['numEmpleado']?>">
+                <td><?=$solicitudesCancelacion[$i]['periodoId']?></td>
                 <td><?=$solicitudesCancelacion[$i]['numEmpleado']?></td>
                 <td><?=$solicitudesCancelacion[$i]['nombre']?></td>
                 <td><?=$requestedDays?></td>
@@ -472,6 +484,7 @@ $fechaActual=date('Y-m-d');
       $(document).ready(function () {
         let objOptions={
           lengthMenu: [[5, 10, 20, -1], [5, 10, 20, 'Todos']],
+          "order": [[ 0, "desc" ]],
           language: {
             "processing": "Procesando...",
             "lengthMenu": "Mostrar _MENU_ registros",
@@ -512,7 +525,12 @@ $fechaActual=date('Y-m-d');
       
       $("#confirmarCancSolic").click(function(){
         let isCanc = $("#canc").val();
-        alert(isCanc);
+        if(isCanc=='R'){
+          aprobar_rechazar('A','V');
+        }else{
+          aprobar_rechazar(isCanc);
+
+        }
       });      
 
       $("#revertirAp").click(function(){
@@ -557,6 +575,7 @@ $fechaActual=date('Y-m-d');
           nombre,
           requestedDays,
           correo,
+          rev: '1',
           reason
         }   
         
@@ -587,7 +606,7 @@ $fechaActual=date('Y-m-d');
         })     
       }
 
-      const aprobar_rechazar = (estatusLetra) => {
+      const aprobar_rechazar = (estatusLetra, vacationsType="") => {
         $(".loader").show();
         //let estatusLetra = 'A';
         let vacationsPeriodId = $("#vpId").val();
@@ -596,6 +615,7 @@ $fechaActual=date('Y-m-d');
         let requestedDays = $("#requestedDays").val(); 
         let correo = $("#correo").val();
         let reason = $("#reason").val();
+        let canc = $("#canc").val();
 
         let datos = {
           vacationsPeriodId,
@@ -604,12 +624,16 @@ $fechaActual=date('Y-m-d');
           nombre,
           requestedDays,
           correo,
-          reason
+          reason,
+          canc,
+          vacationsType
         }
 
         console.log(datos);        
         //alert("se aprueba");
 
+
+        
         let fd = new FormData();
         
         for(var key in datos){
@@ -632,7 +656,9 @@ $fechaActual=date('Y-m-d');
           $(".loader").hide();
           let message = err.statusText || "Ocurrió un error";
           console.log(err);
-        })        
+        })       
+        
+        
       }
     </script>
 

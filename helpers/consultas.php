@@ -632,6 +632,7 @@
 		    'usuarioId',
 		    'tipoSolicitud',
 		    'estatusSolicitud',
+        'descripcion',
 		    'tipoHorario',
         'fechaInicio',
         'fechaFinal'

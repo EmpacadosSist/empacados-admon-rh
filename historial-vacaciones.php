@@ -74,6 +74,7 @@
           <table class="table table-striped table-bordered" id="myTable">
             <thead>
               <tr>
+                <th>Id de solicitud</th>
                 <th>Periodo</th>
                 <th>Número de días</th>
                 <th>Estatus</th>    
@@ -93,6 +94,7 @@
                   $requestedDays=$fechaInicio." - ".$fechaFinal; 
                 ?>
               <tr data-vp="<?=$historial[$i]['periodoId']?>" data-estatus="<?=$historial[$i]['estatusSolicitudLetra']?>" data-dias="<?=$historial[$i]['numDias']?>" data-rdias="<?=$requestedDays?>">
+                <td><?=$historial[$i]['periodoId']?></td>
                 <td><?=$requestedDays?></td>
                 <td><?=$historial[$i]['numDias']?></td>
                 <td><?=$historial[$i]['estatusSolicitud']?></td>
@@ -121,6 +123,7 @@
           <table class="table table-striped table-bordered" id="myTable2">
             <thead>
               <tr>
+                <th>Id de solicitud</th>
                 <th>Periodo</th>
                 <th>Número de días</th>
                 <th>Estatus</th>    
@@ -137,6 +140,7 @@
                   $dateFormatFinal = strtotime($cancelaciones[$i]['fechaFinal']); 
                   $fechaFinal = date('d/m/Y', $dateFormatFinal);  
                 ?>
+                <td><?=$cancelaciones[$i]['periodoId']?></td>
                 <td><?=$fechaInicio?> - <?=$fechaFinal?></td>
                 <td><?=$cancelaciones[$i]['numDias']?></td>
                 <td><?=$cancelaciones[$i]['estatusSolicitud']?></td>
@@ -236,6 +240,7 @@
 
         let objOptions={
           lengthMenu: [[5, 10, 20, -1], [5, 10, 20, 'Todos']],
+          "order": [[ 0, "desc" ]],
           language: {
             "processing": "Procesando...",
             "lengthMenu": "Mostrar _MENU_ registros",

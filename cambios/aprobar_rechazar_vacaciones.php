@@ -12,7 +12,10 @@ if(count($_POST)>0){
   $vacationsPeriodIdVal = Validar::validarNum($vacationsPeriodId);  
 
   $estatusLetra = isset($_POST['estatusLetra']) ? $_POST['estatusLetra'] : "";
-  $estatusLetraVal = Validar::validarLongitud($estatusLetra,1,1); 
+  $estatusLetraVal = Validar::validarLongitud($estatusLetra,1,1);
+  
+  $vacationsType = isset($_POST['vacationsType']) ? $_POST['vacationsType'] : "";
+  $vacationsTypeVal = Validar::validarLongitud($vacationsType,1,1);  
 
   //se valida campo que no venga vacio y que cumpla la validacion de tipo numerico  
   $empNum = isset($_POST['empNum']) ? $_POST['empNum'] : "";
@@ -28,11 +31,15 @@ if(count($_POST)>0){
   $correo = isset($_POST['correo']) ? $_POST['correo'] : "";
   $correoVal = Validar::validarEmail($correo);  
 
+  $rev = isset($_POST['rev']) ? $_POST['rev'] : "";
+  $canc = isset($_POST['canc']) ? $_POST['canc'] : "";
+
   $reason = isset($_POST['reason']) ? $_POST['reason'] : "";  
   $reasonVal = Validar::validarLongitudMax($reason, 144);    
 
   $resultado="";
   $sqlSP="";
+
 
   //condicion para verificar que todos los campos cumplan con su validacion
   if($vacationsPeriodIdVal && $estatusLetraVal && $empNumVal && $nombreVal && $requestedDaysVal && $correoVal && $reasonVal){    
@@ -48,7 +55,14 @@ if(count($_POST)>0){
       $reasonMail=$reason;
     }
     
-    $sqlSP="CALL update_vacations_period_status($vacationsPeriodId, $reason, '$estatusLetra')";
+    if($vacationsTypeVal){
+      $sqlSP="CALL update_vacations_period_status_type($vacationsPeriodId, '$estatusLetra', '$vacationsType')";
+
+    }else{
+      $sqlSP="CALL update_vacations_period_status($vacationsPeriodId, $reason, '$estatusLetra')";
+
+    }
+
 
 		$resultSP=$conn->query($sqlSP);
     /*
@@ -64,10 +78,12 @@ if(count($_POST)>0){
       //se guarda el id sacandolo del objeto
       ////$positionId=$last_id->id;
 
-      $datos = ["numEmpleado"=>$empNum,"nombre"=>$nombre,"correo"=>$correo,"dias"=>$requestedDays, "estatus"=>$estatusLetra, "motivo"=>$reasonMail];
+      $datos = ["numEmpleado"=>$empNum,"nombre"=>$nombre,"correo"=>$correo,"dias"=>$requestedDays, "estatus"=>$estatusLetra, "motivo"=>$reasonMail, "canc"=>$canc];
 
       //variable que almacena el resultado de haber enviado por correo la contraseña
-      //$isSent=notificarRespuesta($datos);      
+      if($rev==""){
+        $isSent=notificarRespuesta($datos);      
+      }
       
       //se guarda en una variable el resultado de haber agregado o atcualizado exitosamente el empleado
       $resultado = ["ok"=>true,"message"=>"Enviado","datos"=>$datos,"querySP"=>$sqlSP];

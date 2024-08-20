@@ -15,8 +15,8 @@ function notificarRespuesta($datos)
 		//cambiar cuando se necesite
 	  $mail->Host = 'smtp.gmail.com';
 	  $mail->SMTPAuth = true;
-	  $mail->Username = 'tickets@empacados.com'; // Coloca aquí tu dirección de correo de Gmail
-	  $mail->Password = 'T1Ck#ts1@0403'; // Coloca aquí tu contraseña de Gmail
+	  //$mail->Username = ''; // Coloca aquí tu dirección de correo de Gmail
+	  //$mail->Password = ''; // Coloca aquí tu contraseña de Gmail
 	  $mail->SMTPSecure = 'ssl';
 	  $mail->Port = 465;
 
@@ -44,11 +44,20 @@ function notificarRespuesta($datos)
 		//esto le llega al empleado
     //si se rechaza la solicitud: $message .= '<h2>Solicitud de vacaciones rechazada</h2>';
 		//si se aprueba la solicitud: $message .= '<h2>Solicitud de vacaciones aprobada</h2>';
+
 		//si se acepta la solicitud de cancelacion: $message .= '<h2>Solicitud de cancelación aprobada</h2>';
+
 		//si no se acepta la solicitud de cancelacion: $message .= '<h2>Solicitud de cancelación rechazada</h2>';		 
 
 		if($datos['estatus']=='A'){
-			$message .= '<h2>Solicitud de vacaciones aprobada</h2>';
+			if($datos['canc']=="A"){
+				$message .= '<h2>Solicitud de cancelación aprobada</h2>';
+			}else if($datos['canc']=="R"){
+				$message .= '<h2>Solicitud de cancelación rechazada</h2>';
+			}else{
+				$message .= '<h2>Solicitud de vacaciones aprobada</h2>';
+
+			}
 		}else{
 			$message .= '<h2>Solicitud de vacaciones rechazada</h2>';
 		}		
@@ -155,14 +164,24 @@ function notificarRespuesta($datos)
     //si se rechaza la solicitud: "Solicitud de vacaciones rechazada";
 		//si se aprueba la solicitud: "Solicitud de vacaciones aprobada";
 		//si se acepta la solicitud de cancelacion: "Solicitud de cancelación aprobada";
-		//si no se acepta la solicitud de cancelacion: "Solicitud de cancelación rechazada";		 
-		if($datos['estatus']=='R'){
-			$resp="rechazada";
+		//si no se acepta la solicitud de cancelacion: "Solicitud de cancelación rechazada";	
+		
+
+
+		if($datos['estatus']=='A'){
+			if($datos['canc']=="A"){
+				$resp = 'Solicitud de cancelación aprobada';
+			}else if($datos['canc']=="R"){
+				$resp = 'Solicitud de cancelación rechazada';
+			}else{
+				$resp = 'Solicitud de vacaciones aprobada';
+	
+			}
 		}else{
-			$resp="aprobada";
+			$resp='Solicitud de vacaciones rechazada';
 		}	
 
-    $mail->Subject = "Solicitud de vacaciones ".$resp;
+    $mail->Subject = $resp;
 
 		$mail->MsgHTML($message);
 		$email = $datos['correo'];

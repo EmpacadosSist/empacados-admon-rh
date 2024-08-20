@@ -15,8 +15,8 @@ function notificarSolicitud($datos)
 		//cambiar cuando se necesite
 	  $mail->Host = 'smtp.gmail.com';
 	  $mail->SMTPAuth = true;
-	  $mail->Username = 'tickets@empacados.com'; // Coloca aquí tu dirección de correo de Gmail
-	  $mail->Password = 'T1Ck#ts1@0403'; // Coloca aquí tu contraseña de Gmail
+	  //$mail->Username = ''; // Coloca aquí tu dirección de correo de Gmail
+	  //$mail->Password = ''; // Coloca aquí tu contraseña de Gmail
 	  $mail->SMTPSecure = 'ssl';
 	  $mail->Port = 465;
 

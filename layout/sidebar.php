@@ -81,12 +81,14 @@
             <i></i><span>Listado</span>
           </a>
         </li>
-        <li>
-          <a class="bi bi-suitcase" href="control-vacaciones.php">
-            <i></i>
-            <span>Vacaciones</span>
-          </a>
-        </li>        
+    
+      <li>
+        <a class="bi bi-suitcase" href="empleados-vacaciones.php">
+          <i></i>
+          <span>Admin. de vacaciones</span>
+        </a>
+      </li>        
+      
 
         <li>
           <a class="bi bi-person-vcard-fill" href="rhposicionesadmon.php">
@@ -364,13 +366,45 @@
         </a>
       </li> End Blank Page Nav 
     <img src="assets/img/beach.png" alt="" width="18">
-    -->          
+    -->
+    
+    <!--
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="solicitar-vacaciones.php">
+          <i class="bi bi-suitcase"></i>
+          <span>Vacaciones</span>
+        </a>
+      </li>
+      -->
+
+
     <li class="nav-item">
-      <a class="nav-link collapsed" href="solicitar-vacaciones.php">
-        <i class="bi bi-suitcase"></i>
+      <a class="nav-link collapsed" data-bs-target="#components-vac" data-bs-toggle="collapse" href="#">
+        <i class="bi bi-luggage-fill" ></i>
         <span>Vacaciones</span>
+        <i class="bi bi-chevron-down ms-auto"></i>
       </a>
-    </li>
+      <ul id="components-vac" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+        <li>
+          <a class="bi bi-plus-circle " href="solicitar-vacaciones.php">
+            <i></i>
+            <span>Solicitar</span>
+          </a>
+        </li>
+        <li>
+          <a class="bi bi-clock-history " href="historial-vacaciones.php">
+            <i></i>
+            <span>Historial</span>
+          </a>
+        </li>
+        <li>
+          <a class="bi bi-three-dots " href="control-vacaciones.php">
+            <i></i>
+            <span>Trabajadores a mi cargo</span>
+          </a>
+        </li>                
+      </ul>      
+    </li>    
   </ul>
 </aside><!-- End Sidebar-->
 
