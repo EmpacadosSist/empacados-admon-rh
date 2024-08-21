@@ -32,6 +32,9 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/animate/4.0.0/animate.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
+
+
 <?php require 'nav.php'; ?>
 <?php require_once('layout/sidebar.php'); ?>
 
@@ -93,7 +96,7 @@ $userId=$_SESSION['identity']->userId;
       <div class="tab-pane fade show active" id="contenido1" role="tabpanel" aria-labelledby="pestaña1">
         <div class="table-responsive">
           
-            <table class="table table-striped table-bordered" id="myTable">
+            <table class="table table-striped table-bordered" id="myTable" style="font-size:85%;">
               <thead>
                 <tr>
                   <th>Número de empleado</th>
@@ -203,7 +206,14 @@ $userId=$_SESSION['identity']->userId;
 
 
 
-
+  <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+  <script src="https://cdn.datatables.net/2.1.4/js/dataTables.js"></script>
+  <script src="https://cdn.datatables.net/buttons/3.1.1/js/dataTables.buttons.js"></script>
+  <script src="https://cdn.datatables.net/buttons/3.1.1/js/buttons.dataTables.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+  <script src="https://cdn.datatables.net/buttons/3.1.1/js/buttons.html5.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-rc.0/js/select2.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-rc.0/js/i18n/es.js"></script>
@@ -217,9 +227,19 @@ $userId=$_SESSION['identity']->userId;
         var table1 = $('#myTable').DataTable({
           lengthMenu: [[5, 10, 20, -1], [5, 10, 20, 'Todos']],
           "order": [[ 0, "desc" ]],
+
           layout: {
             topStart: {
-              buttons: ['copyHtml5', 'excelHtml5', 'csvHtml5', 'pdfHtml5']
+              pageLength: {
+                menu: [ 5, 10, 25, 50, 100 ]
+              },
+              buttons: [{
+                extend:    'excelHtml5',
+                titleAttr: 'Exportar a Excel',
+                className: 'btn btn-success',
+                text:      '<i class="fas fa-file-excel"></i>',
+                title: null
+              }]
             }
           },
           language: {

@@ -10,9 +10,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Empleados</title>
   <?php require 'layout/libreriasdatatable.php';?>
-  <!-- DataTables CSS -->
-  <link rel="stylesheet" href="https://cdn.datatables.net/searchpanes/1.2.1/css/searchPanes.dataTables.min.css">
-  <link rel="stylesheet" href="https://cdn.datatables.net/select/1.3.1/css/select.dataTables.min.css">
+
 
   <?php require 'nav.php'; ?>
   <?php require 'layout/sidebar.php';?>
@@ -26,19 +24,7 @@
   <!-- jQuery y Bootstrap JS -->
   <!-- jQuery -->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <!-- DataTables JS -->
-  <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
-  <!-- DataTables Bootstrap 4 JS -->
-  <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap4.min.js"></script>
-  <!-- DataTables JS -->
-  <script src="https://cdn.datatables.net/buttons/2.3.2/js/dataTables.buttons.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
-  <script src="https://cdn.datatables.net/buttons/2.3.2/js/buttons.html5.min.js"></script>
-  <script src="https://cdn.datatables.net/buttons/2.3.2/js/buttons.print.min.js"></script>
-  <script src="https://cdn.datatables.net/searchpanes/1.2.1/js/dataTables.searchPanes.min.js"></script>
-  <script src="https://cdn.datatables.net/select/1.3.1/js/dataTables.select.min.js"></script>
+
 
   <!-- Font Awesome JS -->
   <script src="https://kit.fontawesome.com/d252494076.js" crossorigin="anonymous"></script>
@@ -241,7 +227,7 @@
                     <!-- Contenido de la Pestaña 1 -->
                     <div class="tab-pane fade show active" id="contenido1" role="tabpanel"
                       aria-labelledby="pestaña1-tab">
-                      <table class="table table-striped table-bordered" id="myTable1" style="font-size:74%;">
+                      <table class="table table-striped table-bordered display nowrap" id="myTable1" style="font-size:74%;width:100%;">
                         <thead>
                           <tr>
                             <th>Permisos</th>
@@ -336,6 +322,19 @@
     </div>
   </div>
   <!-- Include Bootstrap JS -->
+
+  <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+  <script src="https://cdn.datatables.net/2.1.4/js/dataTables.js"></script>
+  <script src="https://cdn.datatables.net/buttons/3.1.1/js/dataTables.buttons.js"></script>
+  <script src="https://cdn.datatables.net/buttons/3.1.1/js/buttons.dataTables.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+  <script src="https://cdn.datatables.net/buttons/3.1.1/js/buttons.html5.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-rc.0/js/select2.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-rc.0/js/i18n/es.js"></script>
+  
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
   <script src="assets/js/main.js"></script>
   <script>  
