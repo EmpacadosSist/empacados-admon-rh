@@ -172,7 +172,7 @@ $fechaActual=date('Y-m-d');
                   $requestedDays=$fechaInicio." - ".$fechaFinal; 
                 ?>                
               <tr data-vp="<?=$solicitudesAprobadas[$i]['periodoId']?>" data-correo="<?=$solicitudesAprobadas[$i]['correo']?>" data-rdias="<?=$requestedDays?>" data-nombre="<?=$solicitudesAprobadas[$i]['nombre']?>" data-numemp="<?=$solicitudesAprobadas[$i]['numEmpleado']?>">
-                <td><?=$solicitudesPendientes[$i]['periodoId']?></td>
+                <td><?=$solicitudesAprobadas[$i]['periodoId']?></td>
                 <td><?=$solicitudesAprobadas[$i]['numEmpleado']?></td>
                 <td><?=$solicitudesAprobadas[$i]['nombre']?></td>
                 <td><?=$requestedDays?></td>

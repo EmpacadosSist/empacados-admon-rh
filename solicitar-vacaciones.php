@@ -92,7 +92,8 @@ $dif_dias=$diferencia->d;
 
 
 $dateFormat = strtotime($proximo_periodo_string); 
-$proximo_periodo_string = date('d/m/Y', $dateFormat); 
+$proximo_periodo_string = date('d/m/Y', $dateFormat);
+$proximo_periodo_string_formato_alterno = date('Y-m-d', $dateFormat); 
 //($dif_mes==3 && $dif_anio==0 && $dif_dias==0) || ($dif_mes<3)
     ?>
     <div class="col-4">
@@ -101,7 +102,8 @@ $proximo_periodo_string = date('d/m/Y', $dateFormat);
           <!--aqui va el valor de los dias disponibles desde la bd-->
           Inicio del siguiente periodo
           <hr>
-          </div>
+          <input type="hidden" id="proximoPeriodo" value="<?=$proximo_periodo_string_formato_alterno?>">  
+        </div>
           <div class="card-body">
           <?=$proximo_periodo_string?>
         </div>
@@ -196,6 +198,17 @@ $proximo_periodo_string = date('d/m/Y', $dateFormat);
           vali.css('border-color', '#cc0000');
           console.log("CERO O MENOS");
         }
+
+        let fechaInicioVal=$("#fechaInicio").val();
+        let fechaFinVal=$("#fechaFin").val();
+        let proxPeriodo=$("#proximoPeriodo").val();
+
+        if(fechaInicioVal >= proxPeriodo || fechaFinVal >= proxPeriodo){
+          $('#' + errorEl).text('No sobrepasar el inicio del sig. periodo');
+          vali.css('border-color', '#cc0000');
+          console.log("SOBREPASA PERIODO");
+        }
+
       }      
 
       const mostrarCambiosPantalla = () => {
@@ -244,7 +257,12 @@ $proximo_periodo_string = date('d/m/Y', $dateFormat);
         let diasSolic=$("#numDias").val();
         let diasDisp=Number($("#diasDisp").val());
         $(".loader").show();
-        if(diasSolic>0 && diasSolic<=diasDisp){
+
+        let fechaInicioVal=$("#fechaInicio").val();
+        let fechaFinVal=$("#fechaFin").val();
+        let proxPeriodo=$("#proximoPeriodo").val();
+        
+        if((diasSolic>0 && diasSolic<=diasDisp) && !(fechaInicioVal >= proxPeriodo || fechaFinVal >= proxPeriodo)){
           let userId=$("#userId").val();        
           let fechaInicio=$("#fechaInicio").val();
           let fechaFin=$("#fechaFin").val();
@@ -285,7 +303,7 @@ $proximo_periodo_string = date('d/m/Y', $dateFormat);
           for(var key in datos){
             fd.append(key, datos[key]);
           }
-          
+
           
           fetch('altas/subir_vacaciones.php', {
             method: "POST",
@@ -302,6 +320,8 @@ $proximo_periodo_string = date('d/m/Y', $dateFormat);
             let message = err.statusText || "Ocurrió un error";
             console.log(err);
           })
+          
+
         }else{
           $(".loader").hide();
           console.log("no se pueden pedir 0 dias, ni excederse");
