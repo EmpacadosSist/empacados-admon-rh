@@ -22,7 +22,6 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
-  <script src="https://cdn.datatables.net/buttons/2.3.2/js/buttons.html5.min.js"></script>
   <script src="https://cdn.datatables.net/buttons/2.3.2/js/buttons.print.min.js"></script>
   <script src="https://cdn.datatables.net/searchpanes/1.2.1/js/dataTables.searchPanes.min.js"></script>
   <script src="https://cdn.datatables.net/select/1.3.1/js/dataTables.select.min.js"></script>  
@@ -37,7 +36,7 @@
 
 <?php require 'nav.php'; ?>
 <?php require_once('layout/sidebar.php'); ?>
-
+<?php $empleadosVacaciones=Consultas::listVacationsUsers($conn); ?>
 <?php //parametro 2 de la siguiente funcion es el id del usuario actual 
 $userId=$_SESSION['identity']->userId;
 ?>
@@ -109,92 +108,38 @@ $userId=$_SESSION['identity']->userId;
                 </tr>                              
               </thead>
               <tbody>
+                <?php $current_date = date('Y-m-d'); 
+                      $current_date= new DateTime($current_date);
+                ?>
+                <?php for ($i=0; $i < count($empleadosVacaciones); $i++) { 
+                  $dateFormatIngreso = strtotime($empleadosVacaciones[$i]['fechaIngreso']); 
+                  $fechaIngreso = date('d/m/Y', $dateFormatIngreso);
+
+                  $proximo_periodo=$empleadosVacaciones[$i]['siguienteAniv'];
+                  //$proximo_periodo = $yr.substr($_SESSION['identity']->recDate, 4, 6); 
+                  
+                  $proximo_periodo = new DateTime($proximo_periodo);
+                  $diferencia = $current_date->diff($proximo_periodo);
+                  
+                  $dif_anio=$diferencia->y;
+                  $dif_mes=$diferencia->m;
+                  $dif_dias=$diferencia->d;                  
+                ?>
                 <tr>
-                  <td>2566</td>
-                  <td>Jean Kirstein</td>
-                  <td>Contabilidad</td>
-                  <td>Administración</td>
-                  <td>11/07/2019</td>
-                  <td>10</td>
-                  <td>3</td>
+                  <td><?=$empleadosVacaciones[$i]['numEmpleado']?></td>
+                  <td><?=$empleadosVacaciones[$i]['nombre']?></td>
+                  <td><?=$empleadosVacaciones[$i]['departamento']?></td>
+                  <td><?=$empleadosVacaciones[$i]['area']?></td>
+                  <td><?=$fechaIngreso?></td>
+                  <td <?=(($dif_mes==3 && $dif_anio==0 && $dif_dias==0) || ($dif_mes<3)) ? 'style="background-color: #FFF751;"' : '' ?>><?=$empleadosVacaciones[$i]['diasPendientes']?></td>
+                  <td><?=$empleadosVacaciones[$i]['diasTomados']?></td>
                 </tr>
-                <tr>
-                  <td>8755</td>
-                  <td>Roberto Reyes</td>
-                  <td>Sistemas</td>
-                  <td>Administración</td>
-                  <td>01/09/2022</td>
-                  <td>9</td>
-                  <td>4</td>
-                </tr>
-                <tr>
-                  <td>4345</td>
-                  <td>Gonzalo Guerrero</td>
-                  <td>Distribución</td>
-                  <td>Operaciones</td>
-                  <td>09/02/2021</td>
-                  <td>2</td>
-                  <td>5</td>
-                </tr>
-                <tr>
-                  <td>6321</td>
-                  <td>Ana Gómez</td>
-                  <td>Contabilidad</td>
-                  <td>Administración</td>
-                  <td>15/03/2019</td>
-                  <td>10</td>
-                  <td>15</td>
-                </tr>
-                <tr>
-                  <td>9876</td>
-                  <td>Juan Pérez</td>
-                  <td>Recursos Humanos</td>
-                  <td>Administración</td>
-                  <td>10/07/2021</td>
-                  <td>12</td>
-                  <td>8</td>
-                </tr>
-                <tr>
-                  <td>1346</td>
-                  <td>María Rodriguez</td>
-                  <td>Desarrollo</td>
-                  <td>Operaciones</td>
-                  <td>05/02/2020</td>
-                  <td>7</td>
-                  <td>5</td>
-                </tr>
-                <tr>
-                  <td>8522</td>
-                  <td>Carlos Sánchez</td>
-                  <td>Calidad</td>
-                  <td>Operaciones</td>
-                  <td>22/11/2018</td>
-                  <td>5</td>
-                  <td>9</td>
-                </tr>
-                <tr>
-                  <td>7453</td>
-                  <td>Laura Hernández</td>
-                  <td>Marketing</td>
-                  <td>Comercial</td>
-                  <td>01/05/2022</td>
-                  <td>15</td>
-                  <td>5</td>
-                </tr>
-                <tr>
-                  <td>4587</td>
-                  <td>Erika Hernández</td>
-                  <td>Ventas</td>
-                  <td>Comercial</td>
-                  <td>01/08/2009</td>
-                  <td>6</td>
-                  <td>9</td>
-                </tr>
-                </tbody>
-              </table>
+              <?php } ?>
+              </tbody>
+            </table>
 
             
-              <!--pintar a 3 meses como en la ventana de solicitud-->
+              <!--pintar a 3 meses como en la ventana de solicitud #FFF751-->
                    
         </div>
       </div>
@@ -238,7 +183,53 @@ $userId=$_SESSION['identity']->userId;
                 titleAttr: 'Exportar a Excel',
                 className: 'btn btn-success',
                 text:      '<i class="fas fa-file-excel"></i>',
-                title: null
+                title: null,
+                //en este caso, customize se utilizara para pintar celdas del excel a partir de lo pintado del datatable
+                customize: function ( xlsx ) {
+                  //estos archivos, xml se modifican desde aqui con las siguientes lineas de codigo. estos vienen de buttons.html5.min.js
+                  var sSh = xlsx.xl['styles.xml'];
+                  var sheet = xlsx.xl.worksheets['sheet1.xml'];
+                  var lastXfIndex = $('cellXfs xf', sSh).length - 1;
+                  var lastFillIndex = $('fills fill', sSh).length - 1; 
+
+                  var fill1='<fill><patternFill patternType="solid"><fgColor rgb="FFfff751" /><bgColor indexed="64" /></patternFill></fill>';
+                  var s1 = '<xf numFmtId="0" fontId="0" fillId="'+(lastFillIndex+1)+'" borderId="0" applyFont="1" applyFill="1" applyBorder="1"/>';
+
+                  sSh.childNodes[0].childNodes[2].innerHTML += fill1;
+                  sSh.childNodes[0].childNodes[5].innerHTML += s1; //new styles                  
+
+
+                  var numAmarillo = lastXfIndex + 1;
+
+                  var count = 0;
+                  var skippedHeader = false;
+                  $('row', sheet).each( function () {
+                    var row = this;
+
+                    if (skippedHeader) {
+                      //var colour = $('tbody tr:eq('+parseInt(count)+') td:eq(2)').css('background-color');
+            
+                      // Output first row
+                      if (count === 0) {
+                        console.log(this);
+                      }
+            
+                                 
+                      // Output cell contents for first row
+                      if (count === 0) {
+                        console.log($('c[r^="F"]', row).text());
+                      }
+                      var colour = $(table1.cell(':eq('+count+')',5).node()).css('background-color');            
+                      if (colour === 'rgb(255, 247, 81)') {
+                        $('c[r^="F"]', row).attr( 's', numAmarillo );
+                      }
+                      console.log(colour);
+                      count++;
+                    } else {
+                      skippedHeader = true;
+                    }
+                  });
+                }
               }]
             }
           },
