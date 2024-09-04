@@ -6,6 +6,8 @@ require_once('../helpers/validar.php');
 
 if(count($_POST)>0){
   //comentario de prueba
+  //comentario de prueba1
+  
   $userId = isset($_POST['userId']) ? $_POST['userId'] : "";
   $userIdVal = Validar::validarNum($userId);  
 
