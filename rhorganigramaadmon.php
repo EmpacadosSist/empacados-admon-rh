@@ -1,6 +1,12 @@
 <?php 
   require_once('layout/session.php');
+  require_once('helpers/utils.php');
 ?>
+<?php require 'layout/libreriasdatatable.php';?>
+<?php require 'nav.php'; ?>
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -24,18 +30,25 @@
     }
 
     #tree {
+        margin-top:70px;
         width: 100%;
         height: 100%;        
-        background-color: #141E46;
+        background-image: url("assets/img/IMGlogin.png");
+        background-size: cover;
+        background-repeat: no-repeat;
 
+    }
+
+    rect{
+        fill:#880015;
     }
 
     .filter-item:hover {
-        background-color: #B06161;
+        background-color: #CF043C;
     }
 
     .filter-item-hovered rect {
-        fill: #B06161;
+        fill: #CF043C;
     }
 
     .orgchart .node {
@@ -163,7 +176,7 @@ chart.onInit(function(args){
 
 chart.load([
 
-    { id: "1", name: "Jack Hill", title: "Director General", email: "amber@domain.com", img: "https://cdn.balkan.app/shared/1.jpg" },
+    { id: "1", name: "Pedro Chapa Chavez", title: "Director General", email: "amber@domain.com", img: "https://cdn.balkan.app/shared/1.jpg" },
     { id: "2", pid: "1", name: "Kimberly Michel", title: "Consultor SAP", email: "sistemas@empacados.com", img: "https://cdn.balkan.app/shared/2.jpg" },
     { id: "3", pid: "2", tags: ['partner'], name: "Janae Barrett", title: "Technical Director", img: "https://cdn.balkan.app/shared/3.jpg" },
     { id: "4", pid: "1", name: "Aaliyah Webb", title: "Manager", email: "jay@domain.com", img: "https://cdn.balkan.app/shared/4.jpg" },
@@ -179,7 +192,7 @@ chart.load([
     { id: "14", pid: "4", name: "Lucas West", title: "Marketer", img: "https://cdn.balkan.app/shared/14.jpg" },
     { id: "15", pid: "4", name: "Adan Travis", title: "Designer", img: "https://cdn.balkan.app/shared/15.jpg" },
     { id: "16", pid: "4", name: "Alex Snider", title: "Sales Manager", img: "https://cdn.balkan.app/shared/4.jpg" },
-     { id: "17", pid: "4", name: "Ella Pratt", title: "Marketing Assistant", img: "https://cdn.balkan.app/shared/17.jpg" },
+    { id: "17", pid: "4", name: "Ella Pratt", title: "Marketing Assistant", img: "https://cdn.balkan.app/shared/17.jpg" },
     { id: "18", pid: "4", name: "Aliyah Soto", title: "Marketing Assistant", img: "https://cdn.balkan.app/shared/18.jpg" },
     { id: "19", pid: "4", name: "Laylah Benson", title: "Marketing Assistant", img: "https://cdn.balkan.app/shared/19.jpg" },
     { id: "20", pid: "4", name: "Paxton Doyle", title: "Marketing Assistant", img: "https://cdn.balkan.app/shared/4.jpg" },
@@ -200,6 +213,8 @@ chart.load([
     { id: "35", pid: "12", name: "Jazmin Velasquez", title: "Senior Programmer", img: "https://cdn.balkan.app/shared/16.jpg" },
     { id: "36", pid: "13", name: "Chase Miranda", title: "Junior Programmer", img: "https://cdn.balkan.app/shared/17.jpg" },
     { id: "37", pid: "13", name: "Gracelyn Delacruz", title: "Junior Programmer", img: "https://cdn.balkan.app/shared/18.jpg" },
+    { id: "46", pid: "13", name: "Gracelyn Delacruz", title: "Junior Programmer", img: "https://cdn.balkan.app/shared/18.jpg" },
+    { id: "47", pid: "13", name: "Gracelyn Delacruz", title: "Junior Programmer", img: "https://cdn.balkan.app/shared/18.jpg" },
     { id: "38", pid: "14", name: "Phoenix Rivers", title: "Marketing Assistant", img: "https://cdn.balkan.app/shared/19.jpg" },
     { id: "39", pid: "14", name: "Rayan Patel", title: "Marketing Assistant", img: "https://cdn.balkan.app/shared/16.jpg" },
     { id: "40", pid: "15", name: "Ariella Donovan", title: "Graphic Designer", img: "https://cdn.balkan.app/shared/5.jpg" },
@@ -207,12 +222,12 @@ chart.load([
     { id: "42", pid: "16", name: "Rory Rivas", title: "Sales Representative", img: "https://cdn.balkan.app/shared/7.jpg" },
     { id: "43", pid: "16", name: "Sloane Mcbride", title: "Sales Representative", img: "https://cdn.balkan.app/shared/8.jpg" },
     { id: "44", pid: "1", name: "Roberto Reyes", title: "Sales Representative", img: "https://cdn.balkan.app/shared/11.jpg" },
-     { id: "45", pid: "44", name: "Roberto Reyes", title: "Sales Representative", img: "https://cdn.balkan.app/shared/12.jpg" },
+    { id: "45", pid: "44", name: "Roberto Reyes", title: "Sales Representative", img: "https://cdn.balkan.app/shared/12.jpg" },
 
 ]);
 
 
 </script> 
- 
+<?php require 'layout/footer.php';?>
 </body>
 </html>
