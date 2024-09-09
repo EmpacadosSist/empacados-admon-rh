@@ -46,8 +46,8 @@
     #tree.boc-light{
         margin-top:4rem;
     }
-
-    /* #tree.boc-light label{
+/* 
+    #tree.boc-light label{
         display:none;
     } */
 
@@ -102,6 +102,8 @@
 
 <script>
 
+// Document.querySelectorAll('.boc-input').innerHTML = "si"
+
 //JavaScript
 
 var chart = new OrgChart(document.getElementById("tree"), {
@@ -115,14 +117,14 @@ var chart = new OrgChart(document.getElementById("tree"), {
     nodeBinding: {
         field_0: "name",
         field_1: "title",
-        img_0: "img"
+        img_0: "img",
     },
     nodeMenu: {
         add: {text: 'add'}
     },
-      menu: {
+    menu: {
         pdf: { text: "Exportar PDF" },
-        png: { text: "Exportar PNG" }
+        png: { text: "Exportar PNG" },
        
     },
     tags: {
@@ -130,8 +132,11 @@ var chart = new OrgChart(document.getElementById("tree"), {
             template: 'dot',
             template: 'filtered'
         }
-    }
+    },
+
 });
+
+OrgChart.SEARCH_PLACEHOLDER = "Buscar...";
 
 chart.filterUI.on('add-filter', function(sender, args){
     var names = Object.keys(sender.filterBy);
