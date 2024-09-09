@@ -89,13 +89,15 @@
         </a>
       </li>        
       
+    <!--
+      <li>
+        <a class="bi bi-person-vcard-fill" href="rhposicionesadmon.php">
+          <i></i>
+          <span>Posiciones</span>
+        </a>
+      </li>
+      -->
 
-        <li>
-          <a class="bi bi-person-vcard-fill" href="rhposicionesadmon.php">
-            <i></i>
-            <span>Posiciones</span>
-          </a>
-        </li>
         <li>
           <a class="bi bi-diagram-3-fill" href="rhorganigramaadmon.php">
             <i></i>

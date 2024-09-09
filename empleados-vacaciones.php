@@ -170,7 +170,6 @@ $userId=$_SESSION['identity']->userId;
         //let objOptions=;
 
         var table1 = $('#myTable').DataTable({
-          lengthMenu: [[5, 10, 20, -1], [5, 10, 20, 'Todos']],
           "order": [[ 0, "desc" ]],
 
           layout: {

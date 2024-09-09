@@ -5,6 +5,7 @@
       /*
       alias de los campos
 	    'usuarioId',
+      'superuserId',
 	    'puestoId',       
       'numEmpleado', 
       'ceco',
