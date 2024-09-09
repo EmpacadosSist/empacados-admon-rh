@@ -4,7 +4,7 @@
   require_once('helpers/Consultas.php');
 ?>
 <?php require 'layout/libreriasdatatable.php';?>
-<?php require 'nav.php'; ?>
+<?php require_once('layout/sidebar.php'); ?>
 
 
 
@@ -18,30 +18,65 @@
   <script src="https://balkangraph.com/js/latest/OrgChart.js"></script>
   <!-- Font Awesome -->
 <script src="https://balkan.app/js/OrgChart.js"></script>
-
+<?php require 'nav.php'; ?>
+<!-- <div id="tree"></div> -->
   <style>
-<div id="tree"></div>
 
    html, body {
         margin: 0px;
         padding: 0px;
         width: 100%;
         height: 100%;
-        overflow: hidden;
+        overflow: auto;
+    }
+
+    .boc-search{
+        margin-top:1rem;
     }
 
     #tree {
-        margin-top:70px;
+        /* margin-top:50px; */
         width: 100%;
-        height: 100%;        
+        height: 100%;  
         background-image: url("assets/img/IMGlogin.png");
         background-size: cover;
         background-repeat: no-repeat;
+    }
 
+    #tree.boc-light{
+        margin-top:4rem;
+    }
+
+    /* #tree.boc-light label{
+        display:none;
+    } */
+
+    /* .loader{
+        display:none;
+    } */
+
+    .boc-filter{
+        display:none;
+    }
+
+    .boc-edit-form-header{
+        background-color: #880015 !important;
+    }
+
+    /* .boc-img-button{
+        background-color: #880015 !important;;
+    } */
+    
+    .boc-img-button{
+        display:none !important;
     }
 
     rect{
         fill:#880015;
+    }
+
+    .boc-input>label{
+        Display:none;
     }
 
     .filter-item:hover {
@@ -56,20 +91,22 @@
         background-color: #B06161 !important; /* Cambia este color según tus preferencias */
     }
 
-
   </style>
+  
 </head>
-<body>
+
+<body class="toggle-sidebar">
 
   <!-- Container for the OrgChart -->
 <div id="tree"></div>
-             
-   <script>
-  
+
+<script>
+
 //JavaScript
+
 var chart = new OrgChart(document.getElementById("tree"), {
     layout: OrgChart.mixed,
-    filterBy: ['title', 'city'],
+    filterBy: ['title'],
     mouseScrool: OrgChart.action.ctrlZoom,
     enableSearch: true,
     scaleInitial: OrgChart.match.height,
@@ -181,8 +218,6 @@ chart.load([
         { id: "<?=$user[$i]['usuarioId'] ?>", pid: "<?=$user[$i]['superuserId'] ?>", name: "<?=$user[$i]['nombre']," ", $user[$i]['apellido1'], " ", $user[$i]['apellido2']?> ", title: "<?= $user[$i]['puesto']?>"},
     <?php } ?>
 
-
-
     // { id: "1", name: "Pedro Chapa Chavez", title: "Director General", email: "amber@domain.com", img: "https://cdn.balkan.app/shared/1.jpg" },
     // { id: "2", pid: "1", name: "Kimberly Michel", title: "Consultor SAP", email: "sistemas@empacados.com", img: "https://cdn.balkan.app/shared/2.jpg" },
     // { id: "3", pid: "2", tags: ['partner'], name: "Janae Barrett", title: "Technical Director", img: "https://cdn.balkan.app/shared/3.jpg" },
@@ -233,8 +268,20 @@ chart.load([
 
 ]);
 
-
 </script> 
+
+<script src="assets/vendor/chart.js/chart.umd.js"></script>
+<script src="assets/vendor/echarts/echarts.min.js"></script>
+<!-- <script src="assets/vendor/quill/quill.min.js"></script> -->
+<!-- <script src="assets/vendor/simple-datatables/simple-datatables.js"></script> -->
+<!-- <script src="assets/vendor/tinymce/tinymce.min.js"></script> -->
+<!-- <script src="assets/vendor/php-email-form/validate.js"></script> -->
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+<!-- Template Main JS File -->
+<script src="assets/js/main.js"></script>
+
 <?php require 'layout/footer.php';?>
 </body>
+
 </html>
