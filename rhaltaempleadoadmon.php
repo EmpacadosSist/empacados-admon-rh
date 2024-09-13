@@ -10,8 +10,6 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Alta empleados</title>
-
-
 </head>
 
 <?php require 'layout/libreriasdatatable.php';?>
@@ -97,8 +95,7 @@
                   <i class="fas fa-id-card"></i>
                   No. de empleado
                 </label>
-                <input type="number" class="form-control" id="empNum" name="empNum" inputmode="numeric"
-                  pattern="[0-9]+">
+                <input type="number" class="form-control" id="empNum" name="empNum" inputmode="numeric" pattern="[0-9]+">
                 <span id="error_empNum" class="text-danger"></span>
               </div>
               <div class="form-group col-md-3">
@@ -172,7 +169,7 @@
             </div>
 
             <div class="row">
-              <div class="form-group col-md-3">
+              <div class="form-group col-md-5">
                 <label for="ceco"><i class="fas fa-dollar-sign"></i> Centro de Costos</label>
                 <select class="form-control" id="ceco" name="ceco" on>
                   <option value="">- Seleccione -</option>
@@ -195,6 +192,18 @@
                 <button class="form-control text-left" id="btnJefeDirecto">- Seleccione -</button>
                 <span id="error_btnJefeDirecto" class="text-danger"></span>
               </div>
+              <div class="form-group col-md-8">
+                <label for="btnJefeDirecto"><i class="fas fa-user"></i> Foto de empleado</label>
+                  <form id="uploadForm">
+                    <input type="number" class="form-control" id="empNumHidd" name="empNumHidd" inputmode="numeric" pattern="[0-9]+">
+                    <input type="file" class="form-control" id="image" name="image" required>
+                    <span id="error_image" class="text-danger"></span>
+                  </form>
+                  <div id="message"></div>
+                  <!-- <div class="form-group col-md-4">
+                <button class="btn btn-primary btn-block" id="btnGuardarIMG" onclick="uploadImage()">insertar imagen</button>
+              </div> -->
+                </div>
             </div>
 
             <div class="row">
@@ -520,13 +529,12 @@
               </div>
               <div class="form-group col-md-4">
                 <button class="btn btn-primary btn-block" id="btnGuardarEmpleado">Guardar</button>
-
               </div>
               <div class="form-group col-md-4">
-                
+              </div>
+              <div class="form-group col-md-4">
               </div>
             </div>
-
           </div>
         </div>
       </div>
@@ -656,6 +664,7 @@
 <!-- DataTables Bootstrap 4 JS -->
 <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap4.min.js"></script>
 <script>
+
   let arrHijos=[];
 
   var table = $('#modalTable').DataTable({
@@ -764,7 +773,7 @@
     $("#childrenInfo").text('0');
     //$("#btnJefeDirecto").text('- Seleccione -');
     //$("#superUser").val('NULL');
-  });  
+  });
 
   $("#agregarHijo").click(function(){
     let linea='<div class="row fila-form">'; 
@@ -825,7 +834,34 @@
     $("#postalcode").val(cp);
   });
 
-  $("#btnGuardarEmpleado").click(async function() {
+    $(document).ready(function(){
+
+      $("#empNum").on('input', function() {
+        var numempleado = $(this).val()
+        $("#empNumHidd").val(numempleado)
+  
+      })
+    })
+
+    async function uploadImage() {
+
+      let formData = new FormData(document.getElementById('uploadForm'));
+
+      try {
+        const response = await fetch('altas/subir_foto_empleado.php', {
+            method: 'POST',
+            body: formData
+        });
+
+        const result = await response.text();
+        document.getElementById('message').innerHTML = result;
+      }catch (error) {
+        console.error('Error:', error);
+        document.getElementById('message').innerHTML = 'Hubo un error al subir la imagen.';
+      }
+    }
+
+    $("#btnGuardarEmpleado").click(async function() {
     let empNum = $("#empNum").val(); 
     
     //fetch para revisar si existe el numero de empleado
@@ -897,12 +933,14 @@
     let bankAcc = $("#bankAcc").val(); 
     let superUser = $("#superUser").val(); 
     let variable=$("#variable").val();
+    let image=$("#image").val();
 
     let fd = new FormData();
     //btnJefeDirecto
     mostrarErrorJefeDirecto($("#superUser"), $("#btnJefeDirecto"), 'Jefe directo obligatorio', 'error_btnJefeDirecto');
     //mostrarErrorJefeDirecto = (valiHidden, valiButton, msg, errorEl)
 
+    mostrarError($("#image"), 'Imagen obligatoria', 'error_image');
     mostrarError($("#empNum"), 'Número de empleado obligatorio', 'error_empNum');
     mostrarError($("#lastName1"), 'Apellido paterno obligatorio', 'error_lastName1',true,3,50);
     mostrarError($("#lastName2"), 'Apellido materno obligatorio', 'error_lastName2',true,3,50);
@@ -988,7 +1026,7 @@
     //console.log(validarNumCar(lastName1,3,100));
     //subir_test(name, lastName1, lastName2);
     //return false;
-    if(empNum!=""&&(lastName1!=""&&validarNumCar(lastName1,3,50))&&(lastName2!=""&&validarNumCar(lastName2,3,50))&&(name!=""&&validarNumCar(name,3,50))&&recDate!=""&&position!=""&&ceco!=""&&dateOfBirth!=""&&(placeOfBirth!=""&&validarNumCar(placeOfBirth,3,100))&&gender!=""&&maritalStatus!=""&&(nss!=""&&validarNumCar(nss,3,45))&&(curp!=""&&validarNumCar(curp,3,100))&&(rfc!=""&&validarNumCar(rfc,3,100))&&(rfcZipCode!=""&&validarNumCar(rfcZipCode,3,100))&&(education!=""&&validarNumCar(education,3,45))&&colonia!=""&&(address!=""&&validarNumCar(address,3,100))&&(email!=""&&validarNumCar(email,3,100))&&(phone!=""&&validarNumCar(phone,3,20))&&baseSalary!=""&&paymentType!=""&&foodBonus!=""&&savingFund!=""&&(bank!=""&&validarNumCar(bank,3,45))&&(bankAcc!=""&&validarNumCar(bankAcc,3,100))&&superUser!=""){
+    if(image!=""&&empNum!=""&&(lastName1!=""&&validarNumCar(lastName1,3,50))&&(lastName2!=""&&validarNumCar(lastName2,3,50))&&(name!=""&&validarNumCar(name,3,50))&&recDate!=""&&position!=""&&ceco!=""&&dateOfBirth!=""&&(placeOfBirth!=""&&validarNumCar(placeOfBirth,3,100))&&gender!=""&&maritalStatus!=""&&(nss!=""&&validarNumCar(nss,3,45))&&(curp!=""&&validarNumCar(curp,3,100))&&(rfc!=""&&validarNumCar(rfc,3,100))&&(rfcZipCode!=""&&validarNumCar(rfcZipCode,3,100))&&(education!=""&&validarNumCar(education,3,45))&&colonia!=""&&(address!=""&&validarNumCar(address,3,100))&&(email!=""&&validarNumCar(email,3,100))&&(phone!=""&&validarNumCar(phone,3,20))&&baseSalary!=""&&paymentType!=""&&foodBonus!=""&&savingFund!=""&&(bank!=""&&validarNumCar(bank,3,45))&&(bankAcc!=""&&validarNumCar(bankAcc,3,100))&&superUser!=""){
       
       if(maritalStatus==="Casado(a)" || maritalStatus==="Unión Libre"){
         if((spouseName!=""&&validarNumCar(spouseName,3,100))&&spouseDob!=""){
@@ -1003,13 +1041,15 @@
         enviarInfo(fd);
         console.log('procede - sin conyuge');
       }
+      uploadImage()
+      
       
     }else{
       console.log('no procede - faltan campos obligatorios');
     }
-  });
+    });
 
-  const num_repetido = async (empNum) => {
+    const num_repetido = async (empNum) => {
     let fdCheck = new FormData();
     //let resultado;
     fdCheck.append('empNum', empNum);
