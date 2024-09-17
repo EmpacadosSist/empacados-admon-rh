@@ -257,7 +257,7 @@ if($jefe_directo_id!=null){
               <div class="form-group col-md-8">
                 <label for="btnJefeDirecto"><i class="fas fa-user"></i> Foto de empleado</label>
                   <form id="uploadForm">
-                    <input type="number" class="form-control" id="empNumHidd" name="empNumHidd" inputmode="numeric" pattern="[0-9]+">
+                    <input type="number" class="form-control" id="empNumHidd" name="empNumHidd" inputmode="numeric" pattern="[0-9]+" value="<?=$num_empleado?>">
                     <input type="file" class="form-control" id="image" name="image" required>
                     <span id="error_image" class="text-danger"></span>
                   </form>
@@ -940,19 +940,19 @@ if($jefe_directo_id!=null){
 
   $(document).ready(function(){
 
-$("#empNum").on('input', function() {
+  $("#empNum").on('input', function() {
   var numempleado = $(this).val()
   $("#empNumHidd").val(numempleado)
 
-})
-})
+    })
+  })
 
   async function uploadImage() {
 
     let formData = new FormData(document.getElementById('uploadForm'));
 
     try {
-      const response = await fetch('altas/subir_foto_empleado.php', {
+      const response = await fetch('subir_foto_empleado.php', {
           method: 'POST',
           body: formData
       });
@@ -1136,7 +1136,7 @@ $("#empNum").on('input', function() {
     //console.log(validarNumCar(lastName1,3,100));
     //subir_test(name, lastName1, lastName2);
     //return false;
-    if(image!=""empNum!=""&&(lastName1!=""&&validarNumCar(lastName1,3,50))&&(lastName2!=""&&validarNumCar(lastName2,3,50))&&(name!=""&&validarNumCar(name,3,50))&&recDate!=""&&position!=""&&ceco!=""&&dateOfBirth!=""&&(placeOfBirth!=""&&validarNumCar(placeOfBirth,3,100))&&gender!=""&&maritalStatus!=""&&(nss!=""&&validarNumCar(nss,3,45))&&(curp!=""&&validarNumCar(curp,3,100))&&(rfc!=""&&validarNumCar(rfc,3,100))&&(rfcZipCode!=""&&validarNumCar(rfcZipCode,3,100))&&(education!=""&&validarNumCar(education,3,45))&&colonia!=""&&(address!=""&&validarNumCar(address,3,100))&&(email!=""&&validarNumCar(email,3,100))&&(phone!=""&&validarNumCar(phone,3,20))&&baseSalary!=""&&paymentType!=""&&foodBonus!=""&&savingFund!=""&&(bank!=""&&validarNumCar(bank,3,45))&&(bankAcc!=""&&validarNumCar(bankAcc,3,100))&&superUser!=""){
+    if(image!=""&&empNum!=""&&(lastName1!=""&&validarNumCar(lastName1,3,50))&&(lastName2!=""&&validarNumCar(lastName2,3,50))&&(name!=""&&validarNumCar(name,3,50))&&recDate!=""&&position!=""&&ceco!=""&&dateOfBirth!=""&&(placeOfBirth!=""&&validarNumCar(placeOfBirth,3,100))&&gender!=""&&maritalStatus!=""&&(nss!=""&&validarNumCar(nss,3,45))&&(curp!=""&&validarNumCar(curp,3,100))&&(rfc!=""&&validarNumCar(rfc,3,100))&&(rfcZipCode!=""&&validarNumCar(rfcZipCode,3,100))&&(education!=""&&validarNumCar(education,3,45))&&colonia!=""&&(address!=""&&validarNumCar(address,3,100))&&(email!=""&&validarNumCar(email,3,100))&&(phone!=""&&validarNumCar(phone,3,20))&&baseSalary!=""&&paymentType!=""&&foodBonus!=""&&savingFund!=""&&(bank!=""&&validarNumCar(bank,3,45))&&(bankAcc!=""&&validarNumCar(bankAcc,3,100))&&superUser!=""){
       
       if(maritalStatus==="Casado(a)" || maritalStatus==="Unión Libre"){
         if((spouseName!=""&&validarNumCar(spouseName,3,100))&&spouseDob!=""){
@@ -1151,7 +1151,7 @@ $("#empNum").on('input', function() {
         enviarInfo(fd);
         console.log('procede - sin conyuge');
       }
-      uploadImage()
+
       
     }else{
       console.log('no procede - faltan campos obligatorios');
@@ -1217,6 +1217,7 @@ $("#empNum").on('input', function() {
         let message = err.statusText || "Ocurrió un error";
         console.log(err);
       })   
+      uploadImage()
   }
 
 

@@ -848,7 +848,7 @@
       let formData = new FormData(document.getElementById('uploadForm'));
 
       try {
-        const response = await fetch('altas/subir_foto_empleado.php', {
+        const response = await fetch('subir_foto_empleado.php', {
             method: 'POST',
             body: formData
         });
@@ -1041,7 +1041,7 @@
         enviarInfo(fd);
         console.log('procede - sin conyuge');
       }
-      uploadImage()
+      
       
       
     }else{
@@ -1139,7 +1139,8 @@
       .catch(err => {
         let message = err.statusText || "Ocurrió un error";
         console.log(err);
-      })   
+      }) 
+      uploadImage()  
   }
 
 
