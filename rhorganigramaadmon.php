@@ -214,13 +214,13 @@ chart.onInit(function(args){
     this.filterUI.show('title');
 });
 
-<?php $user = Consultas::listUsers($conn); ?>
+<?php $user = Consultas::listUsersImage($conn); ?>
 
 chart.load([
 
     <?php
     for($i = 0; $i < count($user); $i++){ ?>
-        { id: "<?=$user[$i]['usuarioId'] ?>", pid: "<?=$user[$i]['superuserId'] ?>", name: "<?=$user[$i]['nombre']," ", $user[$i]['apellido1'], " ", $user[$i]['apellido2']?> ", title: "<?= $user[$i]['puesto']?>"},
+        { id: "<?=$user[$i]['usuarioId'] ?>", pid: "<?=$user[$i]['superuserId'] ?>", name: "<?=$user[$i]['nombre']," ", $user[$i]['apellido1'], " ", $user[$i]['apellido2']?> ", title: "<?= $user[$i]['puesto']?>", img:"<?= $user[$i]['ruta']?>"},
     <?php } ?>
 
     // { id: "1", name: "Pedro Chapa Chavez", title: "Director General", email: "amber@domain.com", img: "https://cdn.balkan.app/shared/1.jpg" },
