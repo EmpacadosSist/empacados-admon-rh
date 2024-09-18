@@ -13,6 +13,9 @@ if(count($_POST)>0){
   $comments = isset($_POST['comments']) ? $_POST['comments'] : "";  
   $commentsVal = Validar::validarLongitudMax($comments, 255);  
 
+  $areaId = isset($_POST['areaId']) ? $_POST['areaId'] : "";
+  $areaIdVal = Validar::validarNum($areaId);  
+
   $calculationType = isset($_POST['calculationType']) ? $_POST['calculationType'] : "";
   $calculationTypeVal = Validar::validarNum($calculationType);    
 
@@ -29,11 +32,11 @@ if(count($_POST)>0){
   $sqlSP="";
 
   //condicion para verificar que todos los campos cumplan con su validacion
-  if($indicatorNameVal && $commentsVal && $valueTypeIdVal && $realValueVal && $targetValueVal && $calculationTypeVal){    
+  if($indicatorNameVal && $commentsVal && $valueTypeIdVal && $realValueVal && $targetValueVal && $calculationTypeVal && $areaIdVal){    
 
     //se hace un insert o update a la bd por medio de un stored procedure, pasando campos como parametros
     //el ultimo parametro del sp de insert es un parametro de salida, que mostrara el ultimo id insertado
-    $sqlSP="CALL insert_indicator_per_year('$indicatorName', '$comments', $valueTypeId, '$realValue', '$targetValue', $calculationType, @ind_last_id)";
+    $sqlSP="CALL insert_indicator_per_year('$indicatorName', '$comments', $valueTypeId, '$realValue', '$targetValue', $calculationType, $areaId, @ind_last_id)";
 
 		$resultSP=$conn->query($sqlSP);
     
