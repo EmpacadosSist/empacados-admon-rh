@@ -122,7 +122,7 @@
 <main id="main" class="main">
 
   <div class="pagetitle">
-    <h1>EMPACADOS INDICADORES</h1>
+    <h1>SUBIR PUESTO</h1>
     <hr>
   </div><!-- End Page Title -->
 

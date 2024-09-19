@@ -95,7 +95,9 @@
 	    'comentarios',
 	    'real',
 	    'objetivo',
-	    'formatoId'
+	    'formatoId',
+      'areaId',
+      'areaNombre'      
       */
       $resultSP=$conn->query($sqlSP, MYSQLI_STORE_RESULT);
       
@@ -141,7 +143,9 @@
 	    'id',
 	    'nombreIndicador',
 	    'comentarios',
-      'calculo'
+      'calculo',
+      'areaId'
+      'nombreArea'
       */
       $resultSP=$conn->query($sqlSP, MYSQLI_STORE_RESULT);
       

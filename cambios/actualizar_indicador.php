@@ -11,14 +11,17 @@ if(count($_POST)>0){
   $indicatorName = isset($_POST['indicatorName']) ? $_POST['indicatorName'] : "";  
   $indicatorNameVal = Validar::validarLongitud($indicatorName,3,100);
 
+  $areaId = isset($_POST['areaId']) ? $_POST['areaId'] : "";
+  $areaIdVal = Validar::validarNum($areaId);  
+
   $comments = isset($_POST['comments']) ? $_POST['comments'] : "";  
   $commentsVal = Validar::validarLongitudMax($comments, 255);  
 
   $calculationType = isset($_POST['calculationType']) ? $_POST['calculationType'] : "";
   $calculationTypeVal = Validar::validarNum($calculationType);   
 
-    if($indicatorNameVal && $commentsVal && $calculationTypeVal){
-      $sqlSP="CALL update_indicator($indicatorId, '$indicatorName', '$comments', $calculationType)";
+    if($indicatorNameVal && $commentsVal && $calculationTypeVal && $areaIdVal){
+      $sqlSP="CALL update_indicator($indicatorId, '$indicatorName', '$comments', $calculationType, $areaId)";
       $resultSP=$conn->query($sqlSP);
 
       if($resultSP){
