@@ -36,6 +36,7 @@
 <?php $puesto_empleado_id = $raw_user[0]['positionId']; ?>
 <?php $colonia_id = $raw_user[0]['coloniaId']; ?>
 <?php $jefe_directo_id = $raw_user[0]['superUserId']; ?>
+<?php $user = Consultas::listOneUsersImage($conn, $empId); ?>
 <?php 
 if($jefe_directo_id!=null){
   $jefe_directo = Consultas::listOneUser($conn, $jefe_directo_id); 
@@ -255,14 +256,19 @@ if($jefe_directo_id!=null){
                 <span id="error_btnJefeDirecto" class="text-danger"></span>
               </div>
               <div class="form-group col-md-8">
-                <label for="btnJefeDirecto"><i class="fas fa-user"></i> Foto de empleado</label>
+                <label for="fotoEmpleado"><i class="fas fa-user" id="lblfotoEmpleado"></i> Foto de empleado</label>
+                <div id="mensaje"></div>
                   <form id="uploadForm">
-                    <input type="number" class="form-control" id="empNumHidd" name="empNumHidd" inputmode="numeric" pattern="[0-9]+" value="<?=$num_empleado?>">
-                    <input type="file" class="form-control" id="image" name="image" required>
-                    <span id="error_image" class="text-danger"></span>
+                    <input type="number" class="form-control" id="empNumHidd" name="empNumHidd" inputmode="numeric" hidden pattern="[0-9]+" value="<?=$num_empleado?>">
+                    <?php if(!empty($user)){?>
+                      <input type="text" class="form-control" id="comparador" name="comparador" inputmode="numeric" hidden pattern="[0-9]+" value="<?= $user[0]['numEmpleado'] ?>">
+                      <?php }else{ ?>
+                        <input type="text" class="form-control" id="comparador" name="comparador" inputmode="numeric" hidden pattern="[0-9]+" value="sin resultados">
+                   <?php } ?>
+                    <input type="file" class="form-control" id="image" name="image" required >
+                    <span hidden id="error_image" class="text-danger"></span>
                   </form>
-                  <div id="message"></div>
-            </div>
+                </div>
 
             <div class="row">
               <h2 id="title" class="animate__animated animate__bounceInDown card-title">
@@ -761,6 +767,20 @@ if($jefe_directo_id!=null){
   let arrHijos=[];
 
   $(document).ready(function(){
+
+    let oculto = $('#comparador').val()
+    let numeroEmpleado = $('#empNumHidd').val()
+
+    if(oculto !== numeroEmpleado){
+      document.getElementById('mensaje').innerHTML = 'el usuario actual no cuenta con imagen, ¿desea agregar?';
+    }else{
+      document.getElementById('mensaje').innerHTML = 'el usuario actual cuenta con imagen, ¿desea cambiar?';
+    }
+  
+
+  })
+
+  $(document).ready(function(){
     $(".fila-form").each(function() {
       let nombreHijo=$(this).find('.childName').val();
       let fechaNacHijo=$(this).find('.childDob').val();      
@@ -965,6 +985,8 @@ if($jefe_directo_id!=null){
     }
   }
 
+
+
   $("#btnGuardarEmpleado").click(async function () {
     let empId = $("#empId").val(); 
     let empNum = $("#empNum").val(); 
@@ -1042,14 +1064,14 @@ if($jefe_directo_id!=null){
     let bankAcc = $("#bankAcc").val(); 
     let superUser = $("#superUser").val(); 
     let variable=$("#variable").val();
-    let image=$("#image").val();
+    // let image=$("#image").val();
 
     let fd = new FormData();
     //btnJefeDirecto
     mostrarErrorJefeDirecto($("#superUser"), $("#btnJefeDirecto"), 'Jefe directo obligatorio', 'error_btnJefeDirecto');
     //mostrarErrorJefeDirecto = (valiHidden, valiButton, msg, errorEl)
 
-    mostrarError($("#image"), 'Imagen obligatoria', 'error_image');
+    // mostrarError($("#image"), 'Imagen obligatoria', 'error_image');
     mostrarError($("#empNum"), 'Número de empleado obligatorio', 'error_empNum');
     mostrarError($("#lastName1"), 'Apellido paterno obligatorio', 'error_lastName1',true,3,50);
     mostrarError($("#lastName2"), 'Apellido materno obligatorio', 'error_lastName2',true,3,50);
@@ -1136,7 +1158,7 @@ if($jefe_directo_id!=null){
     //console.log(validarNumCar(lastName1,3,100));
     //subir_test(name, lastName1, lastName2);
     //return false;
-    if(image!=""&&empNum!=""&&(lastName1!=""&&validarNumCar(lastName1,3,50))&&(lastName2!=""&&validarNumCar(lastName2,3,50))&&(name!=""&&validarNumCar(name,3,50))&&recDate!=""&&position!=""&&ceco!=""&&dateOfBirth!=""&&(placeOfBirth!=""&&validarNumCar(placeOfBirth,3,100))&&gender!=""&&maritalStatus!=""&&(nss!=""&&validarNumCar(nss,3,45))&&(curp!=""&&validarNumCar(curp,3,100))&&(rfc!=""&&validarNumCar(rfc,3,100))&&(rfcZipCode!=""&&validarNumCar(rfcZipCode,3,100))&&(education!=""&&validarNumCar(education,3,45))&&colonia!=""&&(address!=""&&validarNumCar(address,3,100))&&(email!=""&&validarNumCar(email,3,100))&&(phone!=""&&validarNumCar(phone,3,20))&&baseSalary!=""&&paymentType!=""&&foodBonus!=""&&savingFund!=""&&(bank!=""&&validarNumCar(bank,3,45))&&(bankAcc!=""&&validarNumCar(bankAcc,3,100))&&superUser!=""){
+    if(empNum!=""&&(lastName1!=""&&validarNumCar(lastName1,3,50))&&(lastName2!=""&&validarNumCar(lastName2,3,50))&&(name!=""&&validarNumCar(name,3,50))&&recDate!=""&&position!=""&&ceco!=""&&dateOfBirth!=""&&(placeOfBirth!=""&&validarNumCar(placeOfBirth,3,100))&&gender!=""&&maritalStatus!=""&&(nss!=""&&validarNumCar(nss,3,45))&&(curp!=""&&validarNumCar(curp,3,100))&&(rfc!=""&&validarNumCar(rfc,3,100))&&(rfcZipCode!=""&&validarNumCar(rfcZipCode,3,100))&&(education!=""&&validarNumCar(education,3,45))&&colonia!=""&&(address!=""&&validarNumCar(address,3,100))&&(email!=""&&validarNumCar(email,3,100))&&(phone!=""&&validarNumCar(phone,3,20))&&baseSalary!=""&&paymentType!=""&&foodBonus!=""&&savingFund!=""&&(bank!=""&&validarNumCar(bank,3,45))&&(bankAcc!=""&&validarNumCar(bankAcc,3,100))&&superUser!=""){
       
       if(maritalStatus==="Casado(a)" || maritalStatus==="Unión Libre"){
         if((spouseName!=""&&validarNumCar(spouseName,3,100))&&spouseDob!=""){

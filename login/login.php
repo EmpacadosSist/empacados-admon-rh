@@ -20,9 +20,9 @@ include '../conexion/conexion.php';
 			if($verify){
 				//usuario correcto
 				session_name('rh_admon');
-      	session_start();
+      	        session_start();
 
-      	unset($usuario->password);      			
+      	unset($usuario->password);     			
       	$_SESSION['identity'] = $usuario;
 				$userId=$usuario->userId;
 				$sql="CALL select_user_authorization('$userId')";
