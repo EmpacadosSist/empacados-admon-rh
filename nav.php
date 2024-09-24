@@ -3,6 +3,8 @@
 <?php require_once('conexion/conexion.php'); 
 $nombreEmpleado=$_SESSION['identity']->name." ".$_SESSION['identity']->lastName1." ".$_SESSION['identity']->lastName2;
 $puesto=$_SESSION['identity']->nombrePuesto;
+$iduser=$_SESSION['identity']->userId;
+$user = Consultas::listOneUsersImage($conn, $iduser);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -10,9 +12,6 @@ $puesto=$_SESSION['identity']->nombrePuesto;
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
-
-
-
   <!-- =======================================================
   * Template Name: NiceAdmin
   * Updated: Nov 17 2023 with Bootstrap v5.3.2
@@ -35,20 +34,18 @@ $puesto=$_SESSION['identity']->nombrePuesto;
       <i class="bi bi-list toggle-sidebar-btn"></i>
     </div><!-- End Logo -->
 
-
-
     <nav class="header-nav ms-auto">
       <ul class="d-flex align-items-center">
 
-
-
-
-
-        
-
         <li class="nav-item dropdown pe-3">          
           <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-            <img src="assets/img/profile_placeholder.jpg" alt="Profile" class="rounded-circle">
+            <div class="image-container">
+              <?php if(!empty($user)){ ?>
+                <img src="<?=$user[0]['ruta']?>" alt="Profile" class="rounded-circle si" >
+             <?php }else{ ?>
+                <img src="assets/img/profile_placeholder.jpg" alt="Profile" class="rounded-circle">
+             <?php } ?>
+            </div>
             <span class="d-none d-md-block dropdown-toggle ps-2"><?=$nombreEmpleado?></span>
           </a><!-- End Profile Iamge Icon -->
 
@@ -107,5 +104,12 @@ $puesto=$_SESSION['identity']->nombrePuesto;
       </ul>
     </nav><!-- End Icons Navigation -->
   </header><!-- End Header -->
+
+  <style>
+    .si{
+      width: 34px;
+      height: 34px;
+    }
+  </style>
 
 
