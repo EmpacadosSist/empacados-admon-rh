@@ -12,6 +12,9 @@
   <title>Indicadores</title>
   <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 
+  <!-- jQuery -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> 
+
 </head>
 
 <?php require 'layout/libreriasdatatable.php';?>
@@ -367,7 +370,7 @@
     </div>
 
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!--<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>-->
     <!-- Template Main JS File -->
     <script src="assets/js/main.js"></script>
 
@@ -376,7 +379,7 @@
     let arrIndRules = [];
     let oldArrRules = [];
     $(document).ready(function() {
-      //alert("si");
+
     });
 
     $(".editar-ind").click(function() {

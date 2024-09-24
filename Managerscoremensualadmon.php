@@ -13,6 +13,7 @@
   $indicadores=Consultas::listIndicator($conn);
   //$indicadoresMontos=Consultas::listIndicatorVPM($conn);   
   $formatos=Consultas::listValueTypes($conn);
+  $areas = Consultas::listAreas($conn); 
   //$month = 4;
 
   $month = isset($_GET['month']) ? $_GET['month'] : date('n');
@@ -23,11 +24,27 @@
   $mesSpanish=strtoupper($meses[$month-1]);
 ?>
 <style>
-  .st {
+.st {
   position: sticky;
   left: 0px;
   background-color: white;
   z-index: 2;
+}
+
+.st1 {
+  position: sticky;
+  left: 50px;
+  background-color: white;
+  z-index: 2;
+}
+
+th {
+  background-color: #222;
+  color: white;
+  padding: 2px;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 2px;
 }
 </style>
 <body>
@@ -55,6 +72,14 @@
 <?php endif; ?>
 
 <div class="row">
+  <div class="col">
+    <select class="form-select" name="area" id="area">
+      <option value="">Todas las áreas</option>
+      <?php for ($a=0; $a < count($areas); $a++) {  ?>
+        <option value="<?=$areas[$a]['areaId']?>"><?=$areas[$a]['nombreArea']?></option>  
+      <?php } ?>
+    </select>
+  </div>
   <div class="col"></div>
   <div class="col-3">
     <select class="form-select" name="mes" id="mes">
@@ -106,7 +131,9 @@
           <!-- Contenido de la tabla -->
           <thead>
             <tr>
-              <th class="st">Nombres</th>
+              <th class="st">Id</th>
+              <th class="st1">Nombres</th>
+              <th>Área</th>
               <th>Reglas Bonos GyD</th>
               <th>Reglas Bonos SyL</th>
               <th>Comentarios</th>
@@ -135,8 +162,10 @@
               $porcCumplimiento= Utils::porcCumplimiento($real,$objetivo);
               $diffPorc = Utils::diffPorc($real,$objetivo);                           
               ?>
-                  <tr data-id="<?=$indicadores[$i]['id']?>">
-                    <td class="st" style="min-width: 150px;"><?=$indicadores[$i]['nombreIndicador']?></td>
+                  <tr data-id="<?=$indicadores[$i]['id']?>" class="<?=$indicadores[$i]['areaId']?>">
+                    <td class="st" style="min-width: 50px;"><?=$indicadores[$i]['id']?></td>
+                    <td class="st1" style="min-width: 100px;"><?=$indicadores[$i]['nombreIndicador']?></td>
+                    <td><?=$indicadores[$i]['nombreArea']?></td>
                     <td style="min-width: 300px;">
                       <!---->
                       <?=Utils::mostrarReglas($indicadoresReglaGyD)?>
@@ -216,6 +245,7 @@
 
 <script>
   $(document).ready(function() {
+
     // Configuración común para todas las tablas
     var commonConfig = {
       dom: 'Bfrtip',
@@ -345,6 +375,35 @@
       reload_page(mes, anio);
     });    
 
+    $("#area").on("change", function(){
+      // Declaramos el array vacío
+      let valores = [];
+      let valActual = $(this).val();
+
+      $('#area option').each(function() {
+        let valComp=$(this).val();
+        if(valComp!=''){
+          $("."+valComp).show();
+
+        }
+      });
+
+      // Seleccionamos todas las opciones dentro del select con id "anio"
+      $('#area option').each(function() {
+        let valComp=$(this).val();
+
+        if(valActual!=valComp && valComp!='' && valActual!=""){
+          $("."+valComp).hide();
+        }
+
+          // Obtenemos el valor de cada opción y lo añadimos al array
+          //valores.push($(this).val());
+      });
+
+      // Mostramos el array en la consola
+      //console.log("actual: "+valActual, valores);
+    });
+
     $(".subir-archivo").click(function() {
       let archivoppto = $('#archivo');
       let numIndicadores = $("#num_indicadores").val();
@@ -379,6 +438,10 @@
       }
     });    
     
+    const filtrar = (dato) => {
+
+    }
+
     const reload_page = (mes, anio) => {
       $(".loader").show();
       window.location.href='Managerscoremensualadmon.php?month='+mes+'&yr='+anio;
