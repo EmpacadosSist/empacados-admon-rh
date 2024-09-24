@@ -5,6 +5,72 @@
       /*
       alias de los campos
 	    'usuarioId',
+	    'superuserId',
+	    'puestoId',       
+      'numEmpleado', 
+      'ceco',
+	    'nombre', 
+  	  'apellido1', 
+   	  'apellido2', 
+      'nivel', 
+      'puesto', 
+      'fechaIngreso', 
+      'correo', 
+      'variable' 
+      */
+      $resultSP=$conn->query($sqlSP, MYSQLI_STORE_RESULT);
+      
+      $resultado=[];
+      //condicion para verificar si se hizo la insercion en la bd
+      if($resultSP){        
+        while($row = $resultSP->fetch_assoc()){
+          array_push($resultado, $row);
+        }
+      }
+      $conn->next_result();      
+      return $resultado;
+    }
+
+    public static function listUsersImage($conn){
+      $sqlSP="CALL select_user_image()";
+      /*
+      alias de los campos
+	    'usuarioId',
+	    'superuserId',
+	    'puestoId',       
+      'numEmpleado', 
+      'ceco',
+	    'nombre', 
+  	  'apellido1', 
+   	  'apellido2', 
+      'nivel', 
+      'puesto', 
+      'fechaIngreso', 
+      'correo', 
+      'variable' 
+      */
+      $resultSP=$conn->query($sqlSP, MYSQLI_STORE_RESULT);
+      
+      $resultado=[];
+      //condicion para verificar si se hizo la insercion en la bd
+
+      if($resultSP){        
+        while($row = $resultSP->fetch_assoc()){
+          array_push($resultado, $row);
+        }
+      }else{
+        echo "Error en la consulta: " . $conn->error;
+      }
+      $conn->next_result();      
+      return $resultado;
+    }
+
+    public static function listOneUsersImage($conn, $userId){
+      $sqlSP="CALL select_one_user_image($userId)";
+      /*
+      alias de los campos
+	    'usuarioId',
+	    'superuserId',
       'superuserId',
 	    'puestoId',       
       'numEmpleado', 

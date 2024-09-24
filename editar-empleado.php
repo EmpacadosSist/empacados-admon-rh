@@ -36,6 +36,7 @@
 <?php $puesto_empleado_id = $raw_user[0]['positionId']; ?>
 <?php $colonia_id = $raw_user[0]['coloniaId']; ?>
 <?php $jefe_directo_id = $raw_user[0]['superUserId']; ?>
+<?php $user = Consultas::listOneUsersImage($conn, $empId); ?>
 <?php 
 if($jefe_directo_id!=null){
   $jefe_directo = Consultas::listOneUser($conn, $jefe_directo_id); 
@@ -254,7 +255,20 @@ if($jefe_directo_id!=null){
                 <button class="form-control text-left" id="btnJefeDirecto"><?=$jefe_directo[0]['nombre']." ".$jefe_directo[0]['apellido1']." ".$jefe_directo[0]['apellido2']?></button>
                 <span id="error_btnJefeDirecto" class="text-danger"></span>
               </div>
-            </div>
+              <div class="form-group col-md-8">
+                <label for="fotoEmpleado"><i class="fas fa-user" id="lblfotoEmpleado"></i> Foto de empleado</label>
+                <div id="mensaje"></div>
+                  <form id="uploadForm">
+                    <input type="number" class="form-control" id="empNumHidd" name="empNumHidd" inputmode="numeric" hidden pattern="[0-9]+" value="<?=$num_empleado?>">
+                    <?php if(!empty($user)){?>
+                      <input type="text" class="form-control" id="comparador" name="comparador" inputmode="numeric" hidden pattern="[0-9]+" value="<?= $user[0]['numEmpleado'] ?>">
+                      <?php }else{ ?>
+                        <input type="text" class="form-control" id="comparador" name="comparador" inputmode="numeric" hidden pattern="[0-9]+" value="sin resultados">
+                   <?php } ?>
+                    <input type="file" class="form-control" id="image" name="image" required >
+                    <span hidden id="error_image" class="text-danger"></span>
+                  </form>
+                </div>
 
             <div class="row">
               <h2 id="title" class="animate__animated animate__bounceInDown card-title">
@@ -753,6 +767,20 @@ if($jefe_directo_id!=null){
   let arrHijos=[];
 
   $(document).ready(function(){
+
+    let oculto = $('#comparador').val()
+    let numeroEmpleado = $('#empNumHidd').val()
+
+    if(oculto !== numeroEmpleado){
+      document.getElementById('mensaje').innerHTML = 'el usuario actual no cuenta con imagen, ¿desea agregar?';
+    }else{
+      document.getElementById('mensaje').innerHTML = 'el usuario actual cuenta con imagen, ¿desea cambiar?';
+    }
+  
+
+  })
+
+  $(document).ready(function(){
     $(".fila-form").each(function() {
       let nombreHijo=$(this).find('.childName').val();
       let fechaNacHijo=$(this).find('.childDob').val();      
@@ -930,6 +958,35 @@ if($jefe_directo_id!=null){
     $("#postalcode").val(cp);
   });
 
+  $(document).ready(function(){
+
+  $("#empNum").on('input', function() {
+  var numempleado = $(this).val()
+  $("#empNumHidd").val(numempleado)
+
+    })
+  })
+
+  async function uploadImage() {
+
+    let formData = new FormData(document.getElementById('uploadForm'));
+
+    try {
+      const response = await fetch('subir_foto_empleado.php', {
+          method: 'POST',
+          body: formData
+      });
+
+      const result = await response.text();
+      document.getElementById('message').innerHTML = result;
+    }catch (error) {
+      console.error('Error:', error);
+      document.getElementById('message').innerHTML = 'Hubo un error al subir la imagen.';
+    }
+  }
+
+
+
   $("#btnGuardarEmpleado").click(async function () {
     let empId = $("#empId").val(); 
     let empNum = $("#empNum").val(); 
@@ -1007,12 +1064,14 @@ if($jefe_directo_id!=null){
     let bankAcc = $("#bankAcc").val(); 
     let superUser = $("#superUser").val(); 
     let variable=$("#variable").val();
+    // let image=$("#image").val();
 
     let fd = new FormData();
     //btnJefeDirecto
     mostrarErrorJefeDirecto($("#superUser"), $("#btnJefeDirecto"), 'Jefe directo obligatorio', 'error_btnJefeDirecto');
     //mostrarErrorJefeDirecto = (valiHidden, valiButton, msg, errorEl)
 
+    // mostrarError($("#image"), 'Imagen obligatoria', 'error_image');
     mostrarError($("#empNum"), 'Número de empleado obligatorio', 'error_empNum');
     mostrarError($("#lastName1"), 'Apellido paterno obligatorio', 'error_lastName1',true,3,50);
     mostrarError($("#lastName2"), 'Apellido materno obligatorio', 'error_lastName2',true,3,50);
@@ -1114,6 +1173,7 @@ if($jefe_directo_id!=null){
         enviarInfo(fd);
         console.log('procede - sin conyuge');
       }
+
       
     }else{
       console.log('no procede - faltan campos obligatorios');
@@ -1179,6 +1239,7 @@ if($jefe_directo_id!=null){
         let message = err.statusText || "Ocurrió un error";
         console.log(err);
       })   
+      uploadImage()
   }
 
 
