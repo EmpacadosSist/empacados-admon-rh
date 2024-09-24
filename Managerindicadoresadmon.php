@@ -12,6 +12,9 @@
   <title>Indicadores</title>
   <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 
+  <!-- jQuery -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> 
+
 </head>
 
 <?php require 'layout/libreriasdatatable.php';?>
@@ -23,6 +26,7 @@
 <?php $indicadores=Consultas::listIndicator($conn); ?>
 <?php $formatos = Consultas::listValueTypes($conn); ?>
 <?php $reglas = Consultas::listBonusRules($conn); ?>
+<?php $areas = Consultas::listAreas($conn); ?>
 
 <style>
 /* Estilos para reducir el tamaño de la tabla */
@@ -110,19 +114,26 @@
 
       <div class="row mt-3">
         <div class="col-6">
+          <label for="calcType">Tipo de cálculo:</label>
           <select class="form-select" name="calcType" id="calcType">
             <option value="0">Cálculo de porcentaje de completado</option>
             <option value="1">Cálculo de objetivo</option>
             <option value="2">Cálculo de diferencia</option>
           </select>     
-<!--    
-<div class="form-check">
-  <input class="form-check-input" type="checkbox" id="checkCalcType">
-  <label class="form-check-label" for="checkCalcType">
-    Activar cálculo alternativo de reglas de bono
-  </label>
-</div>
--->
+        </div>
+        <div class="col">
+        <label for="areaId">Área:</label>
+              <select id="areaId" name="areaId" class="form-select" required>
+                <option value="">- Seleccione -</option>
+                  <?php 
+                    for ($i=0; $i < count($areas); $i++) { ?>
+                  <option value="<?=$areas[$i]['areaId']?>">
+                    <?=$areas[$i]['nombreArea']?>
+                  </option>
+                  <?php 
+                    }
+                    ?>
+              </select>
         </div>
       </div>
 
@@ -285,6 +296,7 @@
               <thead>
                 <tr>
                   <th>Nombres</th>
+                  <th>Área</th>
                   <th>Reglas Bonos GyD</th>
                   <th>Reglas Bonos SyL</th>
                   <th>Comentarios</th>
@@ -301,8 +313,9 @@
               //$porcCumplimiento= Utils::porcCumplimiento($indicadores[$i]['real'],$indicadores[$i]['objetivo']);             
               ?>
                 <tr data-id="<?=$indicadores[$i]['id']?>" data-nombreInd="<?=$indicadores[$i]['nombreIndicador']?>"
-                  data-comentarios="<?=$indicadores[$i]['comentarios']?>" data-calculo="<?=$indicadores[$i]['calculo']?>">
+                  data-comentarios="<?=$indicadores[$i]['comentarios']?>" data-calculo="<?=$indicadores[$i]['calculo']?>" data-areaId="<?=$indicadores[$i]['areaId']?>">
                   <td style="min-width: 150px;"><?=$indicadores[$i]['nombreIndicador']?></td>
+                  <td><?=$indicadores[$i]['nombreArea']?></td>
                   <td style="min-width: 300px;">
                     <!---->
                     <?=Utils::mostrarReglas($indicadoresReglaGyD)?>
@@ -357,7 +370,7 @@
     </div>
 
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!--<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>-->
     <!-- Template Main JS File -->
     <script src="assets/js/main.js"></script>
 
@@ -366,7 +379,7 @@
     let arrIndRules = [];
     let oldArrRules = [];
     $(document).ready(function() {
-      //alert("si");
+
     });
 
     $(".editar-ind").click(function() {
@@ -375,26 +388,13 @@
       let nombre = $(this).parent().parent().attr('data-nombreInd');
       let comentarios = $(this).parent().parent().attr('data-comentarios');
       let calculo = $(this).parent().parent().attr('data-calculo');
+      let areaId = $(this).parent().parent().attr('data-areaId');
 
       $("#indicatorId").val(id);
       $("#indicatorName").val(nombre);
       $("#comments").val(comentarios);
-
-
-      //let isChecked = calculo=='0' ? false : true; 
-
-      //$("#checkCalcType").prop('checked',isChecked);
-
-      /*
-      if(isChecked){
-        $(".type_0").hide();
-        $(".type_1").show();
-      }else{
-        $(".type_0").show();
-        $(".type_1").hide();
-      }
-      */
-
+      console.log(areaId);
+      $("#areaId").val(areaId);
       $("#calcType").val(calculo);
       switch (calculo) {
         case '0':
@@ -417,35 +417,9 @@
         break;
       }
 
-
-      console.log(calculo);
       cargar_reglas(id);
       //console.log({id, nombre, comentarios});
     })
-
-    /*
-    $("#checkCalcType").on('change', function(){
-      //arrayRules($(this), 'syl');
-      //console.log($(this).is(':checked'));
-      let agregado=$(".agregar");
-      let gyd= $(".gyd");
-      let syl= $(".syl");
-      agregado.prop('checked', false);
-      gyd.prop('checked', false);
-      syl.prop('checked', false);
-      
-      gyd.prop('disabled', true);
-      syl.prop('disabled', true);
-      if($(this).is(':checked')){
-        $(".type_0").hide();
-        $(".type_1").show();
-      }else{
-        $(".type_0").show();
-      $(".type_1").hide();
-    }
-    });      
-    */
-
 
     $("#calcType").on('change', function(){
       //arrayRules($(this), 'syl');
@@ -490,6 +464,7 @@
       let indicadorId = $("#indicatorId").val();
       let nombreInd = $("#indicatorName").val();
       let comments = $("#comments").val();
+      let areaId = $("#areaId").val();
       //let calculationType=$("#checkCalcType").is(':checked');    
       let calculationType = $("#calcType").val();
 
@@ -572,7 +547,7 @@
       }
       //se ejecuta funcionalidad de actualizacion del indicador con sus rules
       //console.log(arrRules, arrEliminadosRules, indicadorId, nombreInd, comments, calculationType)
-      actualizar_indicador(arrRules, arrEliminadosRules, indicadorId, nombreInd, comments, calculationType)
+      actualizar_indicador(arrRules, arrEliminadosRules, indicadorId, nombreInd, comments, calculationType, areaId)
     })
 
     $(".agregar").on('change', function() {
@@ -644,7 +619,7 @@
         })
     }
 
-    const actualizar_indicador = (arrRules, arrEliminadosRules, indicatorId, indicatorName, comments, calculationType) => {
+    const actualizar_indicador = (arrRules, arrEliminadosRules, indicatorId, indicatorName, comments, calculationType, areaId) => {
       $(".loader").show();
       let fd = new FormData();
 
@@ -652,6 +627,7 @@
       fd.append('indicatorName', indicatorName);
       fd.append('comments', comments);
       fd.append('calculationType', calculationType);
+      fd.append('areaId', areaId);      
 
       fetch('cambios/actualizar_indicador.php', {
           method: "POST",

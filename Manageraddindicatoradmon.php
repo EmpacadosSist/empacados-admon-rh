@@ -44,6 +44,7 @@
 
 <?php $formatos = Consultas::listValueTypes($conn); ?>
 <?php $reglas = Consultas::listBonusRules($conn); ?>
+<?php $areas = Consultas::listAreas($conn); ?>
 
 <body>
 <main id="main" class="main">
@@ -105,7 +106,7 @@
           
           <div class="row mt-3">
             <div class="col-6"> 
-              
+              <label for="calcType">Tipo de cálculo:</label>
               <select class="form-select" name="calcType" id="calcType">
                 <option value="0">Cálculo de porcentaje de completado</option>
                 <option value="1">Cálculo de objetivo</option>
@@ -122,6 +123,23 @@
               
             </div>
             <div class="col">
+              <label for="areaId">Área:</label>
+              <select id="areaId" name="areaId" class="form-select" required>
+                <option value="">- Seleccione -</option>
+                  <?php 
+                    for ($i=0; $i < count($areas); $i++) { ?>
+                  <option value="<?=$areas[$i]['areaId']?>">
+                    <?=$areas[$i]['nombreArea']?>
+                  </option>
+                  <?php 
+                    }
+                    ?>
+              </select>
+            </div>
+          </div>
+
+          <div class="row mt-3">
+            <div class="col">
               <div class="form-check">
                 <input class="form-check-input" type="checkbox" id="checkAllYear">
                 <label class="form-check-label" for="checkAllYear">
@@ -129,6 +147,7 @@
                 </label>
               </div>
             </div>
+            <div class="col"></div>
           </div>
           
           <div class="row mt-3">
@@ -298,6 +317,7 @@
       let indicatorName=$("#indicatorName").val();
       let realValue=$("#realValue").val();
       let targetValue=$("#targetValue").val();
+      let areaId=$("#areaId").val();
       let comments = $("#comments").val();
       let allYear=$("#checkAllYear").is(':checked');
       //let calculationType=$("#checkCalcType").is(':checked'); 
@@ -312,6 +332,7 @@
           realValue,
           targetValue,
           calculationType,
+          areaId,
           comments
         }, allYear);
       }
