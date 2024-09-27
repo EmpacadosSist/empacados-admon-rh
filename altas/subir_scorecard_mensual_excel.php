@@ -11,14 +11,6 @@ $tipo       = $_FILES['archivo']['type'];
 $tamanio    = $_FILES['archivo']['size'];
 $archivotmp = $_FILES['archivo']['tmp_name'];
 $sql="";
-//SE RECIBIRA EL NUMERO DE INDICADORES PARA CONTAR LAS COLUMNAS +3
-//$numind=3+3;
-
-//$numInd= isset($_POST['numIndicadores']) ? $_POST['numIndicadores'] : "";
-//$numIndVal = Validar::validarNum($numInd);  
-
-//$paymentVar = isset($_POST['paymentVar']) ? $_POST['paymentVar'] : "";    
-//$paymentVarVal = Validar::validarNum($paymentVar);
 
 $month = isset($_POST['month']) ? $_POST['month'] : "";
 $monthVal = Validar::validarNum($month);
@@ -27,17 +19,16 @@ $year = isset($_POST['year']) ? $_POST['year'] : "";
 $yearVal = Validar::validarNum($year);  
 
 if($monthVal&&$yearVal){
-  //aqui se suma 3 al total
-  //$numInd+=3;
 
+
+  /*
   $arrInd=[];
   $indicadores=Consultas::listIndicator($conn);
-
+  
   for($i=0; $i<count($indicadores); $i++){
     array_push($arrInd, $indicadores[$i]['id']);
   }
-
-
+  */
 
   $spreadsheet = new Spreadsheet();
 
@@ -71,14 +62,15 @@ if($monthVal&&$yearVal){
 
         if($arr[$i][1]!=""){
           //$nombre=$arr[$i][0];
-          $real=($arr[$i][0]==""||!is_numeric($arr[$i][0])) ? "0.00" : $arr[$i][0];
-          $objetivo=($arr[$i][1]==""||!is_numeric($arr[$i][1])) ? "0.00" : $arr[$i][1];
-          $formato=$arr[$i][2];                    
+          $indicatorId=$arr[$i][0];
+          $real=($arr[$i][2]==""||!is_numeric($arr[$i][2])) ? "0.00" : $arr[$i][2];
+          $objetivo=($arr[$i][3]==""||!is_numeric($arr[$i][3])) ? "0.00" : $arr[$i][3];
+          $formato=$arr[$i][4];                    
 
           //$resultado .= " ** $real * $objetivo * $formato** ";
           
           //tomar id de los indicadores para actualizar o agregar
-          $indicatorId=$arrInd[$i-1];
+          //$indicatorId=$arrInd[$i-1];
           //$resultado .= "CALL update_value_per_month($indicatorId, '$real', '$objetivo', $formato, $month, $year)";
           
           //actualizar variable del empleado
@@ -92,40 +84,6 @@ if($monthVal&&$yearVal){
             //se guarda en una variable el resultado de haber un error al agregar a la bd      
             $resultado .= "fallo variable; ";              
           }  
-          
-          /*
-          for($j=3; $j<$numInd; $j++){
-            //dependiendo el numero de indicadores, sera el indice del array
-            $indicadorId=$indicadores[$j-3]["id"];
-            
-            //primer campo - clave cliente
-            $valor=isset($arr[$i][$j]) ? $arr[$i][$j] : "";
-
-            //verificar que no tenga valor y que este vacio, luego hacer negativa la condicion
-            if(!(is_null($valor) || $valor === '')){
-
-              $valorVal = Validar::validarNum($valor);
-              
-              if($valorVal){
-                $sql="call insert_position_indicator_excel('$numemp', '$indicadorId', '$valor', @position_id);";
-                $resultSP=$conn->query($sql);
-              }else{
-                $resultSP=false;
-              }
-              
-              if($resultSP){
-                //se guarda en una variable el resultado de haber agregado o atcualizado exitosamente el empleado
-                $resultado .= "exito; ";              
-              }else{
-                //se guarda en una variable el resultado de haber un error al agregar a la bd      
-                $resultado .= "fallo; ";              
-              }   
-            }else{
-              $resultado .= "vacio; $valor";
-            }
-          }
-          */
-
         }			
       }
     }

@@ -59,8 +59,11 @@ th {
 
 <?php if($permisoEdicion): ?>
 <div class="row mb-3 mt-3">
+  <div class="col">
+    <a class="btn btn-success" href="generar_xlsx_scorecard.php?areaid=0" id="btnDescargar">Descargar plantilla excel con id</a>
+  </div>
   <div class="col d-flex justify-content-end">
-    <label for="archivo">Seleccionar plantilla excel: </label>
+    <label for="archivo"></label>
   </div>
   <div class="col">
     <input class="form-control" type="file" name="archivo" id="archivo" accept=".xls,.xlsx">
@@ -402,6 +405,8 @@ th {
 
       // Mostramos el array en la consola
       //console.log("actual: "+valActual, valores);
+
+      changeParam(valActual);
     });
 
     $(".subir-archivo").click(function() {
@@ -519,5 +524,22 @@ th {
         x1 = x1.replace(rgx, '$1' + ',' + '$2');
       }
       return x1 + x2;
+    }
+
+    const changeParam = (nuevoAreaId) => {
+      // Obtener el valor actual del href
+      var hrefActual = $('#btnDescargar').attr('href');
+      
+      if(nuevoAreaId==''){
+        nuevoAreaId=0;
+      }
+      // Aquí se cambia el valor del parámetro "areaid" a 5
+      //var nuevoAreaId = 5;
+        
+      // Modificar el href agregando el nuevo parámetro "areaid"
+      var nuevoHref = hrefActual.replace(/areaid=\d+/, 'areaid=' + nuevoAreaId);
+        
+      // Asignar el nuevo href al botón
+      $('#btnDescargar').attr('href', nuevoHref);
     }
   </script>

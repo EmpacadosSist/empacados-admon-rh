@@ -226,6 +226,31 @@
       return $resultado;
 
     }    
+
+    public static function listIndicatorByArea($conn, $areaId){
+      $sqlSP="CALL select_indicator_by_area_id($areaId)";
+      /*
+      alias de los campos
+	    'id',
+	    'nombreIndicador',
+	    'comentarios',
+      'calculo',
+      'areaId'
+      'nombreArea'
+      */
+      $resultSP=$conn->query($sqlSP, MYSQLI_STORE_RESULT);
+      
+      $resultado=[];
+      //condicion para verificar si se hizo la insercion en la bd
+      if($resultSP){        
+        while($row = $resultSP->fetch_assoc()){
+          array_push($resultado, $row);
+        }
+      }
+      $conn->next_result();
+      return $resultado;
+
+    }        
     
     public static function listBonusRuleByIndicatorId($conn, $indicatorId, $type){
       $sqlSP="CALL select_bonusrule_by_indicator($indicatorId,$type)";

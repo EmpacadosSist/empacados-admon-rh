@@ -41,6 +41,29 @@
 .table-rule td {
   text-align: center;
 }
+
+.st {
+  position: sticky;
+  left: 0px;
+  background-color: white;
+  z-index: 2;
+}
+
+.st1 {
+  position: sticky;
+  left: 50px;
+  background-color: white;
+  z-index: 2;
+}
+
+th {
+  background-color: #222;
+  color: white;
+  padding: 2px;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 2px;
+}
 </style>
 
 <body>
@@ -276,6 +299,21 @@
         <div class="col">
         </div>
       </div>
+
+      <div class="row mt-3 mb-3">
+        <div class="col">
+          <select class="form-select" name="area" id="area">
+            <option value="">Todas las áreas</option>
+            <?php for ($a=0; $a < count($areas); $a++) {  ?>
+            <option value="<?=$areas[$a]['areaId']?>"><?=$areas[$a]['nombreArea']?></option>  
+            <?php } ?>
+          </select>
+        </div>        
+        <div class="col">          
+        </div>
+        <div class="col"></div>
+      </div>
+
       <!-- Pestañas -->
       <ul class="nav nav-tabs" id="pestanas" role="tablist">
         <li class="nav-item">
@@ -295,7 +333,8 @@
               <!-- Contenido de la tabla -->
               <thead>
                 <tr>
-                  <th>Nombres</th>
+                  <th class="st">Id</th>
+                  <th class="st1">Nombres</th>
                   <th>Área</th>
                   <th>Reglas Bonos GyD</th>
                   <th>Reglas Bonos SyL</th>
@@ -312,9 +351,10 @@
               $indicadoresReglaSyL=Consultas::listBonusRuleByIndicatorId($conn,$indicadores[$i]['id'],1);
               //$porcCumplimiento= Utils::porcCumplimiento($indicadores[$i]['real'],$indicadores[$i]['objetivo']);             
               ?>
-                <tr data-id="<?=$indicadores[$i]['id']?>" data-nombreInd="<?=$indicadores[$i]['nombreIndicador']?>"
+                <tr class="<?=$indicadores[$i]['areaId']?>" data-id="<?=$indicadores[$i]['id']?>" data-nombreInd="<?=$indicadores[$i]['nombreIndicador']?>"
                   data-comentarios="<?=$indicadores[$i]['comentarios']?>" data-calculo="<?=$indicadores[$i]['calculo']?>" data-areaId="<?=$indicadores[$i]['areaId']?>">
-                  <td style="min-width: 150px;"><?=$indicadores[$i]['nombreIndicador']?></td>
+                  <td class="st" style="min-width: 50px;"><?=$indicadores[$i]['id']?></td>
+                  <td class="st1" style="min-width: 100px;"><?=$indicadores[$i]['nombreIndicador']?></td>
                   <td><?=$indicadores[$i]['nombreArea']?></td>
                   <td style="min-width: 300px;">
                     <!---->
@@ -566,6 +606,31 @@
         //arrRules = arrRules.filter(function (el) { return (el.rule != ruleId); });
       }
     });
+
+
+    $("#area").on("change", function(){
+      // Declaramos el array vacío
+      let valores = [];
+      let valActual = $(this).val();
+
+      $('#area option').each(function() {
+        let valComp=$(this).val();
+        if(valComp!=''){
+          $("."+valComp).show();
+
+        }
+      });
+
+      // Seleccionamos todas las opciones dentro del select con id "anio"
+      $('#area option').each(function() {
+        let valComp=$(this).val();
+
+        if(valActual!=valComp && valComp!='' && valActual!=""){
+          $("."+valComp).hide();
+        }
+      });
+    });
+
 
     const cargar_reglas = (indicatorId) => {
       fetch('helpers/cargar_reglas_bono.php?indicatorId=' + indicatorId, {
