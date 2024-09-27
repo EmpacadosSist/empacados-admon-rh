@@ -15,7 +15,9 @@
   <?php require 'nav.php'; ?>
   <?php require 'layout/sidebar.php';?>
   <?php $empleados = Consultas::listUsers($conn); ?>
-  <?php $autorizaciones = Consultas::listAuthorizations($conn); ?>  
+  <?php $autorizaciones = Consultas::listAuthorizations($conn); ?> 
+  <?php $user = Consultas::listOneUser($conn, 1); ?>
+   
 
 
 </head>
@@ -232,6 +234,7 @@
                           <tr>
                             <th>Permisos</th>
                             <th>Editar empleado</th>
+                            <th>Dar de baja</th>
                             <th>Nombre</th>
                             <th>Apellido Paterno</th>
                             <th>Apellido Materno</th>
@@ -253,11 +256,21 @@
                           <?php 
                           for ($i=0; $i < count($empleados); $i++) { 
                             //$empleadoNombre=$empleados[$i]['nombre']." ".$empleados[$i]['apellido1']." ".$empleados[$i]['apellido2'];  
+                            $numEmpleado=$empleados[$i]['numEmpleado'];
                             $empId=$empleados[$i]['usuarioId'];
+                            $name=$empleados[$i]['nombre'];
+                            $lastname1=$empleados[$i]['apellido1'];
+                            $lastname2=$empleados[$i]['apellido2'];
+                            $fechaIngreso=$empleados[$i]['fechaIngreso'];
+                            $area=$empleados[$i]['area'];
+                            $departamento=$empleados[$i]['departamento'];
+                            $puesto=$empleados[$i]['puesto'];
                           ?>
-                            <tr data-empId="<?=$empId?>">
+                            <tr data-empId="<?=$empId?>" data-name=<?=$name?> data-NumEmp=<?=$numEmpleado?> data-lastname1=<?= $lastname1 ?> data-lastname2=<?= $lastname2 ?>
+                            data-FechaIngreso="<?= $fechaIngreso ?>" data-puesto="<?= $puesto ?>" data-area="<?= $area ?>" data-departamento="<?= $departamento ?>">
                               <td class="text-center"><button class="btn btn-success btn-sm select-permisos"><i class="bi bi-pencil-square"></i></button></td>
                               <td class="text-center"> <a href="editar-empleado.php?id=<?=$empId?>" class="btn btn-primary btn-sm"><i class="bi bi-pencil-square"></i></a></td>                              
+                              <td class="text-center"><button style="background-color:#be3030;" class="btn btn-secondary btn-sm select-baja"><i class="bi bi-x-lg"></i></button></td>
                               <td><?=$empleados[$i]['nombre']?></td>
                               <td><?=$empleados[$i]['apellido1']?></td>
                               <td><?=$empleados[$i]['apellido2']?></td>
@@ -293,6 +306,7 @@
     </section>
   </main><!-- End #main -->
 
+  <!-- modal de permisos  -->
   <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="permisosModalLabel"
   aria-hidden="true" id="modalPermisos">
     <div class="modal-dialog modal-sm">
@@ -321,6 +335,153 @@
       </div>
     </div>
   </div>
+
+  <!-- modal de bajas  -->
+  <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="BajasModalLabel"
+  aria-hidden="true" id="modalBajas">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" id="BajasModalLabel">Dar de baja</h4>
+          <button type="button" class="close" aria-label="Close" id="modalBajasClose">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+
+        <div class="modal-body">
+        <section class="section"> 
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="card">   
+            <div class="card-body">
+              <h2 align="text-center" id="title" class="animate__animated animate__bounceInRight card-title">Datos de Empleado
+                <img style="text-align: center;" src="assets/img/ecluir.gif" width="50" alt="">
+              </h2>
+              <div>
+                <div class="form-row">
+                  <div class="form-group col-md-3">
+                    <label for="employeeNumber"><i class="fas fa-id-card"></i> No. de empleado</label>
+                    <input type="text" class="form-control" id="employeeNumber" name="employeeNumber" inputmode="numeric" pattern="[0-9]+" readonly>
+                  </div>
+                  <div class="form-group col-md-3">
+                    <label for="lastName"><i class="fas fa-user"></i> Apellido Paterno</label>
+                    <input type="text" class="form-control" id="lastName" name="lastName" pattern="[A-Za-z]+" title="Solo se permiten caracteres" readonly>
+                  </div>
+                  <div class="form-group col-md-3">
+                    <label for="secondName"><i class="fas fa-user"></i> Apellido Materno</label>
+                    <input type="text" class="form-control" id="secondName" name="secondName" pattern="[A-Za-z]+" title="Solo se permiten caracteres" readonly>
+                  </div>
+                  <div class="form-group col-md-3">
+                    <label for="name"><i class="fas fa-user"></i> Nombre(s)</label>
+                    <input type="text" class="form-control" id="name" name="name" pattern="[A-Za-z]+" title="Solo se permiten caracteres" readonly>
+                  </div>
+                  <!-- <div class="form-group col-md-3">
+                    <label for="age"><i class="fas fa-birthday-cake"></i> Edad</label>
+                    <input type="text" class="form-control" id="age" name="age" pattern="[A-Za-z]+" title="Solo se permiten caracteres">
+                  </div>
+                  <div class="form-group col-md-3">
+                    <label for="datebirthday"><i class="fas fa-calendar-alt"></i> Fecha de Nacimiento</label>
+                    <input type="text" class="form-control" id="datebirthday" name="datebirthday" pattern="[A-Za-z]+" title="Solo se permiten caracteres">
+                  </div>
+                  <div class="form-group col-md-3">
+                    <label for="placebirth"><i class="fas fa-map-marker-alt"></i> Lugar de nacimiento</label>
+                    <input type="text" class="form-control" id="placebirth" name="placebirth" pattern="[A-Za-z]+" title="Solo se permiten caracteres">
+                  </div>
+                  <div class="form-group col-md-3">
+                    <label for="sex"><i class="fas fa-venus-mars"></i> Sexo</label>
+                    <input type="text" class="form-control" id="sex" name="sex" pattern="[A-Za-z]+" title="Solo se permiten caracteres">
+                  </div> -->
+                  <!-- Agrega más campos según sea necesario -->
+                </div>
+                <div class="form-row">
+                  <div class="form-group col-md-3">
+                    <label for="dateadmission"><i class="fas fa-calendar-alt"></i> Fecha de Ingreso</label>
+                    <input type="text" class="form-control" id="dateadmission" name="dateadmission" pattern="[A-Za-z]+" title="Solo se permiten caracteres" readonly>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="work_area"><i class="fas fa-building"></i> Área</label>
+                    <input type="text" class="form-control" id="work_area" name="work_area" readonly></input>
+                  </div>
+                  <div class="form-group col-md-3">
+                    <label for="department"><i class="fas fa-building"></i> Departamento</label>
+                    <input type="text" class="form-control" id="department" name="department" readonly></input>        
+                  </div>
+                  <div class="form-group col-md-5">
+                    <label for="position"><i class="fas fa-user-tie"></i> Puesto</label>
+                    <input type="text" class="form-control" id="position" name="position" readonly></input>    
+                  </div>
+                  <!-- <div class="form-group col-md-4">
+                    <label for="Costs"><i class="fas fa-dollar-sign"></i> Centro de Costos</label>
+                    <select class="form-control" id="Costs" name="Costs" on>
+                      <option value="ONLINE">ON LINE</option>              
+                    </select>
+                  </div> -->
+                  <!-- Agrega más campos según sea necesario -->
+                </div>      
+                
+                <h2 align="text-center" id="title" class="animate__animated animate__bounceInRight card-title">          
+                  Información de Baja Personal
+                  <img src="assets/img/cancelar.gif" alt="" width="60">
+                </h2> 
+
+                <div class="form-row">
+                  <div class="form-group col-md-3">
+                    <label for="datedownpersonal"><i class="fas fa-calendar-alt"></i> Fecha de Baja</label>
+                    <input type="date" class="form-control" id="datedownpersonal" name="datedownpersonal" pattern="[A-Za-z]+" title="Solo se permiten caracteres">
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="motivo_separacion"><i class="fas fa-sign-out-alt"></i> Motivo de Separación</label>
+                    <input type="text" class="form-control" id="motivo_separacion" name="motivo_separacion">
+                  </div>
+                  <div class="form-group col-md-3">
+                    <label for="recontratable"><i class="fas fa-undo-alt"></i> Recontratable</label>
+                    <select class="form-control" id="recontratable" name="recontratable">
+                      <option value="si">Sí</option>
+                      <option value="no">No</option>
+                    </select>
+                  </div>
+                  <div class="form-group col-md-12">
+                    <label for="noRecontratable"><i class="bi bi-x-circle-fill"></i> Motivo de no recontratacion</label>
+                    <textarea class="form-control" id="noRecontratable" name="noRecontratable" rows="3"></textarea>
+                  </div>
+                  <!-- <div class="form-group col-md-5">
+                    <label for="rfc"><i class="fas fa-id-badge"></i> RFC</label>
+                    <input type="text" class="form-control" id="rfc" name="rfc">
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label for="cp_rfc"><i class="fas fa-map-marker-alt"></i> C.P. del RFC</label>
+                    <input type="text" class="form-control" id="cp_rfc" name="cp_rfc">
+                  </div> -->
+                  <!-- <div class="form-group col-md-4">
+                    <label for="sueldo_base"><i class="fas fa-dollar-sign"></i> Sueldo Base</label>
+                    <input type="text" class="form-control" id="sueldo_base" name="sueldo_base">
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label for="bonos_despensa"><i class="fas fa-gift"></i> Bonos de Despensa</label>
+                    <input type="text" class="form-control" id="bonos_despensa" name="bonos_despensa">
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label for="fondo_ahorro"><i class="fas fa-piggy-bank"></i> Fondo de Ahorro (quincenal)</label>
+                    <input type="text" class="form-control" id="fondo_ahorro" name="fondo_ahorro">
+                  </div> -->
+                  <div class="form-group col-md-12">
+                    <label for="comentarios"><i class="fas fa-comments"></i> Comentarios</label>
+                    <textarea class="form-control" id="comentarios" name="comentarios" rows="3"></textarea>
+                  </div>
+                  <div><br><br><br><br><br></div>
+                </div>
+              </div>
+            </div>
+            <!-- <button type="submit" id="BtnModalBajaEmpleado" class="btn btn-primary">Guardar</button> -->
+        </section>
+        </div>
+
+        <div class="modal-footer">
+          <button class="btn btn-primary" id="btnBajaEmpleado">Guardar</button>
+        </div>
+      </div>
+    </div>
+  </div>
   <!-- Include Bootstrap JS -->
 
   <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
@@ -334,7 +495,9 @@
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-rc.0/js/select2.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-rc.0/js/i18n/es.js"></script>
-  
+    <!-- Sweet Alert -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
   <script src="assets/js/main.js"></script>
   <script>  
@@ -397,7 +560,75 @@
         
         $('#modalPermisos').modal('show');
         //console.log("asi");
-      });      
+      }); 
+
+      table.on('click', 'tbody tr .select-baja', function () {
+
+        let empId=$(this).parent().parent().attr('data-empId');
+        let nameEmp=$(this).parent().parent().attr('data-name');
+        let numEmp=$(this).parent().parent().attr('data-NumEmp');
+        let lastname1=$(this).parent().parent().attr('data-lastname1');
+        let lastname2=$(this).parent().parent().attr('data-lastname2');
+        let fechaIngreso=$(this).parent().parent().attr('data-FechaIngreso');
+        let area=$(this).parent().parent().attr('data-area');
+        let departamento=$(this).parent().parent().attr('data-departamento');
+        let puesto=$(this).parent().parent().attr('data-puesto');
+        
+        $("#employeeNumber").val(numEmp);
+        $("#name").val(nameEmp);
+        $("#lastName").val(lastname1);
+        $("#secondName").val(lastname2);
+        $("#dateadmission").val(fechaIngreso);
+        $("#work_area").val(area);
+        $("#department").val(departamento);
+        $("#position").val(puesto);
+        
+        $('#modalBajas').modal('show');
+        //console.log("asi");
+      });  
+
+        $('#btnBajaEmpleado').click(function(){
+        Swal.fire({
+          title: "¿Esta Seguro?",
+          text: "Esta accion no se podra revertir",
+          icon: "warning",
+          showCancelButton: true,
+          cancelButtonText: "cancelar",
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+          confirmButtonText: "Si, dar de baja"
+        }).then((result) => {
+          if (result.isConfirmed) {
+
+            let FechaBaja = $('#datedownpersonal').val()
+            let MotivoSeparacion = $('#motivo_separacion').val()
+            let Recontratable = $('#recontratable').val()
+            let MotivoNoRec = $('#noRecontratable').val()
+
+            if(FechaBaja != "" || MotivoSeparacion != "" || Recontratable != "" || MotivoNoRec != ""){
+
+              let fd = new FormData()
+
+              fd.append("FechaBaja", FechaBaja)
+              fd.append("MotivoSeparacion", MotivoSeparacion)
+              fd.append("Recontratable", Recontratable)
+              fd.append("MotivoNoRec", MotivoNoRec)
+
+              fetch('deshabilitar_usuario.php',{
+                method: "POST",
+                body: fd
+              })
+
+            }
+
+            Swal.fire({
+              title: "Baja Exitosa",
+              // text: "El empleado fue dado de baja.",
+              icon: "success"
+            });
+          }
+        });
+      })
 
       $("#guardarModalPermisos").click(function(){
         let fd = new FormData();
@@ -424,6 +655,10 @@
 
       $("#modalPermisosClose").click(function(){
         $('#modalPermisos').modal('hide');
+      });
+
+      $("#modalBajasClose").click(function(){
+        $('#modalBajas').modal('hide');
       });
 
       const subirAutorizacion = (fd) => {
@@ -554,12 +789,9 @@
           column.visible(!column.visible());
         });
 
-
-
       });
 
     });
-
 
   </script>
 
