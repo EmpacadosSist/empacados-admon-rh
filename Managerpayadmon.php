@@ -8,6 +8,8 @@
   $permisoRev = Utils::buscarPermiso(10);
   //permiso no. 11 autorización de pagos  
   $permisoAut = Utils::buscarPermiso(11);  
+  //permiso no. 12 ver todos los pagos de todos los empleados
+  $permisoPagosTodos  = Utils::buscarPermiso(12);
   
 ?>
 <?php require 'layout/libreriasdatatable.php';?>
@@ -18,8 +20,18 @@
   $indicadores=Consultas::listIndicator($conn); 
   //$usuarios=Consultas::listUsers($conn);
   $current_user_id = $_SESSION['identity']->userId;
-  $usuarios=Consultas::listUsersBySupervisor($conn,$current_user_id);
+
+  if($permisoPagosTodos){
+    $usuarios=Consultas::listUsersBySupervisor($conn,1);
+
+  }else{
+    $usuarios=Consultas::listUsersBySupervisor($conn,$current_user_id);    
+  }
+  
+  
   $j=0;
+  //variable donde se guarda en enlace entre el usuario y la autorizacion. en este caso solo se usara para revision o para autorizacion de pagos
+  $enlaceValidacion="";
 ?>
 <style>
 .st {
@@ -55,7 +67,30 @@ th {
       </div><!-- End Page Title -->
 
     <!--LA SIGUIENTE VALIDACION ES PARA VERIFICAR SI EL USUARIO ACTUAL TIENE PERMISO DE AUTORIZAR LOS PAGOS-->
-    <?php if($permisoRev || $permisoAut): ?>
+    <?php if($permisoRev || $permisoAut): 
+
+
+
+      //con este for vamos a buscar los permisos requeridos
+      //ojo: para este caso solo ocuparemos la revision y la autorizacion y solo puede ser una de las dos
+      for ($au=0; $au < count($_SESSION['permisos']); $au++) { 
+        //si contiene el permiso revision, se obtiene el userAuthorizationId 
+        //revision es la no. 10
+        if($_SESSION['permisos'][$au]['autorizacionId']=='10'){
+          $enlaceValidacion=$_SESSION['permisos'][$au]['enlaceAutorizacionId'];
+        }
+
+        //si contiene el permiso autorizacion, se obtiene el userAuthorizationId 
+        //autorizacion es la no. 11
+        if($_SESSION['permisos'][$au]['autorizacionId']=='11'){
+          $enlaceValidacion=$_SESSION['permisos'][$au]['enlaceAutorizacionId'];
+
+        }        
+      }
+
+      var_dump($enlaceValidacion);
+
+    ?>
     <div class="row">
       <div class="col"></div>
       <div class="col"></div>
@@ -63,10 +98,10 @@ th {
 
         <!--LA SIGUIENTE VALIDACION ES PARA VERIFICAR QUE TIPO DE VALIDACIÓN VA A HACER EL USUARIO QUE PUEDE HACERLA-->
         <?php if($permisoRev): ?>
-          <button class="btn btn-warning">Validar pagos para autorización</button>
+          <button class="btn btn-warning" id="validar">Validar pagos para autorización</button>
         <?php endif; ?>
         <?php if($permisoAut): ?>
-          <button class="btn btn-warning">Autorizar pagos</button>
+          <button class="btn btn-warning" id="autorizar">Autorizar pagos</button>
         <?php endif; ?>
       </div>
     </div>
@@ -450,6 +485,15 @@ th {
     let currentUserId = $("#currentUserId").val();
     recargar_tabla(currentUserId,mes);
   });
+
+  $("#validar").click(function(){
+    alert("validar");
+  });
+
+  $("#autorizar").click(function(){
+    alert("autorizar");
+  });  
+
   const subir_pos_ind = (indicadorId, puestoId, porcentaje, boton) => {
     let datos = {
       indicatorId: indicadorId,
