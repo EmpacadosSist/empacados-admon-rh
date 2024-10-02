@@ -361,6 +361,7 @@
                 <div class="form-row">
                   <div class="form-group col-md-3">
                     <label for="employeeNumber"><i class="fas fa-id-card"></i> No. de empleado</label>
+                    <input type="text" hidden class="form-control" id="idempl" name="idempl" inputmode="numeric" pattern="[0-9]+" readonly>
                     <input type="text" class="form-control" id="employeeNumber" name="employeeNumber" inputmode="numeric" pattern="[0-9]+" readonly>
                   </div>
                   <div class="form-group col-md-3">
@@ -428,10 +429,12 @@
                   <div class="form-group col-md-3">
                     <label for="datedownpersonal"><i class="fas fa-calendar-alt"></i> Fecha de Baja</label>
                     <input type="date" class="form-control" id="datedownpersonal" name="datedownpersonal" pattern="[A-Za-z]+" title="Solo se permiten caracteres">
+                    <span id="error_fechabaja" class="text-danger"></span>
                   </div>
                   <div class="form-group col-md-6">
                     <label for="motivo_separacion"><i class="fas fa-sign-out-alt"></i> Motivo de Separación</label>
                     <input type="text" class="form-control" id="motivo_separacion" name="motivo_separacion">
+                    <span id="error_separacion" class="text-danger"></span>
                   </div>
                   <div class="form-group col-md-3">
                     <label for="recontratable"><i class="fas fa-undo-alt"></i> Recontratable</label>
@@ -442,7 +445,8 @@
                   </div>
                   <div class="form-group col-md-12">
                     <label for="noRecontratable"><i class="bi bi-x-circle-fill"></i> Motivo de no recontratacion</label>
-                    <textarea class="form-control" id="noRecontratable" name="noRecontratable" rows="3"></textarea>
+                    <textarea class="form-control" disabled id="noRecontratable" name="noRecontratable" rows="3"></textarea>
+                    <span id="error_MotivoNo" class="text-danger"></span>
                   </div>
                   <!-- <div class="form-group col-md-5">
                     <label for="rfc"><i class="fas fa-id-badge"></i> RFC</label>
@@ -467,6 +471,7 @@
                   <div class="form-group col-md-12">
                     <label for="comentarios"><i class="fas fa-comments"></i> Comentarios</label>
                     <textarea class="form-control" id="comentarios" name="comentarios" rows="3"></textarea>
+                    <span id="error_Comentarios" class="text-danger"></span>
                   </div>
                   <div><br><br><br><br><br></div>
                 </div>
@@ -501,6 +506,24 @@
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
   <script src="assets/js/main.js"></script>
   <script>  
+
+    const mostrarError = (vali, msg, errorEl, isText=false, inf=0, sup=0) => {
+      let valor=vali.val();
+      if (valor == '') {
+        $('#' + errorEl).text(msg);
+        vali.css('border-color', '#cc0000');
+        //CuentaMayor = '';
+      } else {
+        msg = '';
+        $('#' + errorEl).text(msg);
+        vali.css('border-color', '');
+        if(isText && (valor.length<inf||valor.length>sup)){
+          $('#' + errorEl).text('Cantidad de carácteres inválida');
+          vali.css('border-color', '#cc0000');        
+        }
+      }
+    }
+
     $(document).ready(function () {
       var table = $('#myTable1').DataTable({
     "pageLength": 0,
@@ -574,6 +597,7 @@
         let departamento=$(this).parent().parent().attr('data-departamento');
         let puesto=$(this).parent().parent().attr('data-puesto');
         
+        $("#idempl").val(empId);
         $("#employeeNumber").val(numEmp);
         $("#name").val(nameEmp);
         $("#lastName").val(lastname1);
@@ -585,49 +609,93 @@
         
         $('#modalBajas').modal('show');
         //console.log("asi");
-      });  
+        });  
 
         $('#btnBajaEmpleado').click(function(){
-        Swal.fire({
-          title: "¿Esta Seguro?",
-          text: "Esta accion no se podra revertir",
-          icon: "warning",
-          showCancelButton: true,
-          cancelButtonText: "cancelar",
-          confirmButtonColor: "#3085d6",
-          cancelButtonColor: "#d33",
-          confirmButtonText: "Si, dar de baja"
-        }).then((result) => {
-          if (result.isConfirmed) {
 
-            let FechaBaja = $('#datedownpersonal').val()
-            let MotivoSeparacion = $('#motivo_separacion').val()
-            let Recontratable = $('#recontratable').val()
-            let MotivoNoRec = $('#noRecontratable').val()
+          let idempl = $('#idempl').val()
+          let FechaBaja = $('#datedownpersonal').val()
+          let MotivoSeparacion = $('#motivo_separacion').val()
+          let Recontratable = $('#recontratable').val()
+          let MotivoNoRec = $('#noRecontratable').val()
+          let Comentarios = $('#comentarios').val()
 
-            if(FechaBaja != "" || MotivoSeparacion != "" || Recontratable != "" || MotivoNoRec != ""){
+          if((FechaBaja ==="" || MotivoSeparacion ==="" || MotivoNoRec ==="" || Comentarios ==="") && Recontratable =="no"){
+            
+            mostrarError($("#datedownpersonal"), 'Fecha de baja obligatoria', 'error_fechabaja');
+            mostrarError($("#motivo_separacion"), 'Motivo de separacion obligatorio', 'error_separacion');
+            mostrarError($("#noRecontratable"), 'Motivo de no contratacion obligatorio', 'error_MotivoNo');
+            mostrarError($("#comentarios"), 'Comentario obligatorio', 'error_Comentarios');
+            $("#error_MotivoNo").attr("hidden", false);
+            console.log("no")
 
+          }else if((FechaBaja ==="" || MotivoSeparacion ==="" || Comentarios ==="") && Recontratable =="si"){
+
+            mostrarError($("#datedownpersonal"), 'Fecha de baja obligatoria', 'error_fechabaja');
+            mostrarError($("#motivo_separacion"), 'Motivo de separacion obligatorio', 'error_separacion');
+            mostrarError($("#comentarios"), 'Comentario obligatorio', 'error_Comentarios');
+            $("#error_MotivoNo").attr("hidden", true);
+            console.log("si")
+            
+          }else{
+
+            Swal.fire({
+            title: "¿Esta Seguro?",
+            text: "Esta accion no se podra revertir",
+            icon: "warning",
+            showCancelButton: true,
+            cancelButtonText: "cancelar",
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Si, dar de baja"
+          }).then((result) => {
+
+            if (result.isConfirmed) {
+  
               let fd = new FormData()
-
-              fd.append("FechaBaja", FechaBaja)
-              fd.append("MotivoSeparacion", MotivoSeparacion)
-              fd.append("Recontratable", Recontratable)
-              fd.append("MotivoNoRec", MotivoNoRec)
-
-              fetch('deshabilitar_usuario.php',{
+  
+              fd.append("idempl", idempl)
+              fd.append("leaveDate", FechaBaja)
+              fd.append("reason", MotivoSeparacion)
+              fd.append("rehirable", Recontratable)
+              fd.append("noRehirableReason", MotivoNoRec)
+              fd.append("comments", Comentarios)
+  
+              fetch('bajas/deshabilitar_usuario.php',{
                 method: "POST",
                 body: fd
               })
+              .then(response => {
+                return response.ok ? response.json() : Promise.reject(promise);
+              })
+              .then(data => {
+                console.log(data);
 
+              })
+              Swal.fire({
+                title: "Baja Exitosa",
+                // text: "El empleado fue dado de baja.",
+                icon: "success"
+              });
+              setTimeout(() => {
+                location.reload();
+              }, 2000);
             }
+          });
+        }
+      })
 
-            Swal.fire({
-              title: "Baja Exitosa",
-              // text: "El empleado fue dado de baja.",
-              icon: "success"
-            });
-          }
-        });
+      $('#recontratable').change(function(){
+
+        let EstadoContratable = $(this).val();
+        let NoRec = $('#noRecontratable');
+
+        if(EstadoContratable === 'si'){
+          NoRec.prop('disabled', true);
+          NoRec.val('');
+        }else{
+          NoRec.prop('disabled', false)
+        }
       })
 
       $("#guardarModalPermisos").click(function(){
