@@ -10,7 +10,9 @@
   $permisoAut = Utils::buscarPermiso(11);  
   //permiso no. 12 ver todos los pagos de todos los empleados
   $permisoPagosTodos  = Utils::buscarPermiso(12);
-  
+
+
+  //$yr=date('Y');
 ?>
 <?php require 'layout/libreriasdatatable.php';?>
 <?php require 'nav.php'; ?>
@@ -19,19 +21,23 @@
 <?php 
   $indicadores=Consultas::listIndicator($conn); 
   //$usuarios=Consultas::listUsers($conn);
-  $current_user_id = $_SESSION['identity']->userId;
-
+  
   if($permisoPagosTodos){
-    $usuarios=Consultas::listUsersBySupervisor($conn,1);
-
+    $current_user_id = 1;
+    
   }else{
-    $usuarios=Consultas::listUsersBySupervisor($conn,$current_user_id);    
+    $current_user_id = $_SESSION['identity']->userId;
+
   }
+  $usuarios=Consultas::listUsersBySupervisor($conn,$current_user_id);    
   
   
   $j=0;
+
+  //$isValidated=Consultas::isValidated($conn, )  
   //variable donde se guarda en enlace entre el usuario y la autorizacion. en este caso solo se usara para revision o para autorizacion de pagos
   $enlaceValidacion="";
+  $authorizationId="0";
 ?>
 <style>
 .st {
@@ -78,17 +84,18 @@ th {
         //revision es la no. 10
         if($_SESSION['permisos'][$au]['autorizacionId']=='10'){
           $enlaceValidacion=$_SESSION['permisos'][$au]['enlaceAutorizacionId'];
+          $authorizationId="10";
         }
 
         //si contiene el permiso autorizacion, se obtiene el userAuthorizationId 
         //autorizacion es la no. 11
         if($_SESSION['permisos'][$au]['autorizacionId']=='11'){
           $enlaceValidacion=$_SESSION['permisos'][$au]['enlaceAutorizacionId'];
-
+          $authorizationId="11";
         }        
       }
 
-      var_dump($enlaceValidacion);
+      //var_dump($enlaceValidacion);
 
     ?>
     <div class="row">
@@ -106,7 +113,8 @@ th {
       </div>
     </div>
     <?php endif; ?>
-     
+     <input type="hidden" id="userAuthorizationId" value="<?=$enlaceValidacion?>">
+     <!--<input type="hidden" id="yr" value="<?php //$yr ?>">-->
     <!--LA SIGUIENTE VALIDACION ES PARA VERIFICAR SI SE VA A MOSTRAR O NO LOS PAGOS, ESPERANDO LA AUTORIZACION--->
     <?php if(true): ?>
     <div class="container mt-4">
@@ -381,9 +389,13 @@ th {
   <script>
   
     document.title = "Scorecard pagos";    
-    $(document).ready(function() {
+    $(document).ready(async function() {
       let currentUserId = $("#currentUserId").val();
-      recargar_tabla(currentUserId);
+      await recargar_tabla(currentUserId);
+      let anio=$("#tablaPestana2").attr('data-year');
+      let mes=$("#tablaPestana2").attr('data-month');
+      validacion_check(mes, anio, 10);
+      
     });
 
 
@@ -483,16 +495,50 @@ th {
     let mes = $(this).val();
 
     let currentUserId = $("#currentUserId").val();
+    validacion_check(mes, '2024', 10);
     recargar_tabla(currentUserId,mes);
   });
 
   $("#validar").click(function(){
-    alert("validar");
+    validar_pagos();
   });
 
-  $("#autorizar").click(function(){
-    alert("autorizar");
+  $("#autorizar").click(function(){  
+    validar_pagos();
   });  
+
+  const validar_pagos = () => {
+    let userAuthorizationId = $("#userAuthorizationId").val();
+    let month = $("#selectMonth").val();
+    let year = 2024;
+    let fd = new FormData();
+
+    fd.append('userAuthorizationId', userAuthorizationId);
+    fd.append('month', month);
+    fd.append('year', year);    
+
+    fetch('cambios/validar_pagos.php', {
+        method: "POST",
+        body: fd
+      })
+      .then(response => {
+        return response.ok ? response.json() : Promise.reject(response);
+      })
+      .then(data => {
+        console.log(data);
+        if (data.ok) {
+          location.reload();
+        } else {
+          alert(data.message);
+        }
+
+      })
+      .catch(err => {
+        let message = err.statusText || "Ocurrió un error";
+        console.log(err);
+      })    
+    //alert(userAuthorizationId);    
+  }
 
   const subir_pos_ind = (indicadorId, puestoId, porcentaje, boton) => {
     let datos = {
@@ -545,9 +591,9 @@ th {
       })
   }
 
-  const recargar_tabla = (currentUserId, month="") => {
+  const recargar_tabla = async (currentUserId, month="") => {
 
-    $.ajax({
+    await $.ajax({
       url: "layout/tabla_pagos.php",
       type: "POST",
       data: {
@@ -555,6 +601,7 @@ th {
         month
       }
     }).done(function(response) {
+      //console.log('si esta funcionando');
       $(".tabla-pagos").empty();
       $(".tabla-pagos").append(response);
     });
@@ -571,4 +618,30 @@ th {
     //se escribe xlsx y se descarga
     XLSX.writeFile(wb, "pagos.xlsx");
   }
+
+  const validacion_check = async (month, year, authorizationId) => {
+    let fdCheck = new FormData();
+    //let resultado;
+    fdCheck.append('month', month);
+    fdCheck.append('year', year);
+    fdCheck.append('authorizationId', authorizationId);
+
+    await fetch('helpers/validacion_check.php', {
+      method: "POST",
+      body: fdCheck
+    })
+    .then(response => {
+      return response.ok ? response.json() : Promise.reject(response);
+    })
+    .then(data => {
+      console.log(data.rows);
+      //resultado = data.rows;se; 
+      
+      //location.reload();
+    })
+    .catch(err => {
+      let message = err.statusText || "Ocurrió un error";
+      console.log(err);
+    })  
+  }  
   </script>

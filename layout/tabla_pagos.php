@@ -27,7 +27,7 @@
   }
 ?>
 
-<table class="table table-striped table-bordered table-sm" id="tablaPestana2">
+<table class="table table-striped table-bordered table-sm" id="tablaPestana2" data-month="<?=$month?>" data-year="<?=$year?>">
   <!-- Contenido de la tabla -->
   <thead>
     <tr>

@@ -31,7 +31,7 @@ if(count($_POST)>0){
       }      
     }else{
       //se guarda en una variable el resultado de error de validacion de los campos
-      $resultado = ["ok"=>false,"message"=>"Error en la validación de información", "Nombre de area"=>$areaNameVal];
+      $resultado = ["ok"=>false,"message"=>"Error en la validación de información", "EnlaceId"=>$userAuthorizationIdVal, "Month"=>$monthVal, "Year"=>$yearVal];
     }
 }else{
   $resultado = ["ok"=>false,"message"=>"Sin parametros"];
