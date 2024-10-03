@@ -138,7 +138,7 @@
 
     body {
       font-family: "Open Sans", sans-serif;
-      background: #052668;
+      background: #f6f9ff;
       color: 'black;';
     }
 
@@ -188,17 +188,15 @@
                 de mis Empleados
                 <img style="text-align: center;" src="assets/img/lounger.gif" width="50" alt="">
               </h2>
-              <div>
+              <!-- <div>
                 Mostrar/Ocultar columna:
                 <a class="toggle-vis" data-column="0"><button>Nombre</button></a>
                 <a class="toggle-vis" data-column="1"><button>Apellido Paterno</button></a>
                 <a class="toggle-vis" data-column="2"><button>Apellido Materno</button></a>
                 <a class="toggle-vis" data-column="3"><button>Fecha de Nacimiento</button></a>
                 <a class="toggle-vis" data-column="4"><button>Fecha Ingreso</button></a>
-
-
               </div>
-              <br>
+              <br> -->
 
               <div>
                 <div class="container mt-4">
