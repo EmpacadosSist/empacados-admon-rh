@@ -67,6 +67,7 @@ th {
 <body>
   <main id="main" class="main">
       <input type="hidden" value="<?=$current_user_id?>" id="currentUserId">
+   
       <div class="pagetitle">
         <h1>PAGOS</h1>
         <hr>
@@ -114,6 +115,7 @@ th {
     </div>
     <?php endif; ?>
      <input type="hidden" id="userAuthorizationId" value="<?=$enlaceValidacion?>">
+     <input type="hidden" value="<?=$authorizationId?>" id="authorizationId">   
      <!--<input type="hidden" id="yr" value="<?php //$yr ?>">-->
     <!--LA SIGUIENTE VALIDACION ES PARA VERIFICAR SI SE VA A MOSTRAR O NO LOS PAGOS, ESPERANDO LA AUTORIZACION--->
     <?php if(true): ?>
@@ -394,7 +396,8 @@ th {
       await recargar_tabla(currentUserId);
       let anio=$("#tablaPestana2").attr('data-year');
       let mes=$("#tablaPestana2").attr('data-month');
-      validacion_check(mes, anio, 10);
+      let idAutorizacion=$("#authorizationId").val();
+      validacion_check(mes, anio, idAutorizacion);
       
     });
 
@@ -490,13 +493,17 @@ th {
 
   });
 
-  $('#selectMonth').on('change', function() {
+  $('#selectMonth').on('change', async function() {
     //alert("asi es");
     let mes = $(this).val();
 
     let currentUserId = $("#currentUserId").val();
-    validacion_check(mes, '2024', 10);
-    recargar_tabla(currentUserId,mes);
+    await recargar_tabla(currentUserId,mes);
+
+    let anio=$("#tablaPestana2").attr('data-year');
+
+    let idAutorizacion=$("#authorizationId").val();    
+    await validacion_check(mes, anio, idAutorizacion);
   });
 
   $("#validar").click(function(){
@@ -634,7 +641,7 @@ th {
       return response.ok ? response.json() : Promise.reject(response);
     })
     .then(data => {
-      console.log(data.rows);
+      console.log("las rows: ", data.rows);
       //resultado = data.rows;se; 
       
       //location.reload();
