@@ -25,6 +25,7 @@
   <script src="https://cdn.datatables.net/buttons/2.3.2/js/buttons.print.min.js"></script>
   <script src="https://cdn.datatables.net/searchpanes/1.2.1/js/dataTables.searchPanes.min.js"></script>
   <script src="https://cdn.datatables.net/select/1.3.1/js/dataTables.select.min.js"></script>  
+  <link rel="stylesheet" href="assets/css/normalize.css">
 </head>
 
 <?php require 'layout/libreriasdatatable.php';?>

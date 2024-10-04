@@ -34,6 +34,7 @@
   <!-- Importar anime.js -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/animate/4.0.0/animate.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+  <link rel="stylesheet" href="assets/css/normalize.css">
   <style>
     /* Estilos opcionales para el elemento h2 */
     #vacaciones {
@@ -625,7 +626,7 @@
             mostrarError($("#noRecontratable"), 'Motivo de no contratacion obligatorio', 'error_MotivoNo');
             mostrarError($("#comentarios"), 'Comentario obligatorio', 'error_Comentarios');
             $("#error_MotivoNo").attr("hidden", false);
-            console.log("no")
+            console.log("no");
 
           }else if((FechaBaja ==="" || MotivoSeparacion ==="" || Comentarios ==="") && Recontratable =="si"){
 
@@ -633,7 +634,7 @@
             mostrarError($("#motivo_separacion"), 'Motivo de separacion obligatorio', 'error_separacion');
             mostrarError($("#comentarios"), 'Comentario obligatorio', 'error_Comentarios');
             $("#error_MotivoNo").attr("hidden", true);
-            console.log("si")
+            console.log("si");
             
           }else{
 
