@@ -12,8 +12,18 @@
   $permisoPagosTodos  = Utils::buscarPermiso(12);
 
 
+
   $yr=date('Y');
   $month=date('m');
+
+  if($month=="1"){
+    $month="12";
+    $yr=date('Y')-1;
+  }else{
+    $month=date('m')-1;    
+  }  
+
+  $mesLetra=Utils::obtenerNombreMes($month);
 ?>
 <?php require 'layout/libreriasdatatable.php';?>
 <?php require 'nav.php'; ?>
@@ -154,10 +164,11 @@ th {
         <label id="advertencia"><?=$adv?></label>
       </div>            
     </div>
-     <input type="hidden" id="userAuthorizationId" value="<?=$enlaceValidacion?>">
-     <input type="hidden" value="<?=$authorizationId?>" id="authorizationId">
-     <input type="hidden" value="<?=$opAuthorizationId?>" id="opAuthorizationId">   
-     <!--<input type="hidden" id="yr" value="<?php //$yr ?>">-->
+      <input type="hidden" id="userAuthorizationId" value="<?=$enlaceValidacion?>">
+      <input type="hidden" value="<?=$authorizationId?>" id="authorizationId">
+      <input type="hidden" value="<?=$opAuthorizationId?>" id="opAuthorizationId">   
+      <input type="hidden" id="yr" value="<?=$yr ?>">
+      <input type="hidden" id="month" value="<?=$month ?>">
     <!--LA SIGUIENTE VALIDACION ES PARA VERIFICAR SI SE VA A MOSTRAR O NO LOS PAGOS, ESPERANDO LA AUTORIZACION--->
     <?php if(true): ?>
     <div class="container mt-4">
@@ -361,10 +372,13 @@ th {
         <div class="tab-pane fade" id="contenido2" role="tabpanel" aria-labelledby="pestaña2">
           <div class="row mb-3 mt-3">
             <div class="col">
-              <select class="form-select" name="selectMonth" id="selectMonth">
-                <option value="<?=date('m')?>">Mes actual</option>
-                <option value="<?=date('m')+1?>">Próximo mes</option>
-              </select>
+                <!--
+                  <select class="form-select" name="selectMonth" id="selectMonth">
+                    <option value="<?php //echo date('m')?>">Mes actual</option>
+                    <option value="<?php //echo date('m')+1?>">Próximo mes</option>
+                  </select>
+                  -->
+              <h3>Pagos de <?=$mesLetra?></h3>
             </div>
             <div class="col">
             </div>
@@ -572,8 +586,10 @@ th {
     //alert(authorizationId);
     //return false;
 
-    let month = $("#selectMonth").val();
-    let year = 2024;
+    //let month = $("#selectMonth").val();
+    //let year = 2024;
+    let month = $("#month").val();
+    let year = $("#yr").val();    
     let fd = new FormData();
 
     fd.append('userAuthorizationId', userAuthorizationId);

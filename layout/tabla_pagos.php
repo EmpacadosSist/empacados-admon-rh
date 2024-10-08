@@ -16,6 +16,13 @@
   $month = $month != "" ? $month : date('m');
   $year = date('Y');
 
+  if($month=="1"){
+    $month="12";
+    $year=date('Y')-1;
+  }else{
+    $month=date('m')-1;    
+  }    
+
   if($isInd){
     $usuarios=Consultas::listOneUser($conn, $userId);
     $validacion=Consultas::isValidated($conn, $month, $year, '11');   
@@ -26,11 +33,12 @@
   }
   //$month = 4;
 
-
-  if($month=="13"){
-    $month="1";
-    $year=date('Y')+1;
-  }
+/*
+if($month=="13"){
+  $month="1";
+  $year=date('Y')+1;
+}
+*/
 
   
 ?>

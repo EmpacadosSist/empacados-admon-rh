@@ -1,6 +1,19 @@
 <?php 
   require_once('layout/session.php');
   require_once('helpers/utils.php');
+
+
+  $yr=date('Y');
+  $month=date('m');
+
+  if($month=="1"){
+    $month="12";
+    $yr=date('Y')-1;
+  }else{
+    $month=date('m')-1;    
+  }  
+
+  $mesLetra=Utils::obtenerNombreMes($month);
 ?>
 
 <!DOCTYPE html>
@@ -175,10 +188,13 @@
         <div class="tab-pane fade" id="contenido3" role="tabpanel" aria-labelledby="pestaña3">
           <div class="row mb-3 mt-3">
               <div class="col">
-                <select class="form-select" name="selectMonth" id="selectMonth">
-                  <option value="<?=date('m')?>">Mes actual</option>
-                  <option value="<?=date('m')+1?>">Próximo mes</option>
-                </select>
+                  <!--
+                    <select class="form-select" name="selectMonth" id="selectMonth">
+                      <option value="<?=date('m')?>">Mes actual</option>
+                      <option value="<?=date('m')+1?>">Próximo mes</option>
+                    </select>
+                    -->
+                <h3>Pagos de <?=$mesLetra?></h3>    
               </div>
               <div class="col">
               </div>
