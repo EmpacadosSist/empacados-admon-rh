@@ -19,7 +19,7 @@
 
   $current_user_id=$_SESSION['identity']->userId;
   //consulta para ver un solo usuario con el id 
-  $usuarios=Consultas::listOneUser($conn, $current_user_id);
+  $usuarios=Consultas::listOneUser($conn, $current_user_id); 
 ?>
 
   <!-- Bootstrap Slider CSS -->
@@ -38,7 +38,6 @@
       <h1>MI SCORECARD</h1>
       <hr>
     </div><!-- End Page Title -->
-
 <div class="container mt-4">
       <!-- Pestañas -->
       <ul class="nav nav-tabs" id="pestanas" role="tablist">

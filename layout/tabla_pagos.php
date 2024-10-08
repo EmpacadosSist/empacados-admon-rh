@@ -8,26 +8,35 @@
 
   $isInd=isset($_POST['indiv']) ? true : false;
   $userId=isset($_POST['userId']) ? $_POST['userId'] : false;
-  $currentUserId=isset($_POST['currentUserId']) ? $_POST['currentUserId'] : "";
+  $currentUserId=isset($_POST['currentUserId']) ? $_POST['currentUserId'] : "";  
   $month=isset($_POST['month']) ? $_POST['month'] : "";    
+  $validacion="";  
+  $cantValidados=false;
+
+  $month = $month != "" ? $month : date('m');
+  $year = date('Y');
 
   if($isInd){
     $usuarios=Consultas::listOneUser($conn, $userId);
+    $validacion=Consultas::isValidated($conn, $month, $year, '11');   
+    $cantValidados=$validacion[0]['cantValidados'];
   }else{
     //$usuarios=Consultas::listUsers($conn);
     $usuarios=Consultas::listUsersBySupervisor($conn, $currentUserId);
   }
   //$month = 4;
-  $month = $month != "" ? $month : date('m');
-  $year = date('Y');
+
 
   if($month=="13"){
     $month="1";
     $year=date('Y')+1;
   }
-?>
 
+  
+?>
+<?php if(($isInd==false) || ($isInd==true && $cantValidados!=false && $cantValidados>0)): ?>
 <table class="table table-striped table-bordered table-sm" id="tablaPestana2" data-month="<?=$month?>" data-year="<?=$year?>">
+  <?php //var_dump($cantValidados) ?>
   <!-- Contenido de la tabla -->
   <thead>
     <tr>
@@ -221,3 +230,17 @@
                 ?>
   </tbody>
 </table>
+<?php else: ?>
+  <div class="container mt-4">
+        <div class="row">
+          <div class="col-2">
+
+          </div>
+          <div class="col" style="text-align: center;">
+            <h2>Pagos en proceso de autorización</h2>
+
+          </div>
+          <div class="col-2"></div>
+        </div>
+      </div>  
+<?php endif; ?>

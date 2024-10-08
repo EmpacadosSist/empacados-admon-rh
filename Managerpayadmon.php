@@ -12,7 +12,8 @@
   $permisoPagosTodos  = Utils::buscarPermiso(12);
 
 
-  //$yr=date('Y');
+  $yr=date('Y');
+  $month=date('m');
 ?>
 <?php require 'layout/libreriasdatatable.php';?>
 <?php require 'nav.php'; ?>
@@ -38,6 +39,7 @@
   //variable donde se guarda en enlace entre el usuario y la autorizacion. en este caso solo se usara para revision o para autorizacion de pagos
   $enlaceValidacion="";
   $authorizationId="0";
+  $validacionOpuesta="";
 ?>
 <style>
 .st {
@@ -106,16 +108,55 @@ th {
 
         <!--LA SIGUIENTE VALIDACION ES PARA VERIFICAR QUE TIPO DE VALIDACIÓN VA A HACER EL USUARIO QUE PUEDE HACERLA-->
         <?php if($permisoRev): ?>
+
           <button class="btn btn-warning" id="validar">Validar pagos para autorización</button>
+
         <?php endif; ?>
         <?php if($permisoAut): ?>
+
           <button class="btn btn-warning" id="autorizar">Autorizar pagos</button>
+
         <?php endif; ?>
       </div>
     </div>
     <?php endif; ?>
+    <?php 
+      $opAuthorizationId="";
+      if($authorizationId=='10'){
+        $opAuthorizationId='11';
+      }else{
+        $opAuthorizationId='10';
+      }
+      $validacionOpuesta=Consultas::isValidated($conn, $month, $yr, $opAuthorizationId); 
+      //var_dump($validacionOpuesta[0]['cantValidados']);
+    
+    ?>
+    <div class="row">
+      <div class="col"></div>
+      <div class="col"></div>
+      <div class="col d-flex justify-content-end">
+        <?php 
+          //si la contraria es 10, o sea que quien ve esto es el director general
+          //y no ha sido revisado por direccion administrativa
+          $adv='';
+          if($opAuthorizationId=='10' && $validacionOpuesta[0]['cantValidados']=='0'):
+            $adv='Falta revisión de pagos';
+          
+          endif; ?>
+
+        <?php 
+          //si la contraria es 10, o sea que quien ve esto es el director general
+          //y no ha sido revisado por direccion administrativa
+          if($opAuthorizationId=='11' && $validacionOpuesta[0]['cantValidados']=='1'):
+          $adv='Pagos ya autorizados';
+          endif; ?>    
+        
+        <label id="advertencia"><?=$adv?></label>
+      </div>            
+    </div>
      <input type="hidden" id="userAuthorizationId" value="<?=$enlaceValidacion?>">
-     <input type="hidden" value="<?=$authorizationId?>" id="authorizationId">   
+     <input type="hidden" value="<?=$authorizationId?>" id="authorizationId">
+     <input type="hidden" value="<?=$opAuthorizationId?>" id="opAuthorizationId">   
      <!--<input type="hidden" id="yr" value="<?php //$yr ?>">-->
     <!--LA SIGUIENTE VALIDACION ES PARA VERIFICAR SI SE VA A MOSTRAR O NO LOS PAGOS, ESPERANDO LA AUTORIZACION--->
     <?php if(true): ?>
@@ -502,8 +543,12 @@ th {
 
     let anio=$("#tablaPestana2").attr('data-year');
 
-    let idAutorizacion=$("#authorizationId").val();    
+    let idAutorizacion=$("#authorizationId").val();
+    let opAuthorizationId = $("#opAuthorizationId").val();
+    
     await validacion_check(mes, anio, idAutorizacion);
+
+    await validacion_check_op(mes, anio, opAuthorizationId);
   });
 
   $("#validar").click(function(){
@@ -516,6 +561,17 @@ th {
 
   const validar_pagos = () => {
     let userAuthorizationId = $("#userAuthorizationId").val();
+    let authorizationId = $("#authorizationId").val();    
+
+    if(authorizationId=='10'){
+      authorizationId='11';
+    }else{
+      authorizationId='10';
+    }
+
+    //alert(authorizationId);
+    //return false;
+
     let month = $("#selectMonth").val();
     let year = 2024;
     let fd = new FormData();
@@ -523,6 +579,7 @@ th {
     fd.append('userAuthorizationId', userAuthorizationId);
     fd.append('month', month);
     fd.append('year', year);    
+    fd.append('authorizationId', authorizationId);
 
     fetch('cambios/validar_pagos.php', {
         method: "POST",
@@ -535,9 +592,12 @@ th {
         console.log(data);
         if (data.ok) {
           location.reload();
-        } else {
+        } 
+        /*
+        else {
           alert(data.message);
         }
+        */
 
       })
       .catch(err => {
@@ -642,6 +702,16 @@ th {
     })
     .then(data => {
       console.log("las rows: ", data.rows);
+      
+      if(data.rows>0){
+        let msg='Revertir validación';
+        $("#validar").html(msg);
+        $("#autorizar").html(msg);
+      }else{        
+        $("#validar").html('Validar pagos para autorización');
+        $("#autorizar").html('Autorizar pagos');
+      }
+
       //resultado = data.rows;se; 
       
       //location.reload();
@@ -649,6 +719,51 @@ th {
     .catch(err => {
       let message = err.statusText || "Ocurrió un error";
       console.log(err);
-    })  
+    })
+  }
+
+  const validacion_check_op = async (month, year, opAuthorizationId) => {
+    let fdCheck = new FormData();
+    //let opAuthorizationId = $("#opAuthorizationId").val();
+    //let resultado; <label id="advertencia"></label>
+    fdCheck.append('month', month);
+    fdCheck.append('year', year);
+    fdCheck.append('authorizationId', opAuthorizationId);
+    $("#advertencia").text("");
+    await fetch('helpers/validacion_check.php', {
+      method: "POST",
+      body: fdCheck
+    })
+    .then(response => {
+      return response.ok ? response.json() : Promise.reject(response);
+    })
+    .then(data => {
+      console.log("las rows de la opuesta: ", data.rows);
+      
+      if(data.rows>0){
+
+        if(opAuthorizationId=='11'){
+          //alert("Pagos ya autorizados")
+          $("#advertencia").text("Pagos ya autorizados");
+        }        
+      }
+
+      if(data.rows==0){
+        if(opAuthorizationId=='10'){
+          //alert("Falta revisión de pagos")
+          $("#advertencia").text("Falta revisión de pagos");
+        }
+      }
+
+      //resultado = data.rows;se; 
+      
+      //location.reload();
+    })
+    .catch(err => {
+      let message = err.statusText || "Ocurrió un error";
+      console.log(err);
+    })
   }  
+
+
   </script>
