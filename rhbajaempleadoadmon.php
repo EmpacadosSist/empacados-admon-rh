@@ -184,8 +184,8 @@
                 </div>
               </div>
             </div>
-            <button type="submit" class="btn btn-primary">Guardar</button>
-    </section>
+            <button type="submit" id="BtnModalBajaEmpleado" class="btn btn-primary">Guardar</button>
+        </section>
 
       </div>
 
@@ -197,19 +197,48 @@
 
 
 
-<!-- jQuery -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  </body>
+  <?php require 'layout/footer.php';?>
+  </html>
 
-<!-- Bootstrap JS -->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <!-- jQuery -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-<!-- DataTables JS -->
-<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap4.min.js"></script>
+  <!-- Bootstrap JS -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-<!-- Main JS File -->
-<script src="assets/js/main.js"></script>
+  <!-- DataTables JS -->
+  <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap4.min.js"></script>
 
-</body>
-<?php require 'layout/footer.php';?>
-</html>
+  <!-- Main JS File -->
+  <script src="assets/js/main.js"></script>
+
+  <!-- Sweet Alert -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  <script>
+      
+    $('#BtnModalBajaEmpleado').click(function(){
+
+      Swal.fire({
+        title: "¿Esta Seguro?",
+        text: "Esta accion no se podra revertir",
+        icon: "warning",
+        showCancelButton: true,
+        cancelButtonText: "cancelar",
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Si, dar de baja"
+      }).then((result) => {
+        if (result.isConfirmed) {
+          Swal.fire({
+            title: "Baja Exitosa",
+            // text: "El empleado fue dado de baja.",
+            icon: "success"
+          });
+        }
+      });
+    })
+
+  </script>

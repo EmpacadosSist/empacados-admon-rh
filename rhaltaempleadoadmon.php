@@ -15,6 +15,7 @@
 <?php require 'layout/libreriasdatatable.php';?>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/animate/4.0.0/animate.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+<link rel="stylesheet" href="assets/css/normalize.css">
 <?php require 'nav.php'; ?>
 <?php require_once('layout/sidebar.php'); ?>
 <?php $areas = Consultas::listAreas($conn); ?>
@@ -1067,7 +1068,7 @@
         //mostrarError($("#empNum"), 'Ya existe número de empleado', 'error_empNum');  
 
         $('#error_empNum').text('Ya existe número de empleado');
-        $("#empNum").css('border-color', '#cc0000');  
+        $("#empNum").css('border-color', '#000000');  
         return false; 
       }
       //location.reload();

@@ -71,11 +71,11 @@
             <i></i><span>Dar de alta</span>
           </a>
         </li>
-        <li>
+        <!-- <li>
           <a class="bi bi-person-fill-down" href="rhbajaempleadoadmon.php">
             <i></i><span>Dar de baja</span>
           </a>
-        </li>
+        </li> -->
         <li>
           <a class="bi bi-people-fill" href="empleados.php">
             <i></i><span>Listado</span>
@@ -98,22 +98,30 @@
       </li>
       -->
 
-        <li>
+        <!-- <li>
           <a class="bi bi-diagram-3-fill" href="rhorganigramaadmon.php">
             <i></i>
             <span>Organigrama</span>
           </a>
-        </li>
+        </li> -->
       </ul>
     </li><!-- End Components Nav -->
     <?php endif; ?>
-
+    
+    <li class="nav-item">
+      <a class="nav-link collapsed" href="rhorganigramaadmon.php">
+        <i class="bi bi-diagram-3-fill"></i>
+        <span>Organigrama</span>
+      </a>
+    </li>
+    
     <li class="nav-item">
       <a class="nav-link collapsed" href="Miscorecard.php">
         <i class="bi bi-graph-up-arrow"></i>
         <span>Mi Scorecard</span>
       </a>
     </li>
+
 
     <?php if(Utils::buscarPermiso(1)): ?>
     <li class="nav-item">
