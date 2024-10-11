@@ -6,6 +6,8 @@ require_once('../helpers/validar.php');
 
   if(count($_POST)>0){
 
+    $superv = isset($_POST['superv']) ? $_POST['superv'] : ""; 
+
     $userId = isset($_POST['idempl']) ? $_POST['idempl'] : "";
     $userIdVal = Validar::validarNum($userId);
 
@@ -36,7 +38,7 @@ require_once('../helpers/validar.php');
 
 
     if($userIdVal && $leaveDateVal && $reasonVal && $noRehirableReasonVal && $commentsVal){
-      $sqlSP="CALL disable_user($userId, '$leaveDate', '$reason', $rehirable, '$noRehirableReason', '$comments')";
+      $sqlSP="CALL disable_user($userId, '$leaveDate', '$reason', $rehirable, '$noRehirableReason', '$comments', $superv)";
       $resultSP=$conn->query($sqlSP);
 
       if($resultSP){

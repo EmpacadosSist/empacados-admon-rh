@@ -138,12 +138,13 @@ var chart = new OrgChart(document.getElementById("tree"), {
 
 OrgChart.SEARCH_PLACEHOLDER = "Buscar...";
 
+
 chart.filterUI.on('add-filter', function(sender, args){
     var names = Object.keys(sender.filterBy);
     var index = names.indexOf(args.name);
     if (index == names.length - 1) {
         args.html += `<div data-btn-reset style="color: #039BE5;">reset</div>`;
-    }  
+    }
 });
 
 chart.filterUI.on('add-item', function(sender, args){

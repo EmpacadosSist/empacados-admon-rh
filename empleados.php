@@ -264,9 +264,10 @@
                             $area=$empleados[$i]['area'];
                             $departamento=$empleados[$i]['departamento'];
                             $puesto=$empleados[$i]['puesto'];
+                            $supervisor=$empleados[$i]['superuserId'];
                           ?>
                             <tr data-empId="<?=$empId?>" data-name=<?=$name?> data-NumEmp=<?=$numEmpleado?> data-lastname1=<?= $lastname1 ?> data-lastname2=<?= $lastname2 ?>
-                            data-FechaIngreso="<?= $fechaIngreso ?>" data-puesto="<?= $puesto ?>" data-area="<?= $area ?>" data-departamento="<?= $departamento ?>">
+                            data-FechaIngreso="<?= $fechaIngreso ?>" data-puesto="<?= $puesto ?>" data-area="<?= $area ?>" data-departamento="<?= $departamento ?>" data-supervisor="<?= $supervisor?>">
                               <td class="text-center"><button class="btn btn-success btn-sm select-permisos"><i class="bi bi-pencil-square"></i></button></td>
                               <td class="text-center"> <a href="editar-empleado.php?id=<?=$empId?>" class="btn btn-primary btn-sm"><i class="bi bi-pencil-square"></i></a></td>                              
                               <td class="text-center"><button style="background-color:#be3030;" class="btn btn-secondary btn-sm select-baja"><i class="bi bi-x-lg"></i></button></td>
@@ -472,6 +473,11 @@
                     <textarea class="form-control" id="comentarios" name="comentarios" rows="3"></textarea>
                     <span id="error_Comentarios" class="text-danger"></span>
                   </div>
+                  <div class="form-group col-md-6" hidden>
+                    <label for="motivo_separacion"><i class="fas fa-sign-out-alt"></i> SupervisorId</label>
+                    <input type="text" class="form-control" id="superv" name="superv" readonly>
+                    <span id="error_separacion" class="text-danger"></span>
+                  </div>
                   <div><br><br><br><br><br></div>
                 </div>
               </div>
@@ -595,6 +601,7 @@
         let area=$(this).parent().parent().attr('data-area');
         let departamento=$(this).parent().parent().attr('data-departamento');
         let puesto=$(this).parent().parent().attr('data-puesto');
+        let superv=$(this).parent().parent().attr('data-supervisor');
         
         $("#idempl").val(empId);
         $("#employeeNumber").val(numEmp);
@@ -605,6 +612,7 @@
         $("#work_area").val(area);
         $("#department").val(departamento);
         $("#position").val(puesto);
+        $("#superv").val(superv);
         
         $('#modalBajas').modal('show');
         //console.log("asi");
@@ -618,6 +626,7 @@
           let Recontratable = $('#recontratable').val()
           let MotivoNoRec = $('#noRecontratable').val()
           let Comentarios = $('#comentarios').val()
+          let supervis = $('#superv').val()
 
           if((FechaBaja ==="" || MotivoSeparacion ==="" || MotivoNoRec ==="" || Comentarios ==="") && Recontratable =="no"){
             
@@ -659,6 +668,7 @@
               fd.append("rehirable", Recontratable)
               fd.append("noRehirableReason", MotivoNoRec)
               fd.append("comments", Comentarios)
+              fd.append("superv", supervis)
   
               fetch('bajas/deshabilitar_usuario.php',{
                 method: "POST",
