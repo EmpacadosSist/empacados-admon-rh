@@ -163,7 +163,14 @@ th {
               $formatoId=isset($indicadorValores[0]['formatoId']) ? $indicadorValores[0]['formatoId'] : "0";
               //$porcCumplimiento=0;
               $porcCumplimiento= Utils::porcCumplimiento($real,$objetivo);
-              $diffPorc = Utils::diffPorc($real,$objetivo);                           
+              $diffPorc = Utils::diffPorc($real,$objetivo);
+
+              if($formatoId=='4'){
+                $porcCumplimiento= Utils::porcCumplimiento($objetivo, $real);
+                $diffPorc = Utils::diffPorc($objetivo, $real);
+              }
+              
+              
               ?>
                   <tr data-id="<?=$indicadores[$i]['id']?>" class="<?=$indicadores[$i]['areaId']?>">
                     <td class="st" style="min-width: 50px;"><?=$indicadores[$i]['id']?></td>
