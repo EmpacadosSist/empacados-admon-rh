@@ -107,8 +107,15 @@ if($month=="13"){
                           $real=isset($indicadorValores[0]['real']) ? $indicadorValores[0]['real'] : "";
                           $objetivo=isset($indicadorValores[0]['objetivo']) ? $indicadorValores[0]['objetivo'] : "";
                           $formatoId=isset($indicadorValores[0]['formatoId']) ? $indicadorValores[0]['formatoId'] : "0";
+
                           $porcCumplimiento= Utils::porcCumplimiento($real,$objetivo);
+
                           $diffPorc = Utils::diffPorc($real,$objetivo); 
+
+                          if($formatoId=='4' || $formatoId=='5' || $formatoId=='6'){
+                            $porcCumplimiento= Utils::porcCumplimiento($objetivo, $real);
+                            $diffPorc = Utils::diffPorc($objetivo, $real);
+                          }                          
                           
                   ?>
       <td style="min-width: 150px;">
@@ -193,8 +200,16 @@ if($month=="13"){
                           $real=isset($indicadorValores[0]['real']) ? $indicadorValores[0]['real'] : "";
                           $objetivo=isset($indicadorValores[0]['objetivo']) ? $indicadorValores[0]['objetivo'] : "";
                           $formatoId=isset($indicadorValores[0]['formatoId']) ? $indicadorValores[0]['formatoId'] : "0";
+
                           $porcCumplimiento= Utils::porcCumplimiento($real,$objetivo);
+
                           $diffPorc = Utils::diffPorc($real,$objetivo); 
+
+                          if($formatoId=='4' || $formatoId=='5' || $formatoId=='6'){
+                            $porcCumplimiento= Utils::porcCumplimiento($objetivo, $real);
+                            $diffPorc = Utils::diffPorc($objetivo, $real);
+                          }                           
+
                   ?>
       <td style="min-width: 150px;">
         <?php

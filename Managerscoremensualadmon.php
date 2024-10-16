@@ -165,7 +165,7 @@ th {
               $porcCumplimiento= Utils::porcCumplimiento($real,$objetivo);
               $diffPorc = Utils::diffPorc($real,$objetivo);
 
-              if($formatoId=='4'){
+              if($formatoId=='4' || $formatoId=='5' || $formatoId=='6'){
                 $porcCumplimiento= Utils::porcCumplimiento($objetivo, $real);
                 $diffPorc = Utils::diffPorc($objetivo, $real);
               }
