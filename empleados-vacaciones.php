@@ -89,6 +89,15 @@ $userId=$_SESSION['identity']->userId;
       </select>
       </div>      
     </div>
+    <div class="row mt-3">
+      <div class="col"></div>
+      <div class="col">
+        <input class="form-control" type="file" name="archivo" id="archivo" accept=".xls,.xlsx">
+      </div>
+      <div class="col-1 d-flex justify-content-end">
+        <button class="btn btn-success subir-archivo">Subir</button>
+      </div>            
+    </div>
     <br>
     <!-- Contenido de las pestañas -->
     <div class="tab-content" id="contenidoPestanas">
@@ -361,6 +370,31 @@ $userId=$_SESSION['identity']->userId;
 
       });
       
+      $(".subir-archivo").click(function() {
+        let archivovac = $('#archivo');
+
+        let archivo = archivovac[0].files[0];
+        if ((archivo === undefined)) {
+          console.log("Archivo vacio")
+        } else {
+          let formData = new FormData();
+          formData.append('archivo', archivo);
+
+          $.ajax({
+            url: "cambios/actualizar_dias_vacaciones_excel.php",
+            type: "POST",
+            data: formData,
+            contentType: false,
+            processData: false,
+            beforeSend: function() {
+              $('.loader').show();
+            }
+          }).done(function(response) {
+            console.log(response);
+            window.location.reload();
+          });
+        }
+      });      
 
       const append_select = (filtro, element) => {
         $('#'+filtro).append( '<option value="'+element+'">'+element+'</option>' );
