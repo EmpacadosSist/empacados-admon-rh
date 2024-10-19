@@ -707,4 +707,13 @@ class Functions
     {
         return Worksheet::pregReplace('/:[\\w\$]+$/', '', $pCoordinate);
     }
+
+    public static function trimSheetFromCellReference(string $coordinate): string
+    {
+        if (str_contains($coordinate, '!')) {
+            $coordinate = substr($coordinate, strrpos($coordinate, '!') + 1);
+        }
+
+        return $coordinate;
+    }    
 }

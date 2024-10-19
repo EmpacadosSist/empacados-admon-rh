@@ -28,6 +28,7 @@
 <?php require 'layout/libreriasdatatable.php';?>
 <?php require 'nav.php'; ?>
 <?php require_once('layout/sidebar.php'); ?>
+<?php $areas = Consultas::listAreas($conn); ?>
 
 <?php 
   $indicadores=Consultas::listIndicator($conn); 
@@ -172,6 +173,23 @@ th {
     <!--LA SIGUIENTE VALIDACION ES PARA VERIFICAR SI SE VA A MOSTRAR O NO LOS PAGOS, ESPERANDO LA AUTORIZACION--->
     <?php if(true): ?>
     <div class="container mt-4">
+
+      <div class="row mt-3 mb-3">
+        <div class="col">
+          <select class="form-select" name="area" id="area">
+            <option value="">Todas las áreas</option>
+            <?php for ($a=0; $a < count($areas); $a++) {  ?>
+            <option value="<?=$areas[$a]['areaId']?>"><?=$areas[$a]['nombreArea']?></option>  
+            <?php } ?>
+          </select>
+        </div>        
+        <div class="col">          
+        </div>
+        <div class="col"></div>
+      </div>
+
+
+
       <!-- Pestañas -->
       <ul class="nav nav-tabs" id="pestanas" role="tablist">
         <li class="nav-item">
@@ -218,7 +236,7 @@ th {
 
                   <?php 
                 for($i=0; $i<count($indicadores); $i++){ ?>
-                  <th><?=$indicadores[$i]['nombreIndicador']?></th>
+                  <th class="columna<?=$indicadores[$i]['areaId']?>"><?=$indicadores[$i]['id']?> - <?=$indicadores[$i]['nombreIndicador']?></th>
                   <?php               
                 } ?>
                   <th>Total</th>
@@ -236,7 +254,7 @@ th {
               $usuariosArr=$usuarios[$k];
               array_push($arrIds,$usuariosArr['usuarioId']);
               ?>
-                <tr data-user-id="<?=$usuariosArr['usuarioId']?>" data-pos-id="<?=$usuariosArr['puestoId']?>">
+                <tr class="<?=$usuariosArr['areaId']?>" data-user-id="<?=$usuariosArr['usuarioId']?>" data-pos-id="<?=$usuariosArr['puestoId']?>">
                   <td class="st" style="min-width: 100px;"><?=$usuariosArr['numEmpleado']?></td>
                   <td class="st1" style="min-width: 300px;">
                     <?=$usuariosArr['nombre']." ".$usuariosArr['apellido1']." ".$usuariosArr['apellido2']?></td>
@@ -262,7 +280,7 @@ th {
                     $valorPorcentaje= isset($porcentaje[0]) ? $porcentaje[0]['porcentaje'] : 0; 
                     $sumaPorc+=$valorPorcentaje;
                   ?>
-                  <td style="min-width: 150px;">
+                  <td class="columna<?=$indicadores[$j]['areaId']?>" style="min-width: 150px;">
                     <div class="input-group mb-3">
                       <input data-indic="<?=$indicadorId?>" class="form-control porc" type="number"
                         data-old-per="<?=$valorPorcentaje?>" value="<?=$valorPorcentaje?>" <?=$tienePermiso ? "" : "disabled" ?>>
@@ -305,7 +323,7 @@ th {
               $usuariosArrChildren=$usuariosChildren[$l];
               array_push($arrIds,$usuariosArrChildren['usuarioId']);
               ?>
-                <tr data-user-id="<?=$usuariosArrChildren['usuarioId']?>"
+                <tr class="<?=$usuariosArrChildren['areaId']?>" data-user-id="<?=$usuariosArrChildren['usuarioId']?>"
                   data-pos-id="<?=$usuariosArrChildren['puestoId']?>">
                   <td class="st" style="min-width: 100px;"><?=$usuariosArrChildren['numEmpleado']?></td>
                   <td class="st1" style="min-width: 300px;">
@@ -334,7 +352,7 @@ th {
                     $valorPorcentaje= isset($porcentaje[0]) ? $porcentaje[0]['porcentaje'] : 0; 
                     $sumaPorc+=$valorPorcentaje;
                   ?>
-                  <td style="min-width: 150px;">
+                  <td class="columna<?=$indicadores[$j]['areaId']?>" style="min-width: 150px;">
                     <div class="input-group mb-3">
                       <input data-indic="<?=$indicadorId?>" class="form-control porc" type="number"
                         data-old-per="<?=$valorPorcentaje?>" value="<?=$valorPorcentaje?>" <?=$tienePermiso ? "" : "disabled" ?>>
@@ -383,8 +401,8 @@ th {
             <div class="col">
             </div>
             <div class="col d-flex justify-content-end">
-              <button class="btn btn-success" onclick="descargar()">Descargar excel</button>
-
+              <!--<button class="btn btn-success" onclick="descargar()">Descargar excel</button>-->
+              <a class="btn btn-success" href="generar_xlsx_pagos.php?areaid=0" id="btnDescargar">Descargar plantilla excel con id</a>
             </div>
 
           </div>
@@ -574,6 +592,42 @@ th {
     validar_pagos();
   });  
 
+  $("#area").on("change", function(){
+
+    filtrar_tabla($(this));
+
+  });
+
+  const filtrar_tabla = (_this) => {
+    // Declaramos el array vacío
+    let valores = [];
+    let valActual = _this.val();
+
+    $('#area option').each(function() {
+      let valComp=$(this).val();
+      if(valComp!=''){
+        $("."+valComp).show();
+        // Ocultar encabezados de columnas
+        $('.columna'+valComp).show();
+        // Ocultar celdas de columnas
+        $('.columna'+valComp).show();
+      }
+    });
+
+    // Seleccionamos todas las opciones dentro del select con id "anio"
+    $('#area option').each(function() {
+      let valComp=$(this).val();
+
+      if(valActual!=valComp && valComp!='' && valActual!=""){
+        $("."+valComp).hide();
+        // Ocultar encabezados de columnas
+        $('.columna'+valComp).hide();
+        // Ocultar celdas de columnas
+        $('.columna'+valComp).hide();        
+      }
+    });    
+  }
+
   const validar_pagos = () => {
     let userAuthorizationId = $("#userAuthorizationId").val();
     let authorizationId = $("#authorizationId").val();    
@@ -688,6 +742,7 @@ th {
       //console.log('si esta funcionando');
       $(".tabla-pagos").empty();
       $(".tabla-pagos").append(response);
+      filtrar_tabla($("#area"));
     });
   }
 
@@ -697,6 +752,7 @@ th {
     // Exporta una tabla HTML a excel
     //obtener tabla en variable
     var tbl = document.getElementById("tablaPestana2");
+    //console.log(tbl);
     //se agrega tabla a objeto XLSX
     const wb = XLSX.utils.table_to_book(tbl);
     //se escribe xlsx y se descarga

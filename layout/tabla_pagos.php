@@ -54,15 +54,12 @@ if($month=="13"){
       <th>Area</th>
       <th>Ceco</th>
       <th>$ Variable</th>
-      <!--
-                    <th>Nivel en estructura</th>
-                  -->
-
+      <!-- <th>Nivel en estructura</th> -->
       <?php 
                 for($i=0; $i<count($indicadores); $i++){
 
               ?>
-      <th><?=$indicadores[$i]['nombreIndicador']?></th>
+      <th class="columna<?=$indicadores[$i]['areaId']?>"><?=$indicadores[$i]['id']?> - <?=$indicadores[$i]['nombreIndicador']?></th>
       <?php               
                 }
               ?>
@@ -81,7 +78,7 @@ if($month=="13"){
               $usuariosArr=$usuarios[$k];
               array_push($arrIds2,$usuariosArr['usuarioId']);
             ?>
-    <tr data-user-id="<?=$usuariosArr['usuarioId']?>" data-pos-id="<?=$usuariosArr['puestoId']?>">
+    <tr class="<?=$usuariosArr['areaId']?>" data-user-id="<?=$usuariosArr['usuarioId']?>" data-pos-id="<?=$usuariosArr['puestoId']?>">
       <td class="st" style="min-width: 100px;"><?=$usuariosArr['numEmpleado']?></td>
       <td class="st1" style="min-width: 300px;">
         <?=$usuariosArr['nombre']." ".$usuariosArr['apellido1']." ".$usuariosArr['apellido2']?></td>
@@ -118,7 +115,7 @@ if($month=="13"){
                           }                          
                           
                   ?>
-      <td style="min-width: 150px;">
+      <td class="columna<?=$indicadores[$j]['areaId']?>" style="min-width: 150px;">
         <?php
                   $totalpago=0; 
                   $valorGyD=Utils::calcularPorc($indicadoresReglaGyD,$porcCumplimiento,$indicadores[$j]['calculo'],$real,$diffPorc);
@@ -174,7 +171,7 @@ if($month=="13"){
               $usuariosArr=$usuariosChildren[$l];
               array_push($arrIds2,$usuariosArr['usuarioId']);
             ?>
-    <tr data-user-id="<?=$usuariosArr['usuarioId']?>" data-pos-id="<?=$usuariosArr['puestoId']?>">
+    <tr class="<?=$usuariosArr['areaId']?>" data-user-id="<?=$usuariosArr['usuarioId']?>" data-pos-id="<?=$usuariosArr['puestoId']?>">
       <td class="st" style="min-width: 100px;"><?=$usuariosArr['numEmpleado']?></td>
       <td class="st1" style="min-width: 300px;">
         <?=$usuariosArr['nombre']." ".$usuariosArr['apellido1']." ".$usuariosArr['apellido2']?></td>
@@ -211,7 +208,7 @@ if($month=="13"){
                           }                           
 
                   ?>
-      <td style="min-width: 150px;">
+      <td class="columna<?=$indicadores[$j]['areaId']?>" style="min-width: 150px;">
         <?php
                   $totalpago=0; 
                   $valorGyD=Utils::calcularPorc($indicadoresReglaGyD,$porcCumplimiento,$indicadores[$j]['calculo'],$real,$diffPorc);

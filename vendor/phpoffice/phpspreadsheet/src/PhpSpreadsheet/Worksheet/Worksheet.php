@@ -4,6 +4,7 @@ namespace PhpOffice\PhpSpreadsheet\Worksheet;
 
 use ArrayObject;
 use PhpOffice\PhpSpreadsheet\Calculation\Calculation;
+use PhpOffice\PhpSpreadsheet\Calculation\Functions;
 use PhpOffice\PhpSpreadsheet\Cell\Cell;
 use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
 use PhpOffice\PhpSpreadsheet\Cell\DataType;
@@ -1111,7 +1112,14 @@ class Worksheet implements IComparable
      *
      * @return $this
      */
-    public function setCellValue($pCoordinate, $pValue)
+    public function setCellValueArray($pCoordinate, $pValue)
+    {
+        $this->getCellArray($pCoordinate)->setValue($pValue);
+
+        return $this;
+    }
+
+     public function setCellValue($pCoordinate, $pValue)
     {
         $this->getCell($pCoordinate)->setValue($pValue);
 
@@ -1168,6 +1176,25 @@ class Worksheet implements IComparable
         return $this;
     }
 
+
+    public function validateCellAddress(array $cellAddress): string
+    {
+        if (is_string($cellAddress)) {
+            [$worksheet, $address] = Worksheet::extractSheetTitle($cellAddress, true);
+            //            if (!empty($worksheet) && $worksheet !== $this->getTitle()) {
+            //                throw new Exception('Reference is not for this worksheet');
+            //            }
+
+            return empty($worksheet) ? strtoupper("$address") : $worksheet . '!' . strtoupper("$address");
+        }
+
+        if (is_array($cellAddress)) {
+            $cellAddress = CellAddress::fromColumnRowArray($cellAddress);
+        }
+
+        return (string) $cellAddress;
+    }
+
     /**
      * Get cell at a specific coordinate.
      *
@@ -1175,6 +1202,26 @@ class Worksheet implements IComparable
      *
      * @return Cell Cell that was found or created
      */
+    
+    public function getCellArray(array $coordinate): Cell
+    {
+        $cellAddress = Functions::trimSheetFromCellReference(validateCellAddress($coordinate));
+
+        // Shortcut for increased performance for the vast majority of simple cases
+        if ($this->cellCollection->has($cellAddress)) {
+            /** @var Cell $cell */
+            $cell = $this->cellCollection->get($cellAddress);
+
+            return $cell;
+        }
+
+        /** @var Worksheet $sheet */
+        [$sheet, $finalCoordinate] = $this->getWorksheetAndCoordinate($cellAddress);
+        $cell = $sheet->getCellCollection()->get($finalCoordinate);
+
+        return $cell ?? $sheet->createNewCell($finalCoordinate);
+    }
+
     public function getCell(string $coordinate): Cell
     {
         // Shortcut for increased performance for the vast majority of simple cases
@@ -1191,6 +1238,8 @@ class Worksheet implements IComparable
 
         return $cell ?? $sheet->createNewCell($finalCoordinate);
     }
+
+
 
     /**
      * Get the correct Worksheet and coordinate from a coordinate that may
