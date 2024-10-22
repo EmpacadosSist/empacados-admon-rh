@@ -29,6 +29,7 @@
 <?php require 'nav.php'; ?>
 <?php require_once('layout/sidebar.php'); ?>
 <?php $areas = Consultas::listAreas($conn); ?>
+<?php $current_area_id="0" ?>
 
 <?php 
   $indicadores=Consultas::listIndicator($conn); 
@@ -39,7 +40,7 @@
     
   }else{
     $current_user_id = $_SESSION['identity']->userId;
-
+    $current_area_id = $_SESSION['identity']->areaId;
   }
   $usuarios=Consultas::listUsersBySupervisor($conn,$current_user_id);    
   
@@ -80,7 +81,7 @@ th {
 <body>
   <main id="main" class="main">
       <input type="hidden" value="<?=$current_user_id?>" id="currentUserId">
-   
+      <input type="hidden" value="<?=$current_area_id?>" id="currentAreaId">
       <div class="pagetitle">
         <h1>PAGOS</h1>
         <hr>
@@ -176,12 +177,25 @@ th {
 
       <div class="row mt-3 mb-3">
         <div class="col">
+          <?php if($current_area_id=='0'){ 
+            ///////////////se repite el id area porque estan dentro de opciones diferentes de los if
+            ?>
           <select class="form-select" name="area" id="area">
             <option value="">Todas las áreas</option>
             <?php for ($a=0; $a < count($areas); $a++) {  ?>
             <option value="<?=$areas[$a]['areaId']?>"><?=$areas[$a]['nombreArea']?></option>  
             <?php } ?>
           </select>
+          <?php }else{ 
+            ///////////////se repite el id area porque estan dentro de opciones diferentes de los if            
+            ?>
+            <select class="form-select" name="area" id="area" disabled>
+            <option value="">Todas las áreas</option>
+            <?php for ($a=0; $a < count($areas); $a++) {  ?>
+            <option value="<?=$areas[$a]['areaId']?>" <?=$resp=$areas[$a]['areaId']==$current_area_id ? 'selected' : '' ?>><?=$areas[$a]['nombreArea']?></option>  
+            <?php } ?>
+          </select>          
+          <?php } ?>
         </div>        
         <div class="col">          
         </div>
@@ -402,7 +416,7 @@ th {
             </div>
             <div class="col d-flex justify-content-end">
               <!--<button class="btn btn-success" onclick="descargar()">Descargar excel</button>-->
-              <a class="btn btn-success" href="generar_xlsx_pagos.php?areaid=0" id="btnDescargar">Descargar plantilla excel con id</a>
+              <a class="btn btn-success" href="generar_xlsx_pagos.php?areaid=0" id="btnDescargar">Descargar excel</a>
             </div>
 
           </div>
@@ -471,6 +485,12 @@ th {
       let mes=$("#tablaPestana2").attr('data-month');
       let idAutorizacion=$("#authorizationId").val();
       validacion_check(mes, anio, idAutorizacion);
+      /*
+      let currentAreaId = $("#currentAreaId").val();
+      if(currentAreaId!='0'){
+        filtrar_tabla(currentAreaId);
+      }
+      */
       
     });
 
@@ -593,7 +613,7 @@ th {
   });  
 
   $("#area").on("change", function(){
-
+    changeParam($(this).val());
     filtrar_tabla($(this));
 
   });
@@ -838,5 +858,20 @@ th {
     })
   }  
 
-
+  const changeParam = (nuevoAreaId) => {
+      // Obtener el valor actual del href
+      var hrefActual = $('#btnDescargar').attr('href');
+      
+      if(nuevoAreaId==''){
+        nuevoAreaId=0;
+      }
+      // Aquí se cambia el valor del parámetro "areaid" a 5
+      //var nuevoAreaId = 5;
+        
+      // Modificar el href agregando el nuevo parámetro "areaid"
+      var nuevoHref = hrefActual.replace(/areaid=\d+/, 'areaid=' + nuevoAreaId);
+        
+      // Asignar el nuevo href al botón
+      $('#btnDescargar').attr('href', nuevoHref);
+    }
   </script>
