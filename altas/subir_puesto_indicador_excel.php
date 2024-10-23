@@ -14,23 +14,25 @@ $sql="";
 //SE RECIBIRA EL NUMERO DE INDICADORES PARA CONTAR LAS COLUMNAS +3
 //$numind=3+3;
 
-$numInd= isset($_POST['numIndicadores']) ? $_POST['numIndicadores'] : "";
-$numIndVal = Validar::validarNum($numInd);  
+//$numInd= isset($_POST['numIndicadores']) ? $_POST['numIndicadores'] : "";
+//$numIndVal = Validar::validarNum($numInd);  
 
 //$paymentVar = isset($_POST['paymentVar']) ? $_POST['paymentVar'] : "";    
 //$paymentVarVal = Validar::validarNum($paymentVar);
 
-if($numInd!=""&&($numIndVal&&$numInd>0)){
+//if($numInd!=""&&($numIndVal&&$numInd>0)){
   //aqui se suma 3 al total
-  $numInd+=3;
+  //$numInd+=3;
 
-  $arrInd=[];
-  $indicadores=Consultas::listIndicator($conn);
+  //$arrInd=[];
+  //$indicadores=Consultas::listIndicator($conn);
 
+  /*
   for($i=0; $i<count($indicadores); $i++){
     array_push($arrInd, $indicadores[$i]);
   }
-
+  */
+  
 
 
   $spreadsheet = new Spreadsheet();
@@ -79,35 +81,43 @@ if($numInd!=""&&($numIndVal&&$numInd>0)){
             $resultado .= "fallo variable; ";              
           }  
           
-          for($j=3; $j<$numInd; $j++){
-            //dependiendo el numero de indicadores, sera el indice del array
-            $indicadorId=$indicadores[$j-3]["id"];
+          //if($arr[0][])
+          $indCheck=true;
+          $cont=3; 
+          while($indCheck){
+            if(isset($arr[0][$cont]) && is_numeric($arr[0][$cont])){
+              //dependiendo el numero de indicadores, sera el indice del array
+              $indicadorId=$arr[0][$cont];
 
-            //primer campo - clave cliente
-            $valor=isset($arr[$i][$j]) ? $arr[$i][$j] : "";
+              //primer campo - clave cliente
+              $valor=isset($arr[$i][$cont]) ? $arr[$i][$cont] : "";
 
-            //verificar que no tenga valor y que este vacio, luego hacer negativa la condicion
-            if(!(is_null($valor) || $valor === '')){
+              //verificar que no tenga valor y que este vacio, luego hacer negativa la condicion
+              if(!(is_null($valor) || $valor === '')){
 
-              $valorVal = Validar::validarNum($valor);
+                $valorVal = Validar::validarNum($valor);
 
-              if($valorVal){
-                $sql="call insert_position_indicator_excel('$numemp', '$indicadorId', '$valor', @position_id);";
-                $resultSP=$conn->query($sql);
+                if($valorVal){
+                  $sql="call insert_position_indicator_excel('$numemp', '$indicadorId', '$valor', @position_id);";
+                  $resultSP=$conn->query($sql);
+                }else{
+                  $resultSP=false;
+                }
+
+                if($resultSP){
+                  //se guarda en una variable el resultado de haber agregado o atcualizado exitosamente el empleado
+                  $resultado .= "exito; $sql";              
+                }else{
+                  //se guarda en una variable el resultado de haber un error al agregar a la bd      
+                  $resultado .= "fallo; ";              
+                }   
               }else{
-                $resultSP=false;
+                $resultado .= "vacio; $valor";
               }
-
-              if($resultSP){
-                //se guarda en una variable el resultado de haber agregado o atcualizado exitosamente el empleado
-                $resultado .= "exito; ";              
-              }else{
-                //se guarda en una variable el resultado de haber un error al agregar a la bd      
-                $resultado .= "fallo; ";              
-              }   
             }else{
-              $resultado .= "vacio; $valor";
+              $indCheck=false;
             }
+            $cont++;
           }
         }			
       }
@@ -119,7 +129,8 @@ if($numInd!=""&&($numIndVal&&$numInd>0)){
   }else{
     echo "wrongfile";
   }
-
+/*
 }else{
   echo "invalido";
 }
+*/

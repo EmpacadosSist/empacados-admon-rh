@@ -497,7 +497,7 @@ th {
 
   $(".subir-archivo").click(function() {
     let archivoppto = $('#archivo');
-    let numIndicadores = $("#num_indicadores").val();
+    //let numIndicadores = $("#num_indicadores").val();
 
     let archivo = archivoppto[0].files[0];
     if ((archivo === undefined)) {
@@ -505,7 +505,7 @@ th {
     } else {
       let formData = new FormData();
       formData.append('archivo', archivo);
-      formData.append('numIndicadores', numIndicadores);
+      //formData.append('numIndicadores', numIndicadores);
 
       $.ajax({
         url: "altas/subir_puesto_indicador_excel.php",
