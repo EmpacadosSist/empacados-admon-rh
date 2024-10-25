@@ -40,6 +40,11 @@ if(count($_POST)>0){
   //se valida campo que no venga vacio y que cumpla la validacion de tipo numerico  
   $positionId = isset($_POST['position']) ? $_POST['position'] : "";
   $positionIdVal = Validar::validarNum($positionId);
+
+  if($positionId=='1'){
+    $superUserId = "null";  
+    $superUserIdVal = true;    
+  }
   
   //se valida campo que no venga vacio y que cumpla la validacion de tipo numerico  
   $paymentVar = isset($_POST['paymentVar']) ? $_POST['paymentVar'] : "0.00";
