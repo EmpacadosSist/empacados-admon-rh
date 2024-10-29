@@ -480,7 +480,9 @@ th {
     document.title = "Scorecard pagos";    
     $(document).ready(async function() {
       let currentUserId = $("#currentUserId").val();
-      await recargar_tabla(currentUserId);
+      let anioRec=$("#yr").val();
+      let mesRec=$("#month").val();
+      await recargar_tabla(currentUserId,mesRec,anioRec);
       let anio=$("#tablaPestana2").attr('data-year');
       let mes=$("#tablaPestana2").attr('data-month');
       let idAutorizacion=$("#authorizationId").val();
@@ -557,7 +559,9 @@ th {
     }
 
     let currentUserId = $("#currentUserId").val();
-    recargar_tabla(currentUserId);
+    let anioRec=$("#yr").val();
+    let mesRec=$("#month").val();
+    recargar_tabla(currentUserId,mesRec,anioRec);
   });
 
   $('.porc').on('keydown', function(e) {
@@ -749,7 +753,7 @@ th {
       })
   }
 
-  const recargar_tabla = async (currentUserId, month="") => {
+  const recargar_tabla = async (currentUserId, month="", year="") => {
 
     await $.ajax({
       url: "layout/tabla_pagos.php",

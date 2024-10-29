@@ -55,6 +55,8 @@
       <!-- Pestañas -->
       <ul class="nav nav-tabs" id="pestanas" role="tablist">
         <input type="hidden" id="userId" value="<?=$current_user_id?>">
+        <input type="hidden" id="month" value="<?=$month?>">
+        <input type="hidden" id="year" value="<?=$yr?>">
         <li class="nav-item">
           <a class="nav-link active" id="pestaña1" data-toggle="tab" href="#contenido1" role="tab"
             aria-controls="contenido1" aria-selected="true">Objetivos</a>
@@ -188,20 +190,44 @@
         <div class="tab-pane fade" id="contenido3" role="tabpanel" aria-labelledby="pestaña3">
           <div class="row mb-3 mt-3">
               <div class="col">
-                  <!--
-                    <select class="form-select" name="selectMonth" id="selectMonth">
-                      <option value="<?=date('m')?>">Mes actual</option>
-                      <option value="<?=date('m')+1?>">Próximo mes</option>
-                    </select>
-                    -->
+                    
                 <h3>Pagos de <?=$mesLetra?></h3>    
               </div>
+              <div class="col-3">
+    <select class="form-select" name="selectMonth" id="selectMonth">
+      <option value="1" <?=$month=="1" ? "selected" : "" ?>>Enero</option>
+      <option value="2" <?=$month=="2" ? "selected" : "" ?>>Febrero</option>
+      <option value="3" <?=$month=="3" ? "selected" : "" ?>>Marzo</option>
+      <option value="4" <?=$month=="4" ? "selected" : "" ?>>Abril</option>
+      <option value="5" <?=$month=="5" ? "selected" : "" ?>>Mayo</option>
+      <option value="6" <?=$month=="6" ? "selected" : "" ?>>Junio</option>
+      <option value="7" <?=$month=="7" ? "selected" : "" ?>>Julio</option>
+      <option value="8" <?=$month=="8" ? "selected" : "" ?>>Agosto</option>
+      <option value="9" <?=$month=="9" ? "selected" : "" ?>>Septiembre</option>
+      <option value="10" <?=$month=="10" ? "selected" : "" ?>>Octubre</option>
+      <option value="11" <?=$month=="11" ? "selected" : "" ?>>Noviembre</option>
+      <option value="12" <?=$month=="12" ? "selected" : "" ?>>Diciembre</option>    
+    </select>
+  </div>
+  <div class="col-3">
+    <select class="form-select" name="selectYear" id="selectYear">
+      <option value="2024" <?=$yr=="2024" ? "selected" : "" ?>>2024</option>
+      <option value="2025" <?=$yr=="2025" ? "selected" : "" ?>>2025</option>
+      <option value="2026" <?=$yr=="2026" ? "selected" : "" ?>>2026</option>
+      <option value="2027" <?=$yr=="2027" ? "selected" : "" ?>>2027</option>
+      <option value="2028" <?=$yr=="2028" ? "selected" : "" ?>>2028</option>
+      <option value="2029" <?=$yr=="2029" ? "selected" : "" ?>>2029</option>
+      <option value="2030" <?=$yr=="2030" ? "selected" : "" ?>>2030</option>            
+    </select>
+  </div>
+              <!--
               <div class="col">
+                <select class="form-select" name="selectMonth" id="selectMonth">
+                  <option value="<?=date('m')?>">Mes actual</option>
+                  <option value="<?=date('m')+1?>">Próximo mes</option>
+                </select>              
               </div>
-              <div class="col">
-              
-              </div>
-
+              -->
             </div>
           <div class="table-responsive tabla-pagos">
             
@@ -268,7 +294,9 @@
 
 <script>
   $(document).ready(function(){
-    recargar_tabla();
+    let mes = $("#month").val();
+    let year = $("#year").val();    
+    recargar_tabla(mes, year);
   });
 
   // Initialize the sliders
@@ -296,9 +324,18 @@
   $('#selectMonth').on('change', function() {
     //alert("asi es");
     let mes = $(this).val();
+    let year = $("#selectYear").val();
 
-    recargar_tabla(mes);
+    recargar_tabla(mes, year);
   });
+
+  $('#selectYear').on('change', function() {
+    //alert("asi es");
+    let mes = $("#selectMonth").val();
+    let year = $(this).val();
+
+    recargar_tabla(mes, year);
+  });  
 
   $(".actualizar-obj").click(function(){
     // Call a method on the slider
@@ -307,17 +344,19 @@
   });
 
   //aqui vamos a especificar si es individual y cual es el id del usuario
-  const recargar_tabla = (month="") => {
+  const recargar_tabla = (month="", year="") => {
     let userId = $("#userId").val();
     $.ajax({
       url: "layout/tabla_pagos.php",
       type: "POST",
       data: { 
         month,
+        year,
         indiv: 1,
         userId
       }
     }).done(function(response){
+      console.log(response);
       $(".tabla-pagos").empty();
       $(".tabla-pagos").append(response);
     });

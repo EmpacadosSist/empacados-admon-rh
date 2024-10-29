@@ -16,12 +16,15 @@
   $month = $month != "" ? $month : date('m');
   $year = date('Y');
 
+  /*
   if($month=="1"){
     $month="12";
     $year=date('Y')-1;
   }else{
-    $month=date('m')-1;    
+    $month=date('m')-1;
+    //$month=$month-1;
   }    
+  */
 
   if($isInd){
     $usuarios=Consultas::listOneUser($conn, $userId);

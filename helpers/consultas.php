@@ -113,7 +113,8 @@
       'fechaIngreso', 
       'correo', 
       'variable',
-      'area'
+      'area',
+      'areaId'
       */
       $resultSP=$conn->query($sqlSP, MYSQLI_STORE_RESULT);
       
