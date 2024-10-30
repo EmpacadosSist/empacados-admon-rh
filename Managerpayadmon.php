@@ -11,17 +11,32 @@
   //permiso no. 12 ver todos los pagos de todos los empleados
   $permisoPagosTodos  = Utils::buscarPermiso(12);
 
-
-
   $yr=date('Y');
   $month=date('m');
 
-  if($month=="1"){
-    $month="12";
-    $yr=date('Y')-1;
+  if((isset($_GET['yr']) && $_GET['yr']!='') && (isset($_GET['month']) && $_GET['month']!='')){
+    $yr = $_GET['yr'];
+    $month = $_GET['month'];
   }else{
-    $month=date('m')-1;    
-  }  
+
+    
+    if($month=="1"){
+      $month="12";
+      $yr=date('Y')-1;
+    }else{
+      $month=date('m')-1;    
+    }
+  }
+
+  //$yr=date('Y');
+  //$month=date('m');
+
+  //if($month=="1"){
+    //$month="12";
+    //$yr=date('Y')-1;
+  //}else{
+    //$month=date('m')-1;    
+  //}  
 
   $mesLetra=Utils::obtenerNombreMes($month);
 ?>
@@ -176,7 +191,34 @@ th {
     <div class="container mt-4">
 
       <div class="row mt-3 mb-3">
-        <div class="col">
+      <div class="col-2">
+    <select class="form-select" name="selectMonth" id="selectMonth">
+      <option value="1" <?=$month=="1" ? "selected" : "" ?>>Enero</option>
+      <option value="2" <?=$month=="2" ? "selected" : "" ?>>Febrero</option>
+      <option value="3" <?=$month=="3" ? "selected" : "" ?>>Marzo</option>
+      <option value="4" <?=$month=="4" ? "selected" : "" ?>>Abril</option>
+      <option value="5" <?=$month=="5" ? "selected" : "" ?>>Mayo</option>
+      <option value="6" <?=$month=="6" ? "selected" : "" ?>>Junio</option>
+      <option value="7" <?=$month=="7" ? "selected" : "" ?>>Julio</option>
+      <option value="8" <?=$month=="8" ? "selected" : "" ?>>Agosto</option>
+      <option value="9" <?=$month=="9" ? "selected" : "" ?>>Septiembre</option>
+      <option value="10" <?=$month=="10" ? "selected" : "" ?>>Octubre</option>
+      <option value="11" <?=$month=="11" ? "selected" : "" ?>>Noviembre</option>
+      <option value="12" <?=$month=="12" ? "selected" : "" ?>>Diciembre</option>    
+    </select>
+  </div>
+  <div class="col-2">
+    <select class="form-select" name="selectYear" id="selectYear">
+      <option value="2024" <?=$yr=="2024" ? "selected" : "" ?>>2024</option>
+      <option value="2025" <?=$yr=="2025" ? "selected" : "" ?>>2025</option>
+      <option value="2026" <?=$yr=="2026" ? "selected" : "" ?>>2026</option>
+      <option value="2027" <?=$yr=="2027" ? "selected" : "" ?>>2027</option>
+      <option value="2028" <?=$yr=="2028" ? "selected" : "" ?>>2028</option>
+      <option value="2029" <?=$yr=="2029" ? "selected" : "" ?>>2029</option>
+      <option value="2030" <?=$yr=="2030" ? "selected" : "" ?>>2030</option>            
+    </select>
+  </div>
+        <div class="col-3">
           <?php if($current_area_id=='0'){ 
             ///////////////se repite el id area porque estan dentro de opciones diferentes de los if
             ?>
@@ -197,9 +239,7 @@ th {
           </select>          
           <?php } ?>
         </div>        
-        <div class="col">          
-        </div>
-        <div class="col"></div>
+
       </div>
 
 
@@ -207,12 +247,12 @@ th {
       <!-- Pestañas -->
       <ul class="nav nav-tabs" id="pestanas" role="tablist">
         <li class="nav-item">
-          <a class="nav-link active" id="pestaña1" data-toggle="tab" href="#contenido1" role="tab"
-            aria-controls="contenido1" aria-selected="true">Indicadores</a>
+          <a class="nav-link active" id="pestaña2" data-toggle="tab" href="#contenido2" role="tab" aria-controls="contenido2"
+            aria-selected="false">Pagos</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" id="pestaña2" data-toggle="tab" href="#contenido2" role="tab" aria-controls="contenido2"
-            aria-selected="false">Pagos</a>
+          <a class="nav-link" id="pestaña1" data-toggle="tab" href="#contenido1" role="tab"
+            aria-controls="contenido1" aria-selected="true">Indicadores</a>
         </li>
         <!-- Agrega más pestañas según sea necesario -->
       </ul>
@@ -220,7 +260,7 @@ th {
       <!-- Contenido de las pestañas -->
       <div class="tab-content" id="contenidoPestanas">
         <!-- Contenido de la Pestaña 1 -->
-        <div class="tab-pane fade show active" id="contenido1" role="tabpanel" aria-labelledby="pestaña1">
+        <div class="tab-pane fade" id="contenido1" role="tabpanel" aria-labelledby="pestaña1">
         <?php if($tienePermiso): ?>
           <div class="row mb-3 mt-3">
             <div class="col d-flex justify-content-end">
@@ -401,22 +441,17 @@ th {
           </div>
         </div>
 
-        <div class="tab-pane fade" id="contenido2" role="tabpanel" aria-labelledby="pestaña2">
+        <div class="tab-pane fade show active" id="contenido2" role="tabpanel" aria-labelledby="pestaña2">
           <div class="row mb-3 mt-3">
             <div class="col">
-                <!--
-                  <select class="form-select" name="selectMonth" id="selectMonth">
-                    <option value="<?php //echo date('m')?>">Mes actual</option>
-                    <option value="<?php //echo date('m')+1?>">Próximo mes</option>
-                  </select>
-                  -->
+
               <h3>Pagos de <?=$mesLetra?></h3>
             </div>
             <div class="col">
             </div>
             <div class="col d-flex justify-content-end">
               <!--<button class="btn btn-success" onclick="descargar()">Descargar excel</button>-->
-              <a class="btn btn-success" href="generar_xlsx_pagos.php?areaid=0" id="btnDescargar">Descargar excel</a>
+              <a class="btn btn-success" href="generar_xlsx_pagos.php?areaid=0&yr=<?=$yr?>&month=<?=$month?>" id="btnDescargar">Descargar excel</a>
             </div>
 
           </div>
@@ -593,20 +628,31 @@ th {
 
   $('#selectMonth').on('change', async function() {
     //alert("asi es");
+    /*
     let mes = $(this).val();
-
+    
     let currentUserId = $("#currentUserId").val();
     await recargar_tabla(currentUserId,mes);
-
+    
     let anio=$("#tablaPestana2").attr('data-year');
-
+    
     let idAutorizacion=$("#authorizationId").val();
     let opAuthorizationId = $("#opAuthorizationId").val();
     
     await validacion_check(mes, anio, idAutorizacion);
-
+    
     await validacion_check_op(mes, anio, opAuthorizationId);
+    */
+    let month = $(this).val();
+    let year = $("#selectYear").val();    
+    window.location.replace('Managerpayadmon.php?month='+month+'&yr='+year);
   });
+
+  $('#selectYear').on('change', async function() {
+    let month = $("#selectMonth").val();    
+    let year = $(this).val();
+    window.location.replace('Managerpayadmon.php?month='+month+'&yr='+year); 
+  });  
 
   $("#validar").click(function(){
     validar_pagos();
@@ -760,7 +806,8 @@ th {
       type: "POST",
       data: {
         currentUserId,
-        month
+        month,
+        year
       }
     }).done(function(response) {
       //console.log('si esta funcionando');

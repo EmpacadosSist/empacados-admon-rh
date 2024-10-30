@@ -6,6 +6,7 @@ use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
 use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
 
+/*
 $month=isset($_POST['month']) ? $_POST['month'] : ""; 
 $month = $month != "" ? $month : date('m');
 $year = date('Y');
@@ -16,6 +17,13 @@ if($month=="1"){
 }else{
     $month=date('m')-1;    
 }  
+*/
+
+$month=isset($_GET['month']) ? $_GET['month'] : "";    
+$year=isset($_GET['year']) ? $_GET['year'] : "";  
+
+$month = $month != "" ? $month : date('m');
+$year = $year != "" ? $year : date('Y');
 
 // Crear una nueva hoja de cálculo
 $spreadsheet = new Spreadsheet();

@@ -10,11 +10,12 @@
   $userId=isset($_POST['userId']) ? $_POST['userId'] : false;
   $currentUserId=isset($_POST['currentUserId']) ? $_POST['currentUserId'] : "";  
   $month=isset($_POST['month']) ? $_POST['month'] : "";    
+  $year=isset($_POST['year']) ? $_POST['year'] : "";      
   $validacion="";  
   $cantValidados=false;
 
   $month = $month != "" ? $month : date('m');
-  $year = date('Y');
+  $year = $year != "" ? $year : date('Y');
 
   /*
   if($month=="1"){
@@ -104,9 +105,9 @@ if($month=="13"){
                           $indicadoresReglaSyL=Consultas::listBonusRuleByIndicatorId($conn,$indicadores[$j]['id'],1);
                           
                           $indicadorValores=Consultas::listIndicatorVPMIndiv($conn,$indicadores[$j]['id'],$month,$year);
-                          $real=isset($indicadorValores[0]['real']) ? $indicadorValores[0]['real'] : "";
-                          $objetivo=isset($indicadorValores[0]['objetivo']) ? $indicadorValores[0]['objetivo'] : "";
-                          $formatoId=isset($indicadorValores[0]['formatoId']) ? $indicadorValores[0]['formatoId'] : "0";
+                          $real=(isset($indicadorValores[0]['real'])&&$indicadorValores[0]['real']!="") ? $indicadorValores[0]['real'] : "0";
+                          $objetivo=(isset($indicadorValores[0]['objetivo'])&&$indicadorValores[0]['objetivo']!="") ? $indicadorValores[0]['objetivo'] : "0";
+                          $formatoId=(isset($indicadorValores[0]['formatoId'])&&$indicadorValores[0]['formatoId']!="") ? $indicadorValores[0]['formatoId'] : "0";
 
                           $porcCumplimiento= Utils::porcCumplimiento($real,$objetivo);
 
@@ -197,9 +198,12 @@ if($month=="13"){
                           $indicadoresReglaSyL=Consultas::listBonusRuleByIndicatorId($conn,$indicadores[$j]['id'],1);
                           
                           $indicadorValores=Consultas::listIndicatorVPMIndiv($conn,$indicadores[$j]['id'],$month,$year);
-                          $real=isset($indicadorValores[0]['real']) ? $indicadorValores[0]['real'] : "";
-                          $objetivo=isset($indicadorValores[0]['objetivo']) ? $indicadorValores[0]['objetivo'] : "";
-                          $formatoId=isset($indicadorValores[0]['formatoId']) ? $indicadorValores[0]['formatoId'] : "0";
+                          //$real=isset($indicadorValores[0]['real']) ? $indicadorValores[0]['real'] : "";
+                          //$objetivo=isset($indicadorValores[0]['objetivo']) ? $indicadorValores[0]['objetivo'] : "";
+                          //$formatoId=isset($indicadorValores[0]['formatoId']) ? $indicadorValores[0]['formatoId'] : "0";
+                          $real=(isset($indicadorValores[0]['real'])&&$indicadorValores[0]['real']!="") ? $indicadorValores[0]['real'] : "0";
+                          $objetivo=(isset($indicadorValores[0]['objetivo'])&&$indicadorValores[0]['objetivo']!="") ? $indicadorValores[0]['objetivo'] : "0";
+                          $formatoId=(isset($indicadorValores[0]['formatoId'])&&$indicadorValores[0]['formatoId']!="") ? $indicadorValores[0]['formatoId'] : "0";                          
 
                           $porcCumplimiento= Utils::porcCumplimiento($real,$objetivo);
 
