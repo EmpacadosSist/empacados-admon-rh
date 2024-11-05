@@ -5,8 +5,11 @@ session_start();
 
 if (isset($_SESSION['identity'])) {
   header('Location: index.php');
+  exit();
 }
 require_once('helpers/utils.php');
+
+$pagLogin = isset($_GET['pag']) ? $_GET['pag'] : ""; 
 ?>
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
@@ -146,6 +149,7 @@ require_once('helpers/utils.php');
           </div>
           <div class="card-body" align="center">
             <form action="login/login.php" method="POST">
+              <input type="hidden" name="pagLogin" id="pagLogin" value="<?=$pagLogin?>">
               <!--campo nombre-->
               <div class="input-group form-group">
                 <div class="input-group-prepend">

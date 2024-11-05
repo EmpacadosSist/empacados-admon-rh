@@ -5,6 +5,7 @@ include '../conexion/conexion.php';
 
 		$numemp=$_POST['numemp'];
 		$password=$_POST['password'];
+		$pagLogin=$_POST['pagLogin']!="" ? $_POST['pagLogin'] : "index.php" ;
 		//contra fria generica#256
 		//contra dir dirGen#21021020
 		//comprobar si existe el usuario
@@ -39,14 +40,14 @@ include '../conexion/conexion.php';
 
 				}
 
-				header('location: ../index.php');
+				header('location: ../'.$pagLogin);
 
 			}else{
 				//contraseña incorrecta        
 				session_name('rh_admon');
         session_start();			
         $_SESSION['error_login']="Contraseña incorrecta";				
-				header('location: ../index.php');
+				header('location: ../login.php');
 
 			}
 		}else{
@@ -54,7 +55,7 @@ include '../conexion/conexion.php';
       session_name('rh_admon');
       session_start();			
       $_SESSION['error_login']="Usuario no existe";	
-			header('location: ../index.php');
+			header('location: ../login.php');
       
 		}
 	}
