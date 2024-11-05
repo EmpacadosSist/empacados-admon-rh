@@ -24,6 +24,7 @@
 <?php $empleados = Consultas::listUsers($conn); ?>
 <?php $director_general = Consultas::listOneUser($conn, 1); ?>
 <?php $tipos_pago = Consultas::listPaymentTypes($conn); ?>
+<?php $tareas = Consultas::listTasks($conn); ?>
 
 <style type="text/css">
   .h4,
@@ -43,8 +44,6 @@
   .my-5 {
     margin-top: 0rem !important;
   }
-
-
 
   .card-title {
     padding: -3px 0 19px 0;
@@ -166,6 +165,19 @@
                   <option value="">- Seleccione -</option>
                 </select>
                 <span id="error_position" class="text-danger"></span>
+              </div>
+
+              <div class="tag-input">
+              <label for="Funciones"><i class="bi bi-list-columns"></i> Funciones</label>
+              <input type="text" id="searchInput" placeholder="Buscar Funcion..." />
+                <select class="form-control" id="tagSelect">
+                      <option value="">Seleccione las funciones</option>
+                      <?php for($i=0; $i<count($tareas); $i++) {?>
+                      <option value="<?= $tareas[$i]['name_task'] ?>"><?= $tareas[$i]['name_task'] ?></option>
+                      <?php } ?>
+                    </select>
+                    <!-- <button id="addTagButton">Agregar Funcion</button> -->
+                  <div class="tags" id="tagsContainer"></div>
               </div>
             </div>
 
@@ -555,6 +567,28 @@
     font-weight: bold;
 
   }
+
+  .tag-input {
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+    margin: 20px;
+}
+
+.tags {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 5px;
+}
+
+.tag {
+    background-color: #012970;
+    color: white;
+    border-radius: 3px;
+    padding: 5px;
+    margin: 2px;
+    cursor: pointer;
+}
 </style>
 
 <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="jefeDirectoModalLabel"
@@ -662,6 +696,7 @@
 <!-- DataTables Bootstrap 4 JS -->
 <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap4.min.js"></script>
 <script>
+
 
   let arrHijos=[];
 

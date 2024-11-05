@@ -15,6 +15,7 @@
                 <th>Puestos</th>
                 <th>Editar</th>
                 <th>Eliminar</th>
+                <th>Funciones</th>
               </tr>
             </thead>
             <tbody>
@@ -26,6 +27,7 @@
                     </td>
                     <td><button class="btn btn-primary btn-editar"><i class="bi bi-pencil-square ms-auto"></i></button> </td>
                     <td><button class="btn btn-danger btn-eliminar"><i class="bi bi-trash-fill ms-auto"></i></button> </td>                    
+                    <td><button class="btn btn-primary btn-funciones"><i class="bi bi-list-check ms-auto"></i></button> </td>                    
                   </tr>
                 <?php 
                 }
