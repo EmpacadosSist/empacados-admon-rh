@@ -679,7 +679,6 @@
               })
               .then(data => {
                 console.log(data);
-
               })
               Swal.fire({
                 title: "Baja Exitosa",

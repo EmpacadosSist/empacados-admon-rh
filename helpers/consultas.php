@@ -36,6 +36,7 @@
       /*
       alias de los campos
 	    'usuarioId',
+      'funciones',
 	    'superuserId',
 	    'puestoId',       
       'numEmpleado', 
@@ -48,6 +49,28 @@
       'fechaIngreso', 
       'correo', 
       'variable' 
+      */
+      $resultSP=$conn->query($sqlSP, MYSQLI_STORE_RESULT);
+      
+      $resultado=[];
+      //condicion para verificar si se hizo la insercion en la bd
+
+      if($resultSP){        
+        while($row = $resultSP->fetch_assoc()){
+          array_push($resultado, $row);
+        }
+      }else{
+        echo "Error en la consulta: " . $conn->error;
+      }
+      $conn->next_result();      
+      return $resultado;
+    }
+
+    public static function listTasks($conn){
+      $sqlSP="CALL select_tasks()";
+      /*
+      id_task
+      name_task
       */
       $resultSP=$conn->query($sqlSP, MYSQLI_STORE_RESULT);
       
@@ -382,6 +405,22 @@
       return $resultado;
 
     }  
+
+    public static function listFunctions($conn, $positionid){
+      $sqlSP = "CALL select_tasks_by_position($positionid)";
+
+      $resultSP=$conn->query($sqlSP, MYSQLI_STORE_RESULT);
+      
+      $resultado=[];
+      //condicion para verificar si se hizo la insercion en la bd
+      if($resultSP){        
+        while($row = $resultSP->fetch_assoc()){
+          array_push($resultado, $row);
+        }
+      }
+      $conn->next_result();
+      return $resultado;
+    }
 
     public static function listEstados($conn){
       $sqlSP="CALL select_estados()";
