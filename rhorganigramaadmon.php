@@ -31,6 +31,12 @@
         overflow: auto;
     }
 
+    .boc-edit-form-instruments {
+    margin: 42px 10px 0 10px;
+    text-align: center;
+    min-height: 50px;
+    }
+
     .boc-search{
         margin-top:1rem;
     }
@@ -39,9 +45,9 @@
         /* margin-top:50px; */
         width: 100%;
         height: 100%;  
-        background-image: url("assets/img/IMGlogin.png");
+        /* background-image: url("assets/img/IMGlogin.png");
         background-size: cover;
-        background-repeat: no-repeat;
+        background-repeat: no-repeat; */
     }
 
     #tree.boc-light{
@@ -59,11 +65,7 @@
     .boc-filter{
         display:none;
     }
-
-    .boc-edit-form-header{
-        background-color: #880015 !important;
-    }
-
+    
     /* .boc-img-button{
         background-color: #880015 !important;;
     } */
@@ -72,12 +74,43 @@
         display:none !important;
     }
 
+    .boc-edit-form-instruments{
+        margin: 0 !important;
+    }
+
+    text{
+        fill:#720e15;
+    }
+
+    .boc-edit-form-title {
+        color: #928384;
+        margin: 0;
+        padding: 14px 17px 7px 17px;
+    }
+
+    .boc-edit-form-header{
+        /* background-color: #E8E8E8 !important; */
+        background-image: url("assets/img/pragna-organiks-fondo-sombra.jpg");
+        background-size: cover;
+        background-repeat: no-repeat;
+    }
+
     rect{
-        fill:#880015;
+        fill:#E8E8E8;
+        stroke: #606060;
+        stroke-width: 3;
     }
 
     .boc-input>label{
         Display:none;
+    }
+
+    path{
+        stroke:gray;
+    }
+
+    circle{
+        stroke:gray;
     }
 
     .filter-item:hover {
@@ -88,9 +121,22 @@
         fill: #CF043C;
     }
 
+    ol, ul {
+    padding-left: .5rem;
+    }
+
+    g.node g rect{
+        display:none;
+    }
+    
+    g.node g circle{
+        display:none;
+    }
+
     .orgchart .node {
         background-color: #B06161 !important; /* Cambia este color según tus preferencias */
     }
+    
 
   </style>
   
@@ -109,7 +155,7 @@ window.onload = function(){
     OrgChart.templates.cool.defs = '<filter x="-50%" y="-50%" width="200%" height="200%" filterUnits="objectBoundingBox" id="cool-shadow"><feOffset dx="0" dy="4" in="SourceAlpha" result="shadowOffsetOuter1" /><feGaussianBlur stdDeviation="10" in="shadowOffsetOuter1" result="shadowBlurOuter1" /><feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.1 0" in="shadowBlurOuter1" type="matrix" result="shadowMatrixOuter1" /><feMerge><feMergeNode in="shadowMatrixOuter1" /><feMergeNode in="SourceGraphic" /></feMerge></filter>';
   
     OrgChart.templates.cool.size = [310, 180];
-    OrgChart.templates.cool.node = '<rect filter="url(#cool-shadow)"  x="0" y="0" height="170" width="310" fill="#ffffff" stroke-width="2" stroke="#eeeeee" rx="10" ry="10"></rect><rect fill="#ffffff" x="100" y="10" width="200" height="100" rx="10" ry="10" filter="url(#cool-shadow)"></rect><rect stroke="#eeeeee" stroke-width="1" x="10" y="120" width="290" fill="#ed1c24" rx="10" ry="10" height="40"></rect><text  style="font-size: 10px;" fill="#afafaf" x="110" y="75">EXTENSIÓN</text>'
+    OrgChart.templates.cool.node = '<rect filter="url(#cool-shadow)"  x="0" y="0" height="170" width="310" fill="red" stroke-width="2" stroke="#eeeeee" rx="10" ry="10"></rect><rect fill="#ffffff" x="100" y="10" width="200" height="100" rx="10" ry="10" filter="url(#cool-shadow)"></rect><rect stroke="#eeeeee" stroke-width="1" x="10" y="120" width="290" fill="#ed1c24" rx="10" ry="10" height="40"></rect><text  style="font-size: 10px;" fill="#afafaf" x="110" y="75">EXTENSIÓN</text>'
         + '<image  xlink:href="images/icons/telefono.svg" x="110" y="80" width="11" height="11"></image>';
   
     OrgChart.templates.cool.img = '<clipPath id="{randId}"><rect  fill="#ffffff" stroke="#039BE5" stroke-width="5" x="10" y="10" rx="10" ry="10" width="80" height="100"></rect></clipPath><image preserveAspectRatio="xMidYMid slice" clip-path="url(#{randId})" xlink:href="{val}" x="10" y="10"  width="80" height="100"></image><rect fill="none" stroke="#ed1c24" stroke-width="2" x="10" y="10" rx="10" ry="10" width="80" height="100"></rect>';
@@ -121,7 +167,8 @@ window.onload = function(){
         var id = OrgChart.elements.generateId();
         var value = data[editElement.binding];
         if (value == undefined) value = '';
-        if (readOnly && !value) {
+        if (readOnly && !value) { 
+            
             return {
                 html: ''
             };
@@ -140,6 +187,7 @@ window.onload = function(){
         };
     
     };
+    
 
     OrgChart.elements.myImg = function (data, editElement, minWidth, readOnly) {
         var id = OrgChart.elements.generateId();
@@ -159,16 +207,16 @@ window.onload = function(){
     };
 
     var chart = new OrgChart(document.getElementById("tree"), {
+        template: "ana",
         layout: OrgChart.mixed,
         filterBy: ['title'],
         mouseScrool: OrgChart.action.ctrlZoom,
         enableSearch: true,
         scaleInitial: OrgChart.match.height,
-            mouseScrool: OrgChart.none,
-    
+        mouseScrool: OrgChart.none,
         nodeBinding: {
             field_0: "name",
-            field_1: "title",
+            field_1: "job",
             img_0: "img",
             function:"function"
         },
@@ -178,7 +226,6 @@ window.onload = function(){
         menu: {
             pdf: { text: "Exportar PDF" },
             png: { text: "Exportar PNG" },
-           
         },
         tags: {
             filter: {
