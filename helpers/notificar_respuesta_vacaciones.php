@@ -15,8 +15,8 @@ function notificarRespuesta($datos)
 		//cambiar cuando se necesite
 	  $mail->Host = 'smtp.gmail.com';
 	  $mail->SMTPAuth = true;
-	  //$mail->Username = ''; // Coloca aquí tu dirección de correo de Gmail
-	  //$mail->Password = ''; // Coloca aquí tu contraseña de Gmail
+	  $mail->Username = ''; // Coloca aquí tu dirección de correo de Gmail
+	  $mail->Password = ''; // Coloca aquí tu contraseña de Gmail
 	  $mail->SMTPSecure = 'ssl';
 	  $mail->Port = 465;
 
@@ -138,7 +138,7 @@ function notificarRespuesta($datos)
 		$message .= '<td>';
 		$message .= '</td>';        
 		$message .= '<td bgcolor="#C2C2C2" style="text-align: center;">';
-		$message .= '<a style="color:#000000;text-decoration:none;font-family:Helvetica,Arial,sans-serif;font-size:15px;line-height:135%;" href="#" target="_blank">Ver en la web</a>';        
+		$message .= '<a style="color:#000000;text-decoration:none;font-family:Helvetica,Arial,sans-serif;font-size:15px;line-height:135%;" href="http://localhost/empacados-admon-rh/historial-vacaciones.php" target="_blank">Ver en la web</a>';        
 		$message .= '</td>';
 		$message .= '<td>';
 		$message .= '</td>';
