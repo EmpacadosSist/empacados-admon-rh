@@ -495,18 +495,6 @@
 
 window.onload = function(){
     
-    OrgChart.templates.cool = Object.assign({}, OrgChart.templates.ana);
-    OrgChart.templates.cool.defs = '<filter x="-50%" y="-50%" width="200%" height="200%" filterUnits="objectBoundingBox" id="cool-shadow"><feOffset dx="0" dy="4" in="SourceAlpha" result="shadowOffsetOuter1" /><feGaussianBlur stdDeviation="10" in="shadowOffsetOuter1" result="shadowBlurOuter1" /><feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.1 0" in="shadowBlurOuter1" type="matrix" result="shadowMatrixOuter1" /><feMerge><feMergeNode in="shadowMatrixOuter1" /><feMergeNode in="SourceGraphic" /></feMerge></filter>';
-  
-    OrgChart.templates.cool.size = [310, 180];
-    OrgChart.templates.cool.node = '<rect filter="url(#cool-shadow)"  x="0" y="0" height="170" width="310" fill="red" stroke-width="2" stroke="#eeeeee" rx="10" ry="10"></rect><rect fill="#ffffff" x="100" y="10" width="200" height="100" rx="10" ry="10" filter="url(#cool-shadow)"></rect><rect stroke="#eeeeee" stroke-width="1" x="10" y="120" width="290" fill="#ed1c24" rx="10" ry="10" height="40"></rect><text  style="font-size: 10px;" fill="#afafaf" x="110" y="75">EXTENSIÓN</text>'
-        + '<image  xlink:href="images/icons/telefono.svg" x="110" y="80" width="11" height="11"></image>';
-  
-    OrgChart.templates.cool.img = '<clipPath id="{randId}"><rect  fill="#ffffff" stroke="#039BE5" stroke-width="5" x="10" y="10" rx="10" ry="10" width="80" height="100"></rect></clipPath><image preserveAspectRatio="xMidYMid slice" clip-path="url(#{randId})" xlink:href="{val}" x="10" y="10"  width="80" height="100"></image><rect fill="none" stroke="#ed1c24" stroke-width="2" x="10" y="10" rx="10" ry="10" width="80" height="100"></rect>';
-  
-    OrgChart.templates.cool.name = '<text data-width="150" data-text-overflow="multiline" style="font-size: 12px; font-weight: 900;" fill="#ed1c24" x="110" y="30">{val}</text>';
-    OrgChart.templates.cool.job = '<text  data-width="290" text-anchor="middle" style="font-size: 11px; font-weight: 900;" fill="#ffffff" x="155" y="145">{val}</text>';
-
     OrgChart.elements.myTextFunction = function (data, editElement, minWidth, readOnly) {
         var id = OrgChart.elements.generateId();
         var value = data[editElement.binding];
@@ -532,7 +520,6 @@ window.onload = function(){
     
     };
     
-
     OrgChart.elements.myImg = function (data, editElement, minWidth, readOnly) {
         var id = OrgChart.elements.generateId();
         var value = data[editElement.binding];
@@ -551,8 +538,8 @@ window.onload = function(){
     };
 
     var chart = new OrgChart(document.getElementById("tree"), {
-        template: "olivia",
-        // layout: OrgChart.mixed,
+        template: "ana",
+        layout: OrgChart.mixed,
         filterBy: ['title'],
         mouseScrool: OrgChart.action.ctrlZoom,
         enableSearch: true,
@@ -598,83 +585,7 @@ window.onload = function(){
     });
     
     OrgChart.SEARCH_PLACEHOLDER = "Buscar...";
-    
-    
-    chart.filterUI.on('add-filter', function(sender, args){
-        var names = Object.keys(sender.filterBy);
-        var index = names.indexOf(args.name);
-        if (index == names.length - 1) {
-            args.html += `<div data-btn-reset style="color: #039BE5;">reset</div>`;
-        }
-    });
-    
-    chart.filterUI.on('add-item', function(sender, args){
-        var count = 0;
-        var totalCount = 0;
-        for (var i = 0; i < sender.instance.config.nodes.length; i++){
-            var data = sender.instance.config.nodes[i];      
-            if (data[args.name] != undefined){
-                totalCount++;
-    
-                if (data[args.name] == args.value){     
-                    count++;
-                }
-            }
-        }
-    
-        var dataAllAttr = '';
-        if (args.text == '[All]'){
-            count = totalCount;
-            dataAllAttr = 'data-all';
-        }
-        args.html = `<div class="filter-item">
-                        <input ${dataAllAttr} type="checkbox" id="${args.value}" name="${args.value}" ${args.checked ? 'checked' : ''}>
-                        <label for="${args.value}">${args.text} (${count})</label>
-                    </div>`;
-    });
-    chart.filterUI.on('update', function(sender, args){
-        var btnResetElement = sender.element.querySelector('[data-btn-reset]');
-        btnResetElement.addEventListener('click', function(e){
-            sender.filterBy = null;
-            sender.update();
-            sender.instance.draw();
-        });
-    });
-    
-    chart.filterUI.on('show-items', function(sender, args){
-        var filterItemElements = sender.element.querySelectorAll('.filter-item');
-        for(var i = 0; i < filterItemElements.length; i++){        
-            filterItemElements[i].addEventListener('mouseenter', function(e){
-                var val = e.target.querySelector('input').id;        
-                if (val != args.name){//[All]
-                    for(var j = 0; j < sender.instance.config.nodes.length; j++){
-                        var data = sender.instance.config.nodes[j];
-                        if (data[args.name] == val){
-                            var nodeElement = sender.instance.getNodeElement(data.id);
-                            nodeElement.classList.add('filter-item-hovered');
-                        }
-                    }
-                }
-            });
-            
-            filterItemElements[i].addEventListener('mouseleave', function(e){
-                var val = e.target.querySelector('input').id;           
-                if (val != args.name){//[All]
-                    for(var j = 0; j < sender.instance.config.nodes.length; j++){
-                        var data = sender.instance.config.nodes[j];
-                        if (data[args.name] == val){
-                            var nodeElement = sender.instance.getNodeElement(data.id);
-                            nodeElement.classList.remove('filter-item-hovered');
-                        }
-                    }
-                }
-            });
-        }
-    });
-    
-    chart.onInit(function(args){
-        this.filterUI.show('title');
-    });
+
     
     <?php $user = Consultas::listUsersImage($conn); ?>
     
