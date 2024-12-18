@@ -15,7 +15,7 @@
                 <th>Puestos</th>
                 <th>Editar</th>
                 <th>Eliminar</th>
-                <th>Funciones</th>
+                <th>Accountability</th>
               </tr>
             </thead>
             <tbody>
