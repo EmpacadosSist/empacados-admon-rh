@@ -13,8 +13,8 @@
 <table class="table table-bordered" style="flex-direction:column;">
             <thead>
               <tr>
-                <th>Funciones</th>
-                <th>Eliminar funcion</th>
+                <th>Accountability</th>
+                <th>Eliminar Accountability</th>
               </tr>
             </thead>
             <tbody>

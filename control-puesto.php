@@ -1,4 +1,4 @@
-<?php 
+<?php
   require_once('layout/session.php');
   require_once('helpers/utils.php');
   Utils::redirectSinPermiso(8);
@@ -155,7 +155,14 @@
                     ?>
                 </select>
             Área
+          <!-- </div>
+          <div class="col-3 form-group">
+          <input class="form-control" id="PuestosPermitidos">
+            Puestos Permitidos
           </div>
+          <div class="col-3 form-group">
+          <button class="btn btn-success form-control" id="PuestosPermitidos" >Guardar</button>
+          </div> -->
         </div>
         <div class="row mt-3">
           <div class="col-6 form-group">
@@ -185,7 +192,7 @@
                 </select>
             Nivel
           </div>          
-
+   
         </div>
         <div class="row mt-3 mb-3">
           <div class="col-3"></div>
@@ -215,7 +222,7 @@
                 <th>Puestos</th>
                 <th>Editar</th>
                 <th>Eliminar</th>
-                <th>Funciones</th>
+                <th>Accountability</th>
               </tr>
             </thead>
             <tbody>
@@ -267,24 +274,24 @@
         <div class="col-lg-12">
           <div class="card">   
             <div class="card-body">
-              <h2 align="text-center" id="title" class="animate__animated animate__bounceInRight card-title">Funciones
+              <h2 align="text-center" id="title" class="animate__animated animate__bounceInRight card-title">Accountability
               </h2>
               <div>
                 <div class="form-row" style="flex-direction:column;">
                   <div class="form-group col-md-9">
                     <input type="text" id="idpuesto" class="form-control" hidden/>
-                    <label for="tarea"><i class="bi bi-list-check"></i> Agregar funciones</label>
-                    <input type="text" id="searchInput" class="form-control" placeholder="Buscar Funcion..." />
+                    <label for="tarea"><i class="bi bi-list-check"></i> Agregar Accountability</label>
+                    <input type="text" id="searchInput" class="form-control" placeholder="Buscar..." />
                     <div><br></div>
                     <select class="form-control" id="TareaSelect" name="TareaSelect">
-                    <option value="">Seleccione las funciones</option>
+                    <option value="">Seleccione</option>
                       <?php for($i=0; $i<count($tareas); $i++) {?>
                       <option value="<?= $tareas[$i]['id_task'] ?>"><?= $tareas[$i]['name_task'] ?></option>
                       <?php } ?>
                     </select>
                     <span id="error_Task" class="text-danger"></span>
                     <div><br></div>
-                    <button class="btn btn-success form-control addtaskbtn" id="AddTaskbtn">Agregar Funcion</button>
+                    <button class="btn btn-success form-control addtaskbtn" id="AddTaskbtn">Agregar Accountability</button>
                   </div>
                   <div><br><br><br></div>
                     <div class="tab-content" id="contenidoPestanas">
@@ -295,7 +302,7 @@
                               <th>Puestos</th>
                               <th>Editar</th>
                               <th>Eliminar</th>
-                              <th>Funciones</th>
+                              <th>Accountability</th>
                             </tr>
                           </thead>
                           <tbody>
@@ -339,6 +346,16 @@
   <script src="assets/js/main.js"></script>
 
   <script>
+
+    $("#btnPuestosPermitidos").on('click', function(){
+
+      var puestosPermitidos = $("#PuestosPermitidos").val();
+
+      let fd = new FormData();
+
+      fd.append('puestosPermitidos', puestosPermitidos)
+
+    })
 
     document.title = "Subir puesto";
 
@@ -419,7 +436,7 @@
   
         fd.append('puesto', puesto);
         fd.append('tarea', tarea);
-  
+   
         fetch('altas/subir_tareas_por_empleado.php',{
           method: 'POST',
           body: fd
@@ -435,7 +452,6 @@
           }
         })
       }
-
     })
 
     $("#modalFuncionesClose").click(function(){
