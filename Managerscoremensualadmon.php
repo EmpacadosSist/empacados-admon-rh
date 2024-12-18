@@ -4,6 +4,7 @@
 
   //permiso de edicion del scorecardmensual
   $permisoEdicion=Utils::buscarPermiso(4);
+  $position_id=$_SESSION['identity']->positionId;
 ?>
 <?php require 'layout/libreriasdatatable.php';?>
 <?php require 'nav.php'; ?>
@@ -49,7 +50,6 @@ th {
 </style>
 <body>
   <main id="main" class="main">
-
     <div class="pagetitle">
       <h1>SCORECARD <?=$mesSpanish?></h1>
       <hr>
@@ -155,6 +155,14 @@ th {
           <?php 
 
             for ($i=0; $i < count($indicadores); $i++) { 
+
+              $indicadorIdth=$indicadores[$i]['id'];
+              $puestoIdth= $position_id;
+              $porcentajeth=Consultas::paymentVar($conn, $puestoIdth, $indicadorIdth);
+              $valorPorcentajeth= isset($porcentajeth[0]) ? $porcentajeth[0]['porcentaje'] : 0; 
+             
+
+
               $indicadoresReglaGyD=Consultas::listBonusRuleByIndicatorId($conn,$indicadores[$i]['id'],0);
               $indicadoresReglaSyL=Consultas::listBonusRuleByIndicatorId($conn,$indicadores[$i]['id'],1);
               $indicadorValores=Consultas::listIndicatorVPMIndiv($conn,$indicadores[$i]['id'],$month,$year);
@@ -170,7 +178,10 @@ th {
                 $diffPorc = Utils::diffPorc($objetivo, $real);
               }
               
-              
+              if($permisoEdicion || $valorPorcentajeth>0)
+              {
+
+                            
               ?>
                   <tr data-id="<?=$indicadores[$i]['id']?>" class="<?=$indicadores[$i]['areaId']?>">
                     <td class="st" style="min-width: 50px;"><?=$indicadores[$i]['id']?></td>
@@ -220,6 +231,7 @@ th {
                     </td>                  
                   </tr>
                 <?php 
+                } 
                 }
                 ?>              
           </tbody>

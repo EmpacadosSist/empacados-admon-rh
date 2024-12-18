@@ -156,7 +156,7 @@
   </style>
   
 </head>
-<?php $ListYearsUsers = Consultas::listYearsUsers($conn); ?>
+<?php //$ListYearsUsers = Consultas::listYearsUsers($conn); ?>
 <body class="toggle-sidebar">
 
 <!-- <div class="contenedor_puestos">
@@ -484,14 +484,6 @@
 <div id="tree"></div>
 
 <script>
-    $("anios").on("change", function(){
-
-       let aniosParam = $("anios").val();
-
-    })
-</script> 
-
-<script>
 
 window.onload = function(){
     
@@ -517,7 +509,6 @@ window.onload = function(){
             id: id,
             value: value
         };
-    
     };
     
     OrgChart.elements.myImg = function (data, editElement, minWidth, readOnly) {
@@ -534,7 +525,6 @@ window.onload = function(){
         return {
             html: ''
         };
-    
     };
 
     var chart = new OrgChart(document.getElementById("tree"), {
@@ -550,9 +540,6 @@ window.onload = function(){
             field_1: "job",
             img_0: "img",
             function:"function"
-        },
-        nodeMenu: {
-            add: {text: 'add'}
         },
         menu: {
             pdf: { text: "Exportar PDF" },
@@ -585,7 +572,6 @@ window.onload = function(){
     });
     
     OrgChart.SEARCH_PLACEHOLDER = "Buscar...";
-
     
     <?php $user = Consultas::listUsersImage($conn); ?>
     
@@ -605,7 +591,6 @@ window.onload = function(){
     
     ]);
 };
-
 
 </script> 
 

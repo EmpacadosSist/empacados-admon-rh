@@ -27,10 +27,12 @@
 <?php require 'layout/libreriasdatatable.php';?>
 <?php require 'nav.php'; ?>
 <?php require_once('layout/sidebar.php'); 
+  $current_area_id = $_SESSION['identity']->areaId;
 
-  $indicadores=Consultas::listIndicator($conn);
+  $indicadores=Consultas::listIndicatorByArea($conn,$current_area_id);
 
   $current_user_id=$_SESSION['identity']->userId;
+  $position_id=$_SESSION['identity']->positionId;
   //consulta para ver un solo usuario con el id 
   $usuarios=Consultas::listOneUser($conn, $current_user_id); 
 ?>
@@ -57,6 +59,8 @@
         <input type="hidden" id="userId" value="<?=$current_user_id?>">
         <input type="hidden" id="month" value="<?=$month?>">
         <input type="hidden" id="year" value="<?=$yr?>">
+        <input type="hidden" id="areaId" value="<?=$current_area_id?>">
+        <input type="hidden" id="positionId" value="<?=$position_id?>">
         <li class="nav-item">
           <a class="nav-link active" id="pestaña1" data-toggle="tab" href="#contenido1" role="tab"
             aria-controls="contenido1" aria-selected="true">Objetivos</a>
@@ -141,10 +145,16 @@
 
                   <?php 
                 for($i=0; $i<count($indicadores); $i++){
+                  $indicadorIdth=$indicadores[$i]['id'];
+                  $puestoIdth= $position_id;
+                  $porcentajeth=Consultas::paymentVar($conn, $puestoIdth, $indicadorIdth);
+                  $valorPorcentajeth= isset($porcentajeth[0]) ? $porcentajeth[0]['porcentaje'] : 0; 
 
+                  if($valorPorcentajeth>0){
               ?>
                   <th><?=$indicadores[$i]['nombreIndicador']?></th>
                   <?php               
+                  }
                 }
               ?>
                   <th>Total</th>
@@ -175,9 +185,12 @@
                     $valorPorcentaje= isset($porcentaje[0]) ? $porcentaje[0]['porcentaje'] : 0; 
                     $sumaPorc+=$valorPorcentaje;
                 //var_dump($muestra);
+                    if($valorPorcentaje>0){
                 ?>
                   <td style="min-width: 150px;"><?=$valorPorcentaje?> %</td>
-                  <?php } ?>
+                  <?php 
+                    }
+                } ?>
 
                   <td style="min-width: 100px;"><label class="suma-porc"><?=$sumaPorc?></label> %</td> <!-- Agrega más filas según tus necesidades -->
                 </tr>
@@ -346,6 +359,8 @@
   //aqui vamos a especificar si es individual y cual es el id del usuario
   const recargar_tabla = (month="", year="") => {
     let userId = $("#userId").val();
+    let areaId = $("#areaId").val();
+    let positionId = $("#positionId").val();
     $.ajax({
       url: "layout/tabla_pagos.php",
       type: "POST",
@@ -353,7 +368,9 @@
         month,
         year,
         indiv: 1,
-        userId
+        userId,
+        areaId,
+        positionId
       }
     }).done(function(response){
       console.log(response);
