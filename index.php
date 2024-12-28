@@ -24,27 +24,99 @@
   .dashboard-paragraph a:hover {
     text-decoration: underline;
   }
+
+  .mission-vision-values .container {
+    margin-top: 30px;
+    margin-bottom: 30px;
+  }
+
+  .mission-vision-values .card {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border: none;
+    border-radius: 10px;
+    transition: transform 0.3s;
+  }
+
+  .mission-vision-values .card:hover {
+    transform: translateY(-5px);
+  }
+
+  .mission-vision-values .card-title {
+    font-size: 1.5rem;
+    color:rgb(0, 0, 0);
+  }
+
+  .mission-vision-values .card-text {
+    font-size: 1rem;
+    color: #333;
+  }
+
+  .mission-vision-values ul {
+    list-style-type: disc;
+    padding-left: 20px;
+  }  
 </style>
 
 
   <main id="main" class="main">
     <div class="pagetitle">
-      <nav>
-
-        <ol class="breadcrumb"> <img width="60px;" src="assets/img/house.png ">
-          <a href="index.php">  </a></li>
-          <li class="breadcrumb-item active">
-            <p class="dashboard-paragraph animated" id="dashboardText">
-              Página principal
-            </p>
-          </li>
-        </ol>
-      </nav>
+      
+      <h1>Nuestra cultura</h1>
     </div><!-- End Page Title -->
-    <h1>
-      Página principal en construcción
-    </h1>
 
+
+  <!-- Sección Misión, Visión y Valores -->
+  <section class="mission-vision-values">
+    <div class="container">
+      <div class="row">
+        <!-- Misión -->
+        <div class="col-md-4">
+          <div class="card">
+            <div class="card-body">
+              <div align="center" class="mt-3">
+                <img width="120px;" src="assets/img/mision.png ">
+              </div>
+              <h3 class="card-title" align="center">Misión</h3>
+              <p class="card-text">
+                Dar sabor a la vida con el valor de nuestra gente ofreciendo alimentos de calidad que deleiten a nuestros clientes y beneficien a la sociedad.
+              </p>
+            </div>
+          </div>
+        </div>
+        <!-- Visión -->
+        <div class="col-md-4">
+          <div class="card">
+            <div class="card-body">
+              <div align="center" class="mt-3">
+                <img width="120px;" src="assets/img/vision.png ">
+              </div>              
+              <h3 class="card-title" align="center">Visión</h3>
+              <p class="card-text">
+                Ser una de las 100 empresas mexicanas más grandes, innovadoras y rentables de alimentos, siendo un excelente lugar para trabajar.
+              </p>
+            </div>
+          </div>
+        </div>
+        <!-- Valores -->
+        <div class="col-md-4">
+          <div class="card">
+            <div class="card-body">
+              <div align="center" class="mt-3">
+                <img width="120px;" src="assets/img/valores.png ">
+              </div>              
+              <h3 class="card-title" align="center">Valores</h3>
+              <ul class="card-text">
+                <li>Trabajo en equipo</li>
+                <li>Calidad</li>
+                <li>Enfoque a Resultados</li>
+                <li>Compromiso</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>    
 
   </main><!-- End #main -->
 
