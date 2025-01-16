@@ -176,6 +176,7 @@
                     <label for="fondo_ahorro"><i class="fas fa-piggy-bank"></i> Fondo de Ahorro (quincenal)</label>
                     <input type="text" class="form-control" id="fondo_ahorro" name="fondo_ahorro">
                   </div>
+                  
                   <div class="form-group col-md-12">
                     <label for="comentarios"><i class="fas fa-comments"></i> Comentarios</label>
                     <textarea class="form-control" id="comentarios" name="comentarios" rows="3"></textarea>
@@ -188,8 +189,6 @@
         </section>
 
       </div>
-
-     
 
       <!-- Botón de envío -->
     </form>

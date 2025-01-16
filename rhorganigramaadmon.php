@@ -483,13 +483,6 @@
   <!-- Container for the OrgChart -->
 <div id="tree"></div>
 
-<script>
-    $("anios").on("change", function(){
-
-       let aniosParam = $("anios").val();
-
-    })
-</script> 
 
 <script>
 
@@ -534,17 +527,14 @@ window.onload = function(){
         return {
             html: ''
         };
-    
     };
 
     var chart = new OrgChart(document.getElementById("tree"), {
         template: "ana",
-        layout: OrgChart.mixed,
         filterBy: ['title'],
         mouseScrool: OrgChart.action.ctrlZoom,
         enableSearch: true,
         scaleInitial: OrgChart.match.height,
-        mouseScrool: OrgChart.none,
         nodeBinding: {
             field_0: "name",
             field_1: "job",
@@ -558,12 +548,6 @@ window.onload = function(){
             pdf: { text: "Exportar PDF" },
             png: { text: "Exportar PNG" },
         },
-        tags: {
-            filter: {
-                template: 'dot',
-                template: 'filtered'
-            }
-        },
         editForm: {
             elements: [
                 { type: 'textbox', label: 'Nombre Completo', binding: 'name' },
@@ -575,18 +559,11 @@ window.onload = function(){
                 { type: 'myTextFunction', label: 'Accountability', binding: 'function' },
                 { type: 'myImg', label: 'Imagen', binding: 'img' }
             ],
-            buttons:  {
-                edit : null,
-                pdf : null,
-                share : null
-            }
         },
-    
     });
     
     OrgChart.SEARCH_PLACEHOLDER = "Buscar...";
 
-    
     <?php $user = Consultas::listUsersImage($conn); ?>
     
     chart.load([
@@ -601,11 +578,9 @@ window.onload = function(){
             img:"<?= $user[$i]['ruta']?>",
             function:"<?= $user[$i]['funciones']?>"
         },
-        <?php  } ?>
-    
+        <?php } ?>
     ]);
 };
-
 
 </script> 
 
