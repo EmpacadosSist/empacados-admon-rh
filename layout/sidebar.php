@@ -109,7 +109,7 @@
     <?php endif; ?>
     
     <li class="nav-item">
-      <a class="nav-link collapsed" href="rhorganigramaadmon.php">
+      <a class="nav-link collapsed" href="organigrama.php">
         <i class="bi bi-diagram-3-fill"></i>
         <span>Organigrama</span>
       </a>

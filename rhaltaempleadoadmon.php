@@ -1132,7 +1132,7 @@
       })
       .then(data => {
         console.log(data);
-        location.reload();
+        // location.reload();
       })
       .catch(err => {
         let message = err.statusText || "Ocurrió un error";

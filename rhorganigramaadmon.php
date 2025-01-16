@@ -146,10 +146,13 @@
 
   <!-- Container for the OrgChart -->
 <div id="tree"></div>
+<!-- 
 
+=======
 <script>
 
 window.onload = function(){
+
 
     OrgChart.templates.cool = Object.assign({}, OrgChart.templates.ana);
     OrgChart.templates.cool.defs = '<filter x="-50%" y="-50%" width="200%" height="200%" filterUnits="objectBoundingBox" id="cool-shadow"><feOffset dx="0" dy="4" in="SourceAlpha" result="shadowOffsetOuter1" /><feGaussianBlur stdDeviation="10" in="shadowOffsetOuter1" result="shadowBlurOuter1" /><feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.1 0" in="shadowBlurOuter1" type="matrix" result="shadowMatrixOuter1" /><feMerge><feMergeNode in="shadowMatrixOuter1" /><feMergeNode in="SourceGraphic" /></feMerge></filter>';
@@ -203,17 +206,14 @@ window.onload = function(){
         return {
             html: ''
         };
-    
     };
 
     var chart = new OrgChart(document.getElementById("tree"), {
         template: "ana",
-        layout: OrgChart.mixed,
         filterBy: ['title'],
         mouseScrool: OrgChart.action.ctrlZoom,
         enableSearch: true,
         scaleInitial: OrgChart.match.height,
-        mouseScrool: OrgChart.none,
         nodeBinding: {
             field_0: "name",
             field_1: "job",
@@ -227,12 +227,6 @@ window.onload = function(){
             pdf: { text: "Exportar PDF" },
             png: { text: "Exportar PNG" },
         },
-        tags: {
-            filter: {
-                template: 'dot',
-                template: 'filtered'
-            }
-        },
         editForm: {
             elements: [
                 { type: 'textbox', label: 'Nombre Completo', binding: 'name' },
@@ -244,16 +238,13 @@ window.onload = function(){
                 { type: 'myTextFunction', label: 'Accountability', binding: 'function' },
                 { type: 'myImg', label: 'Imagen', binding: 'img' }
             ],
-            buttons:  {
-                edit : null,
-                pdf : null,
-                share : null
-            }
         },
-    
     });
     
-    OrgChart.SEARCH_PLACEHOLDER = "Buscar...";
+<!--     OrgChart.SEARCH_PLACEHOLDER = "Buscar...";
+
+
+=======
     
     
     chart.filterUI.on('add-filter', function(sender, args){
@@ -332,26 +323,15 @@ window.onload = function(){
         this.filterUI.show('title');
     });
     
-    <?php $user = Consultas::listUsersImage($conn); ?>
+
+
     
     chart.load([
     
-        <?php
-        for($i = 0; $i < count($user); $i++){ ?>
-    
-        { 
-            id: "<?=$user[$i]['usuarioId'] ?>", 
-            pid: "<?=$user[$i]['superuserId'] ?>", 
-            name: "<?=$user[$i]['nombre']," ", $user[$i]['apellido1'], " ", $user[$i]['apellido2']?> ", 
-            job: "<?= $user[$i]['puesto']?>", 
-            img:"<?= $user[$i]['ruta']?>",
-            function:"<?= $user[$i]['funciones']?>"
-        },
-        <?php } ?>
-    
+
+
     ]);
 };
-
 
 </script> 
 
