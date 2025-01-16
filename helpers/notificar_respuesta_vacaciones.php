@@ -15,8 +15,8 @@ function notificarRespuesta($datos)
 		//cambiar cuando se necesite
 	  $mail->Host = 'smtp.gmail.com';
 	  $mail->SMTPAuth = true;
-	  //$mail->Username = ''; // Coloca aquí tu dirección de correo de Gmail
-	  //$mail->Password = ''; // Coloca aquí tu contraseña de Gmail
+	  $mail->Username = ''; // Coloca aquí tu dirección de correo de Gmail
+	  $mail->Password = ''; // Coloca aquí tu contraseña de Gmail
 	  $mail->SMTPSecure = 'ssl';
 	  $mail->Port = 465;
 
@@ -47,11 +47,12 @@ function notificarRespuesta($datos)
 
 		//si se acepta la solicitud de cancelacion: $message .= '<h2>Solicitud de cancelación aprobada</h2>';
 
+		$tab="";
 		//si no se acepta la solicitud de cancelacion: $message .= '<h2>Solicitud de cancelación rechazada</h2>';		 
-
 		if($datos['estatus']=='A'){
 			if($datos['canc']=="A"){
 				$message .= '<h2>Solicitud de cancelación aprobada</h2>';
+				$tab='?tab=contenido2';
 			}else if($datos['canc']=="R"){
 				$message .= '<h2>Solicitud de cancelación rechazada</h2>';
 			}else{
@@ -138,7 +139,7 @@ function notificarRespuesta($datos)
 		$message .= '<td>';
 		$message .= '</td>';        
 		$message .= '<td bgcolor="#C2C2C2" style="text-align: center;">';
-		$message .= '<a style="color:#000000;text-decoration:none;font-family:Helvetica,Arial,sans-serif;font-size:15px;line-height:135%;" href="#" target="_blank">Ver en la web</a>';        
+		$message .= '<a style="color:#000000;text-decoration:none;font-family:Helvetica,Arial,sans-serif;font-size:15px;line-height:135%;" href="http://empacadosmty.fortiddns.com:81/empacados-admon-rh/historial-vacaciones.php'.$tab.'" target="_blank">Ver en la web</a>';        
 		$message .= '</td>';
 		$message .= '<td>';
 		$message .= '</td>';

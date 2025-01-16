@@ -1,6 +1,8 @@
 <?php 
   require_once('layout/session.php');
   require_once('helpers/utils.php'); 
+
+  $tab= isset($_GET['tab']) && $_GET['tab']!="" ? $_GET['tab'] : "";    
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -69,7 +71,8 @@ $fechaActual=date('Y-m-d');
 
 <body>
 <main id="main" class="main">
-  <?php //var_dump($solicitudesCancelacion); ?>
+  
+  <input type="hidden" id="selectedTab" value="<?=$tab?>">
   <div class="pagetitle">
     <h1>TRABAJADORES A MI CARGO</h1>
     <hr>
@@ -512,7 +515,11 @@ $fechaActual=date('Y-m-d');
         var table4 = $('#myTable4').DataTable(objOptions);
         var table5 = $('#myTable5').DataTable(objOptions);                                  
         
-        
+        var selectedTab = $("#selectedTab").val();
+
+        if(selectedTab!=""){
+          $('a[href="#'+selectedTab+'"]').tab('show');
+        }
       });
 
 

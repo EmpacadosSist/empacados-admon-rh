@@ -15,8 +15,8 @@ function notificarSolicitud($datos)
 		//cambiar cuando se necesite
 	  $mail->Host = 'smtp.gmail.com';
 	  $mail->SMTPAuth = true;
-	  //$mail->Username = ''; // Coloca aquí tu dirección de correo de Gmail
-	  //$mail->Password = ''; // Coloca aquí tu contraseña de Gmail
+	  $mail->Username = ''; // Coloca aquí tu dirección de correo de Gmail
+	  $mail->Password = ''; // Coloca aquí tu contraseña de Gmail
 	  $mail->SMTPSecure = 'ssl';
 	  $mail->Port = 465;
 
@@ -45,9 +45,10 @@ function notificarSolicitud($datos)
 		//si es solicitud de vacaciones normal es: $message .= '<h2>Solicitud de vacaciones</h2>';
 		//si es solicitud de cancelación es: $message .= '<h2>Solicitud de cancelación</h2>';		
 		//si es solicitud de cancelación de vacaciones aun no aprobadas: $message .= '<h2>Solicitud de vacaciones cancelada</h2>';		
-
+		$tab="";
 		if(isset($datos['cancelacion'])){
 			$message .= '<h2>Solicitud de cancelación</h2>';
+			$tab='?tab=contenido5';
 		}else{
 			$message .= '<h2>Solicitud de vacaciones</h2>';
 		}
@@ -142,7 +143,7 @@ function notificarSolicitud($datos)
 		$message .= '<td>';
 		$message .= '</td>';        
 		$message .= '<td bgcolor="#C2C2C2" style="text-align: center;">';
-		$message .= '<a style="color:#000000;text-decoration:none;font-family:Helvetica,Arial,sans-serif;font-size:15px;line-height:135%;" href="#" target="_blank">Ver en la web para autorizar</a>';        
+		$message .= '<a style="color:#000000;text-decoration:none;font-family:Helvetica,Arial,sans-serif;font-size:15px;line-height:135%;" href="http://empacadosmty.fortiddns.com:81/empacados-admon-rh/control-vacaciones.php'.$tab.'" target="_blank">Ver en la web para autorizar</a>';        
 		$message .= '</td>';
 		$message .= '<td>';
 		$message .= '</td>';
