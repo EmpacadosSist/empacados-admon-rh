@@ -120,62 +120,6 @@
       return $resultado;
     }
 
-    public static function listUserByLevel1($conn){
-      $sqlSP="CALL select_user_image_by_level1()";
-
-      $resultSP=$conn->query($sqlSP, MYSQLI_STORE_RESULT);
-      
-      $resultado=[];
-      //condicion para verificar si se hizo la insercion en la bd
-
-      if($resultSP){        
-        while($row = $resultSP->fetch_assoc()){
-          array_push($resultado, $row);
-        }
-      }else{
-        echo "Error en la consulta: " . $conn->error;
-      }
-      $conn->next_result();      
-      return $resultado;
-    }
-
-    public static function listUserByLevel2($conn){
-      $sqlSP="CALL select_user_image_by_level2()";
-
-      $resultSP=$conn->query($sqlSP, MYSQLI_STORE_RESULT);
-      
-      $resultado=[];
-      //condicion para verificar si se hizo la insercion en la bd
-
-      if($resultSP){        
-        while($row = $resultSP->fetch_assoc()){
-          array_push($resultado, $row);
-        }
-      }else{
-        echo "Error en la consulta: " . $conn->error;
-      }
-      $conn->next_result();      
-      return $resultado;
-    }
-    
-    public static function listUserByLevel3($conn){
-      $sqlSP="CALL select_user_image_by_level3()";
-
-      $resultSP=$conn->query($sqlSP, MYSQLI_STORE_RESULT);
-      
-      $resultado=[];
-      //condicion para verificar si se hizo la insercion en la bd
-
-      if($resultSP){        
-        while($row = $resultSP->fetch_assoc()){
-          array_push($resultado, $row);
-        }
-      }else{
-        echo "Error en la consulta: " . $conn->error;
-      }
-      $conn->next_result();      
-      return $resultado;
-    }
 
     public static function listTasks($conn){
       $sqlSP="CALL select_tasks()";
