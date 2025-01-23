@@ -10304,7 +10304,7 @@
                         (l = V(
                           {
                             head: {
-                              title: 'Organization chart',
+                              title: 'Organigrama Empacados',
                               meta: [
                                 { charset: 'utf-8' },
                                 {
