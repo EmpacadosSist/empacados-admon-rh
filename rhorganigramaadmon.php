@@ -8,6 +8,7 @@
 <?php require_once('layout/sidebar.php'); ?>
 
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -135,359 +136,36 @@
     .orgchart .node {
         background-color: #B06161 !important; /* Cambia este color según tus preferencias */
     }
-
-    .contenedor_puestos{
-        margin:0rem auto 0 1rem;
-        /* height:17rem; */
-        max-width:75%;
-        overflow:auto;
-        /* background-color:blue;
-        border:3rem solid red; */
-    }
-
-    .chico{
-        max-width:80%;
-    }
-
-    body{
-        margin-top:6rem
-    }
+    
 
   </style>
   
 </head>
-<?php $ListYearsUsers = Consultas::listYearsUsers($conn); ?>
+
 <body class="toggle-sidebar">
-
-<!-- <div class="contenedor_puestos">
-
-<table class="table table-dark table-striped chico">
-    <thead>
-        <h2>Personal Cubierto</h2>
-    </thead>
-    <tbody>
-      <th scope="column">area</th>
-      <td colspan="2" class="">Enero</td>
-      <td>febrero</td>
-      <td>marzo</td>
-      <td>abril</td>
-      <td>mayo</td>
-      <td>junio</td>
-      <td>julio</td>
-      <td>agosto</td>
-      <td>septiembre</td>
-      <td>octubre</td>
-      <td>noviembre</td>
-      <td>diciembre</td>
-    </tr>
-    <tr>
-      <th scope="row">Administracion</th>
-      <td colspan="2" class="">28/28</td>
-      <td>29/29</td>
-      <td>27/28</td>
-      <td>25/28</td>
-      <td>28/28</td>
-      <td>27/28</td>
-      <td>28/29</td>
-      <td>28/29</td>
-      <td>28/28</td>
-      <td>28/28</td>
-      <td>28/28</td>
-      <td>28/28</td>
-    </tr>
-    <tr>
-      <th scope="row">comercial</th>
-      <td colspan="2" class="">28/28</td>
-      <td>28/29</td>
-      <td>27/28</td>
-      <td>25/28</td>
-      <td>28/28</td>
-      <td>27/28</td>
-      <td>28/29</td>
-      <td>28/29</td>
-      <td>28/28</td>
-      <td>28/28</td>
-      <td>28/28</td>
-      <td>28/28</td>
-    </tr>
-    <tr>
-      <th scope="row">operaciones</th>
-      <td colspan="2" class="">28/28</td>
-      <td>28/29</td>
-      <td>27/28</td>
-      <td>25/28</td>
-      <td>28/28</td>
-      <td>27/28</td>
-      <td>28/29</td>
-      <td>28/29</td>
-      <td>28/28</td>
-      <td>28/28</td>
-      <td>28/28</td>
-      <td>28/28</td>
-    </tr>
-    <tr>
-      <th scope="row">industrial</th>
-      <td colspan="2" class="">28/28</td>
-      <td>28/29</td>
-      <td>27/28</td>
-      <td>25/28</td>
-      <td>28/28</td>
-      <td>27/28</td>
-      <td>28/29</td>
-      <td>28/29</td>
-      <td>28/28</td>
-      <td>28/28</td>
-      <td>28/28</td>
-      <td>28/28</td>
-    </tr>
-    <tr>
-      <th scope="row">totales</th>
-      <td colspan="2" class="">28/28</td>
-      <td>28/29</td>
-      <td>27/28</td>
-      <td>25/28</td>
-      <td>28/28</td>
-      <td>27/28</td>
-      <td>28/29</td>
-      <td>28/29</td>
-      <td>28/28</td>
-      <td>28/28</td>
-      <td>28/28</td>
-      <td>28/28</td>
-    </tr>
-  </tbody>
-</table>
-<br> -->
-<!-- <table class="table table-dark table-striped chico">
-    <thead>
-        <h2>Puestos por area</h2>
-        <div class="col-3 form-group">
-          <select class="form-select" id="anios">
-                  <option value="">- Seleccione -</option>
-                  <?php for( $i = 0; $i < count($ListYearsUsers); $i++){?>
-                        <option value="<?= $ListYearsUsers[$i]['aniosUser']?>">
-                        <?= $ListYearsUsers[$i]['aniosUser']?>
-                        </option>
-                    <?php } ?>
-                </select>
-          </div>
-    </thead>
-    <tbody>
-      <th scope="column">area</th>
-      <td colspan="2" class="">Enero</td>
-      <td>febrero</td>
-      <td>marzo</td>
-      <td>abril</td>
-      <td>mayo</td>
-      <td>junio</td>
-      <td>julio</td>
-      <td>agosto</td>
-      <td>septiembre</td>
-      <td>octubre</td>
-      <td>noviembre</td>
-      <td>diciembre</td>
-    </tr>
-    <tr>
-      <th scope="row">Administracion</th>
-      <td colspan="2" class="">18</td>
-      <td>19</td>
-      <td>22</td>
-      <td>18</td>
-      <td>18</td>
-      <td>19</td>
-      <td>19</td>
-      <td>19</td>
-      <td>19</td>
-      <td>19</td>
-      <td>19</td>
-      <td>19</td>
-    </tr>
-    <tr>
-      <th scope="row">comercial</th>
-      <td colspan="2" class="">18</td>
-      <td>19</td>
-      <td>22</td>
-      <td>18</td>
-      <td>18</td>
-      <td>19</td>
-      <td>19</td>
-      <td>19</td>
-      <td>19</td>
-      <td>19</td>
-      <td>19</td>
-      <td>19</td>
-    </tr>
-    <tr>
-      <th scope="row">operaciones</th>
-      <td colspan="2" class="">18</td>
-      <td>19</td>
-      <td>22</td>
-      <td>18</td>
-      <td>18</td>
-      <td>19</td>
-      <td>19</td>
-      <td>19</td>
-      <td>19</td>
-      <td>19</td>
-      <td>19</td>
-      <td>19</td>
-    </tr>
-    <tr>
-      <th scope="row">industrial</th>
-      <td colspan="2" class="">18</td>
-      <td>19</td>
-      <td>22</td>
-      <td>18</td>
-      <td>18</td>
-      <td>19</td>
-      <td>19</td>
-      <td>19</td>
-      <td>19</td>
-      <td>19</td>
-      <td>19</td>
-      <td>19</td>
-    </tr>
-    <tr>
-      <th scope="row">totales</th>
-      <td colspan="2" class="">18</td>
-      <td>19</td>
-      <td>22</td>
-      <td>18</td>
-      <td>18</td>
-      <td>19</td>
-      <td>19</td>
-      <td>19</td>
-      <td>19</td>
-      <td>19</td>
-      <td>19</td>
-      <td>19</td>
-    </tr>
-  </tbody>
-</table> -->
-
-<!-- <div class="tab-content" id="contenidoPestanas">
-            <div class="tab-pane fade show active" id="contenido1" role="tabpanel"
-              aria-labelledby="pestaña1-tab">
-              <table class="table table-striped table-bordered display nowrap" id="myTable1" style="font-size:74%;width:100%;">
-                <thead>
-                <h2>Puestos por area</h2>
-                  <tr>
-                    <th>Area</th>
-                    <th>Enero</th>
-                    <th>Febrero</th>
-                    <th>Marzo</th>
-                    <th>Abril</th>
-                    <th>Mayo</th>
-                    <th>Junio</th>
-                    <th>Julio</th>
-                    <th>Agosto</th>
-                    <th>Septiembre</th>
-                    <th>Octubre</th>
-                    <th>Noviembre</th>
-                    <th>Diciembre</th>
-                  </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                      <td>Administracion</td>
-                      <td>0</td>
-                      <td>0</td>
-                      <td>0</td>
-                      <td>0</td>
-                      <td>0</td>
-                      <td>0</td>
-                      <td>0</td>
-                      <td>0</td>
-                      <td>0</td>
-                      <td>0</td>
-                      <td>0</td>
-                      <td>0</td>
-                    </tr>
-                </tbody>
-                <tbody>
-                    <tr>
-                      <td>Comercial</td>
-                      <td>0</td>
-                      <td>0</td>
-                      <td>0</td>
-                      <td>0</td>
-                      <td>0</td>
-                      <td>0</td>
-                      <td>0</td>
-                      <td>0</td>
-                      <td>0</td>
-                      <td>0</td>
-                      <td>0</td>
-                      <td>0</td>
-                    </tr>
-                </tbody>
-                <tbody>
-                    <tr>
-                      <td>Operaciones</td>
-                      <td>0</td>
-                      <td>0</td>
-                      <td>0</td>
-                      <td>0</td>
-                      <td>0</td>
-                      <td>0</td>
-                      <td>0</td>
-                      <td>0</td>
-                      <td>0</td>
-                      <td>0</td>
-                      <td>0</td>
-                      <td>0</td>
-                    </tr>
-                </tbody>
-                <tbody>
-                    <tr>
-                      <td>Industrial</td>
-                      <td>0</td>
-                      <td>0</td>
-                      <td>0</td>
-                      <td>0</td>
-                      <td>0</td>
-                      <td>0</td>
-                      <td>0</td>
-                      <td>0</td>
-                      <td>0</td>
-                      <td>0</td>
-                      <td>0</td>
-                      <td>0</td>
-                    </tr>
-                </tbody>
-                <tbody>
-                    <tr>
-                      <td>Totales</td>
-                      <td>0</td>
-                      <td>0</td>
-                      <td>0</td>
-                      <td>0</td>
-                      <td>0</td>
-                      <td>0</td>
-                      <td>0</td>
-                      <td>0</td>
-                      <td>0</td>
-                      <td>0</td>
-                      <td>0</td>
-                      <td>0</td>
-                    </tr>
-                </tbody>
-              </table>
-            </div>
-
-        </div>
-
-
-</div> -->
 
   <!-- Container for the OrgChart -->
 <div id="tree"></div>
+<!-- 
 
-
+=======
 <script>
 
 window.onload = function(){
-    
+
+
+    OrgChart.templates.cool = Object.assign({}, OrgChart.templates.ana);
+    OrgChart.templates.cool.defs = '<filter x="-50%" y="-50%" width="200%" height="200%" filterUnits="objectBoundingBox" id="cool-shadow"><feOffset dx="0" dy="4" in="SourceAlpha" result="shadowOffsetOuter1" /><feGaussianBlur stdDeviation="10" in="shadowOffsetOuter1" result="shadowBlurOuter1" /><feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.1 0" in="shadowBlurOuter1" type="matrix" result="shadowMatrixOuter1" /><feMerge><feMergeNode in="shadowMatrixOuter1" /><feMergeNode in="SourceGraphic" /></feMerge></filter>';
+  
+    OrgChart.templates.cool.size = [310, 180];
+    OrgChart.templates.cool.node = '<rect filter="url(#cool-shadow)"  x="0" y="0" height="170" width="310" fill="red" stroke-width="2" stroke="#eeeeee" rx="10" ry="10"></rect><rect fill="#ffffff" x="100" y="10" width="200" height="100" rx="10" ry="10" filter="url(#cool-shadow)"></rect><rect stroke="#eeeeee" stroke-width="1" x="10" y="120" width="290" fill="#ed1c24" rx="10" ry="10" height="40"></rect><text  style="font-size: 10px;" fill="#afafaf" x="110" y="75">EXTENSIÓN</text>'
+        + '<image  xlink:href="images/icons/telefono.svg" x="110" y="80" width="11" height="11"></image>';
+  
+    OrgChart.templates.cool.img = '<clipPath id="{randId}"><rect  fill="#ffffff" stroke="#039BE5" stroke-width="5" x="10" y="10" rx="10" ry="10" width="80" height="100"></rect></clipPath><image preserveAspectRatio="xMidYMid slice" clip-path="url(#{randId})" xlink:href="{val}" x="10" y="10"  width="80" height="100"></image><rect fill="none" stroke="#ed1c24" stroke-width="2" x="10" y="10" rx="10" ry="10" width="80" height="100"></rect>';
+  
+    OrgChart.templates.cool.name = '<text data-width="150" data-text-overflow="multiline" style="font-size: 12px; font-weight: 900;" fill="#ed1c24" x="110" y="30">{val}</text>';
+    OrgChart.templates.cool.job = '<text  data-width="290" text-anchor="middle" style="font-size: 11px; font-weight: 900;" fill="#ffffff" x="155" y="145">{val}</text>';
+
     OrgChart.elements.myTextFunction = function (data, editElement, minWidth, readOnly) {
         var id = OrgChart.elements.generateId();
         var value = data[editElement.binding];
@@ -513,6 +191,7 @@ window.onload = function(){
     
     };
     
+
     OrgChart.elements.myImg = function (data, editElement, minWidth, readOnly) {
         var id = OrgChart.elements.generateId();
         var value = data[editElement.binding];
@@ -562,23 +241,95 @@ window.onload = function(){
         },
     });
     
-    OrgChart.SEARCH_PLACEHOLDER = "Buscar...";
+<!--     OrgChart.SEARCH_PLACEHOLDER = "Buscar...";
 
-    <?php $user = Consultas::listUsersImage($conn); ?>
+
+=======
+    
+    
+    chart.filterUI.on('add-filter', function(sender, args){
+        var names = Object.keys(sender.filterBy);
+        var index = names.indexOf(args.name);
+        if (index == names.length - 1) {
+            args.html += `<div data-btn-reset style="color: #039BE5;">reset</div>`;
+        }
+    });
+    
+    chart.filterUI.on('add-item', function(sender, args){
+        var count = 0;
+        var totalCount = 0;
+        for (var i = 0; i < sender.instance.config.nodes.length; i++){
+            var data = sender.instance.config.nodes[i];      
+            if (data[args.name] != undefined){
+                totalCount++;
+    
+                if (data[args.name] == args.value){            
+                    count++;    
+                }            
+            }
+        }
+    
+        var dataAllAttr = '';
+        if (args.text == '[All]'){
+            count = totalCount;
+            dataAllAttr = 'data-all';
+        }
+        args.html = `<div class="filter-item">
+                        <input ${dataAllAttr} type="checkbox" id="${args.value}" name="${args.value}" ${args.checked ? 'checked' : ''}>
+                        <label for="${args.value}">${args.text} (${count})</label>
+                    </div>`;
+    });
+    chart.filterUI.on('update', function(sender, args){
+        var btnResetElement = sender.element.querySelector('[data-btn-reset]');
+        btnResetElement.addEventListener('click', function(e){
+            sender.filterBy = null;
+            sender.update();
+            sender.instance.draw();
+        });
+    });
+    
+    chart.filterUI.on('show-items', function(sender, args){
+        var filterItemElements = sender.element.querySelectorAll('.filter-item');
+        for(var i = 0; i < filterItemElements.length; i++){        
+            filterItemElements[i].addEventListener('mouseenter', function(e){
+                var val = e.target.querySelector('input').id;           
+                if (val != args.name){//[All]
+                    for(var j = 0; j < sender.instance.config.nodes.length; j++){
+                        var data = sender.instance.config.nodes[j];
+                        if (data[args.name] == val){
+                            var nodeElement = sender.instance.getNodeElement(data.id);
+                            nodeElement.classList.add('filter-item-hovered');
+                        }
+                    }
+                }
+            });
+            
+            filterItemElements[i].addEventListener('mouseleave', function(e){
+                var val = e.target.querySelector('input').id;           
+                if (val != args.name){//[All]
+                    for(var j = 0; j < sender.instance.config.nodes.length; j++){
+                        var data = sender.instance.config.nodes[j];
+                        if (data[args.name] == val){
+                            var nodeElement = sender.instance.getNodeElement(data.id);
+                            nodeElement.classList.remove('filter-item-hovered');
+                        }
+                    }
+                }
+            });
+        }
+    });
+    
+    chart.onInit(function(args){
+        this.filterUI.show('title');
+    });
+    
+
+
     
     chart.load([
     
-        <?php
-        for($i = 0; $i < count($user); $i++){ ?>
-        { 
-            id: "<?=$user[$i]['usuarioId'] ?>", 
-            pid: "<?=$user[$i]['superuserId'] ?>", 
-            name: "<?=$user[$i]['nombre']," ", $user[$i]['apellido1'], " ", $user[$i]['apellido2']?> ", 
-            job: "<?= $user[$i]['puesto']?>", 
-            img:"<?= $user[$i]['ruta']?>",
-            function:"<?= $user[$i]['funciones']?>"
-        },
-        <?php } ?>
+
+
     ]);
 };
 

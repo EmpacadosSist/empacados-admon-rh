@@ -1,7 +1,16 @@
 <?php require_once('../helpers/consultas.php'); ?>
 <?php require_once('../helpers/utils.php'); ?>
 <?php require_once('../conexion/conexion.php');
-  $indicadores=Consultas::listIndicator($conn); 
+  $areaId=isset($_POST['areaId']) ? $_POST['areaId'] : ""; 
+  $positionId=isset($_POST['positionId']) ? $_POST['positionId'] : "0"; 
+  
+  
+  if($areaId==""){
+    $indicadores=Consultas::listIndicator($conn); 
+  }else{
+    $indicadores=Consultas::listIndicator($conn); 
+    //$indicadores=Consultas::listIndicatorByArea($conn,$areaId);
+  }
 
   //consulta para ver un solo usuario con el id  
 
@@ -61,10 +70,15 @@ if($month=="13"){
       <!-- <th>Nivel en estructura</th> -->
       <?php 
                 for($i=0; $i<count($indicadores); $i++){
-
+                  $indicadorIdth=$indicadores[$i]['id'];
+                  $puestoIdth= $positionId;
+                  $porcentajeth=Consultas::paymentVar($conn, $puestoIdth, $indicadorIdth);
+                  $valorPorcentajeth= isset($porcentajeth[0]) ? $porcentajeth[0]['porcentaje'] : 0; 
+                  if(!$isInd || $valorPorcentajeth>0)
+                  {
               ?>
       <th class="columna<?=$indicadores[$i]['areaId']?>"><?=$indicadores[$i]['id']?> - <?=$indicadores[$i]['nombreIndicador']?></th>
-      <?php               
+      <?php        }       
                 }
               ?>
       <th>Total</th>
@@ -117,8 +131,11 @@ if($month=="13"){
                             $porcCumplimiento= Utils::porcCumplimiento($objetivo, $real);
                             $diffPorc = Utils::diffPorc($objetivo, $real);
                           }                          
-                          
+                  
+                if(!$isInd || $valorPorcentaje>0)
+                          {
                   ?>
+
       <td class="columna<?=$indicadores[$j]['areaId']?>" style="min-width: 150px;">
         <?php
                   $totalpago=0; 
@@ -136,7 +153,8 @@ if($month=="13"){
                   echo "$ ".round($totalpago, 0, PHP_ROUND_HALF_UP);
                   ?>
       </td>
-      <?php } ?>
+
+      <?php } } ?>
 
       <td style="min-width: 100px;">$ <?=$sumaPagos?></td> <!-- Agrega más filas según tus necesidades -->
       <td style="min-width: 100px;"><?php 

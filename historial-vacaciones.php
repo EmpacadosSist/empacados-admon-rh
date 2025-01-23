@@ -1,6 +1,7 @@
 <?php 
   require_once('layout/session.php');
   require_once('helpers/utils.php'); 
+  $tab= isset($_GET['tab']) && $_GET['tab']!="" ? $_GET['tab'] : "";  
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -41,6 +42,8 @@
 
 <body>
 <main id="main" class="main">
+<input type="hidden" id="selectedTab" value="<?=$tab?>">
+
   <input type="hidden" id="userId" value="<?=$_SESSION['identity']->userId?>">
   <input type="hidden" id="empNum" value="<?=$_SESSION['identity']->empNum?>">
   <input type="hidden" id="name" value="<?=$_SESSION['identity']->name?>">
@@ -263,6 +266,12 @@
 
         var table1 = $('#myTable').DataTable(objOptions);
         var table2 = $('#myTable2').DataTable(objOptions); 
+
+        var selectedTab = $("#selectedTab").val();
+
+        if(selectedTab!=""){
+          $('a[href="#'+selectedTab+'"]').tab('show');
+        }        
       });
 
 
