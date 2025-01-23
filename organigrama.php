@@ -7,7 +7,19 @@
 <?php require 'layout/libreriasdatatable2.php';?>
 <?php require_once('layout/sidebar.php'); ?>
 
+<script>
+  document.title = "Organigrama Empacados"
 
+  window.onload = function() {
+    if (window.location.href.includes('organigrama.php#')) {
+        // Redirigir a la URL base 'organigrama.php' al recargar
+        window.history.replaceState({}, document.title, "organigrama.php");
+        setTimeout(() => {
+          window.history.replaceState({}, document.title, "organigrama.php");
+        }, 25000);
+    }
+};
+</script>
 <!doctype html>
 <html>
   <head>
@@ -35,28 +47,23 @@
       content="faMBWsCcw7RZQp1wVNh-Hgy7aQ8D2KMMNpwg0LKtsu4"
     />
     <title>Organigrama</title>
-    <link
-      data-n-head="1"
-      rel="icon"
-      type="image/x-icon"
-      href="./favicon.ico"
-      />
-      <script data-n-head="1" src="translate.js"></script>
-      <!-- <script data-n-head="1" src="datas.js"></script> -->
-     <?php require "data.php" ?>
+    <script data-n-head="1" src="translate.js"></script>
+    <!-- <script data-n-head="1" src="datas.js"></script> -->
+    <?php require "data.php" ?>
     <script data-n-head="1" src="config.js"></script>
     <link rel="preload" href="./e8cd43a.js" as="script" />
     <link rel="preload" href="./a865292.js" as="script" />
     <link rel="preload" href="./8e0b1c0.js" as="script" />
     <link rel="preload" href="./1b3c704.js" as="script" />
+    
   </head>
   <body class="toggle-sidebar">
     <div id="__nuxt">
 
       <style>
 
-        .loader{
-          display:none;
+        title{
+          padding: 1rem;
         }
 
         #__nuxt,
@@ -252,6 +259,12 @@
     <script src="assets/vendor/chart.js/chart.umd.js"></script>
     <script src="assets/vendor/echarts/echarts.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <link rel="icon" href="/assets/img/Capturalog.ico" id="elLogo">
+    <script>
+     
+    document.title = "Organigrama Empacados";
+
+    </script>
     
   </body>
   <?php require 'layout/footer.php';?>

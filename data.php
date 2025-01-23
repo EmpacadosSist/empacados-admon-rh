@@ -1,4 +1,3 @@
-
 <?php
   $user = Consultas::listUsersImage($conn);
   $userlvl0 = Consultas::listUserByLevel($conn);
@@ -43,7 +42,8 @@
         parent_id: '',
         staff_department: '',
         manager_id: "<?= $un0['usuarioId'] ?>",
-        children: <?= json_encode(getSubordinates($un0['usuarioId'], $user)) ?> // Aquí llamamos a la función recursiva para obtener subordinados
+        children: <?= json_encode(getSubordinates($un0['usuarioId'], $user)) ?>, // Aquí llamamos a la función recursiva para obtener subordinados
+        showChildren: true,
       },
     <?php } ?>
 
