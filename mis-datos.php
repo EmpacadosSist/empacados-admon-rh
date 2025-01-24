@@ -1,7 +1,7 @@
 <?php 
   require_once('layout/session.php');
   require_once('helpers/utils.php');
-  Utils::redirectSinPermiso(3);
+  //Utils::redirectSinPermiso(3);
 
   $empId= isset($_GET['id']) ? $_GET['id'] : "";
 
