@@ -318,7 +318,11 @@ if($jefe_directo_id!=null){
               <div class="form-group col-md-3">
                 <label for="childrenInfo"><i class="fas fa-child"></i> Hijos</label>
                 <button class="form-control text-left" id="childrenInfo" name="childrenInfo" disabled>0</button>              
-              </div>              
+              </div> 
+              <div class="col-md-3">
+                <label style="color:white;">Ver</label>
+                <button class="form-control btn btn-primary" id="childrenInfo1" name="childrenInfo1">Ver hijos</button>                   
+              </div>             
             </div>
 
             <div class="row">
@@ -703,29 +707,20 @@ if($jefe_directo_id!=null){
           <div class="row fila-form">
             <div class="form-group col-md-6">
               <label><i class="fas fa-child"></i> Nombre</label>
-              <input type="text" class="form-control childName" pattern="[A-Za-z0-9]+" title="Solo se permiten caracteres" value="<?=$childName?>">              
+              <input type="text" class="form-control childName" pattern="[A-Za-z0-9]+" title="Solo se permiten caracteres" value="<?=$childName?>" disabled>              
             </div>
             <div class="form-group col-md-6">
               <label><i class="fas fa-calendar-alt"></i> Fecha de nacimiento</label>
-              <input type="date" class="form-control childDob" value="<?=$childDob?>">
+              <input type="date" class="form-control childDob" value="<?=$childDob?>" disabled>
             </div>
           </div>
           <?php } ?>        
         
         </div>
         
-        <div class="row">
-          <div class="col-4">
-          </div>
-          <div class="col-4">
-            <button class="btn btn-success btn-block" id="agregarHijo"><i class="fas fa-plus"></i></button>
-          </div>
-          <div class="col"></div>
-        </div>
       </div>
       <div class="modal-footer">
-        <button class="btn btn-danger" id="limpiarModalHijos">Limpiar</button>
-        <button class="btn btn-primary" id="guardarModalHijos">Guardar</button>
+        <button class="btn btn-danger" id="modalHijosClose2">Cerrar</button>
       </div>
     </div>
   </div>
@@ -856,13 +851,17 @@ if($jefe_directo_id!=null){
     */
   });
 
-  $("#childrenInfo").click(function(){
+  $("#childrenInfo1").click(function(){
     $('#modalHijos').modal('show');
   });
 
   $("#modalHijosClose").click(function () {
     $('#modalHijos').modal('hide');
   });
+
+  $("#modalHijosClose2").click(function () {
+    $('#modalHijos').modal('hide');
+  });  
 
   $("#limpiarModalHijos").click(function(){
     $('#modalHijos').modal('hide');
