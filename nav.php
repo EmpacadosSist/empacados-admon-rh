@@ -41,7 +41,7 @@ $user = Consultas::listOneUsersImage($conn, $iduser);
           <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
             <div class="image-container">
               <?php if(!empty($user)){ ?>
-                <img src="<?=$user[0]['ruta']?>" alt="Profile" class="rounded-circle si" >
+                <img src="<?=$user[0]['ruta']?>" alt="Profile" class="rounded-circle si" style="width: 48.5px; height: 48.5px; object-fit: cover; object-position: top; max-height: 100%;">
              <?php }else{ ?>
                 <img src="assets/img/profile_placeholder.jpg" alt="Profile" class="rounded-circle">
              <?php } ?>

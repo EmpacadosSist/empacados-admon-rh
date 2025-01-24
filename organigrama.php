@@ -2,7 +2,7 @@
   require_once('layout/session.php');
   require_once('helpers/utils.php');
   require_once('helpers/Consultas.php');
-  require 'nav.php';
+  require 'nav.php'; 
 ?>
 <?php require 'layout/libreriasdatatable2.php';?>
 <?php require_once('layout/sidebar.php'); ?>
