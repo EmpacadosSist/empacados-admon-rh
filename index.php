@@ -57,67 +57,90 @@
   }  
 </style>
 
-
-  <main id="main" class="main">
-    <div class="pagetitle">
-      
-      <h1>Nuestra cultura</h1>
-    </div><!-- End Page Title -->
-
-
-  <!-- Sección Misión, Visión y Valores -->
-  <section class="mission-vision-values">
-    <div class="container">
-      <div class="row">
-        <!-- Misión -->
-        <div class="col-md-4">
-          <div class="card">
-            <div class="card-body">
-              <div align="center" class="mt-3">
-                <img width="120px;" src="assets/img/mision.png ">
+<?php  ?>
+  <main id="main" class="main"> 
+    <div id="miCarrusel" class="carousel slide" data-bs-ride="carousel">
+      <!-- Contenido del carrusel -->
+      <div class="carousel-inner">
+        <div class="carousel-item active">
+          <div class="pagetitle">
+            <h1 align="center">Nuestra cultura</h1>
+          </div><!-- End Page Title -->
+          
+          <!-- Sección Misión, Visión y Valores -->
+          <section class="mission-vision-values">
+            <div class="container">
+              <div class="row">
+                <!-- Misión -->
+                <div class="col-md-4">
+                  <div class="card">
+                    <div class="card-body">
+                      <div align="center" class="mt-3">
+                        <img width="120px;" src="assets/img/mision.png ">
+                      </div>
+                      <h3 class="card-title" align="center">Misión</h3>
+                      <p class="card-text">
+                        Dar sabor a la vida con el valor de nuestra gente ofreciendo alimentos de calidad que deleiten a nuestros clientes y beneficien a la sociedad.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                
+                <!-- Visión -->
+                <div class="col-md-4">
+                  <div class="card">
+                    <div class="card-body">
+                      <div align="center" class="mt-3">
+                        <img width="120px;" src="assets/img/vision.png ">
+                      </div>              
+                      <h3 class="card-title" align="center">Visión</h3>
+                      <p class="card-text">
+                        Ser una de las 100 empresas mexicanas más grandes, innovadoras y rentables de alimentos, siendo un excelente lugar para trabajar.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                
+                <!-- Valores -->
+                <div class="col-md-4">
+                  <div class="card">
+                    <div class="card-body">
+                      <div align="center" class="mt-3">
+                        <img width="120px;" src="assets/img/valores.png ">
+                      </div>              
+                      <h3 class="card-title" align="center">Valores</h3>
+                      <ul class="card-text">
+                        <li>Trabajo en equipo</li>
+                        <li>Calidad</li>
+                        <li>Enfoque a Resultados</li>
+                        <li>Compromiso</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <h3 class="card-title" align="center">Misión</h3>
-              <p class="card-text">
-                Dar sabor a la vida con el valor de nuestra gente ofreciendo alimentos de calidad que deleiten a nuestros clientes y beneficien a la sociedad.
-              </p>
             </div>
-          </div>
+          </section>
         </div>
-        <!-- Visión -->
-        <div class="col-md-4">
-          <div class="card">
-            <div class="card-body">
-              <div align="center" class="mt-3">
-                <img width="120px;" src="assets/img/vision.png ">
-              </div>              
-              <h3 class="card-title" align="center">Visión</h3>
-              <p class="card-text">
-                Ser una de las 100 empresas mexicanas más grandes, innovadoras y rentables de alimentos, siendo un excelente lugar para trabajar.
-              </p>
-            </div>
-          </div>
-        </div>
-        <!-- Valores -->
-        <div class="col-md-4">
-          <div class="card">
-            <div class="card-body">
-              <div align="center" class="mt-3">
-                <img width="120px;" src="assets/img/valores.png ">
-              </div>              
-              <h3 class="card-title" align="center">Valores</h3>
-              <ul class="card-text">
-                <li>Trabajo en equipo</li>
-                <li>Calidad</li>
-                <li>Enfoque a Resultados</li>
-                <li>Compromiso</li>
-              </ul>
-            </div>
+        <div class="carousel-item">
+          <img src="https://placehold.co/800x400" class="d-block w-100" alt="Slide 2">
+          <div class="carousel-caption d-none d-md-block">
+            <h5>Segundo Slide</h5>
+            <p>Texto del segundo slide.</p>
           </div>
         </div>
       </div>
+      
+      <!-- Controles de navegación -->
+      <button class="carousel-control-prev" type="button" data-bs-target="#miCarrusel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Anterior</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#miCarrusel" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Siguiente</span>
+      </button>
     </div>
-  </section>    
-
   </main><!-- End #main -->
 
   <!-- ======= Footer ======= -->
@@ -138,6 +161,10 @@
     $('#dashboardText').addClass('animated');
   });
 
+
+  $('.carousel').carousel({
+    interval: 500
+  })
 </script>
 
 </body>
