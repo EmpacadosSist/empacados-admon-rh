@@ -139,7 +139,7 @@ function notificarRespuesta($datos)
 		$message .= '<td>';
 		$message .= '</td>';        
 		$message .= '<td bgcolor="#C2C2C2" style="text-align: center;">';
-		$message .= '<a style="color:#000000;text-decoration:none;font-family:Helvetica,Arial,sans-serif;font-size:15px;line-height:135%;" href="http://empacadosmty.fortiddns.com:81/empacados-admon-rh/historial-vacaciones.php'.$tab.'" target="_blank">Ver en la web</a>';        
+		$message .= '<a style="color:#000000;text-decoration:none;font-family:Helvetica,Arial,sans-serif;font-size:15px;line-height:135%;" href="http://empacadosmty.fortiddns.com:81/conecta-empacados/historial-vacaciones.php'.$tab.'" target="_blank">Ver en la web</a>';        
 		$message .= '</td>';
 		$message .= '<td>';
 		$message .= '</td>';
