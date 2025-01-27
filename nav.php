@@ -27,10 +27,13 @@ $user = Consultas::listOneUsersImage($conn, $iduser);
   <header id="header" class="header fixed-top d-flex align-items-center">
 
     <div class="d-flex align-items-center justify-content-between">
-      <a href="index.php" class="logo d-flex align-items-center">
-      <img src="assets/img/logo2024.png" width="245px">
+      <a href="index.php" class="d-flex align-items-center">
+      <img src="assets/img/logo_blanco.png" width="178">
         <span class="d-none d-lg-block"></span>
       </a>
+      &nbsp;
+      &nbsp;
+      &nbsp;
       <i class="bi bi-list toggle-sidebar-btn"></i>
     </div><!-- End Logo -->
 

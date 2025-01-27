@@ -178,7 +178,7 @@ $pagLogin = isset($_GET['pag']) ? $_GET['pag'] : "";
                 </div>
                 -->
             <div class="d-flex justify-content-center">
-              <span><img src="assets/img/logo2024.png" width="227" height="48"></span>
+              <span><img src="assets/img/logo_blanco.png" width="227" ></span>
             </div>        
           </div>
         </div>
