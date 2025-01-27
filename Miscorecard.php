@@ -61,13 +61,15 @@
         <input type="hidden" id="year" value="<?=$yr?>">
         <input type="hidden" id="areaId" value="<?=$current_area_id?>">
         <input type="hidden" id="positionId" value="<?=$position_id?>">
+        <!--
         <li class="nav-item">
           <a class="nav-link active" id="pestaña1" data-toggle="tab" href="#contenido1" role="tab"
             aria-controls="contenido1" aria-selected="true">Objetivos</a>
         </li>
+        -->
 
         <li class="nav-item">
-          <a class="nav-link" id="pestaña2" data-toggle="tab" href="#contenido2" role="tab"
+          <a class="nav-link active" id="pestaña2" data-toggle="tab" href="#contenido2" role="tab"
             aria-controls="contenido2" aria-selected="true">Indicadores</a>
         </li>
 
@@ -81,10 +83,10 @@
 
       <!-- Contenido de las pestañas -->
       <div class="tab-content" id="contenidoPestanas">
-        <!-- Contenido de la Pestaña 1 -->
+        <!-- Contenido de la Pestaña 1 
         <div class="tab-pane fade show active" id="contenido1" role="tabpanel" aria-labelledby="pestaña1">
           <div class="container mt-5 text-center">
-            <!-- Slider 1 -->
+            
             <div class="row">
               <div class="col">
                 0 %
@@ -96,7 +98,7 @@
               <div class="col-3">Objetivo 1</div>
             </div>
           
-            <!-- Slider 2 -->
+            
             <div class="row">
               <div class="col">
                 0 %  
@@ -108,7 +110,7 @@
               <div class="col-3">Objetivo 2</div>
             </div>
           
-            <!-- Slider 3 -->
+            
             <div class="row">
               <div class="col">
                 0 %
@@ -128,9 +130,9 @@
               <div class="col"></div>
             </div>
           </div>
-        </div>
+        </div>-->
 
-        <div class="tab-pane fade" id="contenido2" role="tabpanel" aria-labelledby="pestaña2">
+        <div class="tab-pane fade show active" id="contenido2" role="tabpanel" aria-labelledby="pestaña2">
         <div class="table-responsive">
             <table class="table table-striped table-bordered table-sm" id="tablaPestana1">
               <!-- Contenido de la tabla -->
@@ -313,27 +315,29 @@
   });
 
   // Initialize the sliders
+  /*
   var slider1 = new Slider("#slider1", {
     id: "slider1",
     min: 0,
     max: 100,
     tooltip: 'always'
   });
-
+  
   var slider2 = new Slider("#slider2", {
     id: "slider2",
     min: 0,
     max: 100,
     tooltip: 'always'
   });
-
+  
   var slider3 = new Slider("#slider3", {
     id: "slider3",
     min: 0,
     max: 100,
     tooltip: 'always'
   });
-
+  */
+  
   $('#selectMonth').on('change', function() {
     //alert("asi es");
     let mes = $(this).val();
