@@ -23,6 +23,9 @@ if(count($_POST)>0){
   $userId = isset($_POST['userId']) ? $_POST['userId'] : "";  
   $userIdVal = Validar::validarNum($userId);
 
+  $medioDia = isset($_POST['medioDia']) ? $_POST['medioDia'] : "";  
+  $medioDiaVal = Validar::validarNum($medioDia);  
+
   //se valida campo que no venga vacio y que cumpla la validacion de fecha  
   $fechaInicio = isset($_POST['fechaInicio']) ? $_POST['fechaInicio'] : "";
   $fechaInicioVal = Validar::validarFecha($fechaInicio);
@@ -71,10 +74,10 @@ if(count($_POST)>0){
   $sqlSP="";
 
   //condicion para verificar que todos los campos cumplan con su validacion
-  if($userIdVal && $fechaInicioVal && $fechaFinVal && $tipoHorarioVal && $empNumVal && $nameVal && $lastName1Val && $lastName2Val && $positionNameVal && $sectionNameVal && $requestedDaysVal && $vacationsTypeVal && $vacationsStatusVal && $correoJefeVal && $numDiasVal){    
+  if($userIdVal && $fechaInicioVal && $fechaFinVal && $tipoHorarioVal && $empNumVal && $nameVal && $lastName1Val && $lastName2Val && $positionNameVal && $sectionNameVal && $requestedDaysVal && $vacationsTypeVal && $vacationsStatusVal && $correoJefeVal && $numDiasVal && $medioDiaVal){    
 
     //se hace un insert o update a la bd por medio de un stored procedure, pasando campos como parametros
-    $sqlSP="CALL insert_vacations_period($userId, '$vacationsType', '$vacationsStatus', '$tipoHorario', '$fechaInicio', '$fechaFin')";
+    $sqlSP="CALL insert_vacations_period($userId, '$vacationsType', '$vacationsStatus', '$tipoHorario', $medioDia, '$fechaInicio', '$fechaFin')";
 
 		$resultSP=$conn->query($sqlSP);
     /*

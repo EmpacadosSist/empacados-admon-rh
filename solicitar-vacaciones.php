@@ -124,7 +124,22 @@ $proximo_periodo_string_formato_alterno = date('Y-m-d', $dateFormat);
         </div>
       </div>
     </div>
-    <div class="col"></div>
+    <div class="col">
+    <!--
+    <div class="card text-center">
+      <div class="card-header-vac">
+      </div>
+      <div class="card-body">
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" id="medioDia">
+          <label class="form-check-label" for="medioDia">
+          Activar/Desactivar medios días
+          </label>
+        </div>
+      </div>
+    </div>
+    -->
+    </div>
   </div>
 
   <div class="row">
@@ -261,7 +276,9 @@ $proximo_periodo_string_formato_alterno = date('Y-m-d', $dateFormat);
         let fechaInicioVal=$("#fechaInicio").val();
         let fechaFinVal=$("#fechaFin").val();
         let proxPeriodo=$("#proximoPeriodo").val();
-        
+
+        let medioDia=$("#medioDia").is(':checked');
+
         if((diasSolic>0 && diasSolic<=diasDisp) && !(fechaInicioVal >= proxPeriodo || fechaFinVal >= proxPeriodo)){
           let userId=$("#userId").val();        
           let fechaInicio=$("#fechaInicio").val();
@@ -277,6 +294,13 @@ $proximo_periodo_string_formato_alterno = date('Y-m-d', $dateFormat);
           let correoJefe = $("#correoJefe").val();
           let numDias = $("#numDias").val();
 
+          if(medioDia){
+            medioDia='1';
+            numDias=numDias/2;
+          }else{
+            medioDia='0';
+          }
+
           let datos = {
             vacationsType : "V",
             vacationsStatus: "P",
@@ -287,6 +311,7 @@ $proximo_periodo_string_formato_alterno = date('Y-m-d', $dateFormat);
             empNum,
             correoJefe,
             numDias,
+            medioDia,
             name,
             lastName1,
             lastName2,
