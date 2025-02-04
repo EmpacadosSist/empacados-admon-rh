@@ -322,9 +322,11 @@
       let allYear=$("#checkAllYear").is(':checked');
       //let calculationType=$("#checkCalcType").is(':checked'); 
       let calculationType = $("#calcType").val();     
-      $( ".loader" ).show(); 
+
       if(indicatorName != "" && realValue != "" && targetValue != ""){
         //aqui va el codigo para agregar a la bd la informacion despues de validar
+        $( ".loader" ).show(); 
+        console.log('No entra');
         subir_indicador({
         //console.log({
           valueTypeId,
