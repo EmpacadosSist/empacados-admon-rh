@@ -20,7 +20,7 @@ if($month=="1"){
 */
 
 $month=isset($_GET['month']) ? $_GET['month'] : "";    
-$year=isset($_GET['year']) ? $_GET['year'] : "";  
+$year=isset($_GET['yr']) ? $_GET['yr'] : "";  
 
 $month = $month != "" ? $month : date('m');
 $year = $year != "" ? $year : date('Y');
