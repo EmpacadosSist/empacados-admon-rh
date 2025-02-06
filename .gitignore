@@ -1,3 +1,4 @@
 /conexion/conexion.php
 /assets/profile_pic/*
 !/assets/profile_pic/.gitkeep
+/helpers/email_image.png

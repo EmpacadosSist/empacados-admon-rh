@@ -1135,8 +1135,8 @@
         location.reload();
       })
       .catch(err => {
-        let message = err.statusText || "Ocurrió un error";
-        console.log(err);
+        let message = err.statusText || "Ocurrió un error, favor de contactar al administrador";
+        alert(message);
       }) 
       uploadImage()  
   }
