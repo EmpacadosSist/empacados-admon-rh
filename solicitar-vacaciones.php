@@ -26,7 +26,10 @@ if($jefeId==""){
 $correoJefe = Consultas::listOneRawUser($conn, $jefeId); 
 
 ?>
-<?php $numDias = $diasVacaciones[0]['numDias']; ?>
+<?php 
+  $numDias = $diasVacaciones[0]['numDias']; 
+  $diasAd = $diasVacaciones[0]['diasAd'];
+?>
 <style>
   .card-header-vac,
   .card-footer-vac {
@@ -114,6 +117,7 @@ $proximo_periodo_string_formato_alterno = date('Y-m-d', $dateFormat);
         <div class="card-header-vac">
           <!--aqui va el valor de los dias disponibles desde la bd-->
           <input type="hidden" id="diasDisp" value="<?=$numDias?>">
+          <input type="hidden" id="diasAd" value="<?=$diasAd?>">
           <h1 <?=(($dif_mes==3 && $dif_anio==0 && $dif_dias==0) || ($dif_mes<3)) ? 'style="background-color: #FFF751;"' : '' ?>><?=$numDias?></h1>
           <hr>
         </div>
@@ -198,7 +202,7 @@ $proximo_periodo_string_formato_alterno = date('Y-m-d', $dateFormat);
 
       const mostrarError = (vali, errorEl, isText=false, inf=0, sup=0) => {
         let valor=Number(vali.val());
-        let diasDisp=Number($("#diasDisp").val());
+        let diasDisp=Number($("#diasDisp").val())+Number($("#diasAd").val());
 
         if(valor>0 && valor<=diasDisp){
           $('#' + errorEl).text('');
@@ -218,11 +222,14 @@ $proximo_periodo_string_formato_alterno = date('Y-m-d', $dateFormat);
         let fechaFinVal=$("#fechaFin").val();
         let proxPeriodo=$("#proximoPeriodo").val();
 
+        /*
+        Control de periodo sobrepasado del aniversario
         if(fechaInicioVal >= proxPeriodo || fechaFinVal >= proxPeriodo){
           $('#' + errorEl).text('No sobrepasar el inicio del sig. periodo');
           vali.css('border-color', '#cc0000');
           console.log("SOBREPASA PERIODO");
         }
+        */
 
       }      
 
@@ -270,7 +277,8 @@ $proximo_periodo_string_formato_alterno = date('Y-m-d', $dateFormat);
         
         mostrarError($("#numDias"), 'error_numDias');
         let diasSolic=$("#numDias").val();
-        let diasDisp=Number($("#diasDisp").val());
+        let diasDisp=Number($("#diasDisp").val())+Number($("#diasAd").val());
+
         $(".loader").show();
 
         let fechaInicioVal=$("#fechaInicio").val();
@@ -279,7 +287,8 @@ $proximo_periodo_string_formato_alterno = date('Y-m-d', $dateFormat);
 
         let medioDia=$("#medioDia").is(':checked');
 
-        if((diasSolic>0 && diasSolic<=diasDisp) && !(fechaInicioVal >= proxPeriodo || fechaFinVal >= proxPeriodo)){
+        // && !(fechaInicioVal >= proxPeriodo || fechaFinVal >= proxPeriodo)
+        if((diasSolic>0 && diasSolic<=diasDisp)){
           let userId=$("#userId").val();        
           let fechaInicio=$("#fechaInicio").val();
           let fechaFin=$("#fechaFin").val();
