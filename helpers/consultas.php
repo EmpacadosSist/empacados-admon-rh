@@ -66,6 +66,41 @@
       return $resultado;
     }
 
+    public static function listPositionImage($conn){
+      $sqlSP="CALL select_position_image()";
+      /*
+      alias de los campos
+	    'usuarioId',
+      'funciones',
+      'PuestoSup',
+	    'superuserId',
+	    'puestoId',       
+      'numEmpleado', 
+      'ceco',
+	    'nombre', 
+  	  'apellido1', 
+   	  'apellido2', 
+      'nivel', 
+      'puesto', 
+      'fechaIngreso', 
+      'correo', 
+      'variable' 
+      */
+      $resultSP=$conn->query($sqlSP, MYSQLI_STORE_RESULT);
+      
+      $resultado=[];
+      //condicion para verificar si se hizo la insercion en la bd
+
+      if($resultSP){        
+        while($row = $resultSP->fetch_assoc()){
+          array_push($resultado, $row);
+        }
+      }else{
+        echo "Error en la consulta: " . $conn->error;
+      }
+      $conn->next_result();      
+      return $resultado;
+    }
     public static function listUsersImage($conn){
       $sqlSP="CALL select_user_image()";
       /*
@@ -118,6 +153,27 @@
       }
       $conn->next_result();      
       return $resultado;
+    }
+
+    public static function listPositionByLevel($conn){
+
+      $sqlSP="CALL select_user_position_by_level()";
+
+      $resultSP=$conn->query($sqlSP, MYSQLI_STORE_RESULT);
+      
+      $resultado=[];
+      //condicion para verificar si se hizo la insercion en la bd
+
+      if($resultSP){        
+        while($row = $resultSP->fetch_assoc()){
+          array_push($resultado, $row);
+        }
+      }else{
+        echo "Error en la consulta: " . $conn->error;
+      }
+      $conn->next_result();      
+      return $resultado;
+
     }
 
 
