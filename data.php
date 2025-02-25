@@ -1,7 +1,7 @@
 <?php
 // PuestoSup
 // puestoId
-// usuarioId
+// usuarioId 
 
   $user = Consultas::listPositionImage($conn);
   $userlvl0 = Consultas::listPositionByLevel($conn);

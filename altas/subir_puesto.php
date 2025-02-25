@@ -7,6 +7,9 @@ require_once('../helpers/validar.php');
 //condicion para verificar si hay parametros enviados por post
 if(count($_POST)>0){
 
+  $jefePuesto = isset($_POST['jefedirecto']) ? $_POST['jefedirecto'] : "";
+  $jefePuestoVal = Validar::validarNum($jefePuesto);
+
   $sectionId = isset($_POST['sectionId']) ? $_POST['sectionId'] : "";
   $sectionIdVal = Validar::validarNum($sectionId);
 
@@ -20,11 +23,11 @@ if(count($_POST)>0){
   $sqlSP="";
 
   //condicion para verificar que todos los campos cumplan con su validacion
-  if($sectionIdVal && $positionNameVal && $levelIdVal){    
+  if($sectionIdVal && $positionNameVal && $levelIdVal && $jefePuestoVal){    
 
     //se hace un insert o update a la bd por medio de un stored procedure, pasando campos como parametros
     //el ultimo parametro del sp de insert es un parametro de salida, que mostrara el ultimo id insertado
-    $sqlSP="CALL insert_position($sectionId, '$positionName', $levelId, @LID)";
+    $sqlSP="CALL insert_position($sectionId, '$positionName', $levelId, $jefePuesto, @LID)";
 
 		$resultSP=$conn->query($sqlSP);
     

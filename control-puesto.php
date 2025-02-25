@@ -5,9 +5,12 @@
 ?>
 <?php require 'layout/libreriasdatatable.php';?>
 <?php require 'nav.php'; ?>
+<?php $empleados = Consultas::listUsers($conn); ?>
 <?php require_once('layout/sidebar.php'); ?>
 <?php $tareas = Consultas::listTasks($conn); ?>
+
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 
 <style>
   .table th,
@@ -143,6 +146,7 @@
       <div class="container">
         <div class="row mt-3">
           <div class="col-6 form-group">
+            Área
           <select class="form-select" id="areaId">
                   <option value="">- Seleccione -</option>
                   <?php 
@@ -154,31 +158,30 @@
                     }
                     ?>
                 </select>
-            Área
-          <!-- </div>
-          <div class="col-3 form-group">
-          <input class="form-control" id="PuestosPermitidos">
-            Puestos Permitidos
           </div>
-          <div class="col-3 form-group">
-          <button class="btn btn-success form-control" id="PuestosPermitidos" >Guardar</button>
-          </div> -->
+
         </div>
         <div class="row mt-3">
           <div class="col-6 form-group">
+            Departamento
           <select class="form-select" id="departamentoId">
                   <option value="">- Seleccione -</option>
                 </select>
-            Departamento
+          </div>
+          <div class="col-6 form-group">
+            Jefe directo
+          <button class="form-select" id="btnJefeDirecto">- Seleccione -</button>
+          <span id="jefeDirectoError" class="text-danger"></span>
           </div>
         </div>        
         <div class="row mt-3">
           <input type="hidden" value="0" id="puestoId">
           <div class="col form-group">
-            <input type="text" id="puestoNombre" name="puestoNombre" class="form-control">
             Nombre
+            <input type="text" id="puestoNombre" name="puestoNombre" class="form-control">
           </div>
           <div class="col form-group">
+            Nivel
             <select class="form-select" id="nivelId">
                   <option value="">- Seleccione -</option>
                   <?php 
@@ -190,7 +193,6 @@
                     }
                     ?>                
                 </select>
-            Nivel
           </div>          
    
         </div>
@@ -228,6 +230,52 @@
             <tbody>
             </tbody>
           </table>
+        </div>
+
+          <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="jefeDirectoModalLabel"
+          aria-hidden="true" id="modalJefeDirecto">
+          <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+
+              <div class="modal-header">
+                <h4 class="modal-title" id="jefeDirectoModalLabel">Seleccionar jefe directo</h4>
+                <button type="button" class="close" aria-label="Close" id="modalJefeDirectoClose">
+                  <span aria-hidden="true">×</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <table class="table table-striped table-bordered" id="modalTable">
+                  <thead>
+                    <th>Número de empleado</th>
+                    <th>Nombre</th>
+                    <th>Puesto</th>
+                    <th>Área</th>       
+                    <th></th>         
+                  </thead>
+                  <tbody>
+                    <?php 
+                    for ($i=0; $i < count($empleados); $i++) { 
+                      $nombreJefe=$empleados[$i]['nombre']." ".$empleados[$i]['apellido1']." ".$empleados[$i]['apellido2'];  
+                    ?>
+                      <tr data-id="<?=$empleados[$i]['usuarioId']?>" data-jefe="<?=$nombreJefe?>" data-position="<?=$empleados[$i]['puestoId']?>">
+                        <td><?=$empleados[$i]['numEmpleado']?></td>
+                        <td><?=$nombreJefe?></td>
+                        <td><?=$empleados[$i]['puesto']?></td>
+                        <td><?=$empleados[$i]['area']?></td>
+                        <td><button class="btn btn-success seleccionar-jefe">Seleccionar</button></td>
+                      </tr>
+                  <?php 
+                    }
+                    ?>
+                  </tbody>
+                </table>
+                <input type="hidden" id="superUser" value="">
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-danger" id="cancelarModalJefe">Cancelar</button>
+              </div>
+            </div>
+          </div>
         </div>
 
         <!-- Agrega más contenidos de pestañas según sea necesario -->
@@ -320,6 +368,10 @@
     </div>
   </div>
 
+
+
+
+
     </main>
     <?php require 'layout/footer.php';?>
   </body>
@@ -341,11 +393,64 @@
   <script src="assets/vendor/php-email-form/validate.js"></script>
   <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
   <link rel="stylesheet" href="assets/css/normalize.css">
+  <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+  <!-- DataTables Bootstrap 4 JS -->
+  <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap4.min.js"></script>
 
   <!-- Template Main JS File -->
   <script src="assets/js/main.js"></script>
 
   <script>
+
+    let arrHijos=[];
+
+    var table = $('#modalTable').DataTable({
+      "pageLength": 0,
+      "lengthMenu": [5, 10, 15],
+      language: {
+        "processing": "Procesando...",
+        "lengthMenu": "Mostrar _MENU_ registros",
+        "zeroRecords": "No se encontraron resultados",
+        "emptyTable": "Ningún dato disponible en esta tabla",
+        "infoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+        "infoFiltered": "(filtrado de un total de _MAX_ registros)",
+        "search": "Buscar:",
+        "infoThousands": ",",
+        "loadingRecords": "Cargando...",
+        "paginate": {
+          "first": "Primero",
+          "last": "Último",
+          "next": "Siguiente",
+          "previous": "Anterior"
+        },
+        "info": "Mostrando _START_ a _END_ de _TOTAL_ registros"
+      }
+    });
+
+    $("#cancelarModalJefe").click(function(){
+    $('#modalJefeDirecto').modal('hide');
+    $("#btnJefeDirecto").text('- Seleccione -');
+    $("#superUser").val('NULL');
+  });
+
+    $("#btnJefeDirecto").click(function () { 
+      $('#modalJefeDirecto').modal('show');
+    });
+
+    $("#modalJefeDirectoClose").click(function () {
+      $('#modalJefeDirecto').modal('hide'); 
+    });
+
+    table.on('click', 'tbody tr .seleccionar-jefe', function () {
+    let parentTr=$(this).parent().parent();
+    let userId=parentTr.attr('data-id');
+    let nombreJefe=parentTr.attr('data-jefe');
+    let positionJefe=parentTr.attr('data-position');
+
+    $("#btnJefeDirecto").text(nombreJefe);
+    $('#modalJefeDirecto').modal('hide');
+    $("#superUser").val(userId);
+  });
 
     $("#btnPuestosPermitidos").on('click', function(){
 
@@ -360,11 +465,19 @@
     document.title = "Subir puesto";
 
     $("#btnGuardarPuesto").click(function(){
-      //todo lo minimo
+
+      // todo lo minimo
       let positionName=$("#puestoNombre").val();      
       let positionId=$("#puestoId").val();      
       let sectionId=$("#departamentoId").val();
-      let levelId=$("#nivelId").val();      
+      let levelId=$("#nivelId").val();   
+      let jefedirecto=$("#superUser").val();
+
+      console.log(positionName);
+      console.log(positionId);
+      console.log(sectionId);
+      console.log(levelId);  
+      console.log(jefedirecto);
 
       let url='altas/subir_puesto.php';
 
@@ -372,13 +485,14 @@
         positionId,
         positionName,
         sectionId,
-        levelId
+        levelId,
+        jefedirecto
       }
 
-      if(positionName!=""&&sectionId!=""&&levelId!=""){
+      if(positionName!=""&&sectionId!=""&&levelId!=""&&jefedirecto!=""){
 
         let fd = new FormData();
-        
+
         for(var key in datos){
           fd.append(key, datos[key]);
         }  
@@ -659,5 +773,17 @@
       }
     }
   }
+
+  const mostrarErrorJefeDirecto = (valiHidden, valiButton, msg, errorEl) => {
+    if (valiHidden.val() == 'NULL') {
+      $('#' + errorEl).text(msg);                 
+      valiButton.css('border-color', '#cc0000');
+      //CuentaMayor = '';
+    } else {
+      msg = '';
+      $('#' + errorEl).text(msg);
+      valiButton.css('border-color', '');
+    }
+  }  
 
   </script>
