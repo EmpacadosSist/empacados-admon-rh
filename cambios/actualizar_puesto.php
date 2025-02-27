@@ -6,6 +6,8 @@ require_once('../helpers/validar.php');
 
 if(count($_POST)>0){
 
+  $jefePuesto = isset($_POST['jefedirecto']) ? $_POST['jefedirecto'] : "";
+
   $positionId = isset($_POST['positionId']) ? $_POST['positionId'] : "";
 
   //se valida campo que no venga vacio y que cumpla la validacion de tipo numerico  
@@ -16,7 +18,7 @@ if(count($_POST)>0){
   $levelIdVal = Validar::validarNum($levelId);
 
     if($positionNameVal && $levelIdVal){
-      $sqlSP="CALL update_position($positionId, '$positionName', $levelId)";
+      $sqlSP="CALL update_position($positionId, '$positionName', $levelId, $jefePuesto)";
       $resultSP=$conn->query($sqlSP);
 
       if($resultSP){

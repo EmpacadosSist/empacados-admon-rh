@@ -14,12 +14,20 @@ var CONFIG = {
   },
   enableScreenCapture: true,
   levelColors: [
-    '#0c058d',
-    '#05668d',
-    '#8d6e05',
+    '#3271a5', 
+    '#588100',
+    '#d2b202',
+    '#dc6601',
     '#8d2305',
-    '#cfb303',
+
+    // '#0c058d',
+    // '#05668d',
+    // '#8d6e05',
+    // '#8d2305',
+    // '#cfb303',
   ],
+
+
   editCommand: '_edit',
   dataFields: [{ name: 'Location', type: 'text' }],
   personProperties: [
