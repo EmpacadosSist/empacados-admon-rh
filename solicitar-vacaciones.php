@@ -635,7 +635,7 @@ $proximo_periodo_string_formato_alterno = date('Y-m-d', $dateFormat);
           return response.ok ? response.json() : Promise.reject(response);
         })
         .then(data => {
-          //window.location.href = "proceso-completo.php?op=v";
+          window.location.href = "proceso-completo.php?op=v";
           console.log(data);
         })
         .catch(err => {

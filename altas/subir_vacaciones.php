@@ -106,7 +106,7 @@ if(count($_POST)>0){
 
     }else{
       //se guarda en una variable el resultado de haber un error al agregar a la bd      
-      $resultado = ["ok"=>false,"message"=>$sqlSP];
+      $resultado = ["ok"=>false,"message"=>"Error al agregar a la base de datos"];
 
     }
 
