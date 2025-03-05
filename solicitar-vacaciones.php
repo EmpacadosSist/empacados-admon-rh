@@ -156,29 +156,68 @@ $proximo_periodo_string_formato_alterno = date('Y-m-d', $dateFormat);
     -->
     </div>
   </div>
-
+    <!-- 
+      <div class="row">
+        <div class="col"></div>
+        <div class="col">
+          <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
+            <label class="form-check-label" for="flexSwitchCheckDefault">Activar/Desactivar medios días</label>
+          </div>  
+        </div>
+        <div class="col"></div>        
+      </div>
+      -->
+      
   <div class="row">
-    <div class="col-3">
+    <div class="col-2">
       <label for="fechaInicio">Fecha de inicio:</label>
       <input class="form-control" type="date" id="fechaInicio">
       <span id="error_fechasAnt" class="text-danger"></span>
     </div>
-    <div class="col-3">
+    <div class="col-2">
       <label for="fechaFin">Fecha de fin:</label>    
       <input class="form-control" type="date" id="fechaFin">
     </div>    
-    <div class="col-3">
+    <div class="col-2">
       <label for="tipoHorario">Tipo de horario:</label>
       <select class="form-select" name="tipoHorario" id="tipoHorario">
         <option value="A">A</option>
         <option value="B">B</option>
       </select>
     </div>
-    <div class="col-3">
+    <div class="col-2">
       <label for="numDias">Cantidad de días:</label>
-      <input class="form-control" type="text" value="0" id="numDias" disabled>
+      <input class="form-control" type="text" value="0" id="txtNumDias" disabled>
       <span id="error_numDias" class="text-danger"></span>
+      <input type="hidden" id="numDias" value="0">
     </div>
+    <div class="col-2">
+      <div class="form-group">
+        <label>Medios días:</label>
+        <div>
+          <label class="switch">
+            <div class="form-check form-switch">
+              <input class="form-check-input" type="checkbox" id="medioDia">
+            </div>
+          </label>
+        </div>
+      </div>      
+    </div>
+    <div class="col-2">
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="rdMorningEvening" value="0" id="rdMorning" checked disabled>
+        <label class="form-check-label" for="rdMorning">
+          Mañana
+        </label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="rdMorningEvening" value="1" id="rdEvening" disabled>
+        <label class="form-check-label" for="rdEvening">
+          Tarde
+        </label>
+      </div>   
+    </div>    
   </div>
 
   <div class="row mt-4">
@@ -215,8 +254,25 @@ $proximo_periodo_string_formato_alterno = date('Y-m-d', $dateFormat);
       });
       
       $("#solicitar").click(function(){
+        if($("#medioDia").is(':checked')){
+          $("#modalSolicitarHalf").modal('show');  
+        }else{
+          solicitar_vacaciones();
+        }
+      });
+
+
+      $(document).on("click", "#btnModalSolicitarHalf", function () {
         solicitar_vacaciones();
-      })
+      });
+
+      
+      $("#medioDia").on('change', function(){
+        console.log("cambia", $(this).is(':checked'));
+        alternarAct();
+        mostrarCambiosPantalla();
+        logSelectedRadioButton();
+      });
 
       const mostrarError = (vali, errorEl, isText=false, inf=0, sup=0) => {
         let valor=Number(vali.val());
@@ -282,10 +338,10 @@ $proximo_periodo_string_formato_alterno = date('Y-m-d', $dateFormat);
       const mostrarErrorDias = (mensaje) => {
         if(mensaje!=''){
           $('#error_numDias').text(mensaje);
-          $('#numDias').css('border-color', '#cc0000');
+          $('#txtNumDias').css('border-color', '#cc0000');
         }else{
           $('#error_numDias').text('');
-          $('#numDias').css('border-color', '');          
+          $('#txtNumDias').css('border-color', '');          
         }
 
       }
@@ -304,7 +360,18 @@ $proximo_periodo_string_formato_alterno = date('Y-m-d', $dateFormat);
 
         let cantDias = calcularDiasHabiles(fechaInicio, fechaFin, tipoHorario);
 
+        let medDias = cantDias/2;
+
         $("#numDias").val(cantDias);
+
+        if($("#medioDia").is(':checked')){
+          $("#txtNumDias").val(medDias);        
+
+        }else{
+          $("#txtNumDias").val(cantDias);   
+
+        }
+        
       }
 
 
@@ -435,77 +502,6 @@ $proximo_periodo_string_formato_alterno = date('Y-m-d', $dateFormat);
               subirVacaciones();
             }
           }
-
-          /*
-          
-  
-          let userId=$("#userId").val();        
-          let fechaInicio=$("#fechaInicio").val();
-          let fechaFin=$("#fechaFin").val();
-          let tipoHorario=$("#tipoHorario").val();
-          let empNum = $("#empNum").val();
-          let name = $("#name").val();
-          let lastName1 = $("#lastName1").val(); 
-          let lastName2 = $("#lastName2").val();
-          let positionName = $("#positionName").val(); 
-          let sectionName = $("#sectionName").val();
-          let requestedDays = formatoFecha(fechaInicio)+" - "+formatoFecha(fechaFin);
-          let correoJefe = $("#correoJefe").val();
-          let numDias = $("#numDias").val();
-
-          if(medioDia){
-            medioDia='1';
-            numDias=numDias/2;
-          }else{
-            medioDia='0';
-          }
-
-          let datos = {
-            vacationsType : "V",
-            vacationsStatus: "P",
-            userId,
-            fechaInicio,
-            fechaFin,
-            tipoHorario,
-            empNum,
-            correoJefe,
-            numDias,
-            medioDia,
-            name,
-            lastName1,
-            lastName2,
-            positionName,
-            sectionName,
-            requestedDays
-          }
-
-          //console.log(datos);
-          
-          
-          let fd = new FormData();
-          
-          for(var key in datos){
-            fd.append(key, datos[key]);
-          }
-
-          
-          fetch('altas/subir_vacaciones.php', {
-            method: "POST",
-            body: fd
-          })
-          .then(response => {
-            return response.ok ? response.json() : Promise.reject(response);
-          })
-          .then(data => {
-            window.location.href = "proceso-completo.php?op=v";
-            console.log(data);
-          })
-          .catch(err => {
-            let message = err.statusText || "Ocurrió un error";
-            console.log(err);
-          })
-          
-          */
         }else{
           $(".loader").hide();
           
@@ -521,9 +517,6 @@ $proximo_periodo_string_formato_alterno = date('Y-m-d', $dateFormat);
 
           console.log("no se pueden pedir 0 dias, ni excederse");
         }
-        
-        
-        
 
       }
 
@@ -594,12 +587,14 @@ $proximo_periodo_string_formato_alterno = date('Y-m-d', $dateFormat);
         let correoJefe = $("#correoJefe").val();
         let numDias = $("#numDias").val();
         let medioDia=$("#medioDia").is(':checked');        
+        let tipoMedioDia = $("input[name='rdMorningEvening']:checked").val();        
 
         if(medioDia){
           medioDia='1';
           numDias=numDias/2;
         }else{
           medioDia='0';
+          tipoMedioDia='NULL';
         }
 
         let datos = {
@@ -613,6 +608,7 @@ $proximo_periodo_string_formato_alterno = date('Y-m-d', $dateFormat);
           correoJefe,
           numDias,
           medioDia,
+          tipoMedioDia,
           name,
           lastName1,
           lastName2,
@@ -639,7 +635,7 @@ $proximo_periodo_string_formato_alterno = date('Y-m-d', $dateFormat);
           return response.ok ? response.json() : Promise.reject(response);
         })
         .then(data => {
-          window.location.href = "proceso-completo.php?op=v";
+          //window.location.href = "proceso-completo.php?op=v";
           console.log(data);
         })
         .catch(err => {
@@ -647,7 +643,38 @@ $proximo_periodo_string_formato_alterno = date('Y-m-d', $dateFormat);
           console.log(err);
         })        
       }
+
+      const alternarAct = () => {
+        $("input[name='rdMorningEvening']").each(function() {
+            $(this).prop("disabled", !$(this).prop("disabled"));
+        });        
+      }
+
+      const logSelectedRadioButton = () => {
+        var selectedValue = $("input[name='rdMorningEvening']:checked").val();
+        console.log("Opción seleccionada:", selectedValue);
+      }      
     </script>
+
+    <div class="modal fade" id="modalSolicitarHalf" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <!-- Contenido del modal para eliminar -->
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Medios días</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <p>Está a punto de solicitar medios días de vacaciones ¿Continuar?</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" id="btnModalSolicitarHalf">Si</button>
+            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
     </main>
     <?php require 'layout/footer.php';?>
   </body>

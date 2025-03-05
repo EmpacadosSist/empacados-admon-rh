@@ -26,6 +26,8 @@ if(count($_POST)>0){
   $medioDia = isset($_POST['medioDia']) ? $_POST['medioDia'] : "";  
   $medioDiaVal = Validar::validarNum($medioDia);  
 
+  $tipoMedioDia = isset($_POST['tipoMedioDia']) ? $_POST['tipoMedioDia'] : "NULL";
+
   //se valida campo que no venga vacio y que cumpla la validacion de fecha  
   $fechaInicio = isset($_POST['fechaInicio']) ? $_POST['fechaInicio'] : "";
   $fechaInicioVal = Validar::validarFecha($fechaInicio);
@@ -77,7 +79,7 @@ if(count($_POST)>0){
   if($userIdVal && $fechaInicioVal && $fechaFinVal && $tipoHorarioVal && $empNumVal && $nameVal && $lastName1Val && $lastName2Val && $positionNameVal && $sectionNameVal && $requestedDaysVal && $vacationsTypeVal && $vacationsStatusVal && $correoJefeVal && $numDiasVal && $medioDiaVal){    
 
     //se hace un insert o update a la bd por medio de un stored procedure, pasando campos como parametros
-    $sqlSP="CALL insert_vacations_period($userId, '$vacationsType', '$vacationsStatus', '$tipoHorario', $medioDia, '$fechaInicio', '$fechaFin')";
+    $sqlSP="CALL insert_vacations_period($userId, '$vacationsType', '$vacationsStatus', '$tipoHorario', $medioDia, $tipoMedioDia, '$fechaInicio', '$fechaFin')";
 
 		$resultSP=$conn->query($sqlSP);
     /*
@@ -93,7 +95,7 @@ if(count($_POST)>0){
       //se guarda el id sacandolo del objeto
       ////$positionId=$last_id->id;
 
-      $datos = ["userId"=>$userId, "fechaInicio"=>$fechaInicio,"fechaFin"=>$fechaFin,"numEmpleado"=>$empNum,"nombre"=>$name." ".$lastName1." ".$lastName2,"puesto"=>$positionName,"departamento"=>$sectionName,"vacationsType"=>$vacationsType,"vacationsStatus"=>$vacationsStatus,"correoJefe"=>$correoJefe, "requestedDays"=>$requestedDays, "numDias"=>$numDias];
+      $datos = ["userId"=>$userId, "fechaInicio"=>$fechaInicio,"fechaFin"=>$fechaFin,"numEmpleado"=>$empNum,"nombre"=>$name." ".$lastName1." ".$lastName2,"puesto"=>$positionName,"departamento"=>$sectionName,"vacationsType"=>$vacationsType,"vacationsStatus"=>$vacationsStatus,"correoJefe"=>$correoJefe, "requestedDays"=>$requestedDays, "numDias"=>$numDias, "medioDia"=>$medioDia, "tipoMedioDia"=>$tipoMedioDia];
 
       //variable que almacena el resultado de haber enviado por correo la contraseña
       $isSent=notificarSolicitud($datos);      
@@ -104,7 +106,7 @@ if(count($_POST)>0){
 
     }else{
       //se guarda en una variable el resultado de haber un error al agregar a la bd      
-      $resultado = ["ok"=>false,"message"=>"Error al agregar a la base de datos"];
+      $resultado = ["ok"=>false,"message"=>$sqlSP];
 
     }
 

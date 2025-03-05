@@ -133,6 +133,41 @@ function notificarSolicitud($datos)
 
 		$message .= '<tr>';
 
+		if($datos['medioDia']=='0'){
+			$medioDia="No";
+		}else{
+			$medioDia="Sí";
+		} 
+
+		$message .= '<td>';
+		$message .= '</td>';        
+		$message .= '<td>';
+		$message .= '<b>Medios días:</b> '.$medioDia;		
+		$message .= '</td>';  
+		$message .= '<td>';
+		$message .= '</td>';  
+
+		$message .= '</tr>';		
+
+		if($datos['tipoMedioDia']!='NULL'){
+			
+			$txtTipoMedioDia = $datos['tipoMedioDia']=='0' ? 'Por la mañana' : 'Por la tarde';
+			
+			$message .= '<tr>';
+
+			$message .= '<td>';
+			$message .= '</td>';        
+			$message .= '<td>';
+			$message .= '<b>Horario de medio día:</b> '.$txtTipoMedioDia;		
+			$message .= '</td>';  
+			$message .= '<td>';
+			$message .= '</td>';  
+	
+			$message .= '</tr>';	
+		}
+
+		$message .= '<tr>';
+
 		$message .= '<td>';
 		$message .= '</td>'; 
 
