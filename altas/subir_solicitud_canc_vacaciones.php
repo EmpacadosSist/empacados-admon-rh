@@ -42,11 +42,16 @@ if(count($_POST)>0){
   $numDias = isset($_POST['numDias']) ? $_POST['numDias'] : "";  
   $numDiasVal = Validar::validarNum($numDias);
 
+  $medioDia = isset($_POST['medioDia']) ? $_POST['medioDia'] : "";  
+  $medioDiaVal = Validar::validarNum($medioDia);  
+
+  $tipoMedioDia = isset($_POST['tipoMedioDia']) ? $_POST['tipoMedioDia'] : "NULL";  
+
   //se valida campo que no venga vacio y que cumpla la validacion de email  
   $correoJefe = isset($_POST['correoJefe']) ? $_POST['correoJefe'] : "";
   $correoJefeVal = Validar::validarEmail($correoJefe);
 
-    if($vacationsPeriodIdVal && $estatusLetraVal && $empNumVal && $nameVal && $lastName1Val && $lastName2Val && $positionNameVal && $sectionNameVal && $requestedDaysVal && $numDiasVal && $correoJefeVal){
+    if($vacationsPeriodIdVal && $estatusLetraVal && $empNumVal && $nameVal && $lastName1Val && $lastName2Val && $positionNameVal && $sectionNameVal && $requestedDaysVal && $numDiasVal && $correoJefeVal && $medioDiaVal){
       $sqlSP="CALL update_vacations_period_cancel($vacationsPeriodId)";
       $resultSP=$conn->query($sqlSP);
 
@@ -54,7 +59,7 @@ if(count($_POST)>0){
 
         //si la solicitud de vacaciones ya estaba aprobada, 
         if($estatusLetra=="A"){
-          $datos = ["numEmpleado"=>$empNum,"nombre"=>$name." ".$lastName1." ".$lastName2,"puesto"=>$positionName,"departamento"=>$sectionName, "correoJefe"=>$correoJefe, "requestedDays"=>$requestedDays, "numDias"=>$numDias, "cancelacion"=>true];
+          $datos = ["numEmpleado"=>$empNum,"nombre"=>$name." ".$lastName1." ".$lastName2,"puesto"=>$positionName,"departamento"=>$sectionName, "correoJefe"=>$correoJefe, "requestedDays"=>$requestedDays, "numDias"=>$numDias, "medioDia"=>$medioDia, "tipoMedioDia"=>$tipoMedioDia, "cancelacion"=>true];
 
           //variable que almacena el resultado de haber enviado por correo la contraseña
           $isSent=notificarSolicitud($datos);  

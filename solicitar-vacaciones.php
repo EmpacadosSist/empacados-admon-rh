@@ -399,7 +399,7 @@ $proximo_periodo_string_formato_alterno = date('Y-m-d', $dateFormat);
 
         // && !(fechaInicioVal >= proxPeriodo || fechaFinVal >= proxPeriodo)
         //esta condicion (fechaInicioVal>fechaActual && fechaFinVal>fechaActual) es temporal, en caso de que se requiera retirar
-        if((fechaInicioVal>fechaActual && fechaFinVal>fechaActual) && (diasSolic>0) ){
+        if((diasSolic>0)){
           if(fechaInicioVal<proxPeriodo && fechaFinVal<proxPeriodo){
             //este es el camino normal
             if(diasSolic<=diasDisp){

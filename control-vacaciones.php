@@ -112,7 +112,9 @@ $fechaActual=date('Y-m-d');
                 <th>Número de empleado</th>
                 <th>Nombre</th>
                 <th>Periodo</th>
-                <th>Número de días</th>    
+                <th>Número de días</th> 
+                <th>Medios días</th>
+                <th>Horario de medio día</th>  
                 <th>Tipo de horario</th>   
                 <th>Rechazar</th>
                 <th>Aprobar</th>
@@ -134,7 +136,9 @@ $fechaActual=date('Y-m-d');
                 <td><?=$solicitudesPendientes[$i]['numEmpleado']?></td>
                 <td><?=$solicitudesPendientes[$i]['nombre']?></td>
                 <td><?=$requestedDays?></td>
-                <td><?=$solicitudesPendientes[$i]['numDias']?></td>
+                <td><?= $solicitudesPendientes[$i]['mediosDias']=='Si' ? number_format($solicitudesPendientes[$i]['numDias']/2,2) : $solicitudesPendientes[$i]['numDias']?></td>
+                <td><?=$solicitudesPendientes[$i]['mediosDias']?></td>
+                <td><?=$solicitudesPendientes[$i]['horarioMedioDia']?></td>  
                 <td><?=$solicitudesPendientes[$i]['tipoHorario']?></td>
                 <td class="text-center"><button class="btn btn-danger" data-toggle="modal" data-target="#rechazarModal" onclick="set_vp_id(this)"><i class="bi bi-x-circle-fill"></i></button></td>
                 <td class="text-center"><button class="btn btn-success" data-toggle="modal" data-target="#confirmarModal" onclick="set_vp_id(this)"><i class="bi bi-check-circle-fill"></i></button></td>
@@ -158,7 +162,9 @@ $fechaActual=date('Y-m-d');
                 <th>Número de empleado</th>
                 <th>Nombre</th>
                 <th>Periodo</th>
-                <th>Número de días</th>    
+                <th>Número de días</th>  
+                <th>Medios días</th>
+                <th>Horario de medio día</th>                   
                 <th>Tipo de horario</th>
                 <th>Revertir</th>   
               </tr>                
@@ -180,7 +186,9 @@ $fechaActual=date('Y-m-d');
                 <td><?=$solicitudesAprobadas[$i]['numEmpleado']?></td>
                 <td><?=$solicitudesAprobadas[$i]['nombre']?></td>
                 <td><?=$requestedDays?></td>
-                <td><?=$solicitudesAprobadas[$i]['numDias']?></td>
+                <td><?= $solicitudesAprobadas[$i]['mediosDias']=='Si' ? number_format($solicitudesAprobadas[$i]['numDias']/2,2) : $solicitudesAprobadas[$i]['numDias']?></td>
+                <td><?=$solicitudesAprobadas[$i]['mediosDias']?></td>
+                <td><?=$solicitudesAprobadas[$i]['horarioMedioDia']?></td> 
                 <td><?=$solicitudesAprobadas[$i]['tipoHorario']?></td>
                 <?php if(old_dates($solicitudesAprobadas[$i]['fechaFinal'], $fechaActual)){ ?>
                   <td class="text-center"><button class="btn btn-danger" id="revertirAp"><i class="bi bi-arrow-left-circle-fill"></i></button></td>
@@ -216,7 +224,9 @@ $fechaActual=date('Y-m-d');
                 <th>Número de empleado</th>
                 <th>Nombre</th>
                 <th>Periodo</th>
-                <th>Número de días</th>    
+                <th>Número de días</th>  
+                <th>Medios días</th>
+                <th>Horario de medio día</th>                   
                 <th>Motivo de rechazo</th>
                 <th>Tipo de horario</th>
                 <th>Revertir</th>   
@@ -237,7 +247,9 @@ $fechaActual=date('Y-m-d');
                 <td><?=$solicitudesRechazadas[$i]['numEmpleado']?></td>
                 <td><?=$solicitudesRechazadas[$i]['nombre']?></td>
                 <td><?=$requestedDays?></td>
-                <td><?=$solicitudesRechazadas[$i]['numDias']?></td>
+                <td><?= $solicitudesRechazadas[$i]['mediosDias']=='Si' ? number_format($solicitudesRechazadas[$i]['numDias']/2,2) : $solicitudesRechazadas[$i]['numDias']?></td>
+                <td><?=$solicitudesRechazadas[$i]['mediosDias']?></td>
+                <td><?=$solicitudesRechazadas[$i]['horarioMedioDia']?></td> 
                 <td><?=$solicitudesRechazadas[$i]['descripcion']?></td>
                 <td><?=$solicitudesRechazadas[$i]['tipoHorario']?></td>
                 <td class="text-center"><button class="btn btn-danger" id="revertirRec"><i class="bi bi-arrow-left-circle-fill"></i></button></td>
@@ -267,7 +279,9 @@ $fechaActual=date('Y-m-d');
                 <th>Número de empleado</th>
                 <th>Nombre</th>
                 <th>Periodo</th>
-                <th>Número de días</th>   
+                <th>Número de días</th>  
+                <th>Medios días</th>
+                <th>Horario de medio día</th>                     
                 <th>Tipo de horario</th>    
               </tr>                
             </thead>
@@ -287,7 +301,9 @@ $fechaActual=date('Y-m-d');
                   $fechaFinal = date('d/m/Y', $dateFormatFinal);  
                 ?>
                 <td><?=$fechaInicio?> - <?=$fechaFinal?></td>
-                <td><?=$solicitudesAprobadas[$i]['numDias']?></td>
+                <td><?= $solicitudesAprobadas[$i]['mediosDias']=='Si' ? number_format($solicitudesAprobadas[$i]['numDias']/2,2) : $solicitudesAprobadas[$i]['numDias']?></td>
+                <td><?=$solicitudesAprobadas[$i]['mediosDias']?></td>
+                <td><?=$solicitudesAprobadas[$i]['horarioMedioDia']?></td> 
                 <td><?=$solicitudesAprobadas[$i]['tipoHorario']?></td>
               </tr>   
 
@@ -322,6 +338,8 @@ $fechaActual=date('Y-m-d');
                 <th>Nombre</th>
                 <th>Periodo</th>
                 <th>Número de días</th>   
+                <th>Medios días</th>
+                <th>Horario de medio día</th>                 
                 <th>Tipo de horario</th>  
                 <th>Rechazar</th>
                 <th>Aprobar</th>
@@ -342,7 +360,9 @@ $fechaActual=date('Y-m-d');
                 <td><?=$solicitudesCancelacion[$i]['numEmpleado']?></td>
                 <td><?=$solicitudesCancelacion[$i]['nombre']?></td>
                 <td><?=$requestedDays?></td>
-                <td><?=$solicitudesCancelacion[$i]['numDias']?></td>
+                <td><?= $solicitudesCancelacion[$i]['mediosDias']=='Si' ? number_format($solicitudesCancelacion[$i]['numDias']/2,2) : $solicitudesCancelacion[$i]['numDias']?></td>
+                <td><?=$solicitudesCancelacion[$i]['mediosDias']?></td>
+                <td><?=$solicitudesCancelacion[$i]['horarioMedioDia']?></td> 
                 <td><?=$solicitudesCancelacion[$i]['tipoHorario']?></td>
                 <td class="text-center"><button class="btn btn-danger" data-toggle="modal" data-target="#confirmarCancModal" onclick="set_vp_id(this, 'R')"><i class="bi bi-x-circle-fill"></i></button></td>
                 <td class="text-center"><button class="btn btn-success" data-toggle="modal" data-target="#confirmarCancModal" onclick="set_vp_id(this, 'A')"><i class="bi bi-check-circle-fill"></i></button></td>

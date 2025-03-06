@@ -80,6 +80,8 @@
                 <th>Id de solicitud</th>
                 <th>Periodo</th>
                 <th>Número de días</th>
+                <th>Medios días</th>
+                <th>Horario de medio día</th>
                 <th>Estatus</th>    
                 <th>Motivo de rechazo</th>
                 <th>Tipo de horario</th>   
@@ -95,11 +97,19 @@
                   $dateFormatFinal = strtotime($historial[$i]['fechaFinal']); 
                   $fechaFinal = date('d/m/Y', $dateFormatFinal); 
                   $requestedDays=$fechaInicio." - ".$fechaFinal; 
+                  $tmediodia='NULL';
+                  if($historial[$i]['horarioMedioDia']=='Por la mañana'){
+                    $tmediodia='0';
+                  }else if($historial[$i]['horarioMedioDia']=='Por la tarde'){
+                    $tmediodia='1';
+                  }
                 ?>
-              <tr data-vp="<?=$historial[$i]['periodoId']?>" data-estatus="<?=$historial[$i]['estatusSolicitudLetra']?>" data-dias="<?=$historial[$i]['numDias']?>" data-rdias="<?=$requestedDays?>">
+              <tr data-vp="<?=$historial[$i]['periodoId']?>" data-estatus="<?=$historial[$i]['estatusSolicitudLetra']?>" data-dias="<?= $historial[$i]['mediosDias']=='Si' ? number_format($historial[$i]['numDias']/2,2) : $historial[$i]['numDias']?>" data-rdias="<?=$requestedDays?>" data-mdia="<?=$historial[$i]['mediosDias']=='No' ? '0' : '1'?>" data-tmdia="<?=$tmediodia?>">
                 <td><?=$historial[$i]['periodoId']?></td>
                 <td><?=$requestedDays?></td>
-                <td><?=$historial[$i]['numDias']?></td>
+                <td><?= $historial[$i]['mediosDias']=='Si' ? number_format($historial[$i]['numDias']/2,2) : $historial[$i]['numDias']?></td>
+                <td><?=$historial[$i]['mediosDias']?></td>
+                <td><?=$historial[$i]['horarioMedioDia']?></td>                
                 <td><?=$historial[$i]['estatusSolicitud']?></td>
                 <td><?=$historial[$i]['descripcion']?></td>
                 <td><?=$historial[$i]['tipoHorario']?></td>
@@ -129,6 +139,8 @@
                 <th>Id de solicitud</th>
                 <th>Periodo</th>
                 <th>Número de días</th>
+                <th>Medios días</th>
+                <th>Horario de medio día</th>                
                 <th>Estatus</th>    
                 <th>Tipo de horario</th>    
               </tr>                
@@ -145,7 +157,9 @@
                 ?>
                 <td><?=$cancelaciones[$i]['periodoId']?></td>
                 <td><?=$fechaInicio?> - <?=$fechaFinal?></td>
-                <td><?=$cancelaciones[$i]['numDias']?></td>
+                <td><?= $cancelaciones[$i]['mediosDias']=='Si' ? number_format($cancelaciones[$i]['numDias']/2,2) : $cancelaciones[$i]['numDias']?></td>
+                <td><?=$cancelaciones[$i]['mediosDias']?></td>
+                <td><?=$cancelaciones[$i]['horarioMedioDia']?></td>                 
                 <td><?=$cancelaciones[$i]['estatusSolicitud']?></td>
                 <td><?=$cancelaciones[$i]['tipoHorario']?></td>                                               
               </tr> 
@@ -206,7 +220,9 @@
         <input type="hidden" id="vpId" value="0">
         <input type="hidden" id="estatusLetra" value="">
         <input type="hidden" id="numDias" value="0">
-        <input type="hidden" id="rDias" value="">            
+        <input type="hidden" id="rDias" value="">    
+        <input type="hidden" id="mediosDias" value="">
+        <input type="hidden" id="tMediosDias" value="">                
         <h5 class="modal-title" id="cancelarModalLabel">Confirmación</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
@@ -286,11 +302,15 @@
         let vpId=$(_this).parent().parent().attr('data-vp');
         let estatusLetra=$(_this).parent().parent().attr('data-estatus');
         let numDias=$(_this).parent().parent().attr('data-dias');
-        let rDias=$(_this).parent().parent().attr('data-rdias');               
+        let rDias=$(_this).parent().parent().attr('data-rdias');
+        let mediosDias=$(_this).parent().parent().attr('data-mdia');
+        let tMediosDias=$(_this).parent().parent().attr('data-tmdia');                               
         $("#vpId").val(vpId);
         $("#estatusLetra").val(estatusLetra);
         $("#numDias").val(numDias);
         $("#rDias").val(rDias);
+        $("#mediosDias").val(mediosDias);
+        $("#tMediosDias").val(tMediosDias);
       }
 
       const solicitar_cancelacion = () => {
@@ -298,6 +318,8 @@
         let vacationsPeriodId = $("#vpId").val();
         let estatusLetra = $("#estatusLetra").val();
         let numDias = $("#numDias").val();
+        let medioDia = $("#mediosDias").val();
+        let tipoMedioDia = $("#tMediosDias").val();
         let requestedDays = $("#rDias").val();
 
         let empNum = $("#empNum").val();
@@ -314,6 +336,8 @@
           vacationsPeriodId,
           estatusLetra,
           numDias,
+          medioDia,
+          tipoMedioDia,
           requestedDays,
           empNum,
           name,
