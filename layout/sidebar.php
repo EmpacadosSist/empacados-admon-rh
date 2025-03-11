@@ -87,8 +87,8 @@
           <i></i>
           <span>Admin. de vacaciones</span>
         </a>
-      </li>        
-      
+      </li>            
+
     <!--
       <li>
         <a class="bi bi-person-vcard-fill" href="rhposicionesadmon.php">

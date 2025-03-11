@@ -1,8 +1,6 @@
 <?php 
 require_once('conexion/conexion.php');
 require_once('helpers/consultas.php'); 
-require_once('helpers/enviar_pass.php');
-require_once('helpers/generar_imagen.php');
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -12,63 +10,49 @@ require_once('helpers/generar_imagen.php');
       <title>Document</title>
   </head>
   <body>
-    <h1>Correo enviado</h1>
-    <?php
-    $isSent=enviarPassword('aux2.sistemas@empacados.com');
-    //generarImagen('Hermenegildo Urdapilleta', '8444', 'aaabb');
+  <h1>Prueba</h1>
 
-    function validarLongitud($valor, $min, $max){
-    
-      $validar = (strlen($valor) > $max || strlen($valor) < $min || (empty($valor)&&$valor!="0"));
-  
-      if(!$validar){
-        return true;
-      }else{
-        return false;      
-      }
-    }
-
-    function get_tree($conn, $id)
-    {
-      $rec=$conn;
-      $sqlSP="CALL select_user_position_by_supervisor($id)";
-      /*
-      alias de los campos
-      	   u.userId as 'usuarioId',
-	   u.name as 'nombre', 
-  	   u.lastName1 as 'apellido1', 
-   	   u.lastName2 as 'apellido2', 
-      */
-      $resultSP=$conn->query($sqlSP, MYSQLI_STORE_RESULT);
-      
-      $resultado=[];
-      //condicion para verificar si se hizo la insercion en la bd
-      if($resultSP){        
-        while($row = $resultSP->fetch_assoc()){
-          echo $row['nombre']." ".$row['apellido1']." ".$row['apellido2'];
-          echo "<br>";
-          
-          get_tree($rec, $row['usuarioId']);
-          //array_push($resultado, $row);
-        }
-      }
-      //$conn->next_result();
-      //return $resultado;
-
-
-      //////////////////////////////////
-      /*
-      $result = mysql_query('SELECT id, title FROM elements WHERE parent_id='.$id);
-      while ($row = mysql_fetch_array($result))
-      {
-        echo str_repeat(' ', $level), $row['title'], "\r\n";
-        get_tree($row['id'], $level + 1);
-      }
-      */
-    }
-    
-    ?>
     <script>
+
+
+
+      const probar_vacac_multiple = () => {
+        let datos = {
+          userIds: '3,1',
+          fechaInicio: '2025-03-17',
+          fechaFin: '2025-03-21',
+          tipoHorario: 'A',
+          medioDia: '0',
+          tipoMedioDia: '0',
+          vacationsType: 'E',
+          vacationsStatus: 'A'
+        }
+        
+        let fd = new FormData();
+
+        for(var key in datos){
+          fd.append(key, datos[key]);
+        }
+
+        fetch('altas/subir_vacaciones_multiple.php', {
+          method: "POST",
+          body: fd
+        })
+        .then(response => {
+          return response.ok ? response.json() : Promise.reject(response);
+        })
+        .then(data => {
+          console.log(data);
+        })
+        .catch(err => {
+          let message = err.statusText || "Ocurrió un error";
+          console.log(err);
+        })
+
+      }
+
+      probar_vacac_multiple();
+
 
       const subir_autorizacion = () => {
         let datos = {
