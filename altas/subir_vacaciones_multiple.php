@@ -35,11 +35,6 @@ if(count($_POST) > 0){
   // Convertir la cadena de IDs en un array (Ej: "2,5,8" → [2,5,8])
   $userIds = array_filter(array_map('trim', explode(',', $userIdsString)));
 
-  // Validaciones
-  //$validUserIds = !empty($userIds) && ctype_digit(str_replace(',', '', $userIdsString));
-  //$validDates = Validar::validacion([$fechaInicio, $fechaFin]);  
-  //$validSchedule = in_array($tipoHorario, ['A', 'B']);
-  //$validHalf = in_array($medioDia, [0, 1]);
 
   $resultado = "";
 

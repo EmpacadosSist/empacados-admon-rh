@@ -422,6 +422,32 @@ $fechaActual=date('Y-m-d');
                   }
                 } 
               ?>
+              <?php for ($l=0; $l < count($solicitudesAprobadasE); $l++) {  
+                  if(check_in_range($solicitudesAprobadasE[$l]['fechaInicio'], $solicitudesAprobadasE[$l]['fechaFinal'], $fechaActual)){
+              ?>
+              <tr>
+                <td><?=$solicitudesAprobadasE[$l]['periodoId']?></td>
+                <td><?=$solicitudesAprobadasE[$l]['numEmpleado']?></td>
+                <td><?=$solicitudesAprobadasE[$l]['nombre']?></td>
+                <td><?=$solicitudesAprobadasE[$l]['departamento']?></td>
+                <?php 
+                  $dateFormatInicio = strtotime($solicitudesAprobadasE[$l]['fechaInicio']); 
+                  $fechaInicio = date('d/m/Y', $dateFormatInicio);
+
+                  $dateFormatFinal = strtotime($solicitudesAprobadasE[$l]['fechaFinal']); 
+                  $fechaFinal = date('d/m/Y', $dateFormatFinal);  
+                ?>
+                <td><?=$fechaInicio?> - <?=$fechaFinal?></td>
+                <td><?= $solicitudesAprobadasE[$l]['mediosDias']=='Si' ? number_format($solicitudesAprobadasE[$l]['numDias']/2,2) : $solicitudesAprobadasE[$l]['numDias']?></td>
+                <td><?=$solicitudesAprobadasE[$l]['mediosDias']?></td>
+                <td><?=$solicitudesAprobadasE[$l]['horarioMedioDia']?></td> 
+                <td><?=$solicitudesAprobadasE[$l]['tipoHorario']?></td>
+              </tr>   
+
+              <?php 
+                  }
+                } 
+              ?>              
               <!--
                 <tr>
                   <td>105207</td>
@@ -866,16 +892,9 @@ $fechaActual=date('Y-m-d');
 
 
       $('#asignar').click(function() {
-        //alert("si");
-        var selectedUserIds = [];
-        $("#employeeList li .emp-checkbox:checked").each(function() {
-          var userId = $(this).closest("li").data("userid");
-          selectedUserIds.push(userId);
-        });
-
-        console.log(selectedUserIds.toString());
-      })
-
+        subir_vacac_multiple();
+      });
+      
     });
 
     const mostrarCambiosPantalla = () => {
@@ -1039,6 +1058,68 @@ $fechaActual=date('Y-m-d');
 
       return valoresString;
     }
+
+
+    const subir_vacac_multiple = () => {
+
+      var selectedUserIds = [];
+      $("#employeeList li .emp-checkbox:checked").each(function() {
+        var userId = $(this).closest("li").data("userid");
+        selectedUserIds.push(userId);
+      });
+
+      //console.log(selectedUserIds.toString());      
+      let userIds=selectedUserIds.toString();
+      let fechaInicio=$("#fechaInicio").val();
+      let fechaFin=$("#fechaFin").val();
+      let tipoHorario=$("#tipoHorario").val();
+      let medioDia = $("#medioDia").is(':checked') ? 1 : 0;       
+      let tipoMedioDia = $("input[name='rdMorningEvening']:checked").val();      
+      let numDias = $("#txtNumDias").val()
+      console.log($("#txtNumDias").val());
+      if(userIds!='' && fechaInicio!='' && fechaFin!='' && numDias>0){
+        let datos = {
+          userIds,
+          fechaInicio,
+          fechaFin,
+          tipoHorario,
+          medioDia,
+          vacationsType: 'E',
+          vacationsStatus: 'A'
+        }
+        if (medioDia==1) datos.tipoMedioDia = tipoMedioDia;
+
+
+        let fd = new FormData();
+
+        for(var key in datos){
+          fd.append(key, datos[key]);
+        }
+
+        fetch('altas/subir_vacaciones_multiple.php', {
+          method: "POST",
+          body: fd
+        })
+        .then(response => {
+          return response.ok ? response.json() : Promise.reject(response);
+        })
+        .then(data => {
+          console.log(data['ok']);
+          if(data['ok']){
+            location.reload();
+          }else{
+            alert(data['message']);
+          }
+        })
+        .catch(err => {
+          let message = err.statusText || "Ocurrió un error";
+          console.log(err);
+        })
+      }else{
+        console.log("variables vacias");
+      }
+
+    }    
     </script>
 
   </main>
