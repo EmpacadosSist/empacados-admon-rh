@@ -35,6 +35,7 @@
 <?php require 'nav.php'; ?>
 <?php require_once('layout/sidebar.php'); ?>
 <?php $historial=Consultas::listVacationsPeriodsByUser($conn,$_SESSION['identity']->userId,'V'); ?>
+<?php $historialE=Consultas::listVacationsPeriodsByUser($conn,$_SESSION['identity']->userId,'E'); ?>
 <?php $cancelaciones=Consultas::listVacationsPeriodsByUser($conn,$_SESSION['identity']->userId,'C'); ?>
 <?php $correoJefe = Consultas::listOneRawUser($conn, $_SESSION['identity']->superUserId) ?>
 <?php $fechaActual=date('Y-m-d'); ?>
@@ -126,6 +127,46 @@
                 <?php } ?>
               </tr>  
               <?php } ?>
+
+
+
+              <?php for ($i=0; $i < count($historialE); $i++) { ?>
+              <?php 
+                  $dateFormatInicio = strtotime($historialE[$i]['fechaInicio']); 
+                  $fechaInicio = date('d/m/Y', $dateFormatInicio);
+
+                  $dateFormatFinal = strtotime($historialE[$i]['fechaFinal']); 
+                  $fechaFinal = date('d/m/Y', $dateFormatFinal); 
+                  $requestedDays=$fechaInicio." - ".$fechaFinal; 
+                  $tmediodia='NULL';
+                  if($historialE[$i]['horarioMedioDia']=='Por la mañana'){
+                    $tmediodia='0';
+                  }else if($historialE[$i]['horarioMedioDia']=='Por la tarde'){
+                    $tmediodia='1';
+                  }
+                ?>
+              <tr data-vp="<?=$historialE[$i]['periodoId']?>" data-estatus="<?=$historialE[$i]['estatusSolicitudLetra']?>" data-dias="<?= $historialE[$i]['mediosDias']=='Si' ? number_format($historialE[$i]['numDias']/2,2) : $historialE[$i]['numDias']?>" data-rdias="<?=$requestedDays?>" data-mdia="<?=$historialE[$i]['mediosDias']=='No' ? '0' : '1'?>" data-tmdia="<?=$tmediodia?>">
+                <td><?=$historialE[$i]['periodoId']?></td>
+                <td><?=$requestedDays?></td>
+                <td><?= $historialE[$i]['mediosDias']=='Si' ? number_format($historialE[$i]['numDias']/2,2) : $historialE[$i]['numDias']?></td>
+                <td><?=$historialE[$i]['mediosDias']?></td>
+                <td><?=$historialE[$i]['horarioMedioDia']?></td>                
+                <td><?=$historialE[$i]['estatusSolicitud']?></td>
+                <td><?=$historialE[$i]['descripcion']?></td>
+                <td><?=$historialE[$i]['tipoHorario']?></td>
+                <?php if(old_dates($historialE[$i]['fechaInicio'], $historialE[$i]['fechaFinal'], $fechaActual)){ 
+                  if($historialE[$i]['estatusSolicitud']=='Rechazado'){ ?> 
+                    <td class="text-center"><button class="btn btn-danger" disabled><i class="bi bi-x-circle-fill"></i></button></td>                    
+                    <?php
+                  } else { ?> 
+                <td class="text-center"><button class="btn btn-danger" disabled><i class="bi bi-x-circle-fill"></i></button></td>
+                <?php 
+                  } 
+                }else{ ?>
+                  <td class="text-center"><button class="btn btn-danger" disabled><i class="bi bi-x-circle-fill"></i></button></td>                
+                <?php } ?>
+              </tr>  
+              <?php } ?>              
             </tbody>
           </table>
         </div>
