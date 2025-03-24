@@ -353,7 +353,7 @@ $fechaActual=date('Y-m-d');
                 <td><?=$solicitudesAprobadasE[$j]['periodoId']?></td>
                 <td><?=$solicitudesAprobadasE[$j]['numEmpleado']?></td>
                 <td><?=$solicitudesAprobadasE[$j]['nombre']?></td>
-                <td><?=$solicitudesAprobadasE[$i]['departamento']?></td>
+                <td><?=$solicitudesAprobadasE[$j]['departamento']?></td>
                 <td><?=$requestedDays?></td>
                 <td><?= $solicitudesAprobadasE[$j]['mediosDias']=='Si' ? number_format($solicitudesAprobadasE[$j]['numDias']/2,2) : $solicitudesAprobadasE[$j]['numDias']?></td>
                 <td><?=$solicitudesAprobadasE[$j]['mediosDias']?></td>
@@ -844,10 +844,12 @@ $fechaActual=date('Y-m-d');
 
       $("#fechaInicio").on('change', function() {
         mostrarCambiosPantalla();
+        mostrarErrorDias('');
       });
 
       $("#fechaFin").on('change', function() {
         mostrarCambiosPantalla();
+        mostrarErrorDias('');
       });
 
       $("#tipoHorario").on('change', function() {
@@ -1038,26 +1040,12 @@ $fechaActual=date('Y-m-d');
     });
 
     $("#btnModalAceptarHalf").click(function(){
-      console.log(getPeriodsId())
+      actualizar_vacac_multiple();
     });
 
     $("#btnModalCancelar").click(function(){
-        console.log(getPeriodsId())
+      cancelar_vacac_multiple();
     });    
-
-
-    const getPeriodsId = () => {
-      var valores = [];
-        
-      $('input[name="vpCheck"]:checked').each(function () {
-          var vpValue = $(this).closest('tr').data('vp');
-          valores.push(vpValue);
-      });
-      
-      var valoresString = valores.join(',');
-
-      return valoresString;
-    }
 
 
     const subir_vacac_multiple = () => {
@@ -1077,6 +1065,11 @@ $fechaActual=date('Y-m-d');
       let tipoMedioDia = $("input[name='rdMorningEvening']:checked").val();      
       let numDias = $("#txtNumDias").val()
       console.log($("#txtNumDias").val());
+
+      if(numDias<=0){
+        mostrarErrorDias('Agregar al menos 1 día');
+      }
+
       if(userIds!='' && fechaInicio!='' && fechaFin!='' && numDias>0){
         let datos = {
           userIds,
@@ -1119,6 +1112,106 @@ $fechaActual=date('Y-m-d');
         console.log("variables vacias");
       }
 
+    }   
+    
+    const actualizar_vacac_multiple = () => {
+      // si no se va a ocupar tipoMedioDia: '0', se puede omitir y el archivo actualizar_vacaciones_multiple.php lo recibe como NULL y el campo en la base de datos se queda como NULL
+      console.log('entramos a actualizar_vacac_multiple');
+      var selectedVPIds = [];
+        
+      $('input[name="vpCheck"]:checked').each(function () {
+          var vpValue = $(this).closest('tr').data('vp');
+          selectedVPIds.push(vpValue);
+      });
+      
+      let medioDia = $("#modalMedioDia").is(':checked') ? 1 : 0;       
+      let tipoMedioDia = $("input[name='modalRdMorningEvening']:checked").val();           
+
+      //var vacationsPeriodIds = valores.join(',');
+      let vacationsPeriodIds=selectedVPIds.toString();
+
+      let datos = {
+        vacationsPeriodIds,
+        medioDia
+      }
+
+      if (medioDia==1) datos.tipoMedioDia = tipoMedioDia;      
+
+      
+      let fd = new FormData();
+
+      for(var key in datos){
+        fd.append(key, datos[key]);
+      }
+
+      fetch('cambios/actualizar_vacaciones_multiple.php', {
+        method: "POST",
+        body: fd
+      })
+      .then(response => {
+        return response.ok ? response.json() : Promise.reject(response);
+      })
+      .then(data => {
+        console.log(data);
+        location.reload();
+      })
+      .catch(err => {
+        let message = err.statusText || "Ocurrió un error";
+        console.log(err);
+      })
+
+
+    }
+    
+    const cancelar_vacac_multiple = () => {
+      //esta funcion es para cancelar vacaciones, pasando como parametro los ids de los periodos de vacaciones
+      console.log('entramos a actualizar_vacac_multiple');
+      var selectedVPIds = [];
+        
+      $('input[name="vpCheck"]:checked').each(function () {
+          var vpValue = $(this).closest('tr').data('vp');
+          selectedVPIds.push(vpValue);
+      });      
+      
+      let vacationsPeriodIds=selectedVPIds.toString();      
+      
+      let datos = {
+        vacationsPeriodIds
+      }
+      
+      let fd = new FormData();
+
+      for(var key in datos){
+        fd.append(key, datos[key]);
+      }
+
+      fetch('bajas/cancelar_vacaciones_multiple.php', {
+        method: "POST",
+        body: fd
+      })
+      .then(response => {
+        return response.ok ? response.json() : Promise.reject(response);
+      })
+      .then(data => {
+        console.log(data);
+        location.reload();
+      })
+      .catch(err => {
+        let message = err.statusText || "Ocurrió un error";
+        console.log(err);
+      })
+
+    }         
+
+
+    const mostrarErrorDias = (mensaje) => {
+      if(mensaje!=''){
+        $('#error_numDias').text(mensaje);
+        $('#txtNumDias').css('border-color', '#cc0000');
+      }else{
+        $('#error_numDias').text('');
+        $('#txtNumDias').css('border-color', '');          
+      }
     }    
     </script>
 

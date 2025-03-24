@@ -17,7 +17,7 @@ require_once('helpers/consultas.php');
       const probar_vacac_multiple_update = () => {
         // si no se va a ocupar tipoMedioDia: '0', se puede omitir y el archivo actualizar_vacaciones_multiple.php lo recibe como NULL y el campo en la base de datos se queda como NULL
         let datos = {
-          vacationsPeriodIds: '1,2,3,4,5,6',
+          vacationsPeriodIds: '1,2,3',
           medioDia: '1',
           tipoMedioDia: '0'
         }
@@ -50,7 +50,7 @@ require_once('helpers/consultas.php');
       const probar_vacac_multiple_cancelar = () => {
         //esta funcion es para cancelar vacaciones, pasando como parametro los ids de los periodos de vacaciones
         let datos = {
-          vacationsPeriodIds: '1,2,3,4,5,6'
+          vacationsPeriodIds: '5'
         }
         
         let fd = new FormData();

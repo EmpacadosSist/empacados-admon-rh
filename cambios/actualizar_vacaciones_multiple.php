@@ -60,7 +60,7 @@ if(count($_POST) > 0){
 
       // Confirmar la transacción
       $conn->commit();
-
+      flush();
       $resultado = ["ok" => true, "message" => "Info actualizada"];
 
     } catch (Exception $e) {
