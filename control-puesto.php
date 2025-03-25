@@ -444,7 +444,7 @@
 
     $("#btnJefeDirecto").text(nombreJefe);
     $('#modalJefeDirecto').modal('hide');
-    $("#superUser").val(userId);
+    $("#superUser").val(positionJefe);
   });
 
     $("#btnPuestosPermitidos").on('click', function(){
@@ -505,7 +505,7 @@
         })
         .then(data => {
           console.log(data);
-          location.reload();
+          // location.reload();
         })
         .catch(err => {
           let message = err.statusText || "Ocurrió un error";
