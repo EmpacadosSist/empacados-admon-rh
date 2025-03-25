@@ -21,7 +21,7 @@
             <tbody>
             <?php 
                 for ($i=0; $i < count($positions); $i++) { ?>
-                  <tr data-id="<?=$positions[$i]['puestoId']?>" data-name="<?=$positions[$i]['nombrePuesto']?>" data-level="<?=$positions[$i]['nivelId']?>">
+                  <tr data-id="<?=$positions[$i]['puestoId']?>" data-name="<?=$positions[$i]['nombrePuesto']?>" data-sup="<?=$positions[$i]['Nombre']?>" data-level="<?=$positions[$i]['nivelId']?>">
                     <td>
                       <?=$positions[$i]['nombrePuesto']?>
                     </td>

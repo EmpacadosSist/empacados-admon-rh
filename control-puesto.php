@@ -1,4 +1,4 @@
-<?php
+<?php 
   require_once('layout/session.php');
   require_once('helpers/utils.php');
   Utils::redirectSinPermiso(8);
@@ -211,8 +211,6 @@
         </div>
       </div>
 
-
-
       <!-- Contenido de las pestañas -->
       <div class="tab-content" id="contenidoPestanas">
         <!-- Contenido de la Pestaña 1 -->
@@ -367,9 +365,6 @@
 
     </div>
   </div>
-
-
-
 
 
     </main>
@@ -621,6 +616,7 @@
       let id = $(this).parent().parent().attr('data-id');
       let level = $(this).parent().parent().attr('data-level');      
       let oldName = $(this).parent().parent().attr('data-name');      
+      let oldSup = $(this).parent().parent().attr('data-sup');      
 
       let puestoNombre=$("#puestoNombre");
 
@@ -628,6 +624,7 @@
       
       $("#nivelId").val(level);      
       $("#puestoId").val(id);
+      $("#btnJefeDirecto").text(oldSup);
 
 
       $("#rowEdicion").show();
@@ -638,7 +635,8 @@
         id,
         level,
         puestoNombre,
-        lblEd
+        lblEd,
+        oldSup
       });    
     });
 
