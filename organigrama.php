@@ -7,11 +7,11 @@
 <?php require 'layout/libreriasdatatable2.php';?>
 <?php require_once('layout/sidebar.php'); ?>
 
-<!-- <script type="text/javascript">
+<script type="text/javascript">
   document.oncontextmenu = function(){
     return false;
   }
-</script> -->
+</script>
 
 <script>
   document.title = "Organigrama Empacados"
