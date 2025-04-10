@@ -116,12 +116,12 @@ for($k=0;$k<count($usuarios);$k++){
             $objetivo=isset($indicadorValores[0]['objetivo']) ? $indicadorValores[0]['objetivo'] : "";
             $formatoId=isset($indicadorValores[0]['formatoId']) ? $indicadorValores[0]['formatoId'] : "0";
 
-            $porcCumplimiento= Utils::porcCumplimiento($real,$objetivo);
+            $porcCumplimiento = Utils::porcCumplimiento((float)$real, (float)$objetivo);
 
             $diffPorc = Utils::diffPorc($real,$objetivo); 
 
             if($formatoId=='4' || $formatoId=='5' || $formatoId=='6'){
-            $porcCumplimiento= Utils::porcCumplimiento($objetivo, $real);
+            $porcCumplimiento= Utils::porcCumplimiento((float)$objetivo, (float)$real);
             $diffPorc = Utils::diffPorc($objetivo, $real);
             }
             
@@ -206,12 +206,12 @@ while($checkChildren2){
                 $objetivo=isset($indicadorValores[0]['objetivo']) ? $indicadorValores[0]['objetivo'] : "";
                 $formatoId=isset($indicadorValores[0]['formatoId']) ? $indicadorValores[0]['formatoId'] : "0";
 
-                $porcCumplimiento= Utils::porcCumplimiento($real,$objetivo);
+                $porcCumplimiento = Utils::porcCumplimiento((float)$real, (float)$objetivo);
 
                 $diffPorc = Utils::diffPorc($real,$objetivo); 
 
                 if($formatoId=='4' || $formatoId=='5' || $formatoId=='6'){
-                $porcCumplimiento= Utils::porcCumplimiento($objetivo, $real);
+                $porcCumplimiento= Utils::porcCumplimiento((float)$objetivo, (float)$real);
                 $diffPorc = Utils::diffPorc($objetivo, $real);
                 }
                 

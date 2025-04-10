@@ -61,16 +61,12 @@
       return $resultado;
     }
 
-    public static function porcCumplimiento($real, $objetivo){
-      
-      if($objetivo=='0'||$objetivo==0){
-        $resultado='0.00';
-      }else{
-        $resultado=($real/$objetivo)*100;
-        $resultado=number_format($resultado, 2);
-      }
-
-      return $resultado;
+    public static function porcCumplimiento($real, $objetivo) {
+        // Validar que ambos valores sean numéricos
+        if (!is_numeric($real) || !is_numeric($objetivo) || $objetivo == 0) {
+            return 0; // Retornar 0 si no son válidos o si el objetivo es 0
+        }
+        return ($real / $objetivo) * 100;
     }
 
     //se obtiene diferencia del objetivo menos el real
