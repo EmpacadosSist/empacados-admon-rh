@@ -558,7 +558,7 @@
 </style>
 
 <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="jefeDirectoModalLabel"
-  aria-hidden="true" id="modalJefeDirecto">
+   id="modalJefeDirecto">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
 
@@ -796,7 +796,7 @@
         arrHijos.push([nombreHijo, fechaNacHijo]);
       }
     });
-    console.log(arrHijos);
+    //console.log(arrHijos);
     $("#childrenInfo").text(arrHijos.length);
     $('#modalHijos').modal('hide');
   });
@@ -874,7 +874,7 @@
       return response.ok ? response.json() : Promise.reject(response);
     })
     .then(data => {
-      console.log(data.rows);
+      //console.log(data.rows);
       if(data.rows>0){
         $("html, body").animate({
           scrollTop: 0
@@ -1059,7 +1059,7 @@
       return response.ok ? response.json() : Promise.reject(response);
     })
     .then(data => {
-      console.log(data.rows);
+      //console.log(data.rows);
       //resultado = data.rows;
       if(data.rows>0){
         $("html, body").animate({
@@ -1088,7 +1088,7 @@
       $("#" + tipo).empty();
       $("#" + tipo).append('<option value="">- Seleccione -</option>');
       $("#" + tipo).append(response);
-      console.log(response);
+      //console.log(response);
     });
   }
 
@@ -1128,6 +1128,26 @@
         body: fd
       })
       .then(response => {
+    // Guardamos la respuesta cruda antes de intentar parsearla como JSON
+    return response.text().then(text => {
+        try {
+            return JSON.parse(text);
+        } catch (e) {
+            console.error("Respuesta no válida como JSON:");
+            console.error(text); // Aquí verás el HTML con el error exacto
+            throw new Error("Error al parsear JSON");
+        }
+    });
+})
+.then(data => {
+    console.log(data);
+    location.reload();
+})
+.catch(err => {
+    console.error("Error en fetch:", err.message);
+});
+      /*
+      .then(response => {
         return response.ok ? response.json() : Promise.reject(response);
       })
       .then(data => {
@@ -1136,8 +1156,12 @@
       })
       .catch(err => {
         let message = err.statusText || "Ocurrió un error, favor de contactar al administrador";
-        alert(message);
+        console.log(err);
+        alert(err);
       }) 
+      */
+
+
       uploadImage()  
   }
 

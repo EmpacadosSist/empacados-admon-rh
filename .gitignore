@@ -2,3 +2,4 @@
 /assets/profile_pic/*
 !/assets/profile_pic/.gitkeep
 /helpers/email_image.png
+/helpers/config.php

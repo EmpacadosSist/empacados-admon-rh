@@ -1093,6 +1093,18 @@ $fechaActual=date('Y-m-d');
           method: "POST",
           body: fd
         })
+        /*
+        .then(response => response.text()) // Usa .text() primero para inspeccionar
+.then(text => {
+  console.log("Respuesta cruda:", text);
+  try {
+    const data = JSON.parse(text);
+    console.log("JSON parseado:", data);
+  } catch (err) {
+    console.error("No es JSON válido:", err);
+  }
+})
+*/
         .then(response => {
           return response.ok ? response.json() : Promise.reject(response);
         })

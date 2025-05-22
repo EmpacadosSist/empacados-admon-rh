@@ -233,7 +233,7 @@ if(count($_POST)>0){
         //variable que almacena el resultado de haber enviado por correo la contraseña
         
         $isSent=enviarPassword($password, $empNum, $email, $name);
-
+        //$isSent="No aplica";
         //$arr=[];
         $f=0;
         for ($i=0; $i < count($children); $i++) { 

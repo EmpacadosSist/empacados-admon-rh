@@ -39,7 +39,7 @@ function generarImagen($nombre, $numEmp, $contra) {
     function centrarTextoX($texto, $tamanio, $fuente, $anchoImagen) {
       $cajaTexto = imagettfbbox($tamanio, 0, $fuente, $texto);
       $anchoTexto = $cajaTexto[2] - $cajaTexto[0]; // Ancho del texto
-      return ($anchoImagen - $anchoTexto) / 2; // Posición X centrada
+      return (int)(($anchoImagen - $anchoTexto) / 2); // Posición X centrada
     }
 
     // Calcular posición X solo para el nombre

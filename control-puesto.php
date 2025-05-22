@@ -505,7 +505,7 @@
         })
         .then(data => {
           console.log(data);
-          // location.reload();
+          location.reload();
         })
         .catch(err => {
           let message = err.statusText || "Ocurrió un error";
@@ -590,7 +590,7 @@
           fd.append('id', id);      
           fd.append('puestoid', puestoid)      
     
-          fetch('bajas/eliminar_tarea_por_empleado', {
+          fetch('bajas/eliminar_tarea_por_empleado.php', {
             method: 'POST',
             body: fd
           })

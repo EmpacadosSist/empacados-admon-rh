@@ -8,7 +8,7 @@ if(count($_POST)>0){
 
   //se valida campo que no venga vacio y que cumpla la validacion de tipo numerico  
   $areaName = isset($_POST['areaName']) ? $_POST['areaName'] : "";
-  $areaNameVal = Validar::validarLongitud($areaName,1,100);
+  $areaNameVal = Validar::validarLongitud($areaName,3,100);
 
     if($areaNameVal){
       $sqlSP="CALL insert_area('$areaName', @LID)";

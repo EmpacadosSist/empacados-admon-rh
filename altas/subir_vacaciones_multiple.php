@@ -41,9 +41,9 @@ if(count($_POST) > 0){
   // Verificar validaciones
   if($userIdsString!='' && $fechaInicioVal && $fechaFinVal && $tipoHorarioVal && $medioDiaVal && $vacationsTypeVal && $vacationsStatusVal){
 
+    mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
     // Iniciar una transacción
     $conn->begin_transaction();
-    $conn->report_mode = MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT;
     try {
       // Crear la tabla temporal dentro de la sesión   
       $conn->query("CREATE TEMPORARY TABLE TempUserIds (userId INT NOT NULL)");
