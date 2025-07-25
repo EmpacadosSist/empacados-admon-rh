@@ -14,9 +14,14 @@
   $yr=date('Y');
   $month=date('m');
 
-  if((isset($_GET['yr']) && $_GET['yr']!='') && (isset($_GET['month']) && $_GET['month']!='')){
+  if((isset($_GET['yr']) && $_GET['yr']!='')){
+    if($_GET['yr']<$yr){
+      $month="12";
+    }else{
+      $month=date('m')-1; 
+    }
     $yr = $_GET['yr'];
-    $month = $_GET['month'];
+    
   }else{
 
     
@@ -26,6 +31,7 @@
     }else{
       $month=date('m')-1;    
     }
+  
   }
 
   //$yr=date('Y');
@@ -128,24 +134,7 @@ th {
       //var_dump($enlaceValidacion);
 
     ?>
-    <div class="row">
-      <div class="col"></div>
-      <div class="col"></div>
-      <div class="col d-flex justify-content-end">
 
-        <!--LA SIGUIENTE VALIDACION ES PARA VERIFICAR QUE TIPO DE VALIDACIÓN VA A HACER EL USUARIO QUE PUEDE HACERLA-->
-        <?php if($permisoRev): ?>
-
-          <button class="btn btn-warning" id="validar">Validar pagos para autorización</button>
-
-        <?php endif; ?>
-        <?php if($permisoAut): ?>
-
-          <button class="btn btn-warning" id="autorizar">Autorizar pagos</button>
-
-        <?php endif; ?>
-      </div>
-    </div>
     <?php endif; ?>
     <?php 
       $opAuthorizationId="";
@@ -191,22 +180,7 @@ th {
     <div class="container mt-4">
 
       <div class="row mt-3 mb-3">
-      <div class="col-2">
-    <select class="form-select" name="selectMonth" id="selectMonth">
-      <option value="1" <?=$month=="1" ? "selected" : "" ?>>Enero</option>
-      <option value="2" <?=$month=="2" ? "selected" : "" ?>>Febrero</option>
-      <option value="3" <?=$month=="3" ? "selected" : "" ?>>Marzo</option>
-      <option value="4" <?=$month=="4" ? "selected" : "" ?>>Abril</option>
-      <option value="5" <?=$month=="5" ? "selected" : "" ?>>Mayo</option>
-      <option value="6" <?=$month=="6" ? "selected" : "" ?>>Junio</option>
-      <option value="7" <?=$month=="7" ? "selected" : "" ?>>Julio</option>
-      <option value="8" <?=$month=="8" ? "selected" : "" ?>>Agosto</option>
-      <option value="9" <?=$month=="9" ? "selected" : "" ?>>Septiembre</option>
-      <option value="10" <?=$month=="10" ? "selected" : "" ?>>Octubre</option>
-      <option value="11" <?=$month=="11" ? "selected" : "" ?>>Noviembre</option>
-      <option value="12" <?=$month=="12" ? "selected" : "" ?>>Diciembre</option>    
-    </select>
-  </div>
+      
   <div class="col-2">
     <select class="form-select" name="selectYear" id="selectYear">
       <option value="2024" <?=$yr=="2024" ? "selected" : "" ?>>2024</option>
@@ -238,11 +212,10 @@ th {
             <?php } ?>
           </select>          
           <?php } ?>
-        </div>
-        
+        </div>   
         <div class="col">
-          <a class="btn btn-secondary" href="pagos-anual.php">Pagos por año</a>          
-        </div>
+          <a class="btn btn-secondary" href="Managerpayadmon.php">Pagos por mes</a>          
+        </div>     
 
       </div>
 
@@ -254,208 +227,31 @@ th {
           <a class="nav-link active" id="pestaña2" data-toggle="tab" href="#contenido2" role="tab" aria-controls="contenido2"
             aria-selected="false">Pagos</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" id="pestaña1" data-toggle="tab" href="#contenido1" role="tab"
-            aria-controls="contenido1" aria-selected="true">Indicadores</a>
-        </li>
+            <!--
+              <li class="nav-item">
+                <a class="nav-link" id="pestaña1" data-toggle="tab" href="#contenido1" role="tab"
+                aria-controls="contenido1" aria-selected="true">Indicadores</a>
+              </li>
+              -->
         <!-- Agrega más pestañas según sea necesario -->
       </ul>
 
       <!-- Contenido de las pestañas -->
       <div class="tab-content" id="contenidoPestanas">
         <!-- Contenido de la Pestaña 1 -->
-        <div class="tab-pane fade" id="contenido1" role="tabpanel" aria-labelledby="pestaña1">
-        <?php if($tienePermiso): ?>
-          <div class="row mb-3 mt-3">
-            <div class="col d-flex justify-content-end">
-              <label for="archivo">Seleccionar plantilla excel: </label>
-            </div>
-            <div class="col">
-              <input class="form-control" type="file" name="archivo" id="archivo" accept=".xls,.xlsx">
-            </div>
-            <div class="col-1 d-flex justify-content-end">
-              <button class="btn btn-success subir-archivo">Subir</button>
 
-            </div>
-
-          </div>
-          <?php endif; ?>
-          <div class="table-responsive">
-            <table class="table table-striped table-bordered table-sm" id="tablaPestana1">
-              <!-- Contenido de la tabla -->
-              <thead>
-                <tr>
-                  <th class="st">Número de empleado</th>
-                  <th class="st1">Nombre</th>
-                  <th>Puesto</th>
-                  <th>Area</th>
-                  <th>Ceco</th>
-                  <th>$ Variable</th>
-
-                  <?php 
-                for($i=0; $i<count($indicadores); $i++){ ?>
-                  <th class="columna<?=$indicadores[$i]['areaId']?>"><?=$indicadores[$i]['id']?> - <?=$indicadores[$i]['nombreIndicador']?></th>
-                  <?php               
-                } ?>
-                  <th>Total</th>
-                  <th></th>
-                  <!-- Agrega más columnas según tus necesidades -->
-                </tr>
-              </thead>
-              <tbody>
-                <?php 
-                $arrIds=[];
-                $paramIds="";
-                $checkChildren=false;
-            for($k=0;$k<count($usuarios);$k++){
-              $sumaPorc=0;
-              $usuariosArr=$usuarios[$k];
-              array_push($arrIds,$usuariosArr['usuarioId']);
-              ?>
-                <tr class="<?=$usuariosArr['areaId']?>" data-user-id="<?=$usuariosArr['usuarioId']?>" data-pos-id="<?=$usuariosArr['puestoId']?>">
-                  <td class="st" style="min-width: 100px;"><?=$usuariosArr['numEmpleado']?></td>
-                  <td class="st1" style="min-width: 300px;">
-                    <?=$usuariosArr['nombre']." ".$usuariosArr['apellido1']." ".$usuariosArr['apellido2']?></td>
-                  <td style="min-width: 300px;"><?=$usuariosArr['puesto']?></td>
-                  <td style="min-width: 100px;"><?=$usuariosArr['area']?></td>
-                  <td style="min-width: 100px;"><?=$usuariosArr['ceco']?></td>
-                  <td style="min-width: 200px;">
-                    <div class="input-group mb-3">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text">$</span>
-                      </div>
-                      <input type="number" class="form-control variable" data-old-value="<?=$usuariosArr['variable']?>"
-                        value="<?=$usuariosArr['variable']?>" <?=$tienePermiso ? "" : "disabled" ?>>
-                    </div>
-                  </td>
-                  <!--
-                    <td style="min-width: 100px;"><?php //$usuariosArr['nivel']?></td>
-                  -->
-
-                  <?php for($j=0;$j<count($indicadores);$j++){ 
-                    $indicadorId=$indicadores[$j]['id'];
-                    $porcentaje=Consultas::paymentVar($conn, $usuariosArr['puestoId'], $indicadorId);
-                    $valorPorcentaje= isset($porcentaje[0]) ? $porcentaje[0]['porcentaje'] : 0; 
-                    $sumaPorc+=$valorPorcentaje;
-                  ?>
-                  <td class="columna<?=$indicadores[$j]['areaId']?>" style="min-width: 150px;">
-                    <div class="input-group mb-3">
-                      <input data-indic="<?=$indicadorId?>" class="form-control porc" type="number"
-                        data-old-per="<?=$valorPorcentaje?>" value="<?=$valorPorcentaje?>" <?=$tienePermiso ? "" : "disabled" ?>>
-                      <div class="input-group-append">
-                        <span class="input-group-text">%</span>
-                      </div>
-                    </div>
-                  </td>
-                  <?php } ?>
-
-                  <td style="min-width: 100px;"><label class="suma-porc"><?=$sumaPorc?></label> %</td>
-                  <!-- Agrega más filas según tus necesidades -->
-                  <td>
-                  <?php if($tienePermiso): ?>
-                    <button class="btn btn-success actualizar-porc">Actualizar</button>
-                    <?php endif; ?>
-                  </td>
-                </tr>
-                <?php } ?>
-
-                <?php 
-                      if(count($arrIds)>0){
-                        $checkChildren=true;
-                        $paramIds=implode(",", $arrIds);
-                      }
-                      
-                    ?>
-
-                <?php 
-                  while($checkChildren){
-                    $arrIds=[];
-                    $usuariosChildren=Consultas::listUsersBySupervisor($conn, $paramIds);
-                ?>
-
-                <?php 
-
-
-            for($l=0;$l<count($usuariosChildren);$l++){
-              $sumaPorc=0;
-              $usuariosArrChildren=$usuariosChildren[$l];
-              array_push($arrIds,$usuariosArrChildren['usuarioId']);
-              ?>
-                <tr class="<?=$usuariosArrChildren['areaId']?>" data-user-id="<?=$usuariosArrChildren['usuarioId']?>"
-                  data-pos-id="<?=$usuariosArrChildren['puestoId']?>">
-                  <td class="st" style="min-width: 100px;"><?=$usuariosArrChildren['numEmpleado']?></td>
-                  <td class="st1" style="min-width: 300px;">
-                    <?=$usuariosArrChildren['nombre']." ".$usuariosArrChildren['apellido1']." ".$usuariosArrChildren['apellido2']?>
-                  </td>
-                  <td style="min-width: 300px;"><?=$usuariosArrChildren['puesto']?></td>
-                  <td style="min-width: 100px;"><?=$usuariosArrChildren['area']?></td>
-                  <td style="min-width: 100px;"><?=$usuariosArrChildren['ceco']?></td>
-                  <td style="min-width: 200px;">
-                    <div class="input-group mb-3">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text">$</span>
-                      </div>
-                      <input type="number" class="form-control variable"
-                        data-old-value="<?=$usuariosArrChildren['variable']?>"
-                        value="<?=$usuariosArrChildren['variable']?>" <?=$tienePermiso ? "" : "disabled" ?>>
-                    </div>
-                  </td>
-                  <!--
-                    <td style="min-width: 100px;"><?php //$usuariosArrChildren['nivel']?></td>
-                  -->
-
-                  <?php for($j=0;$j<count($indicadores);$j++){ 
-                    $indicadorId=$indicadores[$j]['id'];
-                    $porcentaje=Consultas::paymentVar($conn, $usuariosArrChildren['puestoId'], $indicadorId);
-                    $valorPorcentaje= isset($porcentaje[0]) ? $porcentaje[0]['porcentaje'] : 0; 
-                    $sumaPorc+=$valorPorcentaje;
-                  ?>
-                  <td class="columna<?=$indicadores[$j]['areaId']?>" style="min-width: 150px;">
-                    <div class="input-group mb-3">
-                      <input data-indic="<?=$indicadorId?>" class="form-control porc" type="number"
-                        data-old-per="<?=$valorPorcentaje?>" value="<?=$valorPorcentaje?>" <?=$tienePermiso ? "" : "disabled" ?>>
-                      <div class="input-group-append">
-                        <span class="input-group-text">%</span>
-                      </div>
-                    </div>
-                  </td>
-                  <?php } ?>
-
-                  <td style="min-width: 100px;"><label class="suma-porc"><?=$sumaPorc?></label> %</td>
-                  <!-- Agrega más filas según tus necesidades -->
-                  <td>
-                  <?php if($tienePermiso): ?>
-                    <button class="btn btn-success actualizar-porc">Actualizar</button>
-                  <?php endif; ?>
-                  </td>
-                </tr>
-                <?php } ?>
-
-                <?php
-                    if(count($arrIds)>0){
-                      $paramIds=implode(",", $arrIds);
-                    }else{
-                      $checkChildren=false;
-                    } 
-                  }
-                ?>
-
-              </tbody>
-            </table>
-          </div>
-        </div>
 
         <div class="tab-pane fade show active" id="contenido2" role="tabpanel" aria-labelledby="pestaña2">
           <div class="row mb-3 mt-3">
             <div class="col">
 
-              <h3>Pagos de <?=$mesLetra?></h3>
+              <h3>Pagos del año</h3>
             </div>
             <div class="col">
             </div>
             <div class="col d-flex justify-content-end">
               <!--<button class="btn btn-success" onclick="descargar()">Descargar excel</button>-->
-              <a class="btn btn-success" href="generar_xlsx_pagos.php?areaid=0&yr=<?=$yr?>&month=<?=$month?>" id="btnDescargar">Descargar excel</a>
+              <!--<a class="btn btn-success" href="generar_xlsx_pagos.php?areaid=0&yr=<?=$yr?>&month=<?=$month?>" id="btnDescargar">Descargar excel</a>-->
             </div>
 
           </div>
@@ -630,32 +426,10 @@ th {
 
   });
 
-  $('#selectMonth').on('change', async function() {
-    //alert("asi es");
-    /*
-    let mes = $(this).val();
-    
-    let currentUserId = $("#currentUserId").val();
-    await recargar_tabla(currentUserId,mes);
-    
-    let anio=$("#tablaPestana2").attr('data-year');
-    
-    let idAutorizacion=$("#authorizationId").val();
-    let opAuthorizationId = $("#opAuthorizationId").val();
-    
-    await validacion_check(mes, anio, idAutorizacion);
-    
-    await validacion_check_op(mes, anio, opAuthorizationId);
-    */
-    let month = $(this).val();
-    let year = $("#selectYear").val();    
-    window.location.replace('Managerpayadmon.php?month='+month+'&yr='+year);
-  });
-
   $('#selectYear').on('change', async function() {
-    let month = $("#selectMonth").val();    
+    //let month = $("#selectMonth").val();    
     let year = $(this).val();
-    window.location.replace('Managerpayadmon.php?month='+month+'&yr='+year); 
+    window.location.replace('pagos-anual.php?yr='+year); 
   });  
 
   $("#validar").click(function(){
@@ -806,7 +580,7 @@ th {
   const recargar_tabla = async (currentUserId, month="", year="") => {
 
     await $.ajax({
-      url: "layout/tabla_pagos.php",
+      url: "layout/tabla_pagos_anual.php",
       type: "POST",
       data: {
         currentUserId,

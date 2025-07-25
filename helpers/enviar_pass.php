@@ -24,7 +24,7 @@ function enviarPassword($contra, $numEmp, $email, $nombre)
 							<div>
 								<label style="font-family: \'Segoe UI\'; font-weight: bolder; font-size: 129%;">Link de acceso:</label>
 								<br>
-								<a style="font-family: \'Segoe UI\'; font-weight: bolder; font-size: 129%;" href="http://empacadosmty.fortiddns.com:81/conecta-empacados/">http://empacadosmty.fortiddns.com:81/conecta-empacados/</a> 
+								<a style="font-family: \'Segoe UI\'; font-weight: bolder; font-size: 129%;" href="'.URL_REDIRECCION.'conecta-empacados/">'.URL_REDIRECCION.'conecta-empacados/</a> 
 							</div>
 							<br>
 							<div style="display: block; position: relative; width: 600px;">

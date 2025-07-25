@@ -226,6 +226,8 @@
     }
     
     public static function obtenerNombreMes($numMes) {
+      $numMes = (int) $numMes;
+
       // Arreglo de meses en español
       $meses = array(
           1 => 'Enero', 2 => 'Febrero', 3 => 'Marzo', 4 => 'Abril', 5 => 'Mayo', 6 => 'Junio',

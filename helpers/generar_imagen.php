@@ -1,7 +1,9 @@
 <?php
+require_once('config.php');
+
 function generarImagen($nombre, $numEmp, $contra) {
     // Ruta de la imagen base
-    $imagen_base = 'http://empacadosmty.fortiddns.com:81/conecta-empacados/assets/img/credentials.png';
+    $imagen_base = URL_REDIRECCION.'conecta-empacados/assets/img/credentials.png';
     
     // Crear imagen desde el archivo original
     $imagen = imagecreatefrompng($imagen_base);

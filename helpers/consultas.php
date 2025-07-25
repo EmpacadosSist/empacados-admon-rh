@@ -336,7 +336,34 @@
       $conn->next_result();
       return $resultado;
 
-    }    
+    }   
+    
+    public static function listAllIndicatorVPMIndiv($conn, $year){
+      $sqlSP="CALL select_all_indicator_vpm_indiv($year)";
+      /*
+      alias de los campos
+      
+      indicadorId',
+		  id',
+		  real',
+		  objetivo',
+		  formatoId',
+      'mes',
+      'anio'
+      */
+      $resultSP=$conn->query($sqlSP, MYSQLI_STORE_RESULT);
+      
+      $resultado=[];
+      //condicion para verificar si se hizo la insercion en la bd
+      if($resultSP){        
+        while($row = $resultSP->fetch_assoc()){
+          array_push($resultado, $row);
+        }
+      }
+      $conn->next_result();
+      return $resultado;
+
+    }       
 
     public static function listIndicator($conn){
       $sqlSP="CALL select_indicator()";
@@ -640,6 +667,27 @@
       $conn->next_result();
       return $resultado;               
     }
+
+    public static function allPaymentVar($conn){
+      $sqlSP="CALL select_all_position_indicator()";
+      /*
+      alias de los campos
+	    'porcentaje', 
+      'puestoId',
+      'indicadorId'
+      */   
+      $resultSP=$conn->query($sqlSP, MYSQLI_STORE_RESULT);
+      
+      $resultado=[];
+      //condicion para verificar si se hizo la insercion en la bd
+      if($resultSP){        
+        while($row = $resultSP->fetch_assoc()){
+          array_push($resultado, $row);
+        }
+      }
+      $conn->next_result();
+      return $resultado;               
+    }    
     
     public static function listAuthorizations($conn){
       $sqlSP="CALL select_authorization()";
@@ -850,6 +898,43 @@
       $conn->next_result();
       return $resultado;
     }
+
+    public static function listAllUsers($conn){
+      $sqlSP="CALL select_all_user_position()";
+      /*
+      alias de los campos
+        'usuarioId',
+        'puestoId',       
+        'numEmpleado', 
+        'ceco',
+        'nombre', 
+        'apellido1', 
+        'apellido2', 
+        'fechaNacimiento',
+        'genero',
+        'estadoCivil',
+        'telefono',
+        'nivel', 
+        'puesto', 
+        'fechaIngreso', 
+        'correo', 
+        'variable', 
+        'departamento',
+        'area',
+        'areaId'
+      */
+      $resultSP=$conn->query($sqlSP, MYSQLI_STORE_RESULT);
+      
+      $resultado=[];
+      //condicion para verificar si se hizo la insercion en la bd
+      if($resultSP){        
+        while($row = $resultSP->fetch_assoc()){
+          array_push($resultado, $row);
+        }
+      }
+      $conn->next_result();
+      return $resultado;
+    }    
 
     public static function listVacationsDays($conn, $userId){
       $sqlSP="CALL select_vacation_days($userId)";
